@@ -3,155 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DISTRIBUIDORA DIPROSITRIX - Catálogo</title>
+    <title>Catálogo DIPROSA</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-        body { background-color: #f4f6f9; padding: 15px; color: #333; }
-        header { text-align: center; margin-bottom: 20px; }
-        h1 { color: #1e3a8a; font-size: 24px; }
-        .search-container { margin: 15px 0; text-align: center; }
-        input[type="text"] { width: 100%; max-width: 500px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-bottom: 30px; }
-        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; }
-        .card h3 { font-size: 16px; color: #1e293b; margin-bottom: 8px; }
-        .price { font-weight: bold; color: #16a34a; font-size: 18px; margin-bottom: 10px; }
-        .btn-add { background: #2563eb; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; }
-        .cart-summary { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); max-width: 600px; margin: 0 auto; }
-        .cart-summary h2 { color: #1e3a8a; margin-bottom: 15px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding: 8px 0; }
-        .cart-total { font-size: 20px; font-weight: bold; margin-top: 15px; text-align: right; color: #16a34a; }
-        .btn-send { background: #25d366; color: white; border: none; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f8; margin: 0; padding: 15px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { color: #1a365d; margin: 0; font-size: 24px; }
+        .header p { color: #4a5568; margin-top: 5px; font-size: 14px; }
+        .search-box { width: 100%; padding: 12px; font-size: 16px; border: 2px solid #3182ce; border-radius: 8px; margin-bottom: 20px; box-sizing: border-box; }
+        .catalog-container { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        @media(min-width: 600px) { .catalog-container { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } }
+        .product-card { background: white; border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-left: 4px solid #3182ce; }
+        .product-title { font-weight: bold; font-size: 15px; color: #2d3748; margin-bottom: 5px; }
+        .product-details { font-size: 13px; color: #718096; margin-bottom: 8px; }
+        .product-price { font-size: 18px; color: #2b6cb0; font-weight: bold; }
+        .btn-ws { display: block; background-color: #25d366; color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px; text-align: center; box-sizing: border-box; }
+        .loading { text-align: center; font-size: 18px; color: #4a5568; margin-top: 40px; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>DISTRIBUIDORA DIPROSITRIX</h1>
-        <p>Catálogo Digital de Productos</p>
-    </header>
-
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="🔍 Buscar producto..." onkeyup="filtrarProductos()">
+    <div class="header">
+        <h1>📦 Catálogo Digital DIPROSA</h1>
+        <p>Distribución e Inventario</p>
     </div>
 
-    <div class="grid" id="productList">
-        <!-- Los productos se cargarán dinámicamente desde catalogo.csv -->
-    </div>
+    <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar producto (ej: Aceite, Frijol, Gelatina)..." onkeyup="filterProducts()">
 
-    <div class="cart-summary">
-        <h2>🧾 Resumen de tu Pedido</h2>
-        <div id="cartItems"><p>El carrito está vacío.</p></div>
-        <div class="cart-total" id="cartTotal">Total: Q0.00</div>
-        <button class="btn-send" onclick="enviarWhatsApp()">📲 Confirmar y Enviar Pedido por WhatsApp</button>
-    </div>
+    <div id="loading" class="loading">Cargando catálogo de productos...</div>
+    <div id="catalog" class="catalog-container"></div>
 
     <script>
-        let productos = [];
-        let carrito = {};
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtasVXpH4oXxOpUOfMiQZtPyuvFy3ZYDVzoSkIbOLir6wA-jZyLsQU4gBPodNniw/pub?output=csv';
 
-        async function cargarCatalogo() {
-            try {
-                const res = await fetch('catalogo.csv');
-                const text = await res.text();
-                const lineas = text.split('\n').filter(l => l.trim() !== '');
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                const rows = data.split('\n').slice(1);
+                const catalog = document.getElementById('catalog');
                 
-                productos = lineas.slice(1).map((linea, index) => {
-                    const partes = linea.split(',');
-                    return {
-                        id: index,
-                        nombre: partes[0]?.trim() || 'Producto sin nombre',
-                        precio: parseFloat(partes[1]?.trim()) || 0
-                    };
+                rows.forEach(row => {
+                    const cols = row.split(',');
+                    if (cols.length >= 4) {
+                        const codigo = cols[0] ? cols[0].trim() : '';
+                        const unidad = cols[1] ? cols[1].trim() : '';
+                        const detalle = cols[2] ? cols[2].trim() : '';
+                        const precio = cols[3] ? cols[3].trim() : '';
+                        const estado = cols[4] ? cols[4].trim() : '';
+
+                        if (detalle && estado.toLowerCase().includes('activado')) {
+                            const card = document.createElement('div');
+                            card.className = 'product-card';
+                            const msgWs = encodeURIComponent(`Hola DIPROSA, quisiera solicitar el producto:\n- Código: ${codigo}\n- Descripción: ${detalle}\n- Precio: Q.${precio}`);
+                            
+                            card.innerHTML = `
+                                <div class="product-title">${detalle}</div>
+                                <div class="product-details">Código: ${codigo} | Presentación: ${unidad}</div>
+                                <div class="product-price">Q. ${precio}</div>
+                                <a href="https://wa.me/50245695192?text=${msgWs}" class="btn-ws" target="_blank">📲 Pedir por WhatsApp</a>
+                            `;
+                            catalog.appendChild(card);
+                        }
+                    }
                 });
-
-                mostrarProductos(productos);
-            } catch (e) {
-                console.error("Error al cargar catalogo.csv", e);
-            }
-        }
-
-        function mostrarProductos(lista) {
-            const container = document.getElementById('productList');
-            container.innerHTML = '';
-            lista.forEach(p => {
-                container.innerHTML += `
-                    <div class="card">
-                        <div>
-                            <h3>${p.nombre}</h3>
-                            <div class="price">Q${p.precio.toFixed(2)}</div>
-                        </div>
-                        <button class="btn-add" onclick="agregarAlCarrito(${p.id})">+ Agregar al Pedido</button>
-                    </div>
-                `;
-            });
-        }
-
-        function filtrarProductos() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(query));
-            mostrarProductos(filtrados);
-        }
-
-        function agregarAlCarrito(id) {
-            const prod = productos.find(p => p.id === id);
-            if (!prod) return;
-            if (carrito[id]) {
-                carrito[id].cantidad++;
-            } else {
-                carrito[id] = { nombre: prod.nombre, precio: prod.precio, cantidad: 1 };
-            }
-            actualizarCarrito();
-        }
-
-        function actualizarCarrito() {
-            const container = document.getElementById('cartItems');
-            container.innerHTML = '';
-            let total = 0;
-
-            Object.keys(carrito).forEach(id => {
-                const item = carrito[id];
-                const subtotal = item.precio * item.cantidad;
-                total += subtotal;
-                container.innerHTML += `
-                    <div class="cart-item">
-                        <span><strong>${item.nombre}</strong> x ${item.cantidad}</span>
-                        <span>Q${subtotal.toFixed(2)}</span>
-                    </div>
-                `;
+            })
+            .catch(error => {
+                document.getElementById('loading').innerText = 'Error al cargar los productos. Por favor recargue la página.';
             });
 
-            if (Object.keys(carrito).length === 0) {
-                container.innerHTML = '<p>El carrito está vacío.</p>';
+        function filterProducts() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('product-card');
+            for (let card of cards) {
+                let text = card.innerText.toLowerCase();
+                card.style.display = text.includes(input) ? '' : 'none';
             }
-
-            document.getElementById('cartTotal').innerText = `Total: Q${total.toFixed(2)}`;
         }
-
-        function enviarWhatsApp() {
-            if (Object.keys(carrito).length === 0) {
-                alert('Agrega al menos un producto al carrito antes de enviar el pedido.');
-                return;
-            }
-
-            let mensaje = "¡Hola! Quisiera realizar el siguiente pedido a *DISTRIBUIDORA DIPROSITRIX*:\n\n";
-            let total = 0;
-
-            Object.keys(carrito).forEach(id => {
-                const item = carrito[id];
-                const subtotal = item.precio * item.cantidad;
-                total += subtotal;
-                mensaje += `• *${item.nombre}* x${item.cantidad} - Q${subtotal.toFixed(2)}\n`;
-            });
-
-            mensaje += `\n*TOTAL A PAGAR: Q${total.toFixed(2)}*`;
-
-            const telefono = "50245695192";
-            const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
-        }
-
-        window.onload = cargarCatalogo;
     </script>
 </body>
 </html>
-
