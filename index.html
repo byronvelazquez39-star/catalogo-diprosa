@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo Digital DIPROSA</title>
-  <!-- FontAwesome para Íconos -->
+  <!-- FontAwesome para Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     * {
@@ -17,15 +17,12 @@
       padding: 0 0 70px 0;
       color: #1a202c;
     }
-
     .app-container {
       max-width: 480px;
       margin: 0 auto;
       background-color: #f4f6f8;
       min-height: 100vh;
     }
-
-    /* Encabezado Superior */
     .header {
       background-color: #1a365d;
       color: #ffffff;
@@ -43,8 +40,6 @@
       margin: 5px 0 0 0;
       font-size: 13px;
     }
-
-    /* Buscador */
     .search-container {
       padding: 15px;
     }
@@ -57,431 +52,193 @@
       outline: none;
       background: #ffffff;
     }
-
-    /* Sección Título Categorías */
     .section-title {
       font-size: 16px;
       font-weight: bold;
       color: #1a365d;
       text-align: center;
-      margin: 10px 0 12px 0;
+      margin: 10px 12px 0 12px;
     }
-
-    /* Categorías de DIPROSA */
     .categorias-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      padding: 0 15px;
-      margin-bottom: 20px;
+      padding: 12px;
     }
-
-    .categoria-card {
-      background-color: #ffffff;
-      border: 1.5px solid #d0dbe7;
-      border-radius: 8px;
-      padding: 12px 16px;
+    .categoria-btn {
+      background-color: #1e293b;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-
-    .categoria-nombre {
-      color: #0b1e36;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    .btn-plus {
-      width: 24px;
-      height: 24px;
+    .categoria-btn i {
+      background: #3b82f6;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      border: 1.5px solid #0066cc;
-      color: #0066cc;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
-      font-weight: bold;
     }
-
-    /* Contenedor de Catálogo Dinámico */
-    .loading {
-      text-align: center;
-      font-size: 15px;
-      color: #4a5568;
-      padding: 20px;
-    }
-
     .catalog-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 0 15px;
-      margin-bottom: 25px;
+      padding: 0 12px 12px 12px;
     }
-
     .product-card {
-      background: white;
-      border-radius: 8px;
-      padding: 15px;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-left: 4px solid #3182ce;
     }
-
     .product-title {
-      font-weight: bold;
       font-size: 15px;
-      color: #2d3748;
-      margin-bottom: 5px;
+      font-weight: bold;
+      color: #1a365d;
+      margin-bottom: 6px;
     }
-
     .product-details {
       font-size: 13px;
-      color: #718096;
+      color: #64748b;
       margin-bottom: 8px;
     }
-
     .product-price {
-      font-size: 18px;
-      color: #2b6cb0;
+      font-size: 16px;
       font-weight: bold;
+      color: #0d9488;
+      margin-bottom: 10px;
     }
-
     .btn-ws {
       display: block;
       background-color: #25d366;
       color: white;
       text-align: center;
-      padding: 10px;
+      padding: 8px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      margin-top: 10px;
       font-size: 14px;
     }
-
-    /* Accesos */
-    .menu-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 0 15px;
-      margin-bottom: 25px;
-    }
-
-    .card-item {
-      background-color: #ffffff;
-      border-radius: 8px;
-      padding: 14px 16px;
-      border: 1px solid #e2e8f0;
-    }
-
-    .card-text {
-      color: #0066cc;
-      font-size: 14px;
-      font-weight: bold;
-      margin: 0;
-    }
-
-    /* Cobertura */
-    .region-container {
-      display: flex;
-      justify-content: center;
-      padding: 0 15px;
-      margin-bottom: 25px;
-    }
-
-    .region-selector {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .flag-icon {
-      width: 28px;
-      height: 18px;
-      object-fit: cover;
-      border-radius: 2px;
-    }
-
-    /* Footer */
-    .footer-container {
-      background-color: #1a365d;
-      color: #ffffff;
-      padding: 20px 15px 15px 15px;
+    .loading {
       text-align: center;
-    }
-
-    .brand-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .copyright {
-      font-size: 11px;
-      color: #94a3b8;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 12px;
-    }
-
-    /* Barra Inferior Fija */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 58px;
-      background-color: #ffffff;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 20px;
       color: #64748b;
-      text-decoration: none;
-      flex: 1;
-      height: 100%;
-      position: relative;
-    }
-
-    .nav-item.active {
-      color: #1a365d;
-    }
-
-    .nav-item i {
-      font-size: 20px;
+      font-size: 15px;
     }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
-
-    <!-- Encabezado -->
-    <div class="header">
-      <h1>📦 Catálogo Digital DIPROSA</h1>
-      <p>Distribución e Inventario Comercial</p>
-    </div>
-
-    <!-- Buscador -->
-    <div class="search-container">
-      <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar producto...">
-    </div>
-
-    <!-- Categorías -->
-    <h2 class="section-title">Todas las categorías</h2>
-    <div class="categorias-list">
-      <div class="categoria-card" onclick="filtrarCategoria('Bebidas')">
-        <span class="categoria-nombre">Bebidas y Sodas (Carnaval, Salvavidas, Deporade)</span>
-        <div class="btn-plus">+</div>
-      </div>
-      <div class="categoria-card" onclick="filtrarCategoria('Frijol')">
-        <span class="categoria-nombre">Abarrotes y Alimentos (Ducal, Heinz, Arroz)</span>
-        <div class="btn-plus">+</div>
-      </div>
-      <div class="categoria-card" onclick="filtrarCategoria('detergente')">
-        <span class="categoria-nombre">Detergentes y Limpieza (Blanca Nieves, Tex)</span>
-        <div class="btn-plus">+</div>
-      </div>
-      <div class="categoria-card" onclick="filtrarCategoria('gelatina')">
-        <span class="categoria-nombre">Golosinas y Snacks</span>
-        <div class="btn-plus">+</div>
-      </div>
-    </div>
-
-    <!-- Catálogo Dinámico -->
-    <div id="loading" class="loading">Cargando catálogo de productos...</div>
-    <div id="catalog" class="catalog-container"></div>
-
-    <!-- Accesos -->
-    <div class="menu-cards">
-      <div class="card-item">
-        <p class="card-text">Lista General de Precios y Mayoreo</p>
-      </div>
-      <div class="card-item">
-        <p class="card-text">Rutas de Entrega y Pedidos</p>
-      </div>
-    </div>
-
-    <!-- Cobertura -->
-    <div class="region-container">
-      <div class="region-selector">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <img class="flag-icon" src="https://flagcdn.com/w40/gt.png" alt="Guatemala">
-          <span style="font-weight:bold; font-size:14px; color:#1a365d;">Guatemala</span>
-        </div>
-        <div style="width:1px; height:25px; background:#cbd5e1;"></div>
-        <span style="font-weight:bold; font-size:14px; color:#1a365d;">Español</span>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer-container">
-      <div class="brand-title">DIPROSA</div>
-      <div class="copyright">
-        © 2026 DIPROSA. Todos los derechos reservados.
-      </div>
-    </footer>
-
+<div class="app-container">
+  <div class="header">
+    <h1>📦 Catálogo Digital DIPROSA</h1>
+    <p>Distribución e Inventario Comercial</p>
   </div>
 
-  <!-- Barra Fija Inferior -->
-  <nav class="bottom-nav">
-    <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i></a>
-    <a href="#" class="nav-item"><i class="fa-solid fa-cart-shopping"></i></a>
-    <a href="#" class="nav-item"><i class="fa-regular fa-address-card"></i></a>
-    <a href="#" class="nav-item"><i class="fa-solid fa-bars"></i></a>
-  </nav>
+  <div class="search-container">
+    <input type="text" id="searchInput" class="search-box" placeholder="Buscar producto...">
+  </div>
 
-  <!-- Script con URL completa y correcta -->
-  <script>
-    let allProducts = [];
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/18Z1AD66u5uU7oZS7nS4NZpAjh_YJiBlvH8O_ci4e8QM/export?format=csv';
+  <div class="section-title">Todas las categorías</div>
 
-    async function loadCatalog() {
-      try {
-        const response = await fetch(csvUrl);
-        const data = await response.text();
-        const rows = data.split('\n').slice(1);
-        
-        allProducts = rows.map(row => {
-          const cols = row.split(',');
-          if(cols.length >= 4) {
-            return {
-              code: cols[0]?.trim(),
-              unit: cols[1]?.trim(),
-              detail: cols[2]?.replace(/"/g, '').trim(),
-              price: cols[3]?.trim()
-            };
-          }
-          return null;
-        }).filter(p => p && p.detail);
+  <div class="categorias-list">
+    <button class="categoria-btn" onclick="FiltrarCategoria('Bebidas')">
+      Bebidas y Sodas (Carnaval, Salvavidas, Deporade) <i class="fa-solid fa-plus"></i>
+    </button>
+    <button class="categoria-btn" onclick="FiltrarCategoria('Abarrotes')">
+      Abarrotes y Alimentos (Ducal, Heinz, Arroz) <i class="fa-solid fa-plus"></i>
+    </button>
+    <button class="categoria-btn" onclick="FiltrarCategoria('detergente')">
+      Detergentes y Limpieza (Blanca Nieves, Tex) <i class="fa-solid fa-plus"></i>
+    </button>
+    <button class="categoria-btn" onclick="FiltrarCategoria('chocolate')">
+      Golosinas y Snacks <i class="fa-solid fa-plus"></i>
+    </button>
+  </div>
 
-        document.getElementById('loading').style.display = 'none';
-        renderProducts(allProducts);
-      } catch (error) {
-        document.getElementById('loading').innerText = 'Error al cargar el catálogo de productos.';
+  <div id="loading" class="loading">Cargando catálogo de productos...</div>
+  <div id="catalog" class="catalog-container"></div>
+</div>
+
+<!-- Script con la conexión a Google Sheets -->
+<script>
+let allProducts = [];
+const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtasVXpH4oXxOpUOfMiQzTpyuFy3ZYDVzoSklbOLir6wA-jZyLsQU4gBPodNniw/pub?output=csv';
+
+async function loadCatalog() {
+  try {
+    const response = await fetch(csvUrl);
+    const data = await response.text();
+    const rows = data.split('\n').slice(1);
+
+    allProducts = rows.map(row => {
+      const cols = row.split(',');
+      if(cols.length >= 4) {
+        return {
+          code: cols[0]?.trim(),
+          unit: cols[1]?.trim(),
+          detail: cols[2]?.replace(/"/g, '').trim(),
+          price: cols[3]?.trim()
+        };
       }
-    }
+      return null;
+    }).filter(p => p && p.detail);
 
-    function renderProducts(products) {
-      const container = document.getElementById('catalog');
-      container.innerHTML = '';
-      
-      if(products.length === 0) {
-        container.innerHTML = '<p style="text-align:center;">No se encontraron productos.</p>';
-        return;
-      }
+    document.getElementById('loading').style.display = 'none';
+    renderProducts(allProducts);
+  } catch (error) {
+    document.getElementById('loading').innerText = 'Error al cargar el catálogo de productos.';
+  }
+}
 
-      products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-          <div class="product-title">${p.detail}</div>
-          <div class="product-details">Código: ${p.code} | Presentación: ${p.unit}</div>
-          <div class="product-price">Q.${p.price}</div>
-          <a class="btn-ws" href="https://wa.me/?text=Hola%20DIPROSA,%20me%20interesa:%20${encodeURIComponent(p.detail)}%20(Q.${p.price})" target="_blank">
-            📱 Pedir por WhatsApp
-          </a>
-        `;
-        container.appendChild(card);
-      });
-    }
+function renderProducts(products) {
+  const container = document.getElementById('catalog');
+  container.innerHTML = '';
 
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase();
-      const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
-      renderProducts(filtered);
-    });
+  if(products.length === 0) {
+    container.innerHTML = '<p style="text-align:center; color:#cbd5e1;">No se encontraron productos.</p>';
+    return;
+  }
 
-    function filtrarCategoria(term) {
-      document.getElementById('searchInput').value = term;
-      const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(term.toLowerCase()));
-      renderProducts(filtered);
-    }
+  products.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <div class="product-title">${p.detail}</div>
+      <div class="product-details">Código: ${p.code} | Presentación: ${p.unit}</div>
+      <div class="product-price">Q.${p.price}</div>
+      <a class="btn-ws" href="https://wa.me/?text=Hola%20DIPROSA,%20me%20interesa:%20${encodeURIComponent(p.detail)}%20(Q.${p.price})" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
+      </a>
+    `;
+    container.appendChild(card);
+  });
+}
 
-    loadCatalog();
-  </script>
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
+  renderProducts(filtered);
+});
 
-</body>
-</html>
-  <!-- Script con la conexión a Google Sheets -->
-  <script>
-    let allProducts = [];
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtasVXpH4oXxOpU0fMiQZtPyuvFy3ZYDVzoSklbOLir6wA-jZyLsQU4gBPodNniw/pub?output=csv7';
+function FiltrarCategoria(term) {
+  document.getElementById('searchInput').value = term;
+  const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(term.toLowerCase()));
+  renderProducts(filtered);
+}
 
-    async function loadCatalog() {
-      try {
-        const response = await fetch(csvUrl);
-        const data = await response.text();
-        const rows = data.split('\n').slice(1);
-        
-        allProducts = rows.map(row => {
-          const cols = row.split(',');
-          if(cols.length >= 4) {
-            return {
-              code: cols[0]?.trim(),
-              unit: cols[1]?.trim(),
-              detail: cols[2]?.replace(/"/g, '').trim(),
-              price: cols[3]?.trim()
-            };
-          }
-          return null;
-        }).filter(p => p && p.detail);
+loadCatalog();
+</script>
 
-        document.getElementById('loading').style.display = 'none';
-        renderProducts(allProducts);
-      } catch (error) {
-        document.getElementById('loading').innerText = 'Error al cargar el catálogo de productos.';
-      }
-    }
-
-    function renderProducts(products) {
-      const container = document.getElementById('catalog');
-      container.innerHTML = '';
-      
-      if(products.length === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#cbd5e1;">No se encontraron productos.</p>';
-        return;
-      }
-
-      products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-          <div class="product-title">${p.detail}</div>
-          <div class="product-details">Código: ${p.code} | Presentación: ${p.unit}</div>
-          <div class="product-price">Q.${p.price}</div>
-          <a class="btn-ws" href="https://wa.me/?text=Hola%20DIPROSA,%20me%20interesa:%20${encodeURIComponent(p.detail)}%20(Q.${p.price})" target="_blank">
-            📱 Pedir por WhatsApp
-          </a>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase();
-      const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
-      renderProducts(filtered);
-    });
-
-    function filtrarCategoria(term) {
-      document.getElementById('searchInput').value = term;
-      const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(term.toLowerCase()));
-      renderProducts(filtered);
-    }
-
-    loadCatalog();
-  </script>
 </body>
 </html>
