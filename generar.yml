@@ -1,1 +1,33 @@
+name: Actualizar Catálogo desde Google Sheets
+
+on:
+  schedule:
+    - cron: '0 12 * * *' # Se ejecuta automáticamente todos los días
+  workflow_dispatch:      # Permite ejecutarlo manualmente con un botón
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener código del repositorio
+        uses: actions/checkout@v3
+
+      - name: Descargar CSV actualizado desde Google Sheets
+        run: |
+          curl -sL "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtasVXpH4OxOpUOfMiQZtPyuvFy3ZYDVzoSklbOLir6wA-jZyLsQU4gBPodNniw/pub?output=csv" -o catalogo.csv
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Generar catálogo web HTML
+        run: python procesar.py
+
+      - name: Guardar y publicar cambios en GitHub
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add catalogo.csv index.html
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Actualización automática de catálogo" && git push)
 
