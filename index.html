@@ -5,25 +5,264 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo DIPROSA</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; }
-    h1 { text-align: center; color: #1a252f; margin-bottom: 20px; }
-    .search-box { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-    .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
-    .codigo { font-size: 12px; color: #7f8c8d; margin-bottom: 5px; }
-    .nombre { font-size: 15px; font-weight: bold; color: #2c3e50; margin-bottom: 8px; }
-    .precio { font-size: 16px; color: #27ae60; font-weight: bold; }
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --accent-color: #27ae60;
+      --wa-color: #25d366;
+      --danger-color: #e74c3c;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+      padding-bottom: 120px;
+    }
+    .welcome-banner {
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      color: #121212;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .welcome-banner h2 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
+    .welcome-banner p { margin: 0; font-size: 13px; color: #e0f2f1; }
+
+    h1 { text-align: center; margin-bottom: 15px; font-size: 22px; }
+    .search-box {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+      box-sizing: border-box;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .codigo { font-size: 11px; color: #888; margin-bottom: 5px; }
+    .nombre { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+    .precio { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 10px; }
+    
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-qty {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-qty:active { background-color: #555; }
+    .qty-num { font-size: 16px; font-weight: bold; min-width: 20px; }
+
+    .btn-add {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Barra Flotante */
+    .cart-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1f1f1f;
+      border-top: 2px solid #333;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .cart-info { font-size: 15px; cursor: pointer; }
+    .cart-total { font-size: 18px; color: var(--accent-color); font-weight: bold; }
+    .btn-wa {
+      background-color: var(--wa-color);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    /* Modal Ticket */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+    .modal-content {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid #444;
+    }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 10px; margin-bottom: 15px; }
+    .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
+    .ticket-item-info { flex-grow: 1; margin-right: 10px; }
+    .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+    .ticket-item-sub { font-size: 12px; color: #aaa; }
+    
+    .ticket-actions { display: flex; align-items: center; gap: 6px; }
+    .btn-ticket-qty {
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      width: 26px; height: 26px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-delete {
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .discount-section {
+      background: #252525;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .discount-section label { font-size: 14px; font-weight: bold; }
+    .discount-select {
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+    .btn-modal-wa { background: var(--wa-color); color: white; border: none; padding: 12px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 5px; font-size: 16px; }
   </style>
 </head>
 <body>
 
-  <h1>📦 Catálogo DIPROSA</h1>
+  <!-- Saludo de bienvenida -->
+  <div class="welcome-banner">
+    <h2>👋 ¡Bienvenido a DIPROSA!</h2>
+    <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
+  </div>
+
+  <h1>📦 Catálogo en Línea</h1>
   <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." onkeyup="filtrar()">
 
   <div id="catalogo" class="grid">Cargando productos...</div>
 
+  <!-- Barra Flotante -->
+  <div class="cart-bar">
+    <div class="cart-info" onclick="abrirTicket()">
+      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
+      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
+    </div>
+    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  </div>
+
+  <!-- Modal Ticket -->
+  <div id="modal-ticket" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3>🧾 TICKET DE COMPRA</h3>
+        <p style="font-size: 12px; color: #888;" id="ticket-fecha"></p>
+      </div>
+      
+      <div id="ticket-items"></div>
+
+      <!-- Selector de Descuento -->
+      <div class="discount-section">
+        <label for="descuento-pct">Descuento aplicado:</label>
+        <select id="descuento-pct" class="discount-select" onchange="actualizarContenidoTicket()">
+          <option value="0">Sin descuento (0%)</option>
+          <option value="1">1 %</option>
+          <option value="2">2 %</option>
+          <option value="3">3 %</option>
+        </select>
+      </div>
+
+      <div id="resumen-totales" style="border-top: 1px dashed #555; padding-top: 10px;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #aaa; margin-bottom: 5px;">
+          <span>Subtotal:</span>
+          <span>Q <span id="ticket-subtotal">0.00</span></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #e67e22; margin-bottom: 5px;" id="fila-rebaja">
+          <span>Descuento (<span id="txt-pct">0</span>%):</span>
+          <span>- Q <span id="ticket-descuento-monto">0.00</span></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: var(--accent-color);">
+          <span>Total Final:</span>
+          <span>Q <span id="ticket-total">0.00</span></span>
+        </div>
+      </div>
+
+      <button class="btn-modal-wa" onclick="enviarWhatsApp()">📲 Enviar Pedido a WhatsApp</button>
+      <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
+    </div>
+  </div>
+
   <script>
+    // ⚠️ REEMPLAZA ESTE NÚMERO POR TU WHATSAPP REAL (Con código de país 502)
+    const NUMERO_WHATSAPP = "50200000000"; 
+
     let productos = [];
+    let carrito = {};
 
     fetch('productos.json')
       .then(res => res.json())
@@ -31,7 +270,7 @@
         productos = data;
         renderizar(productos);
       })
-      .catch(err => {
+      .catch(() => {
         document.getElementById('catalogo').innerHTML = '<p>Error al cargar el catálogo.</p>';
       });
 
@@ -43,20 +282,174 @@
         return;
       }
       lista.forEach(p => {
+        const key = p.codigo || p.nombre;
+        const cant = carrito[key] ? carrito[key].cantidad : 0;
+
         contenedor.innerHTML += `
           <div class="card">
-            <div class="codigo">${p.codigo}</div>
-            <div class="nombre">${p.nombre}</div>
-            <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
+            <div>
+              <div class="codigo">${p.codigo}</div>
+              <div class="nombre">${p.nombre}</div>
+            </div>
+            <div>
+              <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
+              ${cant === 0 ? `
+                <button class="btn-add" onclick="cambiarCant('${p.codigo}', '${p.nombre.replace(/'/g, "\\'")}', ${p.precio}, 1)">+ Agregar</button>
+              ` : `
+                <div class="qty-controls">
+                  <button class="btn-qty" onclick="cambiarCant('${p.codigo}', '${p.nombre.replace(/'/g, "\\'")}', ${p.precio}, -1)">-</button>
+                  <span class="qty-num">${cant}</span>
+                  <button class="btn-qty" onclick="cambiarCant('${p.codigo}', '${p.nombre.replace(/'/g, "\\'")}', ${p.precio}, 1)">+</button>
+                </div>
+              `}
+            </div>
           </div>
         `;
       });
+    }
+
+    function cambiarCant(codigo, nombre, precio, delta) {
+      const key = codigo || nombre;
+      if (!carrito[key]) {
+        carrito[key] = { codigo, nombre, precio: parseFloat(precio), cantidad: 0 };
+      }
+      carrito[key].cantidad += delta;
+
+      if (carrito[key].cantidad <= 0) {
+        delete carrito[key];
+      }
+      actualizarUI();
+    }
+
+    function actualizarUI() {
+      let totalCant = 0;
+      let totalMonto = 0;
+      for (let k in carrito) {
+        totalCant += carrito[k].cantidad;
+        totalMonto += carrito[k].cantidad * carrito[k].precio;
+      }
+      document.getElementById('cant-items').innerText = totalCant;
+      document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
+      renderizar(productos);
+      
+      if(document.getElementById('modal-ticket').style.display === 'flex') {
+        actualizarContenidoTicket();
+      }
     }
 
     function filtrar() {
       const q = document.getElementById('buscar').value.toLowerCase();
       const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(q) || p.codigo.toString().toLowerCase().includes(q));
       renderizar(filtrados);
+    }
+
+    function abrirTicket() {
+      const keys = Object.keys(carrito);
+      if(keys.length === 0) {
+        alert("El carrito está vacío. Agrega productos primero.");
+        return;
+      }
+      actualizarContenidoTicket();
+      document.getElementById('modal-ticket').style.display = 'flex';
+    }
+
+    function actualizarContenidoTicket() {
+      const keys = Object.keys(carrito);
+      const contenedor = document.getElementById('ticket-items');
+      contenedor.innerHTML = '';
+      let subtotalGeneral = 0;
+
+      if(keys.length === 0) {
+        cerrarTicket();
+        return;
+      }
+
+      keys.forEach(k => {
+        const item = carrito[k];
+        const subtotal = item.cantidad * item.precio;
+        subtotalGeneral += subtotal;
+        contenedor.innerHTML += `
+          <div class="ticket-item">
+            <div class="ticket-item-info">
+              <div class="ticket-item-title">${item.nombre}</div>
+              <div class="ticket-item-sub">Q${item.precio.toFixed(2)} c/u</div>
+            </div>
+            <div class="ticket-actions">
+              <button class="btn-ticket-qty" onclick="cambiarCant('${item.codigo}', '${item.nombre.replace(/'/g, "\\'")}', ${item.precio}, -1)">-</button>
+              <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${item.codigo}', '${item.nombre.replace(/'/g, "\\'")}', ${item.precio}, 1)">+</button>
+              <button class="btn-delete" onclick="eliminarDelTicket('${k}')">🗑️</button>
+            </div>
+          </div>
+        `;
+      });
+
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
+
+      document.getElementById('ticket-subtotal').innerText = subtotalGeneral.toFixed(2);
+      document.getElementById('txt-pct').innerText = pctDescuento;
+      document.getElementById('ticket-descuento-monto').innerText = montoDescuento.toFixed(2);
+      document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
+      
+      if(pctDescuento > 0) {
+        document.getElementById('fila-rebaja').style.display = 'flex';
+      } else {
+        document.getElementById('fila-rebaja').style.display = 'none';
+      }
+
+      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
+    }
+
+    function eliminarDelTicket(key) {
+      delete carrito[key];
+      actualizarUI();
+    }
+
+    function cerrarTicket() {
+      document.getElementById('modal-ticket').style.display = 'none';
+    }
+
+    function enviarWhatsApp() {
+      const keys = Object.keys(carrito);
+      if (keys.length === 0) {
+        alert("El carrito está vacío.");
+        return;
+      }
+
+      let subtotalGeneral = 0;
+      keys.forEach(k => {
+        subtotalGeneral += carrito[k].cantidad * carrito[k].precio;
+      });
+
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
+
+      const numTicket = Math.floor(1000 + Math.random() * 9000);
+      let mensaje = `🧾 *TICKET DE PEDIDO #${numTicket}*\n`;
+      mensaje += `📅 *Fecha:* ${new Date().toLocaleString('es-GT')}\n`;
+      mensaje += `------------------------------------\n\n`;
+
+      keys.forEach(k => {
+        const item = carrito[k];
+        const subtotal = item.cantidad * item.precio;
+        mensaje += `▪️ *${item.cantidad}x* ${item.nombre}\n`;
+        mensaje += `   _Q${item.precio.toFixed(2)} c/u = Q${subtotal.toFixed(2)}_\n`;
+      });
+
+      mensaje += `\n------------------------------------\n`;
+      mensaje += `🔹 *Subtotal:* Q${subtotalGeneral.toFixed(2)}\n`;
+      if(pctDescuento > 0) {
+        mensaje += `🎁 *Descuento (${pctDescuento}%):* -Q${montoDescuento.toFixed(2)}\n`;
+      }
+      mensaje += `💰 *TOTAL A PAGAR: Q${totalFinal.toFixed(2)}*\n`;
+      mensaje += `------------------------------------\n\n`;
+      mensaje += `👋 ¡Hola! Quisiera confirmar este pedido por favor.`;
+
+      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
     }
   </script>
 
