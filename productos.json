@@ -1,0 +1,6637 @@
+[
+  {
+    "codigo": 987,
+    "nombre": "(almohadita) 4 onzas por docena para dar Q.3.00",
+    "precio": 29.5
+  },
+  {
+    "codigo": 987,
+    "nombre": "(almohadita) fardo 4 onzas para dar Q.3.00",
+    "precio": 110
+  },
+  {
+    "codigo": 987,
+    "nombre": "(CARNAVAL) en lata SODA CON NARANJADA  Caja de 24 unidades para. dar Q.3.50",
+    "precio": 67
+  },
+  {
+    "codigo": 987,
+    "nombre": "(Salvavidas) en lata LIMONADA  Caja de 24 unidades para dar Q.3.50",
+    "precio": 67
+  },
+  {
+    "codigo": 987,
+    "nombre": "(Salvavidas) en lata ROJA  Caja de 24 unidades para dar Q.3.50",
+    "precio": 67
+  },
+  {
+    "codigo": 987,
+    "nombre": "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50",
+    "precio": 67
+  },
+  {
+    "codigo": 987,
+    "nombre": "(tajin) de 24 unidades para dar Q.1.25",
+    "precio": 27
+  },
+  {
+    "codigo": 987,
+    "nombre": "(troso) tex . detergente 270 grs  de 28 unidades para dar 3.50",
+    "precio": 69
+  },
+  {
+    "codigo": 987,
+    "nombre": "1 arroba Arroz Gallo Dorado Precocido 25 libras",
+    "precio": 184
+  },
+  {
+    "codigo": 987,
+    "nombre": "1 caja grande panqueques  450 grs  para dar Q.14.50",
+    "precio": 13.5
+  },
+  {
+    "codigo": 545,
+    "nombre": "1 caja mazola margarina  de 5 unidades para dar Q.3.00",
+    "precio": 11.5
+  },
+  {
+    "codigo": 1962,
+    "nombre": "1 ciento bolsa para basura # 1para dar a Q.1.00",
+    "precio": 38
+  },
+  {
+    "codigo": 1937,
+    "nombre": "1 ciento bolsa para basura # 2 para dar Q.1.00",
+    "precio": 50
+  },
+  {
+    "codigo": 724,
+    "nombre": "1 heinz  mora  para dar Q.6.00",
+    "precio": 5.5
+  },
+  {
+    "codigo": 694,
+    "nombre": "1 heinz de banano para dar Q.6.00",
+    "precio": 5.5
+  },
+  {
+    "codigo": 695,
+    "nombre": "1 heinz de manzana para dar Q.6.00",
+    "precio": 5.5
+  },
+  {
+    "codigo": 697,
+    "nombre": "1 heinz de melocoton para dar Q.6.00",
+    "precio": 5.5
+  },
+  {
+    "codigo": 696,
+    "nombre": "1 heinz de pera para dar Q.6.00",
+    "precio": 5.5
+  },
+  {
+    "codigo": 698,
+    "nombre": "1 libra de chocolate rico para dar Q.16.00",
+    "precio": 15
+  },
+  {
+    "codigo": 670,
+    "nombre": "1 libra de gelatina \"CHICLE\" castilla para dar Q.16.50",
+    "precio": 15
+  },
+  {
+    "codigo": 636,
+    "nombre": "1 libra de gelatina \"FRESA\" castilla para dar Q.16.50",
+    "precio": 15
+  },
+  {
+    "codigo": 635,
+    "nombre": "1 libra de gelatina \"UVA\" castilla para dar Q.16.50",
+    "precio": 15
+  },
+  {
+    "codigo": 633,
+    "nombre": "1 libra gelatina \"LIMON\" castilla  para dar Q.16.50",
+    "precio": 15
+  },
+  {
+    "codigo": 634,
+    "nombre": "1 libra gelatina \"NARANJA\" castilla para dar Q.16.50",
+    "precio": 15
+  },
+  {
+    "codigo": 632,
+    "nombre": "1 libra gelatina \"PIÑA\" castilla  para dar Q.16.50",
+    "precio": 15
+  },
+  {
+    "codigo": 1544,
+    "nombre": "1/2 fardo de cereal al dia surtido de 24 bolsas para dar Q.6.00",
+    "precio": 120
+  },
+  {
+    "codigo": 1960,
+    "nombre": "10 blanca nieves 1 KL detergente fardo para dar Q.23.50",
+    "precio": 195
+  },
+  {
+    "codigo": 1401,
+    "nombre": "10 bolsas blanca nieves GRANDE detergente medio fardo de 10 bolsas para  dar Q.10.00",
+    "precio": 97.5
+  },
+  {
+    "codigo": 1453,
+    "nombre": "12 Alimiau  para gato para dar Q.10.00",
+    "precio": 105
+  },
+  {
+    "codigo": 680,
+    "nombre": "12 baby chic pequeño  para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1940,
+    "nombre": "12 Deporade Grande BLUE BERRY   botella para dar Q.6.00",
+    "precio": 57
+  },
+  {
+    "codigo": 1933,
+    "nombre": "12 Deporade Grande fresa botella para dar Q.6.00",
+    "precio": 57
+  },
+  {
+    "codigo": 1932,
+    "nombre": "12 Deporade Grande Uva botella para dar Q.6.00",
+    "precio": 57
+  },
+  {
+    "codigo": 1931,
+    "nombre": "12 Deporade pequeño fresa botella para dar Q.3.50",
+    "precio": 36
+  },
+  {
+    "codigo": 1934,
+    "nombre": "12 Deporade pequeño uva botella para dar Q.3.50",
+    "precio": 36
+  },
+  {
+    "codigo": 1952,
+    "nombre": "12 Deporade pequeño.CHICLE  botella",
+    "precio": 36
+  },
+  {
+    "codigo": 783,
+    "nombre": "12 frijol ducal bolsita 4 onzad  de 113 grs  para dar a Q.3..50",
+    "precio": 37
+  },
+  {
+    "codigo": 750,
+    "nombre": "12 incaparinas sobre pequeño  para dar Q.2.50",
+    "precio": 26
+  },
+  {
+    "codigo": 1396,
+    "nombre": "12 leche formos bolsa  para dar Q.6.50",
+    "precio": 66
+  },
+  {
+    "codigo": 1452,
+    "nombre": "12 leche formos caja  litro para dar Q.10.00",
+    "precio": 108
+  },
+  {
+    "codigo": 1868,
+    "nombre": "12 paquetes papel nube blanca para dar Q.24.00",
+    "precio": 240
+  },
+  {
+    "codigo": 1938,
+    "nombre": "12 pringles surtido pequeño para dar Q.5.00",
+    "precio": 49
+  },
+  {
+    "codigo": 647,
+    "nombre": "12 unidades de vaporub lata  para dar Q.6.00",
+    "precio": 58
+  },
+  {
+    "codigo": 738,
+    "nombre": "12 unidades frijol ducal latita pequeña de 5.5 onzas para dar Q.6.00",
+    "precio": 60
+  },
+  {
+    "codigo": 1400,
+    "nombre": "20 bolsas blanca nieves (MEDIANO) detergente medio  fardo de 20 bolsas  para dar 5.00",
+    "precio": 97.5
+  },
+  {
+    "codigo": 1390,
+    "nombre": "20 bolsas blanca nieves GRANDE detergente fardo  para dar Q.10.00",
+    "precio": 195
+  },
+  {
+    "codigo": 1435,
+    "nombre": "20 libras chocolate rico fardo para dar Q.16.00 por libra",
+    "precio": 270
+  },
+  {
+    "codigo": 1867,
+    "nombre": "20 mini gelatina bolsitas de 15 unidades para dar Q.5.00",
+    "precio": 74
+  },
+  {
+    "codigo": 1941,
+    "nombre": "24 coctel picante Marinero vegetales  para dar Q.6.00",
+    "precio": 117
+  },
+  {
+    "codigo": 782,
+    "nombre": "24 Frijol ducal bolsita 4 onzas de 113 grs .para dar a Q.3.00",
+    "precio": 66
+  },
+  {
+    "codigo": 1481,
+    "nombre": "24 heinz banano caja  para dar Q.6.00",
+    "precio": 120
+  },
+  {
+    "codigo": 1478,
+    "nombre": "24 heinz manzana caja  para dar Q.6.00",
+    "precio": 120
+  },
+  {
+    "codigo": 1477,
+    "nombre": "24 heinz melocotón caja para dar Q.6.00",
+    "precio": 120
+  },
+  {
+    "codigo": 1480,
+    "nombre": "24 heinz mora caja para dar Q.6.00",
+    "precio": 120
+  },
+  {
+    "codigo": 1479,
+    "nombre": "24 heinz pera caja para dar Q.6.00",
+    "precio": 120
+  },
+  {
+    "codigo": 1504,
+    "nombre": "24 inst.líquido negro para dar Q.5.00",
+    "precio": 90
+  },
+  {
+    "codigo": 1505,
+    "nombre": "24 insta.líquido blanco para dar Q.5.00",
+    "precio": 90
+  },
+  {
+    "codigo": 1506,
+    "nombre": "24 insta.líquido cafes para dar Q.5.00",
+    "precio": 90
+  },
+  {
+    "codigo": 1942,
+    "nombre": "24 Marinero (Salsa) vegetales  para dar Q.6.00",
+    "precio": 117
+  },
+  {
+    "codigo": 1944,
+    "nombre": "24 Marinero surtido vegetales para dar Q.6.00",
+    "precio": 117
+  },
+  {
+    "codigo": 1035,
+    "nombre": "24 patrona pequeño ml 24 unidades  para dar Q.6.50",
+    "precio": 126
+  },
+  {
+    "codigo": 1887,
+    "nombre": "24 rollos mayordomo nube blanca para dar 7.00",
+    "precio": 139
+  },
+  {
+    "codigo": 1440,
+    "nombre": "24 rollos papel nube blanca  para dar Q.6.00",
+    "precio": 118
+  },
+  {
+    "codigo": 1457,
+    "nombre": "24 saba buena noches fardo para dar Q.12.00",
+    "precio": 208
+  },
+  {
+    "codigo": 1463,
+    "nombre": "25 libras chocolate best medio fardo para dar Q.13.00",
+    "precio": 297.5
+  },
+  {
+    "codigo": 779,
+    "nombre": "3 avena libra molido  para dar Q.13.00",
+    "precio": 34
+  },
+  {
+    "codigo": 772,
+    "nombre": "3 avena libra ojuelas para dar Q.12.00",
+    "precio": 31
+  },
+  {
+    "codigo": 684,
+    "nombre": "3 botellitas de (ORCHATA) concentrado por para dar Q.10.00",
+    "precio": 27
+  },
+  {
+    "codigo": 683,
+    "nombre": "3 botellitas de tamarindo concentrado por  para dar Q.8.50",
+    "precio": 23.5
+  },
+  {
+    "codigo": 788,
+    "nombre": "3 DUCAL LATA 15 onzas  para dar a 12.50",
+    "precio": 34
+  },
+  {
+    "codigo": 773,
+    "nombre": "3 incaparina de libra bolsa grande  para dar Q.12.00",
+    "precio": 33
+  },
+  {
+    "codigo": 774,
+    "nombre": "3 libras chocolate best  para dar Q.13.50",
+    "precio": 37.5
+  },
+  {
+    "codigo": 711,
+    "nombre": "3 libras de chocolate rico  para dar Q.16.00",
+    "precio": 45
+  },
+  {
+    "codigo": 1935,
+    "nombre": "3 sardina grades cilindrica sin picar  423 grs para dar Q.25.00",
+    "precio": 63
+  },
+  {
+    "codigo": 1936,
+    "nombre": "3 sardina grande cilindrica pica picar  423 grs",
+    "precio": 63
+  },
+  {
+    "codigo": 759,
+    "nombre": "3 sardina picante ovalada sirena para dar Q.24.00",
+    "precio": 63
+  },
+  {
+    "codigo": 760,
+    "nombre": "3 sardinas sin picar ovalada  la sirena para dar Q.20.00",
+    "precio": 63
+  },
+  {
+    "codigo": 1870,
+    "nombre": "3 unid.  veladora blanco  extra  grande para dar Q.18.00",
+    "precio": 45
+  },
+  {
+    "codigo": 13878,
+    "nombre": "4 docenas pastelito winni medio fardo",
+    "precio": 106
+  },
+  {
+    "codigo": 1389,
+    "nombre": "40 bolsas blanca nieves (MEDIANO) detergente de 250 grs fardo de 40 bolsas  para dar Q.5.00",
+    "precio": 195
+  },
+  {
+    "codigo": 1550,
+    "nombre": "40 mini gelatina bolsitas de 15 unidades para dar Q.5.00",
+    "precio": 157
+  },
+  {
+    "codigo": 734,
+    "nombre": "50 libras chocolate best farfo para dar Q.13.00",
+    "precio": 594
+  },
+  {
+    "codigo": 1460,
+    "nombre": "6 Alimiau para gato   para dar Q.10.00",
+    "precio": 52.5
+  },
+  {
+    "codigo": 778,
+    "nombre": "6 avena libra molido  para dar Q.13.00",
+    "precio": 68
+  },
+  {
+    "codigo": 769,
+    "nombre": "6 avena libra ojuelas para dar Q.12.00",
+    "precio": 62
+  },
+  {
+    "codigo": 1144,
+    "nombre": "6 baby chic mediano de 120 ml para dar Q.7.00",
+    "precio": 35
+  },
+  {
+    "codigo": 681,
+    "nombre": "6 baby chic pequeño de  para dar Q.5.00",
+    "precio": 20
+  },
+  {
+    "codigo": 687,
+    "nombre": "6 Balsamico GMS  para dar Q.9.00",
+    "precio": 46
+  },
+  {
+    "codigo": 630,
+    "nombre": "6 bolsitas pequeñas  de 165 grs para dar Q.7.50",
+    "precio": 38.5
+  },
+  {
+    "codigo": 669,
+    "nombre": "6 botellas de vinagre grande 360 ml para dar Q.7.50",
+    "precio": 38
+  },
+  {
+    "codigo": 529,
+    "nombre": "6 botellita de (ORCHATA)  para dar Q.10.00",
+    "precio": 54
+  },
+  {
+    "codigo": 527,
+    "nombre": "6 botellitas de salsa inglesa  para dar Q.4.50",
+    "precio": 25
+  },
+  {
+    "codigo": 659,
+    "nombre": "6 botellitas de tamarindo concentrado 1/2 para dar Q.8.50",
+    "precio": 52
+  },
+  {
+    "codigo": 1420,
+    "nombre": "6 cajas de empanizador (\"sam\") de 165 grs para dar Q.5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 990,
+    "nombre": "6 Chao Mein Con Soya INA- 180gr para dar Q.6.00",
+    "precio": 30
+  },
+  {
+    "codigo": 989,
+    "nombre": "6 Chao Mein sin Soya INA-180gr por bolsa para dar Q.6.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1075,
+    "nombre": "6 chula  BOLSA 5 onzas para dar Q.3.50",
+    "precio": 19
+  },
+  {
+    "codigo": 921,
+    "nombre": "6 chula BOLSA 14 onzas para dar Q.10.00",
+    "precio": 45
+  },
+  {
+    "codigo": 1809,
+    "nombre": "6 chula BOLSA 20 onzas  para dar Q.12.00",
+    "precio": 53
+  },
+  {
+    "codigo": 1814,
+    "nombre": "6 chula BOLSA 28 onzas para dar Q.14.00",
+    "precio": 69
+  },
+  {
+    "codigo": 852,
+    "nombre": "6 chula BOLSA 35 onzaz para dar  Q.17.00",
+    "precio": 85
+  },
+  {
+    "codigo": 1823,
+    "nombre": "6 docenas cloro magia blanca para dar Q.2.00",
+    "precio": 114
+  },
+  {
+    "codigo": 1877,
+    "nombre": "6 DUCAL LATA 29 onzas 6 unidades para dar Q.17.00",
+    "precio": 84
+  },
+  {
+    "codigo": 421,
+    "nombre": "6 esmalte  pequeño para dar Q.5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 785,
+    "nombre": "6 frijo ducal lata mediano de 10.50 onzas para dar Q.9.50",
+    "precio": 53
+  },
+  {
+    "codigo": 751,
+    "nombre": "6 incaparina de libra bolsa grande  para dar Q.12.00",
+    "precio": 66
+  },
+  {
+    "codigo": 450,
+    "nombre": "6 inst.lata.Gran.Negro.para dar Q.7.50",
+    "precio": 37
+  },
+  {
+    "codigo": 318,
+    "nombre": "6 insta w liquido blanco para dar Q.5.00",
+    "precio": 24
+  },
+  {
+    "codigo": 319,
+    "nombre": "6 insta w liquido cafes para dar Q.5.00",
+    "precio": 24
+  },
+  {
+    "codigo": 317,
+    "nombre": "6 insta w liquido negro para dar Q.5.00",
+    "precio": 24
+  },
+  {
+    "codigo": 637,
+    "nombre": "6 jalapeños (picante)   para dar Q.9.00",
+    "precio": 47
+  },
+  {
+    "codigo": 638,
+    "nombre": "6 jalapeños (semi picante)  para dar Q.9.00",
+    "precio": 47
+  },
+  {
+    "codigo": 1965,
+    "nombre": "6 leche entera  formos caja medio litro",
+    "precio": 70
+  },
+  {
+    "codigo": 1461,
+    "nombre": "6 leche formos caja  litro para dar Q.10.00",
+    "precio": 53
+  },
+  {
+    "codigo": 685,
+    "nombre": "6 libras chocolate best   para dar Q.13.50",
+    "precio": 75
+  },
+  {
+    "codigo": 664,
+    "nombre": "6 panqueques caja grande 450 grs  para dar Q.14.50",
+    "precio": 81
+  },
+  {
+    "codigo": 587,
+    "nombre": "6 papel aluminium 1/2  para dar Q.6.00",
+    "precio": 30
+  },
+  {
+    "codigo": 686,
+    "nombre": "6 pomada GMS  para dar Q.12.00",
+    "precio": 66
+  },
+  {
+    "codigo": 1143,
+    "nombre": "6 saba buenas noches para dar Q.12.00",
+    "precio": 60
+  },
+  {
+    "codigo": 624,
+    "nombre": "6 salsa soya grande  para dar Q.6.50",
+    "precio": 35
+  },
+  {
+    "codigo": 676,
+    "nombre": "6 sardina picante pequeña latita  para dar Q.10.00",
+    "precio": 54
+  },
+  {
+    "codigo": 656,
+    "nombre": "6 sardina sin picar pequeña latita para dar Q.10.00",
+    "precio": 54
+  },
+  {
+    "codigo": 655,
+    "nombre": "6 sardinas  pequeña latita 3  (pica pica) y 3 (sin picar) para dar Q.10.00",
+    "precio": 54
+  },
+  {
+    "codigo": 459,
+    "nombre": "6 unidades de picamas  para dar Q.5.00",
+    "precio": 27
+  },
+  {
+    "codigo": 648,
+    "nombre": "6 unidades de vaporub lata  para dar Q.6.00",
+    "precio": 30
+  },
+  {
+    "codigo": 462,
+    "nombre": "6 unidades rostizador  (\"ya esta\")  para dar Q.6.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1085,
+    "nombre": "6.inst.lata.peq.Neg.para dar Q.3.50",
+    "precio": 32
+  },
+  {
+    "codigo": 574,
+    "nombre": "ablandador y sazonador meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 422,
+    "nombre": "aceite bebe grande de 4 onzas por 1/2 docena para dar Q.7.00",
+    "precio": 35
+  },
+  {
+    "codigo": 423,
+    "nombre": "aceite bebe pequeño de 2 onzas por 1/2 docena para dar Q.5.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1034,
+    "nombre": "aceite Ideal 175 ml pequeño 24 unidades para dar Q.6.50",
+    "precio": 135
+  },
+  {
+    "codigo": 937,
+    "nombre": "Aceite Ideal 6 unidades Amarillo - 445ml para dar Q.15.00",
+    "precio": 79
+  },
+  {
+    "codigo": 1076,
+    "nombre": "aceite Ideal 750 m la l unidad para dar Q.21.00",
+    "precio": 19.25
+  },
+  {
+    "codigo": 936,
+    "nombre": "Aceite Ideal Vegetal - 800ml para dar Q.18.50",
+    "precio": 17.25
+  },
+  {
+    "codigo": 938,
+    "nombre": "Aceite Ideal Vegetal Girasol - 1000ml para dar Q 23.50",
+    "precio": 22
+  },
+  {
+    "codigo": 1043,
+    "nombre": "aceite molino cocinero 375 ml unidad para dar 12.50",
+    "precio": 11
+  },
+  {
+    "codigo": 1045,
+    "nombre": "aceite olmeca botella 375 ml unidad para dar Q.14.50",
+    "precio": 12.5
+  },
+  {
+    "codigo": 1046,
+    "nombre": "aceite olmeca botella 750 ml por unidad para dar Q.20.00",
+    "precio": 19
+  },
+  {
+    "codigo": 1044,
+    "nombre": "aceite olmeca botellita135 ml 6 unidades para dar 6.00",
+    "precio": 33
+  },
+  {
+    "codigo": 943,
+    "nombre": "Aceite Olmeca Veg 375ml para dar Q.14.50",
+    "precio": 13
+  },
+  {
+    "codigo": 944,
+    "nombre": "Aceite Olmeca, light -750ml para dar Q.21.50",
+    "precio": 20
+  },
+  {
+    "codigo": 945,
+    "nombre": "Aceite Olmeca, vitaminado-750ml para Q. 25.50",
+    "precio": 24
+  },
+  {
+    "codigo": 941,
+    "nombre": "Aceite Patrona Vegetal - 430ml  unidades para dar Q.14.50",
+    "precio": 150
+  },
+  {
+    "codigo": 940,
+    "nombre": "Aceite Patrona Vegetal - 800ml 6 unidades para dar Q.20.00",
+    "precio": 110
+  },
+  {
+    "codigo": 435,
+    "nombre": "aceite selecto olivo por 1/2 docena para dar Q.8.00",
+    "precio": 42
+  },
+  {
+    "codigo": 1006,
+    "nombre": "Aceite Sublime Oliva Español Lata - 140ml por unidad para dar Q.32.50",
+    "precio": 28.5
+  },
+  {
+    "codigo": 1177,
+    "nombre": "Aceite triyo pequeño por media docena para dar Q.7.00",
+    "precio": 35
+  },
+  {
+    "codigo": 947,
+    "nombre": "Aceite Vegetal Suli - 400 ml para dar Q.13.00",
+    "precio": 11.5
+  },
+  {
+    "codigo": 946,
+    "nombre": "Aceite Vegetal Suli - 800 ml para dar Q.20.00",
+    "precio": 18
+  },
+  {
+    "codigo": 1119,
+    "nombre": "acetaminofen 500 gms de 100 unidades para dar Q.1.00",
+    "precio": 34
+  },
+  {
+    "codigo": 853,
+    "nombre": "acetaminofen de 500 grs caja de 100 unidades para dar Q.1.00",
+    "precio": 68
+  },
+  {
+    "codigo": 1889,
+    "nombre": "Adrenalina Grande  fardo de 24 unidades para dar Q.12.00",
+    "precio": 235
+  },
+  {
+    "codigo": 1888,
+    "nombre": "Adrenalina pequeña 10.5ml fardo de 24 unidades para dar Q.10.00",
+    "precio": 207
+  },
+  {
+    "codigo": 427,
+    "nombre": "agua florida por 1/2 docena para dar Q.4.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 434,
+    "nombre": "agua oxigenada por docena para dar Q.2.00",
+    "precio": 19
+  },
+  {
+    "codigo": 1828,
+    "nombre": "agua rica grapette botellita 355 ml pequeñapars dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1826,
+    "nombre": "agua rica limon  botellita de 355 ml pequeña para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1829,
+    "nombre": "agua rica manzana botellita 355 ml pequeña para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1827,
+    "nombre": "agua rica piña botellita 355 ml pequeña para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1832,
+    "nombre": "agua rica roja  botellita de 355 ml pequeña para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 471,
+    "nombre": "aguacatina mediana 1/2 docena para dar Q.6.50",
+    "precio": 30
+  },
+  {
+    "codigo": 1208,
+    "nombre": "alambrina de carton de 12 unidades para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 425,
+    "nombre": "Alcohol etilico por docena para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 828,
+    "nombre": "Aleve Extra fuerte caja de 36 unidades de (3 blister) para dar Q.2.00",
+    "precio": 57
+  },
+  {
+    "codigo": 426,
+    "nombre": "algodon bolsa de 25 unidades para dar Q.2x1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 781,
+    "nombre": "Alka zelsers caja de 60 unidades para dar Q.1.50",
+    "precio": 75
+  },
+  {
+    "codigo": 827,
+    "nombre": "AlkaAd 1/2 caja de 36 unidades para dar Q.1.50",
+    "precio": 47.5
+  },
+  {
+    "codigo": 826,
+    "nombre": "AlkaAd caja de 72  unidades para dar Q.1.50",
+    "precio": 95
+  },
+  {
+    "codigo": 819,
+    "nombre": "Amoxicilina 1/ 2 caja de 50 unidades para dar Q.1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 813,
+    "nombre": "Amoxicilina caja de 100 unidades para dar Q.1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 1456,
+    "nombre": "anabely mayonesa de 4 onzas fardo de 60 unidades para dar a 3.50",
+    "precio": 185
+  },
+  {
+    "codigo": 744,
+    "nombre": "Andrews caja de 50 unidades para dar Q.2.00",
+    "precio": 65
+  },
+  {
+    "codigo": 745,
+    "nombre": "Andrews media caja de 25 unidades para dar Q.2.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1354,
+    "nombre": "angelito bote la bubu surtido de 60 unidades para dar Q.1.00",
+    "precio": 50
+  },
+  {
+    "codigo": 1434,
+    "nombre": "angelito cilindro fardo de 20 bolsas para dar Q.10.00 la bolsa",
+    "precio": 186
+  },
+  {
+    "codigo": 1327,
+    "nombre": "angelito con figurad con  empaque  de 50   unid.para dar Q.1.00",
+    "precio": 44
+  },
+  {
+    "codigo": 232,
+    "nombre": "angelito corazon bolsa de 72 uni.",
+    "precio": 28
+  },
+  {
+    "codigo": 47,
+    "nombre": "angelito corazon rojo bote de 50 uni. para dar Q.1.00",
+    "precio": 43
+  },
+  {
+    "codigo": 596,
+    "nombre": "angelito de color cilindro de 50 unidades para dar Q.4x1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 1497,
+    "nombre": "angelito gigante de 30 unidades fardo de 10 bolsas  para dar Q.1.00",
+    "precio": 110
+  },
+  {
+    "codigo": 594,
+    "nombre": "angelito gigante de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1459,
+    "nombre": "angelito navidrño  sin empaque de 60 unidades para dar Q.1.00",
+    "precio": 53
+  },
+  {
+    "codigo": 233,
+    "nombre": "angelito toenillo Gigante bolsa de 45 uni.",
+    "precio": 35
+  },
+  {
+    "codigo": 231,
+    "nombre": "angelito yumbo cilindro bolsa de 30 uni. para dar Q.4x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 162,
+    "nombre": "anillo con luz caja de 30 uni. para dar Q.1.50",
+    "precio": 35
+  },
+  {
+    "codigo": 1424,
+    "nombre": "animalitos maribel caja de 24 bolsas para dar Q.6.00",
+    "precio": 120
+  },
+  {
+    "codigo": "01",
+    "nombre": "Animaloco bote de 50 uni.",
+    "precio": 39
+  },
+  {
+    "codigo": 234,
+    "nombre": "anjelito bolsa de 80 uni. para dar Q.4x1.00",
+    "precio": 17
+  },
+  {
+    "codigo": 1428,
+    "nombre": "arbolito navideño caja de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1462,
+    "nombre": "arbolito navideño con angelito fardo de 48 unidades para dar Q.5.00",
+    "precio": 185
+  },
+  {
+    "codigo": 1405,
+    "nombre": "arbolito navideño con angelitos de 24 unidades para dar Q.5.00",
+    "precio": 97.5
+  },
+  {
+    "codigo": 1404,
+    "nombre": "arbolito navideño con angelitos por docena  para dar Q.5.00",
+    "precio": 49
+  },
+  {
+    "codigo": 599,
+    "nombre": "arbolito navideño de 30 unidades para dar Q.1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 1862,
+    "nombre": "Ariel bolsa.Mediano 1 fardo de 40 bolsas para dar Q.5.00",
+    "precio": 165
+  },
+  {
+    "codigo": 1528,
+    "nombre": "aritos sandia  wuandy  bandeja de 125 uni. FARDO DE 12 UNIDADES para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 215,
+    "nombre": "aritos sandia wuandy bandeja de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 979,
+    "nombre": "Arroz Gallo Dorado Precocido - 400gr 6 unidades para dar Q.8.50",
+    "precio": 46
+  },
+  {
+    "codigo": 5,
+    "nombre": "asidita chicle caja de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 924,
+    "nombre": "asiditas  sabor a sandía  de 100 unidades para dar Q.4x1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 308,
+    "nombre": "asistin cloro de 12 uni para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 776,
+    "nombre": "asistin manzana de 12 unidades para dar a Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 361,
+    "nombre": "asistin morado de 24 uni. para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 893,
+    "nombre": "aspirina adulto 1/2  caja de 50 unid para dar Q.1.00",
+    "precio": 40
+  },
+  {
+    "codigo": 891,
+    "nombre": "aspirina adulto caja de 100 unid para dar Q.1.00",
+    "precio": 78
+  },
+  {
+    "codigo": 820,
+    "nombre": "Aspirina forte 1/2 caja de 50 unidades para dar Q.1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 814,
+    "nombre": "Aspirina forte caja de 100 unidades para dar Q.1.00",
+    "precio": 87
+  },
+  {
+    "codigo": 721,
+    "nombre": "atun de aceite por unidad para dar Q.18.00",
+    "precio": 16
+  },
+  {
+    "codigo": 720,
+    "nombre": "atun de agua por unidadara dar Q.18.00",
+    "precio": 16
+  },
+  {
+    "codigo": 722,
+    "nombre": "atun de vejetales por unidad para dar Q.18.00",
+    "precio": 16
+  },
+  {
+    "codigo": 1002,
+    "nombre": "Atun Suli Trocitos En Agua 140 Gr por unidades para dar Q.18.00",
+    "precio": 16
+  },
+  {
+    "codigo": 455,
+    "nombre": "autan morado por 1/2 docena para dar Q.10.00",
+    "precio": 50
+  },
+  {
+    "codigo": 413,
+    "nombre": "autan verde 1/2 docena   para dar Q.10.00",
+    "precio": 50
+  },
+  {
+    "codigo": 1172,
+    "nombre": "avioncito goma de mascar de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 213,
+    "nombre": "ayko pastilla bote de 200 uni. para dar Q.4x1.00",
+    "precio": 42
+  },
+  {
+    "codigo": 1541,
+    "nombre": "Azúcar  Caña Real, fardo de 30 bolsas por libra para dar Q.5.00",
+    "precio": 137
+  },
+  {
+    "codigo": 969,
+    "nombre": "Azúcar  Caña Real, fardo de 6 bolsas por 5  libras  cada  bolsa para dar Q.25.00",
+    "precio": 137
+  },
+  {
+    "codigo": 935,
+    "nombre": "bananito kl bolsa de 200 unidades para dar 4 por Q.1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 844,
+    "nombre": "banda  a manzana verde de 125 unidades para dar 3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1524,
+    "nombre": "banda a  manzana verde de 125 unidades FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 1525,
+    "nombre": "banda sabor a fresa de 100 unidades FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 846,
+    "nombre": "banda sabor a fresa de 100 unidades para dar 3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 70,
+    "nombre": "bandeja  fresa transparente dulce mania de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 7,
+    "nombre": "bandeja banda asida dulce mania  de 120 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1510,
+    "nombre": "bandeja banda asida dulce mania de 56 uni.FARDO DE 12 UNIDADES",
+    "precio": 279
+  },
+  {
+    "codigo": 42,
+    "nombre": "bandeja cobra dulce mania de  28 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1533,
+    "nombre": "bandeja cobra dulce mania de 28 uni. FARDO DE 12 UNIDADES para dar Q.100",
+    "precio": 279
+  },
+  {
+    "codigo": 49,
+    "nombre": "bandeja corazones  dulce mania 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1530,
+    "nombre": "bandeja corazones dulce mania de 125 uni. FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 1922,
+    "nombre": "bandeja cuadrada pequeña de 5 paquetes por  50 unidades pir paquete para dar Q.9.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1514,
+    "nombre": "bandeja culebrita transparente dulce mania de 125 uni. FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 53,
+    "nombre": "bandeja culebrita transparente dulce mania de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1356,
+    "nombre": "bandeja de 3 diviciones paquete de 25  unidades para dar Q.10.00",
+    "precio": 9
+  },
+  {
+    "codigo": 1531,
+    "nombre": "bandeja delfin dulce mania de 28 uni.FARDO DE 12 UNIDADES para dar Q.1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 1532,
+    "nombre": "bandeja delfin dulce mania de 28 uni.para dar Q.100",
+    "precio": 25
+  },
+  {
+    "codigo": 1516,
+    "nombre": "bandeja delfin dulce mania de 56 uni. FARDO DE 12 BANDEJAS para dar Q.2x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 58,
+    "nombre": "bandeja delfin dulce mania de 56 uni. para dar Q.2x1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1517,
+    "nombre": "bandeja diente dulce mania de 125 uni. FARDO DE 12 BANDEJAS  para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 60,
+    "nombre": "bandeja diente dulce mania de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1527,
+    "nombre": "bandeja fresa transparente dulce mania de 125 uni. FARDO DE 12 UNIDADES para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 80,
+    "nombre": "bandeja heladito dulce mania de 100 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1508,
+    "nombre": "bandeja heladito fardo 12 bandeja para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 1519,
+    "nombre": "bandeja lengua roja dulce mania de 28 uni. FARDO DE 12 BANDEJAS para dar Q1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 97,
+    "nombre": "bandeja lengua roja dulce mania de 28 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 98,
+    "nombre": "bandeja lengua verde  dulce mania de 28 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1520,
+    "nombre": "bandeja lengua verde dulce mania de 28 uni. FARDO DE 12 BANDEJAS para dar Q.1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 1518,
+    "nombre": "bandeja lenguas mixta dulce mania de 28 uni. FARDO DE 12 UNIDADES para dar Q.1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 96,
+    "nombre": "bandeja lenguas mixtas dulce mania de 28 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 757,
+    "nombre": "bandeja morita (LISA)  dulce mania de 125 uni. para dar 4x1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1522,
+    "nombre": "bandeja morita lisa  dulce mania de 125 uni. FARDO DE 12 BANDEJAS",
+    "precio": 279
+  },
+  {
+    "codigo": 688,
+    "nombre": "bandeja morita LISA dulce mania de 125 uni. para dar Q.4x1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1521,
+    "nombre": "bandeja morita rugosa  dulce mania de 125 uni. FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 115,
+    "nombre": "bandeja morita rugosa  dulce mania de 125 uni. para dar 3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1526,
+    "nombre": "bandeja osito dulce mania de 125 uni. FARDO DE 12 UNIDADES para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 119,
+    "nombre": "bandeja osito dulce mania de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1509,
+    "nombre": "bandeja pizza dulce mania de 125 uni. FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 131,
+    "nombre": "bandeja pizza dulce mania de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1511,
+    "nombre": "bandeja tubigoma sabor a fresa  de 125 uni.FARDO DE 12 BANDEJAS",
+    "precio": 279
+  },
+  {
+    "codigo": 150,
+    "nombre": "bandeja tubigoma sar a fresa de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 169,
+    "nombre": "bandeja unicornio  dulce mania de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 405,
+    "nombre": "banderilla gatito azul de 50 unid. para dar Q.1.00",
+    "precio": 40
+  },
+  {
+    "codigo": 8,
+    "nombre": "bandido galleta caja de 36 uni. para dar Q.1.00",
+    "precio": 32
+  },
+  {
+    "codigo": "03",
+    "nombre": "barquillo con figuras surtido de 60 unidades para dar Q.1.00",
+    "precio": 53
+  },
+  {
+    "codigo": 1135,
+    "nombre": "barrilete bombom 24 unidades para dar Q.1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 10,
+    "nombre": "barrilete dulce 50 uni. para dar Q.2x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 588,
+    "nombre": "barritas fresa de 10 unidades para dar a Q.2.00",
+    "precio": 17
+  },
+  {
+    "codigo": 1112,
+    "nombre": "batería AA rayovac tira de 6 pares para dar Q.6.50",
+    "precio": 35
+  },
+  {
+    "codigo": 1113,
+    "nombre": "batería AAA rayovac tira de 6 pares para dar Q.6.50",
+    "precio": 35
+  },
+  {
+    "codigo": 808,
+    "nombre": "bay kid caja de 36 unidades para dar Q.1.50",
+    "precio": 48
+  },
+  {
+    "codigo": 1154,
+    "nombre": "baygon azul aerosol mosquitos y moscas de 285 ml para dar Q.23.00",
+    "precio": 19
+  },
+  {
+    "codigo": 1490,
+    "nombre": "baygon azul fardo de 12 unidades aerosol mosquitos y moscas de 285 ml para dar Q.23.00",
+    "precio": 185
+  },
+  {
+    "codigo": 1491,
+    "nombre": "baygon fardo de 12 unidades ultra verde cucarachas y escorpiones  de 285 ml para dar Q.23.00",
+    "precio": 185
+  },
+  {
+    "codigo": 1155,
+    "nombre": "baygon ultra verde cucarachas y escorpiones  de 285 ml para dar Q.23.00",
+    "precio": 19
+  },
+  {
+    "codigo": 646,
+    "nombre": "bebetina 1/2 caja de 5 blister para dar Q.9.00 por blister y para dar Q.1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 645,
+    "nombre": "bebetina caja de 10 blister  para dar Q.9.00 y para dar Q.1.00",
+    "precio": 69
+  },
+  {
+    "codigo": 480,
+    "nombre": "bianchi malvaviscos la rosa cubiertos con chocolate de 50 unidades para dar Q.1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 490,
+    "nombre": "bicarbonato vesa  de 25 unidades para dar Q.2x1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 513,
+    "nombre": "BigBen bolsa de 100 unidades para dar Q.3x1.00",
+    "precio": 28
+  },
+  {
+    "codigo": 415,
+    "nombre": "bijol caja de 100 unidades para dar Q.3x1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1875,
+    "nombre": "BISMUTO UN CIENTO Para dar Q.3×1.00",
+    "precio": 22
+  },
+  {
+    "codigo": 486,
+    "nombre": "bolsa  de color de 10 libras de  500 para dar Q.27.00",
+    "precio": 24
+  },
+  {
+    "codigo": 483,
+    "nombre": "bolsa de color 2 libras de 500 7x10 para dar Q.12.00",
+    "precio": 10
+  },
+  {
+    "codigo": 484,
+    "nombre": "bolsa de color de 3 libras de 500 8x11 para dar Q.15.00",
+    "precio": 12
+  },
+  {
+    "codigo": 485,
+    "nombre": "bolsa de color de 5 libras de 500 9x14 para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 487,
+    "nombre": "bolsa transparente de 1 libra de 500 5x8 para dar Q.12.00",
+    "precio": 12
+  },
+  {
+    "codigo": 488,
+    "nombre": "bolsa transparente de 2 libras de 500 7x10 para dar Q.13.50",
+    "precio": 13.5
+  },
+  {
+    "codigo": 489,
+    "nombre": "bolsa transparente de 3 libras de 500 8x12 para dar Q.17.50",
+    "precio": 17.5
+  },
+  {
+    "codigo": 1322,
+    "nombre": "bolsa transparente de 5 libras paquete de 500",
+    "precio": 25
+  },
+  {
+    "codigo": 771,
+    "nombre": "bolsa trnsparente de 10 libras 12x18",
+    "precio": 37
+  },
+  {
+    "codigo": 1913,
+    "nombre": "bombón colombina  Cools l bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1907,
+    "nombre": "bombón colombina clear 2 bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1910,
+    "nombre": "bombón colombina fresa bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1911,
+    "nombre": "bombón colombina mango  bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1906,
+    "nombre": "bombón colombina mister bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1903,
+    "nombre": "bombón colombina sandia bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1905,
+    "nombre": "bombón colombina surtido bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1912,
+    "nombre": "bombón colombina surtido tropical bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 1904,
+    "nombre": "bombón colombina transparente bolsa de 12 unidades para dar Q.0.50",
+    "precio": 10
+  },
+  {
+    "codigo": 590,
+    "nombre": "bombones bianchi de 30 unidades para dar Q.1.00",
+    "precio": 23
+  },
+  {
+    "codigo": 725,
+    "nombre": "bon o bon bolsa de 30 unidades para dar 1.50",
+    "precio": 38
+  },
+  {
+    "codigo": 16,
+    "nombre": "bon o bon caja amarillo de 30 uni. para dar Q.2.00",
+    "precio": 45
+  },
+  {
+    "codigo": 17,
+    "nombre": "bon o bon chocolate arco  caja cafes   de 30 uni. para dar Q.1.50",
+    "precio": 42
+  },
+  {
+    "codigo": 1041,
+    "nombre": "Bonie chocolate 200 ml caja de 24 unidades para dar Q.4.00",
+    "precio": 78
+  },
+  {
+    "codigo": 1040,
+    "nombre": "Bonie Fresa 200 ml caja de 24 unidades para dar Q.4.00",
+    "precio": 78
+  },
+  {
+    "codigo": 1039,
+    "nombre": "Bonie vainilla 200 ml caja de 24 unidades para dar Q.4.00",
+    "precio": 78
+  },
+  {
+    "codigo": 719,
+    "nombre": "Bontea de chinola caja de 12 unidades para dar Q.2.50",
+    "precio": 27.5
+  },
+  {
+    "codigo": 716,
+    "nombre": "Bontea de durazno caja de 12 unidades para dar Q.2.50",
+    "precio": 27.5
+  },
+  {
+    "codigo": 717,
+    "nombre": "Bontea de limon  caja de 12 unidades para dar Q.2.50",
+    "precio": 27.5
+  },
+  {
+    "codigo": 718,
+    "nombre": "Bontea de manzana caja de 12 unidades para dar Q.2.50",
+    "precio": 27.5
+  },
+  {
+    "codigo": 1980,
+    "nombre": "bote pastillas vick en sobre de 20 sobres para dar Q.5.00",
+    "precio": 85
+  },
+  {
+    "codigo": 1426,
+    "nombre": "botellitas de licor caja de 24 unidades para dar Q.10.00",
+    "precio": 175
+  },
+  {
+    "codigo": 546,
+    "nombre": "bracelet  candy de 48 unidades para dar Q.1.00",
+    "precio": 43
+  },
+  {
+    "codigo": 419,
+    "nombre": "brillantina amarillo por 1/2 docena para dar Q.5.00",
+    "precio": 21
+  },
+  {
+    "codigo": 420,
+    "nombre": "brillantina verde por 1/2 docena para dar Q.5.00",
+    "precio": 21
+  },
+  {
+    "codigo": 14,
+    "nombre": "bubalo banano caja de 70 uni. para dar Q.2x1.00",
+    "precio": 29.5
+  },
+  {
+    "codigo": 15,
+    "nombre": "bubalo chicle tuty fruty de 70 uni. para dar Q.2x1.00",
+    "precio": 29.5
+  },
+  {
+    "codigo": 11,
+    "nombre": "bubalo fresa caja de 70 uni. para dar Q.2x1.00",
+    "precio": 29.5
+  },
+  {
+    "codigo": 13,
+    "nombre": "bubalo mora caja de 70 uni. para dar Q.2x1.00",
+    "precio": 29.5
+  },
+  {
+    "codigo": 364,
+    "nombre": "cabello loco miniums de 20 uni. para dar Q.2.50",
+    "precio": 39
+  },
+  {
+    "codigo": 337,
+    "nombre": "cafe barista de 24 unidades para dar Q.2.50",
+    "precio": 43
+  },
+  {
+    "codigo": 1489,
+    "nombre": "café jarrillita 1/2 fardo de 6 paquetes de 50 unidades para dar Q.2.00",
+    "precio": 570
+  },
+  {
+    "codigo": 334,
+    "nombre": "cafe jarrillita 50 uni. para dar Q.2.50",
+    "precio": 99
+  },
+  {
+    "codigo": 1488,
+    "nombre": "café jarrillita fardo de 12 paquetes de 50 unidades para dar Q.2.00",
+    "precio": 1135
+  },
+  {
+    "codigo": 1377,
+    "nombre": "Cafe leon bolsa de 1/2 libra para dar Q.35..00",
+    "precio": 29
+  },
+  {
+    "codigo": 1378,
+    "nombre": "Cafe leon bolsa de libra para dar Q.53.00",
+    "precio": 49
+  },
+  {
+    "codigo": 335,
+    "nombre": "cafe musun de 34 uni. para dar Q.2.50",
+    "precio": 74
+  },
+  {
+    "codigo": 1876,
+    "nombre": "cafe quetzal de 27 unidades para dar Q.2.00",
+    "precio": 47
+  },
+  {
+    "codigo": 1321,
+    "nombre": "caja de chocolate de 48 unidades para dar Q.1.50",
+    "precio": 49
+  },
+  {
+    "codigo": 619,
+    "nombre": "calmante bolsa de 100 unid. para dar Q.2x1.00",
+    "precio": 27
+  },
+  {
+    "codigo": 801,
+    "nombre": "camion cisterna con dulce de 30 unidades para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 933,
+    "nombre": "candies y toys  de 30  unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 573,
+    "nombre": "canela en polvo meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 811,
+    "nombre": "canels caja de 100 unidades para dar Q.3x1.00",
+    "precio": 29
+  },
+  {
+    "codigo": 259,
+    "nombre": "canillitas de leche bandejita de 25 uni.para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 764,
+    "nombre": "capeli Spray pequeño por 6 unidades para dar Q.8.00",
+    "precio": 43
+  },
+  {
+    "codigo": 612,
+    "nombre": "cappucino martina de 100 uni. para dar Q.1.00",
+    "precio": 75
+  },
+  {
+    "codigo": 268,
+    "nombre": "capuchino caja de 190 uni. para dar Q.1.00",
+    "precio": 150
+  },
+  {
+    "codigo": 1474,
+    "nombre": "caracol italiana 1 FARDO de 48 bolsas para dar Q.3.50",
+    "precio": 135
+  },
+  {
+    "codigo": 1475,
+    "nombre": "caracolito italiana 1 FARDO de 48 bolsas para dar Q 3.50",
+    "precio": 135
+  },
+  {
+    "codigo": 1892,
+    "nombre": "caracolito italiana 1/2 fardo de 24  bolsas para dar Q.3.50",
+    "precio": 69.5
+  },
+  {
+    "codigo": 443,
+    "nombre": "caramelo dulce  chupete bebe de 30 unid. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 385,
+    "nombre": "carrito con goma de mascar dr 48 uni",
+    "precio": 40
+  },
+  {
+    "codigo": 625,
+    "nombre": "carrito juguete de colores de 30 unid. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 351,
+    "nombre": "Carro  chocolatecaja  de 48 uni. para dar Q.1.00",
+    "precio": 42
+  },
+  {
+    "codigo": 558,
+    "nombre": "carton hule color negro para pelo de 24 unidades para dar Q.1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 470,
+    "nombre": "carton hule surtido  para pelo de 24 unidades para dar Q.1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 1372,
+    "nombre": "casino paquete de 10 para dar Q.10.00",
+    "precio": 89
+  },
+  {
+    "codigo": 700,
+    "nombre": "castor palito por 1/2 docena para dar Q.6.00",
+    "precio": 33
+  },
+  {
+    "codigo": 349,
+    "nombre": "cepillo colgate de 12 uni. para dar Q.5.00",
+    "precio": 55
+  },
+  {
+    "codigo": 429,
+    "nombre": "cepillo k-dent de 12 unidades para dar Q.2.00",
+    "precio": 19
+  },
+  {
+    "codigo": 15840,
+    "nombre": "cera para piso grande para dar Q.35.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1148,
+    "nombre": "cereal al día (FROOT LOOPS)   unidad bolsa pequeña para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1145,
+    "nombre": "cereal al día (OJUELA CHOCOLATADA) unidad bolsa pequeña para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1147,
+    "nombre": "cereal al día (OJUELA DE MAIZ) unidad bolsa pequeña para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1146,
+    "nombre": "cereal al día ARROZ CHOCOLATADA unidad bolsa pequeña para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1430,
+    "nombre": "cereal froot loops caja pequeña",
+    "precio": 1
+  },
+  {
+    "codigo": 1431,
+    "nombre": "cereal Zucaritas por caja pequeña",
+    "precio": 1
+  },
+  {
+    "codigo": 1344,
+    "nombre": "cerezas al licor bolsa de 80 unidades para dar Q.2x5.00",
+    "precio": 160
+  },
+  {
+    "codigo": 1978,
+    "nombre": "cerveza ICE  pequeña DE 12 ONZAS 24 UNIDADES  para dar Q.5.00",
+    "precio": 110
+  },
+  {
+    "codigo": 1884,
+    "nombre": "cerveza lata de  16 onzas de 24 unidades para dar Q.12.00",
+    "precio": 218
+  },
+  {
+    "codigo": 1087,
+    "nombre": "chamoy botella de 500 gramos por unidades para dar a Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 247,
+    "nombre": "chao caja fresa de 24 uni.para dar Q1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 248,
+    "nombre": "chao caja limon de 24 uni.para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 246,
+    "nombre": "chao caja menta de 24 uni.para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 249,
+    "nombre": "chao caja sandia de 24 uni.para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 195,
+    "nombre": "chao fresa bolsa  de 100 uni.para dar Q.3x1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 196,
+    "nombre": "chao limon bolsa de 100 uni.para dar Q.3x1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 194,
+    "nombre": "chao menta bolsa  de 100 uni.para dar Q.3x1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 197,
+    "nombre": "chao sandia bolsa  de 100 uni.para dar Q3x1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 371,
+    "nombre": "chcocolate bolita robot de 90 uni. para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 1163,
+    "nombre": "chef gomitas caja roja de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 24,
+    "nombre": "chibolon chicle bote de 200 uni. para dar Q.4x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 387,
+    "nombre": "chicle  dinosaurio de 30 unid.para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 284,
+    "nombre": "chicle armonico se 30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 21,
+    "nombre": "chicle canels caja de 108 uni. para dar Q.2x1.00",
+    "precio": 37
+  },
+  {
+    "codigo": 615,
+    "nombre": "chicle canels de 70 unid. para dar Q.2x1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 366,
+    "nombre": "chicle chiks de 60 uni. para dar Q.3x1.00",
+    "precio": 15
+  },
+  {
+    "codigo": 57,
+    "nombre": "chicle de la rosa caja de 100 uni.para dar Q.2x1.00",
+    "precio": 37
+  },
+  {
+    "codigo": 693,
+    "nombre": "chicle durazno bote  de 150 unidades para dar Q.4x1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 691,
+    "nombre": "chicle fresa  bote de 150 unidades para dar Q.4x1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 157,
+    "nombre": "chicle fruitti chalk bote de 150 uni. para dar Q.4x1.00",
+    "precio": 32
+  },
+  {
+    "codigo": 1916,
+    "nombre": "chicle gaseosa de 24 unidades para dar Q.1.50",
+    "precio": 30
+  },
+  {
+    "codigo": 692,
+    "nombre": "chicle limon  bote de 150 unidades para dar Q.4x1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 394,
+    "nombre": "chicle mundis de 60 unid. para dar Q.3x1.00",
+    "precio": 17
+  },
+  {
+    "codigo": 690,
+    "nombre": "chicle sandía  bote de 150 unidades para dar Q.4x1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 689,
+    "nombre": "chicle sport bote de 150 unidades para dar Q.4x1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 26,
+    "nombre": "chicle tatto footbol bote de 200 uni. para dar Q.4x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1326,
+    "nombre": "chicle tubo mix caja de 24 unidades para dar Q.3.00",
+    "precio": 56
+  },
+  {
+    "codigo": 1114,
+    "nombre": "chicle tutifruti bote de 200 unidades para dar Q.3x1.00",
+    "precio": 48
+  },
+  {
+    "codigo": 23,
+    "nombre": "chiclets pequeño caja  amarillo de 100 uni. para dar Q.2x1.00",
+    "precio": 37
+  },
+  {
+    "codigo": 167,
+    "nombre": "chiclets pequeño caja amarillo  de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 30,
+    "nombre": "chiclin menta bolsa de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 31,
+    "nombre": "chiclin miel bolsa de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 32,
+    "nombre": "chiclin mix bolsa de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 33,
+    "nombre": "chiclin mora bolsa de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 34,
+    "nombre": "chiclin sandia bolsa de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 25,
+    "nombre": "chiclin seresa bolsa de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 477,
+    "nombre": "chiclosos la vaquita de 110 unidades para dar Q.1.00",
+    "precio": 79
+  },
+  {
+    "codigo": 35,
+    "nombre": "chicote bolsa de 50 uni. para dar Q.1.00",
+    "precio": 43
+  },
+  {
+    "codigo": 1323,
+    "nombre": "chilao de picao bolsa de 500 grs para dar Q.35.00",
+    "precio": 29
+  },
+  {
+    "codigo": 577,
+    "nombre": "chile cobanero en polvo meller carton de 12 unidades para dat Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 1407,
+    "nombre": "CHIPS FUEGO  bolsa de 25 unidades para dar Q.3.00",
+    "precio": 67
+  },
+  {
+    "codigo": 226,
+    "nombre": "chocale  tira de 10 uni. para dar Q.2.50",
+    "precio": 20
+  },
+  {
+    "codigo": 479,
+    "nombre": "choco alegre shot de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 244,
+    "nombre": "choco bom bote de 50 uni. para dar Q.1.00",
+    "precio": 46
+  },
+  {
+    "codigo": 671,
+    "nombre": "choco cono toy de 30 unidades para dar Q.1.50",
+    "precio": 30
+  },
+  {
+    "codigo": 1329,
+    "nombre": "Choco Diper caja de 20 unidades para dar Q.5.00",
+    "precio": 65
+  },
+  {
+    "codigo": 1325,
+    "nombre": "choco moneda chocolate caja de 24 unidades para dar Q.2.50",
+    "precio": 49
+  },
+  {
+    "codigo": 1134,
+    "nombre": "choco pachon de 200 unidades para dar Q.3x1.00",
+    "precio": 48
+  },
+  {
+    "codigo": 370,
+    "nombre": "choco taza de libra para dar a Q.13.50",
+    "precio": 12.5
+  },
+  {
+    "codigo": 237,
+    "nombre": "chocofresitas bote de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 38,
+    "nombre": "chocogol bote best de 150 uni. para dar Q.4x1.00",
+    "precio": 34
+  },
+  {
+    "codigo": 4,
+    "nombre": "chocolate amor mio bote de 80 uni. para dar Q.1.00",
+    "precio": 48
+  },
+  {
+    "codigo": 205,
+    "nombre": "chocolate corazo rojo de 100 uni. para dar Q.1.00",
+    "precio": 75
+  },
+  {
+    "codigo": 39,
+    "nombre": "chocomenta arco bolsa de 100 uni. para dar Q.3x1.00",
+    "precio": 28
+  },
+  {
+    "codigo": 1347,
+    "nombre": "choyitas para dar Q.1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 920,
+    "nombre": "chula BOLSA 8 onzas 1/2 docena para dar Q.8.00",
+    "precio": 30
+  },
+  {
+    "codigo": 701,
+    "nombre": "chupa panza caja de 30 unidades para dar Q.1.50",
+    "precio": 39
+  },
+  {
+    "codigo": 1977,
+    "nombre": "cigarros royal caja de 10 de 20 cigarros para dar Q.50.00",
+    "precio": 42
+  },
+  {
+    "codigo": 767,
+    "nombre": "cinta de aislar de 10 unidades para dar Q.2.50",
+    "precio": 21
+  },
+  {
+    "codigo": 40,
+    "nombre": "clorets azul caja de 60 uni. para dar Q.2x1.00",
+    "precio": 22
+  },
+  {
+    "codigo": 41,
+    "nombre": "clorets verde caja de 60 uni. para dar Q.2x1.00",
+    "precio": 22
+  },
+  {
+    "codigo": 1391,
+    "nombre": "cloro magia blan. docena para dar 2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 417,
+    "nombre": "clotriplex por 1/2 docena para dar Q.9.00",
+    "precio": 49
+  },
+  {
+    "codigo": 6806,
+    "nombre": "cobrar el domingo 15",
+    "precio": 1
+  },
+  {
+    "codigo": 6784,
+    "nombre": "cobro para el lunes 16",
+    "precio": 1
+  },
+  {
+    "codigo": 6805,
+    "nombre": "cobro para el marte 17",
+    "precio": 1
+  },
+  {
+    "codigo": 1954,
+    "nombre": "coca cola lata bandeja de 24 unidades",
+    "precio": 110
+  },
+  {
+    "codigo": 257,
+    "nombre": "cocada bandejita de 25 uni.para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 260,
+    "nombre": "coco bandejita de 25 uni.para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 186,
+    "nombre": "coco barra de colores bote de 60 uni. para dar Q.1.00",
+    "precio": 55
+  },
+  {
+    "codigo": 1507,
+    "nombre": "cocodrilo fardo12 bandejas 28 unidades para dar Q.1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 850,
+    "nombre": "cocodrilo rojo de 28 unidades para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 848,
+    "nombre": "cocodrilo verde de 28 unidades  para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1472,
+    "nombre": "codito mediano italiana 1 FARDO de 48 bolsas para dar Q.3.50",
+    "precio": 135
+  },
+  {
+    "codigo": 1898,
+    "nombre": "codito mediano italiana 1/2  FARDO de 24 bolsas para dar Q.3.50",
+    "precio": 69
+  },
+  {
+    "codigo": 1899,
+    "nombre": "codito mediano italiana 1/2  FARDO de 24 bolsas para dar Q.3.50",
+    "precio": 69
+  },
+  {
+    "codigo": 4171,
+    "nombre": "codito pequeño italiana 1 FARDO de 48 bolsas para dar Q.3.50",
+    "precio": 138
+  },
+  {
+    "codigo": 1923,
+    "nombre": "Codo Grande italiana pesada de 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 902,
+    "nombre": "Coffee mate caja de 200 unidades para dar Q.2x1.00",
+    "precio": 90
+  },
+  {
+    "codigo": 43,
+    "nombre": "coffi dulce colombina bolsa de 100 uni. para dar Q.3x1.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1107,
+    "nombre": "Coffi expresó caja de 96 unidades para dar Q.1.00",
+    "precio": 50
+  },
+  {
+    "codigo": 1115,
+    "nombre": "coffi intenso bolsa de 100 unidades  para dar Q.3x1.00",
+    "precio": 29
+  },
+  {
+    "codigo": 127,
+    "nombre": "cohete goma de mascar de 30 uni.para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 758,
+    "nombre": "COLGATE  (TRIPLE YUMBO) de 12 unidades para dar Q.15.00",
+    "precio": 155
+  },
+  {
+    "codigo": 332,
+    "nombre": "colgate 75 ml mas cepillo por docena",
+    "precio": 110
+  },
+  {
+    "codigo": 333,
+    "nombre": "colgate 75 ml original maximo por docena para dar Q.9.00",
+    "precio": 98
+  },
+  {
+    "codigo": 789,
+    "nombre": "colgate KDS de 6 unidades para dar Q.12.50",
+    "precio": 62
+  },
+  {
+    "codigo": 330,
+    "nombre": "colgate pequeño de 22 ml caja de 12 uni. para dar Q.5.00",
+    "precio": 52
+  },
+  {
+    "codigo": 314,
+    "nombre": "colgate.yumbo.doble fresc.150 ml para dar 15.00",
+    "precio": 150
+  },
+  {
+    "codigo": 192,
+    "nombre": "color iris de 50 uni.",
+    "precio": 35
+  },
+  {
+    "codigo": 369,
+    "nombre": "combo mini gomitas de 30 unid. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 392,
+    "nombre": "comida rapida dispensador de 20 unid. para dar Q.2.50",
+    "precio": 39
+  },
+  {
+    "codigo": 411,
+    "nombre": "compota gerber 1/2 docena frasco de manzana para dar Q.6.50",
+    "precio": 35
+  },
+  {
+    "codigo": 412,
+    "nombre": "compota gerber 1/2 docena frasco de melocoton para dar Q.6.50",
+    "precio": 35
+  },
+  {
+    "codigo": 794,
+    "nombre": "conejo saltarin de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1385,
+    "nombre": "conito bote de 80 unidades para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 640,
+    "nombre": "cono helado con chocolate de 25 unidades para dar Q.1.50",
+    "precio": 28
+  },
+  {
+    "codigo": 567,
+    "nombre": "consome de camaron meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 579,
+    "nombre": "consome de pollo meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 571,
+    "nombre": "consome de tomate con res meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 1014,
+    "nombre": "Consomé Malher De Pollo Bote - 227g por unidad  para dar Q.14.00",
+    "precio": 12
+  },
+  {
+    "codigo": 572,
+    "nombre": "consome sabor gallina criolla meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": "CONTROL DE (DIPROSA)",
+    "nombre": "CONTROL DE (DIPROSA)",
+    "precio": 1
+  },
+  {
+    "codigo": 870,
+    "nombre": "corazon de trigo por 1/2 docena para dar Q.10.00",
+    "precio": 54
+  },
+  {
+    "codigo": 865,
+    "nombre": "corazon de trigo por bolsa de libra para dar Q.10.00",
+    "precio": 9
+  },
+  {
+    "codigo": 1529,
+    "nombre": "corazones wuandy bandeja de 125 uni. FARDO DE 12 UNIDADES para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 216,
+    "nombre": "corazones wuandy bandeja de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1469,
+    "nombre": "corbaton italiana 1 FARDO de 48 bolsa para dar Q.3.50",
+    "precio": 135
+  },
+  {
+    "codigo": 1897,
+    "nombre": "corbaton italiana 1/2  FARDO de 24 bolsas para dar Q.3.50",
+    "precio": 68
+  },
+  {
+    "codigo": 654,
+    "nombre": "corta uña de bebe pequeño caja de 24 unidades para dar Q.3.00",
+    "precio": 50
+  },
+  {
+    "codigo": 653,
+    "nombre": "corta uña mediana original caja de 12 unidades para dar Q.5.00",
+    "precio": 45
+  },
+  {
+    "codigo": 652,
+    "nombre": "corta uñas grande  original  caja de 12 unidades para dar Q.5.00",
+    "precio": 45
+  },
+  {
+    "codigo": 566,
+    "nombre": "costilla criolla meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 193,
+    "nombre": "crayon chicle caja de 24 uni. para dar Q.1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 559,
+    "nombre": "crecimiento de 20 unidades para dar Q1.25",
+    "precio": 20
+  },
+  {
+    "codigo": 1975,
+    "nombre": "CREEN LEAF Veneno en polvo caja de 50unidades para dar Q1.25",
+    "precio": 56
+  },
+  {
+    "codigo": 1217,
+    "nombre": "crema nivea (EXPRESS IDRATACION)  100 ml unidad Para dar Q.25.00",
+    "precio": 21
+  },
+  {
+    "codigo": 1318,
+    "nombre": "crema nivea (MILK NUTRITIVA)  100 ml unidad para dar Q.25.00",
+    "precio": 21
+  },
+  {
+    "codigo": 1216,
+    "nombre": "crema nivea (SOFT MILK)  100 ml unidad para dar Q.25.00",
+    "precio": 21
+  },
+  {
+    "codigo": 315,
+    "nombre": "crema nivea 20 ml de 10 unidades para dar Q.7.00",
+    "precio": 58
+  },
+  {
+    "codigo": 1981,
+    "nombre": "crema pond roja  grande para dar Q.49.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1348,
+    "nombre": "crema pond rosado Grande aclarante B3 color rosada por unidad para dar Q.39.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1979,
+    "nombre": "crema pond verde grande para dar Q.39.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1337,
+    "nombre": "crema ponds crema H piel suave hidratada  unidad para dar Q.23.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1206,
+    "nombre": "crema stefanie el par de 2 unidades  limpiadora y umectante para dar Q.12  la unidad",
+    "precio": 20
+  },
+  {
+    "codigo": 225,
+    "nombre": "cremino de 24 uni. para dar Q.1.50",
+    "precio": 29
+  },
+  {
+    "codigo": 50,
+    "nombre": "cremita sultana bolsa de 240 uni. para dar Q5x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 542,
+    "nombre": "cremy margarina 1/2 docena para dar Q.2.50 la barra",
+    "precio": 57
+  },
+  {
+    "codigo": 543,
+    "nombre": "cremy margarina por caja  para dar Q.2.50 la barra",
+    "precio": 12
+  },
+  {
+    "codigo": 52,
+    "nombre": "cubin bolsa de 100 uni. para dar Q.3x1.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1537,
+    "nombre": "cuchara fardo de 40  paquetes  de 25 unidades para dar Q.3.50",
+    "precio": 100
+  },
+  {
+    "codigo": 1362,
+    "nombre": "cuchara por ciento paquete de 25 unidades para dar Q.3.50",
+    "precio": 11
+  },
+  {
+    "codigo": 1363,
+    "nombre": "cuchara sopera paquete de 25 unisades para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1539,
+    "nombre": "cuchillo fardo de 40  paquetes de 25 unidades para dar Q.3.50",
+    "precio": 100
+  },
+  {
+    "codigo": 1364,
+    "nombre": "cuchillos plasticos por ciento paquete de 25 unidades para dar Q.5.00",
+    "precio": 16
+  },
+  {
+    "codigo": 1799,
+    "nombre": "cumbia L&M paquete de 10 cajetillas Para dar Q.20.00",
+    "precio": 170
+  },
+  {
+    "codigo": 424,
+    "nombre": "curitas caja de 100 unidades para dar Q.4x1.00",
+    "precio": 17
+  },
+  {
+    "codigo": 56,
+    "nombre": "damy bolsa de 100 uni. para dar Q.3x1.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1409,
+    "nombre": "Dawny (celeste) tira de 12 unidades para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 1419,
+    "nombre": "Dawny (celeste) tira de 12 unidades para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 618,
+    "nombre": "delfin juguete con chicle de 30 unid. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1917,
+    "nombre": "Deli boom Helado caja de 30 Unidades para dar Q.1.50",
+    "precio": 39
+  },
+  {
+    "codigo": 243,
+    "nombre": "Deli pacha caja de 30 uni. para dar Q.1.50",
+    "precio": 38
+  },
+  {
+    "codigo": 510,
+    "nombre": "delrat  control de plagas de 12 unidades para dar Q.4.00",
+    "precio": 40
+  },
+  {
+    "codigo": 218,
+    "nombre": "dentadura guandy bandeja  de 125 uni. para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1786,
+    "nombre": "deterg/bolsa limón espumil fardo de 10 bolsas para dar Q.10.00",
+    "precio": 125
+  },
+  {
+    "codigo": 1795,
+    "nombre": "diclo fenaco Azul Caplin caja de 50 cápsulas para dar Q 2.00",
+    "precio": 74
+  },
+  {
+    "codigo": 854,
+    "nombre": "diclofenaco potacio caja de 100 unidades para dar Q.0.50",
+    "precio": 30
+  },
+  {
+    "codigo": 393,
+    "nombre": "dinosaurio 3D de 20 unid. para dar Q.5.00",
+    "precio": 75
+  },
+  {
+    "codigo": 551,
+    "nombre": "dinosaurio juguete de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 352,
+    "nombre": "dinosaurio saltarin de 30  unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1444,
+    "nombre": "Dispensador de chicle caja de 30 unidades para dar Q.1.25",
+    "precio": 30
+  },
+  {
+    "codigo": 591,
+    "nombre": "docificador de agua de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 62,
+    "nombre": "docigoma de frutas caja de 30 uni. para dar Q.1.25",
+    "precio": 29
+  },
+  {
+    "codigo": 63,
+    "nombre": "docigoma yogur caja de  30 uni. para dar Q.1.00",
+    "precio": 27
+  },
+  {
+    "codigo": 515,
+    "nombre": "docile bolsa  corazon rojo  de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 516,
+    "nombre": "docile bolsa  fresita de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 519,
+    "nombre": "docile bolsa  morita roja de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 522,
+    "nombre": "docile bolsa  osito de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 514,
+    "nombre": "docile bolsa  sandia  de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 518,
+    "nombre": "docile bolsa  unicornio  de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 520,
+    "nombre": "docile bolsa dentadura de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 523,
+    "nombre": "docile bolsa fresa  acida de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 1914,
+    "nombre": "docile bolsa huesos de 200 unidades para dar Q.3×1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 521,
+    "nombre": "docile bolsa surtido de 200 unidades para dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 554,
+    "nombre": "docile bolsa tubito verde de 200 paea dar Q.3x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 673,
+    "nombre": "docile gomitas DELFINES bolsa de kl 200 unidades para dar Q.2x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 672,
+    "nombre": "docile gomitas zapatillas bolsa de kl 200 unidades para dar Q.2x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 626,
+    "nombre": "doloneurotropas 12 sobres para dar Q.5.00",
+    "precio": 56
+  },
+  {
+    "codigo": 449,
+    "nombre": "dorco carton de 12 unidades para dar Q.3.50",
+    "precio": 35
+  },
+  {
+    "codigo": 296,
+    "nombre": "dove azul  acondicionador de 24 uni. para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 1880,
+    "nombre": "DUCAL  BOLSA PEQUEÑA DE 4 onzas DE 12 UNIDADES para dar Q.3.50",
+    "precio": 37
+  },
+  {
+    "codigo": 737,
+    "nombre": "DUCAL BOLSA 35 ONZAS DE 6 UNIDADES PARA DAR Q.16.00",
+    "precio": 84
+  },
+  {
+    "codigo": 160,
+    "nombre": "dulce acido sabor  frutas caja de 30 uni. para dar Q.1.00",
+    "precio": 22
+  },
+  {
+    "codigo": 410,
+    "nombre": "dulce anillo diamante de 30 unidades para dar Q.1.50",
+    "precio": 38
+  },
+  {
+    "codigo": 255,
+    "nombre": "dulce balon con silvato  de 30 de uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 620,
+    "nombre": "dulce caracol juguete de 30 unid. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 102,
+    "nombre": "dulce chupete de 60 unidades para dar Q.1.00",
+    "precio": 49
+  },
+  {
+    "codigo": 44,
+    "nombre": "dulce colombina candy bolsa de 240 uni. para dar Q.5x1.00",
+    "precio": 29
+  },
+  {
+    "codigo": 548,
+    "nombre": "dulce dinosaurio de 50 unidades para dar Q.1.00",
+    "precio": 43
+  },
+  {
+    "codigo": 1443,
+    "nombre": "dulce helado de 30 unidades para dar Q.1.25",
+    "precio": 30
+  },
+  {
+    "codigo": 803,
+    "nombre": "dulce inyeccion de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 155,
+    "nombre": "dulce menta colom. bolsa de 100 uni. para dar Q.4x1.00",
+    "precio": 18
+  },
+  {
+    "codigo": 432,
+    "nombre": "dulce para piñata de 10 libras",
+    "precio": 140
+  },
+  {
+    "codigo": 377,
+    "nombre": "dulce pastilla de frutas de 70 unid. para dar Q.2x1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 168,
+    "nombre": "dulce saquito arco bolsa de 135  uni. para dar Q.3x1.00",
+    "precio": 32
+  },
+  {
+    "codigo": 141,
+    "nombre": "dulce sultana bolsa de 240 uni. para dar Q.5x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 365,
+    "nombre": "dulces de frutas cabello loco de 20 uni. para dar Q.2.50",
+    "precio": 38
+  },
+  {
+    "codigo": 712,
+    "nombre": "dulcinea fresa por unidad para dar Q.12.00",
+    "precio": 10
+  },
+  {
+    "codigo": 702,
+    "nombre": "dulcinea manzana para dar Q.12.00",
+    "precio": 10
+  },
+  {
+    "codigo": 714,
+    "nombre": "dulcinea melocoton por unidad para dar Q.12.00",
+    "precio": 10
+  },
+  {
+    "codigo": 713,
+    "nombre": "dulcinea piña por unidad para dar Q.12.00",
+    "precio": 10
+  },
+  {
+    "codigo": 241,
+    "nombre": "duvalin caja de 18 uni. para dar Q.1.00",
+    "precio": 14
+  },
+  {
+    "codigo": 1502,
+    "nombre": "ego atracción 110 ml fardo de 24 unidades para dar Q.5.00",
+    "precio": 110
+  },
+  {
+    "codigo": 293,
+    "nombre": "ego atraccion 110 ml. de 12 uni. para dar Q.5.00",
+    "precio": 54
+  },
+  {
+    "codigo": 292,
+    "nombre": "ego atrccion sashet de 24 uni. para dar Q.1.25",
+    "precio": 24
+  },
+  {
+    "codigo": 400,
+    "nombre": "ego power de 110 ml tarrito negro por docena para dar Q.6.00",
+    "precio": 57
+  },
+  {
+    "codigo": 294,
+    "nombre": "ego power sashet de 15 uni. para dar Q.1.25",
+    "precio": 15
+  },
+  {
+    "codigo": 1798,
+    "nombre": "electro fucion L&M paquete de 10 cajetillas para dar Q.20.00 la cajita",
+    "precio": 170
+  },
+  {
+    "codigo": 1142,
+    "nombre": "electrolit COCO para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1138,
+    "nombre": "electrolit FRESA para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1141,
+    "nombre": "electrolit LIMON para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1139,
+    "nombre": "electrolit SERESA para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1140,
+    "nombre": "electrolit UVA para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 323,
+    "nombre": "encendedor fragata de 25 uni para dar Q.2.50",
+    "precio": 45
+  },
+  {
+    "codigo": 324,
+    "nombre": "encendedor tokio de 50 uni para dar Q.1.50",
+    "precio": 49
+  },
+  {
+    "codigo": 1470,
+    "nombre": "entre fino italiana 1 FARDO de 48 bolsas para dar Q.3.50",
+    "precio": 135
+  },
+  {
+    "codigo": 1900,
+    "nombre": "entrefino  italiana 1/2  FARDO de 24 bolsas para dar Q.3.50",
+    "precio": 68
+  },
+  {
+    "codigo": 1901,
+    "nombre": "entrefino  italiana 1/2  FARDO de 24 bolsas para dar Q.3.50",
+    "precio": 69.5
+  },
+  {
+    "codigo": 1859,
+    "nombre": "escobas kaly 12 unidades  para dar Q.15.00",
+    "precio": 156
+  },
+  {
+    "codigo": 1860,
+    "nombre": "escobas kaly 6 unidades para dar Q.15.00",
+    "precio": 78
+  },
+  {
+    "codigo": 286,
+    "nombre": "escopeta juguete de 30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1102,
+    "nombre": "esencia (castilla) coco  unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1096,
+    "nombre": "esencia (castilla) crema unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1093,
+    "nombre": "esencia (castilla) frambuesa unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1098,
+    "nombre": "esencia (castilla) fresa unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1091,
+    "nombre": "esencia (castilla) limon unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1090,
+    "nombre": "esencia (castilla) manzana unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1095,
+    "nombre": "esencia (castilla) naranja unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1101,
+    "nombre": "esencia (castilla) uva unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1100,
+    "nombre": "esencia (castilla) vainilla blanca unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1103,
+    "nombre": "esencia (castilla) vainilla obscura unidad para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 1089,
+    "nombre": "esencia castilla chicle para dar Q.7.00",
+    "precio": 6
+  },
+  {
+    "codigo": 539,
+    "nombre": "esencias mancilla uva  por unidad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 534,
+    "nombre": "esencias mansilla crema por unidad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 528,
+    "nombre": "esencias mansilla de (LIMON) para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 538,
+    "nombre": "esencias mansilla de (YEMAS) por uniad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 536,
+    "nombre": "esencias mansilla fresa por unidad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 537,
+    "nombre": "esencias mansilla piña amarilla por unidad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 535,
+    "nombre": "esencias mansilla piña obscuro por unidad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 532,
+    "nombre": "esencias mansilla vainilla blanca  por unidad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 533,
+    "nombre": "esencias mansilla vainilla obscuro por unidad para dar Q.6.00",
+    "precio": 5
+  },
+  {
+    "codigo": 949,
+    "nombre": "Espagueti INA pesada de 6 unida. para dar Q 4.50",
+    "precio": 23.5
+  },
+  {
+    "codigo": 1468,
+    "nombre": "espagueti italiana 1 FARDO de 60 bolsas para dar Q.3.50",
+    "precio": 165
+  },
+  {
+    "codigo": 1656,
+    "nombre": "espagueti italiana 1/2 fardo de 30 bolsas para dar Q.3.50",
+    "precio": 84.5
+  },
+  {
+    "codigo": 66,
+    "nombre": "especiero chicle (yabujon) bote de 36 uni. para dar Q.1.00",
+    "precio": 32
+  },
+  {
+    "codigo": 511,
+    "nombre": "esponja de alambre de 12 unidades para dar Q.2.50",
+    "precio": 23
+  },
+  {
+    "codigo": 732,
+    "nombre": "esponja plastica de color por docena para dar Q.1.50",
+    "precio": 15
+  },
+  {
+    "codigo": 452,
+    "nombre": "estampida feliz animalitos caja de 8 unidades para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 67,
+    "nombre": "extrem fresa bombon bolsa  de 20 uni. para dar Q.1.50",
+    "precio": 26
+  },
+  {
+    "codigo": 68,
+    "nombre": "extrem mora bombon bolsa de 20 uni. para dar Q.1.50",
+    "precio": 26
+  },
+  {
+    "codigo": 1785,
+    "nombre": "fab limon fardo de 10 bolsa de 1kl grs para dar Q.15.00",
+    "precio": 125
+  },
+  {
+    "codigo": 1449,
+    "nombre": "fabuloso MANZANA 12 unidades para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 1455,
+    "nombre": "fabuloso MORADO 12 unidades para dar 2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 1450,
+    "nombre": "fabuloso rojo 12 unidades para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 1543,
+    "nombre": "fardo de cereal al dia surtido de 48 bolsas para dar Q.6.00",
+    "precio": 240
+  },
+  {
+    "codigo": 1667,
+    "nombre": "fardo de chocotaza 20 libras para dar Q.13.50 por libra",
+    "precio": 240
+  },
+  {
+    "codigo": 1839,
+    "nombre": "fardo de galleta margarita de 16 paquetes de 6 unidades por bolsa para dar Q.1.25",
+    "precio": 96
+  },
+  {
+    "codigo": 1815,
+    "nombre": "FARDO DE pañales silver talla lx paquete de 10 unidades",
+    "precio": 360
+  },
+  {
+    "codigo": 1879,
+    "nombre": "fardo de Salsa de soya ina pequeño de 72 unidades",
+    "precio": 230
+  },
+  {
+    "codigo": 285,
+    "nombre": "Flash chocolate de 155 uni. para dar Q.2x1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 710,
+    "nombre": "fogata caja grande de 10 unidades para dar Q.4.50",
+    "precio": 36.5
+  },
+  {
+    "codigo": 460,
+    "nombre": "fogata de 100 unidades para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1499,
+    "nombre": "fogata fardo. de 10 paquetes de 100 unidades por paquere para dar Q.4x1.0",
+    "precio": 265
+  },
+  {
+    "codigo": 1964,
+    "nombre": "forward del verde  L&M paquete de 10 cajetillas para dar Q.20.00",
+    "precio": 170
+  },
+  {
+    "codigo": 1003,
+    "nombre": "Frijol Albay Negro Empaque - 400 g libra para dar Q.12.50",
+    "precio": 10.9
+  },
+  {
+    "codigo": 1042,
+    "nombre": "frijol ducal bolsa negro  28 onzas por 6 unidades para dar 13.50",
+    "precio": 74
+  },
+  {
+    "codigo": 1825,
+    "nombre": "frijol ducal de 35 onz 6 unidades para dar Q.16.00",
+    "precio": 87
+  },
+  {
+    "codigo": 786,
+    "nombre": "frijol ducal lata grande de 15 onzas  1/2 docena para dar a Q.12..50",
+    "precio": 69
+  },
+  {
+    "codigo": 918,
+    "nombre": "frijol ducal sobre  6 unidades de 14 onzas para dar Q.10.00",
+    "precio": 55
+  },
+  {
+    "codigo": 919,
+    "nombre": "frijol ducal sobre  6 unidades de 8 onzas para dar Q.6.50",
+    "precio": 35
+  },
+  {
+    "codigo": 348,
+    "nombre": "fruti chicle tatto 5 en 1 de 30 unidades para dar Q.1.00",
+    "precio": 30
+  },
+  {
+    "codigo": 668,
+    "nombre": "frutis bote de 150 unidades para dar Q.4x1.00",
+    "precio": 29
+  },
+  {
+    "codigo": 72,
+    "nombre": "fruty dulce bolsa de 18 uni. para dar Q.1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 73,
+    "nombre": "fruty dulce bote de 72 uni. para dar Q.1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 923,
+    "nombre": "fruty dulce bote la primera de 80 unidades para dar Q.1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 929,
+    "nombre": "Fun C de manzana de  24 unidades para dar Q.2.50",
+    "precio": 49
+  },
+  {
+    "codigo": 900,
+    "nombre": "Fun C de melocoton de 24 unidades para dar Q.2.50",
+    "precio": 49
+  },
+  {
+    "codigo": 1464,
+    "nombre": "gabacha # 2 grande paquete de 500 unidades para dar Q.39.0",
+    "precio": 36
+  },
+  {
+    "codigo": 1843,
+    "nombre": "gabacha # 3 grande paquete de 500",
+    "precio": 39
+  },
+  {
+    "codigo": 1844,
+    "nombre": "gabacha # 4 grande paquete de 500",
+    "precio": 45
+  },
+  {
+    "codigo": 1358,
+    "nombre": "Gabachita #1 paquete de 500unidades",
+    "precio": 27
+  },
+  {
+    "codigo": 1808,
+    "nombre": "Gabachita piwi # 0 paquete de 500  unidades",
+    "precio": 23
+  },
+  {
+    "codigo": 354,
+    "nombre": "galleta best paquete de 12 uni. para dar Q.1.50",
+    "precio": 15
+  },
+  {
+    "codigo": 1783,
+    "nombre": "Galleta bridge banano paquete de 10 unidades  para dar Q.1.25",
+    "precio": 11
+  },
+  {
+    "codigo": 1781,
+    "nombre": "Galleta bridge chocolate paquete de 10 unidades para dar Q.1.25",
+    "precio": 11
+  },
+  {
+    "codigo": 1780,
+    "nombre": "Galleta bridge fresa paquete de 10 unidades para dar Q.1.25",
+    "precio": 11
+  },
+  {
+    "codigo": 1782,
+    "nombre": "Galleta bridge naranja paquete de 10 unidades  para dar Q.1.25",
+    "precio": 11
+  },
+  {
+    "codigo": 1784,
+    "nombre": "Galleta bridge piña paquete de 10 unidades para dar Q.1.25",
+    "precio": 11
+  },
+  {
+    "codigo": 1779,
+    "nombre": "Galleta bridge vainilla paquete de 10 unidades para dar Q.1.25",
+    "precio": 11
+  },
+  {
+    "codigo": 1535,
+    "nombre": "galleta can can paquete de 12 uni. FARDO DE 16 PAQUETES para dar Q.1.00",
+    "precio": 156
+  },
+  {
+    "codigo": 355,
+    "nombre": "galleta can can paquete de 12 uni. para dar Q.1.00",
+    "precio": 10.5
+  },
+  {
+    "codigo": 358,
+    "nombre": "galleta chiky paquete de 12 uni. para dar Q.2.00",
+    "precio": 20.5
+  },
+  {
+    "codigo": 802,
+    "nombre": "galleta chocolate dinosaurio de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 359,
+    "nombre": "galleta club extra paquete de 12 uni.",
+    "precio": 11
+  },
+  {
+    "codigo": 1408,
+    "nombre": "galleta colombina navideña 1/2 fardo de 12 unidades para dar Q.16.00",
+    "precio": 162
+  },
+  {
+    "codigo": 55049,
+    "nombre": "galleta colombina navideña de 24 unidades un fardo  surtido para dar Q.15.00",
+    "precio": 315
+  },
+  {
+    "codigo": 1436,
+    "nombre": "galleta colombina navideña de 6 unidades para dar Q.15.00",
+    "precio": 81
+  },
+  {
+    "codigo": 614,
+    "nombre": "galleta diablo de 24 unid. para dar Q.1.50",
+    "precio": 29
+  },
+  {
+    "codigo": 1022,
+    "nombre": "Galleta dulce Can Can Zafari 12U- 300gr por bolsa para dar Q.1.50",
+    "precio": 14
+  },
+  {
+    "codigo": 1454,
+    "nombre": "galleta gama de 10 unidades",
+    "precio": 10
+  },
+  {
+    "codigo": 1055,
+    "nombre": "Galleta gama navideña color verde fardo de 18 cajas para dar Q.15.00",
+    "precio": 234
+  },
+  {
+    "codigo": 1056,
+    "nombre": "Galleta gama navideña color verde por unidad para dar Q.17.00",
+    "precio": 14
+  },
+  {
+    "codigo": 261,
+    "nombre": "galleta jumbo wafer caja de 42 uni. para dar Q.1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1057,
+    "nombre": "galleta moderna  caja roja fardo de 10 cajas para dar Q.27.00",
+    "precio": 256
+  },
+  {
+    "codigo": 1058,
+    "nombre": "galleta moderna  caja roja. por unidad para dar Q.27.00",
+    "precio": 25.6
+  },
+  {
+    "codigo": 1503,
+    "nombre": "galleta oreo fardo de 12 paquetes para dar Q.2.50",
+    "precio": 235
+  },
+  {
+    "codigo": 353,
+    "nombre": "galleta oreo paquete de 12 uni. para dar a Q.2.50",
+    "precio": 23
+  },
+  {
+    "codigo": 1108,
+    "nombre": "galleta simley caja de 96 unidades para dar Q.1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 1496,
+    "nombre": "galleta sponch fardo de 6 paquetes de 10 unidades para dar Q.3.00",
+    "precio": 142
+  },
+  {
+    "codigo": 75,
+    "nombre": "gallito morenito bolsa de 50 uni.",
+    "precio": 15
+  },
+  {
+    "codigo": 1136,
+    "nombre": "gallo caja grande de 10 unidades para dar Q.4.00",
+    "precio": 34
+  },
+  {
+    "codigo": 461,
+    "nombre": "gallo serillo de 100 unidades para dar Q.2x1.00",
+    "precio": 32
+  },
+  {
+    "codigo": 1379,
+    "nombre": "Galoncito con polvo de 30 unidades para dar Q.1.50",
+    "precio": 35
+  },
+  {
+    "codigo": 418,
+    "nombre": "gancho sandino por caja para dar a 8x1",
+    "precio": 10
+  },
+  {
+    "codigo": 1886,
+    "nombre": "ganchos plásticos para ropa paquete de 12 unidades  para dar Q.5.00",
+    "precio": 65
+  },
+  {
+    "codigo": 185,
+    "nombre": "Gatito banderilla cafe bote de 50 uni. para dar Q.1.00",
+    "precio": 40
+  },
+  {
+    "codigo": 841,
+    "nombre": "Gatito banderilla de manzana bote de 50 unidades para dar Q.1.00",
+    "precio": 40
+  },
+  {
+    "codigo": 442,
+    "nombre": "gatito giratorio de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 855,
+    "nombre": "Gelatina Extrem tarrito por 12 unidades para dar Q.6.00",
+    "precio": 58
+  },
+  {
+    "codigo": 856,
+    "nombre": "Gelatina Extrem tarrito por 6 unidades para dar Q.6.00",
+    "precio": 30
+  },
+  {
+    "codigo": 159,
+    "nombre": "gelatina figura oso caja de 30 uni.para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 372,
+    "nombre": "gelatina forma de helado de 24 unid. para dar Q.1 50",
+    "precio": 30
+  },
+  {
+    "codigo": 512,
+    "nombre": "Gelatina imperial 1/2 docena para dar Q.5.00",
+    "precio": 23.5
+  },
+  {
+    "codigo": 321,
+    "nombre": "gillette prestobarba de 28 uni para dar Q.6.50",
+    "precio": 157
+  },
+  {
+    "codigo": 345,
+    "nombre": "globos amrillo palmerito de 100 uni para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 344,
+    "nombre": "Globos azules palmerito de 100 uni para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 341,
+    "nombre": "globos blancos palmerito de 100 uni. para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 736,
+    "nombre": "globos celeste palmerito bolsa de 100 uni. para dar Q.4×1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 662,
+    "nombre": "globos morado de 100 unidades para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 643,
+    "nombre": "globos negros de 100  para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 343,
+    "nombre": "globos rojos palmerito de 100 uni. para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 340,
+    "nombre": "globos surtido palmerito de 100 uni. para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 342,
+    "nombre": "globos verde palmerito de 100 uni. para dar Q.4x1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 1328,
+    "nombre": "Gominolas wandy tira de 13 unidades para dar Q.5.00",
+    "precio": 49
+  },
+  {
+    "codigo": 1205,
+    "nombre": "Gomita charola arcoiris trululu de 120 unidades para dar Q.2x1.00",
+    "precio": 45
+  },
+  {
+    "codigo": 77,
+    "nombre": "Gomita de frutas de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1193,
+    "nombre": "gomita pino bolsa de 48 unidades para dar Q.2x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 849,
+    "nombre": "gomitas en forma de rosas de 63 unidades para dar Q.0.50",
+    "precio": 26
+  },
+  {
+    "codigo": 1523,
+    "nombre": "gomitas en tajaditas sabor sandia de 100 unidades FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 845,
+    "nombre": "gomitas en tajaditas sabor sandia de 100 unidades para dar 3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 592,
+    "nombre": "Gomitas jirafas de colores de 30 unidades para dar Q.1.50",
+    "precio": 40
+  },
+  {
+    "codigo": 1345,
+    "nombre": "Granada Grande (Azul) 12 unid. para dar Q.6.50",
+    "precio": 68
+  },
+  {
+    "codigo": 1346,
+    "nombre": "Granada Grande 12 unid. para dar Q.6.50",
+    "precio": 68
+  },
+  {
+    "codigo": 78,
+    "nombre": "granada menta caja de 12 uni. para dar Q.5.00",
+    "precio": 49
+  },
+  {
+    "codigo": 555,
+    "nombre": "gummy candy dinosaurios de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 376,
+    "nombre": "Gusanito gomitas de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 245,
+    "nombre": "gusanitos  acidos wandy de 125 uni. para dar Q.4x1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1084,
+    "nombre": "gusano bote wandy de 160 unidades para dar Q.4×1.00",
+    "precio": 36
+  },
+  {
+    "codigo": 1000,
+    "nombre": "Harina de Maíz Maseca Extra Suave - 820gr por paquete para dar Q 14.50",
+    "precio": 12
+  },
+  {
+    "codigo": 395,
+    "nombre": "head shoulders  shampoo control caspa rosado de 28 unidades para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1352,
+    "nombre": "heladito suave y cremoso bote de 130 unidades para dar Q.0.50",
+    "precio": 55
+  },
+  {
+    "codigo": 1341,
+    "nombre": "Hershey,s surtido de colores  bolsa de 30 unidades para dar Q.1.50",
+    "precio": 39
+  },
+  {
+    "codigo": 398,
+    "nombre": "hesd shouldes cafes de 28 unidades para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1976,
+    "nombre": "hidra vida mora Azul para dar Q 18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1973,
+    "nombre": "hidra vida UVA para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 586,
+    "nombre": "higo bandejita de 25 unidades para dar Q.2.00",
+    "precio": 40
+  },
+  {
+    "codigo": 1131,
+    "nombre": "hilo azul  paquete de 12 unidades",
+    "precio": 7.5
+  },
+  {
+    "codigo": 1127,
+    "nombre": "hilo blanco  paquete de 12 unidades para dar Q.1.00",
+    "precio": 7.5
+  },
+  {
+    "codigo": 1128,
+    "nombre": "hilo cafes  paquete de 12 unidades",
+    "precio": 7.5
+  },
+  {
+    "codigo": 1129,
+    "nombre": "hilo gris  paquete de 12 unidades",
+    "precio": 7.5
+  },
+  {
+    "codigo": 491,
+    "nombre": "hilo negro  paquete de 12 unidades para dar Q.1.00",
+    "precio": 7.5
+  },
+  {
+    "codigo": 1130,
+    "nombre": "hilo rojo  paquete de 12 unidades",
+    "precio": 7.5
+  },
+  {
+    "codigo": 1132,
+    "nombre": "hilo surtido  paquete de 12 unidades",
+    "precio": 7.5
+  },
+  {
+    "codigo": 166,
+    "nombre": "hipo tira de 10 uni. para dar Q.2.00",
+    "precio": 17
+  },
+  {
+    "codigo": 1466,
+    "nombre": "hipopótamo cafes  gelatina de 100 unidades para dar Q.1.00",
+    "precio": 90
+  },
+  {
+    "codigo": 1500,
+    "nombre": "hit galleta bolsa  marinela fardo de 7 paquetes de 12 unidades por paquete para dar Q.2.00",
+    "precio": 125
+  },
+  {
+    "codigo": 273,
+    "nombre": "hit marinela galleta bolsa de 12 uni. para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 84,
+    "nombre": "hols barra menta de 12 uni. para dar Q.4.00",
+    "precio": 39
+  },
+  {
+    "codigo": 85,
+    "nombre": "hols barra mora de 12 uni. para dar Q.4.00",
+    "precio": 39
+  },
+  {
+    "codigo": 86,
+    "nombre": "hols barra negro de 12 uni. para dar Q.4.00",
+    "precio": 39
+  },
+  {
+    "codigo": 87,
+    "nombre": "hols barra seresa de 12 uni. para dar Q.4.00",
+    "precio": 39
+  },
+  {
+    "codigo": 88,
+    "nombre": "hols barra yerbabuena de 12 uni. para dar Q.4.00",
+    "precio": 39
+  },
+  {
+    "codigo": 173,
+    "nombre": "hols bolsa fresa de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 81,
+    "nombre": "hols bolsa menta de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 89,
+    "nombre": "hols bolsa mora de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 82,
+    "nombre": "hols bolsa negro de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 83,
+    "nombre": "hols bolsa sandia de 100 uni para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 90,
+    "nombre": "hols bolsa seresa de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 91,
+    "nombre": "hols bolsa yerbabuena de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1200,
+    "nombre": "Horchata botella grande 678 ml unidad para dar Q.30.00",
+    "precio": 27
+  },
+  {
+    "codigo": 92,
+    "nombre": "huevito con mania bote de 200 uni. para dar Q.6x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 383,
+    "nombre": "huevo pequeño feliz de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 649,
+    "nombre": "ibuprofeno de 800 gramos caja de 100 unidades para dar Q.1.00",
+    "precio": 68
+  },
+  {
+    "codigo": 235,
+    "nombre": "icce canels caja de 9 blister mora para dar Q.6.00",
+    "precio": 45
+  },
+  {
+    "codigo": 600,
+    "nombre": "icee canels caja e 9 blister fresa para dar Q.6.00",
+    "precio": 45
+  },
+  {
+    "codigo": 180,
+    "nombre": "inyeccion caja de  24 uni. para dar Q.2.50",
+    "precio": 48
+  },
+  {
+    "codigo": 304,
+    "nombre": "isopo de 12 uni para dar Q.2.00",
+    "precio": 18
+  },
+  {
+    "codigo": 1895,
+    "nombre": "italiana  codito pequeño 1 pesada 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 908,
+    "nombre": "italiana caracol 1 pesada 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 912,
+    "nombre": "italiana caracolito 1 pesada 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 906,
+    "nombre": "italiana codito mediano 1 pesada  6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 903,
+    "nombre": "italiana corbaton 1 pesada 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 909,
+    "nombre": "italiana entre fino 1 pesada 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 913,
+    "nombre": "italiana espagueti 1 pesada 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 1929,
+    "nombre": "ITALIANA SURTIDO  de 48 unidades",
+    "precio": 139
+  },
+  {
+    "codigo": 1812,
+    "nombre": "ITALIANA SURTIDO DE 48 BOLSA",
+    "precio": 135
+  },
+  {
+    "codigo": 907,
+    "nombre": "italiana tornillo 1 pesada 6 bolsas para dar Q.3.50",
+    "precio": 18.5
+  },
+  {
+    "codigo": 755,
+    "nombre": "jabon (DK12) por docena para dar Q.6.50",
+    "precio": 66
+  },
+  {
+    "codigo": 1659,
+    "nombre": "jabon Ámbar fardo de 4 tiras de 3 bolas por tira para dar Q.8.00",
+    "precio": 78
+  },
+  {
+    "codigo": 1811,
+    "nombre": "jabon bex blanco yumbo caja de 4 tiras de 3 para dar Q.12.00",
+    "precio": 123
+  },
+  {
+    "codigo": 1553,
+    "nombre": "jabon bex caja morado yumbo  de 4 tiras de 3 para dar Q.12.00",
+    "precio": 123
+  },
+  {
+    "codigo": 1654,
+    "nombre": "jabon bex naranja yumbo caja de 4 tiras de 3 para dar Q.12.00",
+    "precio": 123
+  },
+  {
+    "codigo": 1652,
+    "nombre": "jabon bex rosado yumbo caja de 4 tiras de 3 para dar Q.12.00",
+    "precio": 123
+  },
+  {
+    "codigo": 1653,
+    "nombre": "jabon bex verde yumbo caja de 4 tiras de 3 para dar Q.12.00",
+    "precio": 123
+  },
+  {
+    "codigo": 1813,
+    "nombre": "jabon extra Azul 4 tiras de bola para dar Q.9.00",
+    "precio": 93
+  },
+  {
+    "codigo": 1810,
+    "nombre": "jabon extra blanco 4 tiras de bola para dar Q.9.00",
+    "precio": 93
+  },
+  {
+    "codigo": 1951,
+    "nombre": "jabon extra Rojo caja de 4 tiras",
+    "precio": 93
+  },
+  {
+    "codigo": 1421,
+    "nombre": "jabon extra verde 4 tiras de bola para dar Q.9.00",
+    "precio": 93
+  },
+  {
+    "codigo": 1178,
+    "nombre": "jabon olimpo amarillo unidad para dar Q.10.00",
+    "precio": 10
+  },
+  {
+    "codigo": 1437,
+    "nombre": "jabon para bebe johnson unidad para dar Q.12.50",
+    "precio": 11
+  },
+  {
+    "codigo": 1398,
+    "nombre": "jabon potensol trozo fardo de 20 unidades para dar Q.5.00",
+    "precio": 95
+  },
+  {
+    "codigo": 309,
+    "nombre": "jabon protex surtido 12 uni para dar Q.7.00",
+    "precio": 74
+  },
+  {
+    "codigo": 864,
+    "nombre": "jabon rosa venus Grande  de 12 uni de 200  gramos para dar a Q.8.00",
+    "precio": 85
+  },
+  {
+    "codigo": 311,
+    "nombre": "jabon rosa venus pequeño de 100 gramos  de 12 uni para dar Q.8.00",
+    "precio": 85
+  },
+  {
+    "codigo": 1666,
+    "nombre": "jabon trozo  espumil  explosión citrica fardo de 20 unidades para dar Q.5.00",
+    "precio": 90
+  },
+  {
+    "codigo": 1842,
+    "nombre": "jabon trozo doña blanca caja de 20 unidades  para dar Q.5.00",
+    "precio": 89
+  },
+  {
+    "codigo": 1790,
+    "nombre": "jabon zixx Azul  fardo de 6 tiras de 3 bolas por tira",
+    "precio": 130
+  },
+  {
+    "codigo": 1789,
+    "nombre": "jabon zixx blanco  fardo de 6 tiras de 3 bolas por tira",
+    "precio": 130
+  },
+  {
+    "codigo": 1658,
+    "nombre": "jabon zixx VERDE fardo de 6 tiras de 3 bolas por tira para dar Q.8.50",
+    "precio": 130
+  },
+  {
+    "codigo": 1771,
+    "nombre": "jabonson AMARILLO fardo de 6 tiras de 3 bolas por tira para dar Q.7.50",
+    "precio": 105
+  },
+  {
+    "codigo": 1769,
+    "nombre": "jabonson AZUL  fardo de 6 tiras de 3 bolas por tira para dar Q.7.50",
+    "precio": 105
+  },
+  {
+    "codigo": 1657,
+    "nombre": "jabonson BLANCO fardo de 6 tiras de 3 bolas por tira para dar Q.7.50",
+    "precio": 105
+  },
+  {
+    "codigo": 1772,
+    "nombre": "jabonson NARANJA fardo de 6 tiras de 3 bolas por tira para dar Q.7.50",
+    "precio": 105
+  },
+  {
+    "codigo": 1768,
+    "nombre": "jabonson ROSADO fardo de 6 tiras de 3 bolas por tira para dar Q.7.50",
+    "precio": 105
+  },
+  {
+    "codigo": 1770,
+    "nombre": "jabonson VERDE fardo de 6 tiras de 3 bolas por tira para dar Q.7.50",
+    "precio": 105
+  },
+  {
+    "codigo": 310,
+    "nombre": "javon palmolive de 12 uni para dar Q.7.00",
+    "precio": 73
+  },
+  {
+    "codigo": 1071,
+    "nombre": "javon tex disco 100grs. de 48 unidades para dar Q.1.50",
+    "precio": 60
+  },
+  {
+    "codigo": 1070,
+    "nombre": "javon tex marqueta 225 grs. de 28 unidades para dar Q.3.50",
+    "precio": 69
+  },
+  {
+    "codigo": 874,
+    "nombre": "jelatina imperial sin sabor por 1/2 docena para dar Q.5.00",
+    "precio": 23.5
+  },
+  {
+    "codigo": 1915,
+    "nombre": "jelly stick 5 en 1 paquete de 48 Paquetitos para dar Q.1.00",
+    "precio": 44
+  },
+  {
+    "codigo": 791,
+    "nombre": "jimny panda bote de 200 unid para dar Q.3x1.00",
+    "precio": 56
+  },
+  {
+    "codigo": 1793,
+    "nombre": "jugos del frutal manzana de 24 unidades para dar Q.5.00",
+    "precio": 87
+  },
+  {
+    "codigo": 1792,
+    "nombre": "jugos del frutal melocotón de 24 unidades para dar Q.5.00",
+    "precio": 87
+  },
+  {
+    "codigo": 1953,
+    "nombre": "jugos del frutal pera  de 24 unidades para dar Q.5.00",
+    "precio": 87
+  },
+  {
+    "codigo": 1791,
+    "nombre": "jugos del frutal piña de 24 unidades para dar Q.5.00",
+    "precio": 87
+  },
+  {
+    "codigo": 1794,
+    "nombre": "jugos del frutal V8 de 24 unidades para dar Q.5.00",
+    "precio": 87
+  },
+  {
+    "codigo": 928,
+    "nombre": "jugos fruvita manzana de 24 unidades  para dar Q.2.50",
+    "precio": 56
+  },
+  {
+    "codigo": 922,
+    "nombre": "jugos fruvita melocotón de 24 unidades para dar Q.2.50",
+    "precio": 56
+  },
+  {
+    "codigo": 1451,
+    "nombre": "Jugos kerns de vegetales grande aluminium de 24 unidades",
+    "precio": 89
+  },
+  {
+    "codigo": 1402,
+    "nombre": "Jugos kerns latita Pequeño de 157 ml (MEDIO FARDO) de 24 unidades para dar Q.3.50",
+    "precio": 75
+  },
+  {
+    "codigo": 1397,
+    "nombre": "Jugos kerns latita Pequeño de 157 ml\nFardo de 48 unidades para dar Q.3.50",
+    "precio": 150
+  },
+  {
+    "codigo": 916,
+    "nombre": "jugos kerns manzana  junior 24 unidades  para dar Q.3.00",
+    "precio": 65
+  },
+  {
+    "codigo": 910,
+    "nombre": "jugos kerns melocoton  junior 24 unidades para dar Q.3.00",
+    "precio": 65
+  },
+  {
+    "codigo": 934,
+    "nombre": "jugos kerns tetra manzana de 24 unidades para dar Q.3.50",
+    "precio": 70
+  },
+  {
+    "codigo": 917,
+    "nombre": "jugos kerns tetra melocoton de 24 undidades para dar Q.3.50",
+    "precio": 70
+  },
+  {
+    "codigo": 1909,
+    "nombre": "jugos la granja 1/2 litro de 12 unidades  para dar Q.7.00",
+    "precio": 73
+  },
+  {
+    "codigo": 1908,
+    "nombre": "jugos la granja pequeño de 12 unidades de 235 ml para dar Q.4.50",
+    "precio": 45
+  },
+  {
+    "codigo": 762,
+    "nombre": "jugos ya de durazno caja de 15 unidades para dar 1.50",
+    "precio": 19.5
+  },
+  {
+    "codigo": 752,
+    "nombre": "jugos YA fresa caja de 15 sobres para dar Q.1.50",
+    "precio": 19.5
+  },
+  {
+    "codigo": 754,
+    "nombre": "jugos YA limon caja de 15 sobres para dar Q.1.50",
+    "precio": 19.5
+  },
+  {
+    "codigo": 753,
+    "nombre": "jugos YA naranja caja de 15 sobres para dar Q.1.50",
+    "precio": 19.5
+  },
+  {
+    "codigo": 278,
+    "nombre": "juguete  con ventilador  de colores de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 982,
+    "nombre": "juguete abeja con dulce de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 798,
+    "nombre": "juguete araña de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 796,
+    "nombre": "juguete aveja de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 6,
+    "nombre": "juguete avion de 30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 22,
+    "nombre": "juguete carrito blanco de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 263,
+    "nombre": "juguete conejita color blanqiuta de 30 uni. para dar a Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 59,
+    "nombre": "juguete delfin de 30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 61,
+    "nombre": "juguete dinosaurio em patoneta de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 65,
+    "nombre": "juguete dulce armonico de  30 uni. para dar  Q.100",
+    "precio": 26
+  },
+  {
+    "codigo": 1170,
+    "nombre": "juguete dulce pistola con silvato de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 64,
+    "nombre": "juguete elefante de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 76,
+    "nombre": "juguete gato de  30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1173,
+    "nombre": "juguete heladitos  con cucharita de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 93,
+    "nombre": "Juguete jirafa de 30  uni.para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 611,
+    "nombre": "juguete lancha de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 171,
+    "nombre": "juguete moto acuatico de 30 uni.",
+    "precio": 25
+  },
+  {
+    "codigo": 116,
+    "nombre": "juguete moto sport de  30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 797,
+    "nombre": "juguete peine con dulce  de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 179,
+    "nombre": "juguete pistola de  agua de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 132,
+    "nombre": "juguete pony  de 30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 19,
+    "nombre": "juguete rama con bejiga de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 55,
+    "nombre": "juguete rana de colores de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 256,
+    "nombre": "juguete reloj de 30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 69,
+    "nombre": "juguete robot con pistola 30 uni.para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 151,
+    "nombre": "juguete unicornio de 30 uni. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1137,
+    "nombre": "kellogg caja mediana  6 unidades +1 para dar Q.12.00",
+    "precio": 72
+  },
+  {
+    "codigo": 1204,
+    "nombre": "kellogs caja grande por caja para dar Q.25.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1213,
+    "nombre": "kent bravo rollon color negro 70 grs por unidad para dar Q.15.00",
+    "precio": 12
+  },
+  {
+    "codigo": 1212,
+    "nombre": "kent bravo rollon color verde 70 grs por unidad para dar Q.15.00",
+    "precio": 12
+  },
+  {
+    "codigo": 94,
+    "nombre": "kisses bolsa de 50 uni. para dar Q.0.75.00",
+    "precio": 29
+  },
+  {
+    "codigo": 401,
+    "nombre": "kit colgate por 1/2 docena para dar Q.6.00",
+    "precio": 29.5
+  },
+  {
+    "codigo": 1067,
+    "nombre": "kit doble cepillo triple acción  para dar Q.15.00",
+    "precio": 12.5
+  },
+  {
+    "codigo": 1083,
+    "nombre": "kl wandy  banano de 200 unidades para dar  Q.4×1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 800,
+    "nombre": "kl wandy aritos surtido bolsa de 200 uni.",
+    "precio": 39
+  },
+  {
+    "codigo": 441,
+    "nombre": "kl wandy bolsa besitos de 200 unidades para dar Q.4x1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 281,
+    "nombre": "kl wandy corazon bolsa de 200 uni. para dar Q.4x1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1082,
+    "nombre": "kl wandy delfines de 200 unidades   para  dar Q.4×1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 280,
+    "nombre": "kl wandy fresita rosa bolsa de 200 uni. para dar Q.4x1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 79,
+    "nombre": "kl wandy gusano bolsa de  200 uni. para dar Q.4x1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1081,
+    "nombre": "kl wandy osito  bolsa de 200 uni. para dar Q.4×1.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1918,
+    "nombre": "KOTEX noche 8 unidades  para dar Q13.50",
+    "precio": 98
+  },
+  {
+    "codigo": 1926,
+    "nombre": "kotex rosado pequeño 12 unidades para dar Q.7.50",
+    "precio": 78
+  },
+  {
+    "codigo": 1925,
+    "nombre": "kotex rosado pequeño 24 unidades para dar Q.7.50",
+    "precio": 156
+  },
+  {
+    "codigo": 1432,
+    "nombre": "krispis caja mediana 290 grs para dar Q.23.00",
+    "precio": 19
+  },
+  {
+    "codigo": 1924,
+    "nombre": "laky men vaso de gallina para dar Q.5.00",
+    "precio": 52
+  },
+  {
+    "codigo": 1009,
+    "nombre": "laky vaso  Pollo 12 unidades para dar Q.5.00",
+    "precio": 52
+  },
+  {
+    "codigo": 1011,
+    "nombre": "laky vaso RES 12 unidades para dar Q.5.00",
+    "precio": 52
+  },
+  {
+    "codigo": 872,
+    "nombre": "lala de fresa  6 unidades   para dar Q.7.00",
+    "precio": 35
+  },
+  {
+    "codigo": 875,
+    "nombre": "lala de fresa mora 6 unidades para dar Q.7.00",
+    "precio": 35
+  },
+  {
+    "codigo": 894,
+    "nombre": "lala melocoton  de 6 unidades para dar Q.7.00",
+    "precio": 35
+  },
+  {
+    "codigo": 328,
+    "nombre": "lapicero bic azul caja de 12 uni. para dar Q.1.50",
+    "precio": 15
+  },
+  {
+    "codigo": 329,
+    "nombre": "lapicero bic negro caja de 12 uni. para dar Q.1.50",
+    "precio": 15
+  },
+  {
+    "codigo": 327,
+    "nombre": "lapicero bic rojo caja de 12 uni. para dar Q.1.50",
+    "precio": 15
+  },
+  {
+    "codigo": 547,
+    "nombre": "lapiz mongol cajita de 12 unidades para dar Q.2.00",
+    "precio": 21
+  },
+  {
+    "codigo": 901,
+    "nombre": "leche anchor por 6 unidades para dar Q.13.50",
+    "precio": 73.5
+  },
+  {
+    "codigo": 911,
+    "nombre": "leche anchor por docena 110 ml para dar Q.15.00",
+    "precio": 147
+  },
+  {
+    "codigo": 1433,
+    "nombre": "leche en caja nutry lety por 12 unidades para dar Q.10.00",
+    "precio": 112
+  },
+  {
+    "codigo": 1837,
+    "nombre": "leche en caja nutry lety por 6 unidades para dar Q.10.00",
+    "precio": 58
+  },
+  {
+    "codigo": 876,
+    "nombre": "leche nido 1 docena de 120 gramos  para dar Q.12.00",
+    "precio": 130
+  },
+  {
+    "codigo": 877,
+    "nombre": "leche nido de 120 gramos por 6 unidades para dar Q.12.00",
+    "precio": 65
+  },
+  {
+    "codigo": 582,
+    "nombre": "lechera condensada 375 grs nestle por unidad",
+    "precio": 18
+  },
+  {
+    "codigo": 580,
+    "nombre": "lecherita condensada 100 grs nestle pequeña 1/2 docena",
+    "precio": 47
+  },
+  {
+    "codigo": 581,
+    "nombre": "lecherita condensada 100 grs nestle por unidad pequeña",
+    "precio": 9
+  },
+  {
+    "codigo": 1534,
+    "nombre": "limon 7 tira de 80 uni. FARDO DE 30 TIRAS  para dar Q.4x1.00",
+    "precio": 435
+  },
+  {
+    "codigo": 101,
+    "nombre": "limon 7 tira de 80 uni. para dar Q.4x1.00",
+    "precio": 17
+  },
+  {
+    "codigo": 1822,
+    "nombre": "LIMON Grande/ANTIBACT. ultra clin detergente 850  grs para dar Q.11.00",
+    "precio": 99
+  },
+  {
+    "codigo": 100,
+    "nombre": "limoncho bote bandeja de 10 uni. para dar Q.3.00",
+    "precio": 23
+  },
+  {
+    "codigo": 493,
+    "nombre": "linterna juguete de 20 unidades para dar Q.2.50",
+    "precio": 39
+  },
+  {
+    "codigo": 730,
+    "nombre": "lucas (CHAMOY) de 10 unidades para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 729,
+    "nombre": "lucas (PEPINO) de 10 unidades para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 177,
+    "nombre": "lucas (SANDIA) con chile  de 10 unidades para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 727,
+    "nombre": "lucas ceresa de 10 unidades para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 208,
+    "nombre": "lucas de TAMARINDO) bandeja de 10 uni. para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 728,
+    "nombre": "lucas mango de 10 unidades para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 184,
+    "nombre": "lucky cup bandeja de 10 uni. para dar. Q.2.00",
+    "precio": 16
+  },
+  {
+    "codigo": 517,
+    "nombre": "luky bolsa manguito de 200 unidades para dar Q.2x1.00",
+    "precio": 55
+  },
+  {
+    "codigo": 1158,
+    "nombre": "maizena caja grande 27 por unidad oara dar Q.30.00",
+    "precio": 27
+  },
+  {
+    "codigo": 1159,
+    "nombre": "Maizena caja mediana por unidad para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 456,
+    "nombre": "maizena de 10 unidades para dar Q.3.50",
+    "precio": 31
+  },
+  {
+    "codigo": 1017,
+    "nombre": "MALHER Preparados Hilachas Sobre 58g por unidad para dar Q.8.90",
+    "precio": 6.9
+  },
+  {
+    "codigo": 1019,
+    "nombre": "MALHER® Preparados Carne Guisada Sobre 40g unidad para dar Q.8.90",
+    "precio": 6.95
+  },
+  {
+    "codigo": 1018,
+    "nombre": "MALHER® Preparados Jocon Sobre 65g unidad  unidad para dar Q.7.50",
+    "precio": 6.5
+  },
+  {
+    "codigo": 103,
+    "nombre": "malvabony bolsa de 40 uni.para dar Q.1.00",
+    "precio": 36
+  },
+  {
+    "codigo": 187,
+    "nombre": "manchas marshmallows de 12 uni. para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 229,
+    "nombre": "mania japonesa tira de 25 uni. para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 869,
+    "nombre": "margarina mirasol po caja de 5 barras  para dar a Q.3.50",
+    "precio": 16
+  },
+  {
+    "codigo": 1801,
+    "nombre": "Marlb artesanal rojo paquete de 10 para dar Q.35.00",
+    "precio": 299
+  },
+  {
+    "codigo": 1384,
+    "nombre": "marlb paquete de 10 cajetillas para dar Q.35.00",
+    "precio": 290
+  },
+  {
+    "codigo": 1804,
+    "nombre": "Marlb.artesanal GOLD paquete de 10 para dar Q.35.00",
+    "precio": 299
+  },
+  {
+    "codigo": 1803,
+    "nombre": "Marlb.artesanal seleccion menta paquete de 10 para dar Q.35.00",
+    "precio": 299
+  },
+  {
+    "codigo": 1802,
+    "nombre": "Marlb.rojo paquete de 10 para dar Q.35.00",
+    "precio": 299
+  },
+  {
+    "codigo": 1806,
+    "nombre": "Marlb.vista fucion forest para dar Q.35.00",
+    "precio": 299
+  },
+  {
+    "codigo": 282,
+    "nombre": "marshmallow string de 30 uni para dar Q.1.50",
+    "precio": 38
+  },
+  {
+    "codigo": 1078,
+    "nombre": "maseca fardo de 10 libras para dar Q.15.00",
+    "precio": 118
+  },
+  {
+    "codigo": 71,
+    "nombre": "masticable arco bolsa de 200 uni. para dar Q.4x1.00",
+    "precio": 42
+  },
+  {
+    "codigo": 104,
+    "nombre": "max hair azul caja de 100 uni. para dar Q.2x1.00",
+    "precio": 37
+  },
+  {
+    "codigo": 105,
+    "nombre": "max hair verde caja de 100 uni. para dar Q.2x1.00",
+    "precio": 37
+  },
+  {
+    "codigo": 983,
+    "nombre": "Mayon. cuadrada 4 onzas Anabelly 12 unidades para dar Q.4.00",
+    "precio": 43
+  },
+  {
+    "codigo": 1049,
+    "nombre": "mayonesa 8 onzas bolsa 6 unidades para dar Q.7.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1974,
+    "nombre": "mayonesa de 4 onzas fardo de 60 unidades para dar a 3.50",
+    "precio": 189
+  },
+  {
+    "codigo": 238,
+    "nombre": "mechuga con juguete bote de 80 uni. para dar Q.1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 1840,
+    "nombre": "medio fardo de galleta margarita de 8 paquetes de 6 unidades la bolsa para dar Q.1.25",
+    "precio": 49
+  },
+  {
+    "codigo": 1168,
+    "nombre": "megatonas bombom bolsa de 40 unidades para dar Q.1.00",
+    "precio": 34
+  },
+  {
+    "codigo": 447,
+    "nombre": "melcolate bote de 80 bote  unidades para dar Q.2x1.00",
+    "precio": 42
+  },
+  {
+    "codigo": 880,
+    "nombre": "melcolate de libra para dar Q.12.00",
+    "precio": 11
+  },
+  {
+    "codigo": 51,
+    "nombre": "menta cristal arco bolsa de 100 uni. para dar Q.3x1.00",
+    "precio": 28
+  },
+  {
+    "codigo": 416,
+    "nombre": "mentol davis por docena para dar Q.3.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1059,
+    "nombre": "mermelada Fresa Ana Belly 6 unidades para dar Q.10.00",
+    "precio": 52
+  },
+  {
+    "codigo": 981,
+    "nombre": "Mermelada Fresa Ana Belly Doypack unidad para dar Q.9.75",
+    "precio": 9
+  },
+  {
+    "codigo": 161,
+    "nombre": "microfono candy de 30 uni. para dar a Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 641,
+    "nombre": "microfono yosi bolsa de 12 para dar Q.3.50",
+    "precio": 35
+  },
+  {
+    "codigo": 610,
+    "nombre": "microfono yosi bolsa morado de 12 unidades para dar  Q.3.50",
+    "precio": 35
+  },
+  {
+    "codigo": 106,
+    "nombre": "microfono yosi bolsa surtido de 12 uni. para dar Q.3.50",
+    "precio": 35
+  },
+  {
+    "codigo": 107,
+    "nombre": "mielita arco bolsa de 100 uni. para dar Q.3x1.00",
+    "precio": 28
+  },
+  {
+    "codigo": 651,
+    "nombre": "milk cocoa chocolate caja de 60 unidades para dar Q.3.00",
+    "precio": 145
+  },
+  {
+    "codigo": 108,
+    "nombre": "mini chicle caja de 30 uni. para dar Q.1.00",
+    "precio": 27
+  },
+  {
+    "codigo": 165,
+    "nombre": "mini frutitas mixtas bote de 55 uni. para dar Q.1.00",
+    "precio": 47
+  },
+  {
+    "codigo": 780,
+    "nombre": "mini frutitas red de 25 unidades para dar Q.1.00",
+    "precio": 22
+  },
+  {
+    "codigo": 925,
+    "nombre": "mini Gelatina Chamoy bote de 100 unidades para dar Q.2x1.00",
+    "precio": 43
+  },
+  {
+    "codigo": 109,
+    "nombre": "mini granada azul caja. de 24 uni. para dar Q.1.50",
+    "precio": 32
+  },
+  {
+    "codigo": 110,
+    "nombre": "mini granada rojo caja de  24 uni. para dar Q.1.50",
+    "precio": 32
+  },
+  {
+    "codigo": 158,
+    "nombre": "mini pelon bolsa de 18 uni. para dar Q.2.50",
+    "precio": 37
+  },
+  {
+    "codigo": 1340,
+    "nombre": "mini snikers bolsa de 26 unidades para dar Q.1.50",
+    "precio": 32
+  },
+  {
+    "codigo": 112,
+    "nombre": "minigelatina bote de 100 uni. para dar Q.2x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 799,
+    "nombre": "mosh (MOLIDA) por tira de 12 unidades para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 807,
+    "nombre": "mosh (OJUELAS) por tira de 12 unidades para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 114,
+    "nombre": "mounstruo ojo con chupete de  30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 964,
+    "nombre": "Naturas  RANCHERA  ketchup caja de 12 unidades para dar Q.4.50",
+    "precio": 47
+  },
+  {
+    "codigo": 966,
+    "nombre": "Naturas de CARNE ketchup caja de 12 unidades para dar Q.4.50",
+    "precio": 47.5
+  },
+  {
+    "codigo": 1893,
+    "nombre": "Naturas de QUESO  ketchup caja de 12 unidades para dar Q.4.50",
+    "precio": 47
+  },
+  {
+    "codigo": 336,
+    "nombre": "nescafe de 34 uni. para dar Q3.00",
+    "precio": 91
+  },
+  {
+    "codigo": 1382,
+    "nombre": "nescafe frasco clasico de 200 gramos para dar Q.75.00",
+    "precio": 68
+  },
+  {
+    "codigo": 1381,
+    "nombre": "nescafe frasco de 120 gramos unidad para dar Q.47.00",
+    "precio": 43
+  },
+  {
+    "codigo": 1203,
+    "nombre": "nestum trigo arros caja de 200 grs por unidad para Q. 32.50",
+    "precio": 32
+  },
+  {
+    "codigo": 1202,
+    "nombre": "nestum trigo leche de 200 grs caja por unidad para dar Q.35.00",
+    "precio": 32
+  },
+  {
+    "codigo": 1201,
+    "nombre": "nestum trigo miel caja 200 grs por unidad para dar Q.32.50",
+    "precio": 32
+  },
+  {
+    "codigo": 117,
+    "nombre": "nucita bote de 80 uni. para dar Q.1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 113,
+    "nombre": "nucita moneda chocolate estuche de 48 uni. para dar Q.1.00",
+    "precio": 38
+  },
+  {
+    "codigo": 1174,
+    "nombre": "nucita patitas trisabor de 8 unidades para dar Q.5.00",
+    "precio": 35
+  },
+  {
+    "codigo": 878,
+    "nombre": "nucita trisabor  caja de 12 unidades para dar Q.2.50",
+    "precio": 26
+  },
+  {
+    "codigo": 1776,
+    "nombre": "Nutri Lety Litro  fardo de 12 unidades para dar Q.11.00",
+    "precio": 115
+  },
+  {
+    "codigo": 1777,
+    "nombre": "Nutri Lety Litro de caja por media docena  para dar Q.11.00",
+    "precio": 58
+  },
+  {
+    "codigo": 1106,
+    "nombre": "nutribela bio keratima tira de 20 unidades para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 1105,
+    "nombre": "nutribela sashet tira de 20 unidades para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 1945,
+    "nombre": "nutribela.tira.12 ROSADO de 20 unidades para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 1406,
+    "nombre": "oka loka caja de 24 unidades para dar Q.1.50",
+    "precio": 27
+  },
+  {
+    "codigo": 1153,
+    "nombre": "Oko un bombazo de 230 ml para dar Q.30.00 color Zul",
+    "precio": 25
+  },
+  {
+    "codigo": 270,
+    "nombre": "Ole mega caritas caja de 30 uni. para dar Q.1.25",
+    "precio": 29
+  },
+  {
+    "codigo": 715,
+    "nombre": "Oral B por 1/2 docena para dar Q.9.50",
+    "precio": 45
+  },
+  {
+    "codigo": 430,
+    "nombre": "osito los campitos por 1/2 docena para dar Q.12.50",
+    "precio": 69
+  },
+  {
+    "codigo": 172,
+    "nombre": "osito pelotita botecito de 100 uni. para dar Q.4x1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 217,
+    "nombre": "ositos guandy bandeja de 125 uni. par dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1162,
+    "nombre": "pachi bola fuego bolsa de 25 unidades para dar Q.1.50",
+    "precio": 28
+  },
+  {
+    "codigo": 1117,
+    "nombre": "pachicleta bolsa de 20 unidades para dar Q.2.00",
+    "precio": 35
+  },
+  {
+    "codigo": 931,
+    "nombre": "pachita mini chicle paquete de 24 unidades para dar Q.2.00",
+    "precio": 36
+  },
+  {
+    "codigo": "02",
+    "nombre": "pajilla rica con stikers bote de 60 uni. para dar Q.1.00..............",
+    "precio": 48
+  },
+  {
+    "codigo": 472,
+    "nombre": "pajilla rica niño de 60 unidades para dar Q.1.00",
+    "precio": 48
+  },
+  {
+    "codigo": 473,
+    "nombre": "pajilla rica princesa de 60 unidades para dar Q.1.00",
+    "precio": 48
+  },
+  {
+    "codigo": 122,
+    "nombre": "paleta  escoba pybe bolsa de 40 uni. para dar Q.2x1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 123,
+    "nombre": "paleta  manguito  pybe bolsa de 40 uni. para dar Q.2x1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 124,
+    "nombre": "paleta  pinta labios pybe bolsa de 40 uni. para dar Q.2x1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 915,
+    "nombre": "paleta animales zoo caja de 30 unidades. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 120,
+    "nombre": "paleta corazon pybe bolsa  de 40 uni. para dar Q.2x1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 367,
+    "nombre": "paleta cubo arcoiris de 30 uni. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 404,
+    "nombre": "paleta dounat de 30 unid. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 381,
+    "nombre": "paleta frutitas de 30 unid.para dar Q.1.50",
+    "precio": 40
+  },
+  {
+    "codigo": 474,
+    "nombre": "paleta gamita osito  de 30 unidades para dar Q.1.50",
+    "precio": 40
+  },
+  {
+    "codigo": 616,
+    "nombre": "paleta payaso caja de 15 unid. para dar Q.4.00",
+    "precio": 52
+  },
+  {
+    "codigo": 408,
+    "nombre": "paleta pepe de 30 unid. para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 121,
+    "nombre": "paleta pybe elotito bolsa de 40 uni. para dar Q.2x1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 604,
+    "nombre": "paleta redonda pizarrin pequeña de 24 unidades para dar Q.1.00",
+    "precio": 18
+  },
+  {
+    "codigo": 125,
+    "nombre": "paleta servesita pybe bolsa de 40 uni. para dar Q.2x1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 126,
+    "nombre": "paleta tamarindo pybe bolsa de 40 uni. para dar Q.2x1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 733,
+    "nombre": "palillos dentales por docena para dar Q.2.50",
+    "precio": 23
+  },
+  {
+    "codigo": 1375,
+    "nombre": "pall mall RED paquete de 10 para dar Q.26.00",
+    "precio": 210
+  },
+  {
+    "codigo": 1373,
+    "nombre": "pall mentol Alaska paquete de 10 para dar Q.26.00",
+    "precio": 210
+  },
+  {
+    "codigo": 492,
+    "nombre": "palmolive optims extra intenso de 24 uni. para dar Q.1.00",
+    "precio": 18.5
+  },
+  {
+    "codigo": 837,
+    "nombre": "panadol extra fuerte 1/2 caja de 26 sobres para dar Q.2.50",
+    "precio": 46
+  },
+  {
+    "codigo": 835,
+    "nombre": "panadol extra fuerte caja de 52 sobres para dar Q.2.50",
+    "precio": 85
+  },
+  {
+    "codigo": 834,
+    "nombre": "panadol multisintomas 1/2 caja de 12 sobres para dar Q.4.00",
+    "precio": 43
+  },
+  {
+    "codigo": 833,
+    "nombre": "panadol multisintomas caja de 24 sobres para dar Q.4.00",
+    "precio": 74
+  },
+  {
+    "codigo": 830,
+    "nombre": "panadol sinus caja de 24 sobres para dar Q.4.00",
+    "precio": 69
+  },
+  {
+    "codigo": 832,
+    "nombre": "panadol ultra 1/2 caja de 26 sobres para dar Q.3.00",
+    "precio": 65
+  },
+  {
+    "codigo": 831,
+    "nombre": "panadol ultra caja de 52 sobres para dar Q.3.00",
+    "precio": 120
+  },
+  {
+    "codigo": 868,
+    "nombre": "panqueque gold medal 1/2 fardo de 12 cajas para dar Q.14.50",
+    "precio": 145
+  },
+  {
+    "codigo": 1493,
+    "nombre": "panqueque gold medal fardo de 24 cajas para dar Q.14.50",
+    "precio": 290
+  },
+  {
+    "codigo": 288,
+    "nombre": "pantene  rojo  crema para peinar  de 28 uni. para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 397,
+    "nombre": "pantene color  gris cafes crema para peinar liso exremo para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1086,
+    "nombre": "pantene equilibrio bolsa de 28 unidades para dar a Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 396,
+    "nombre": "pantene gris shampo liso extremo de 24 unidades para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 290,
+    "nombre": "pantene rojo  shampoo y acondicionador  risos de 28 uni. para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1874,
+    "nombre": "pantene shampoo con BIOTINAMINA paquete de 24 unidades  para dar Q.1.25",
+    "precio": 24
+  },
+  {
+    "codigo": 289,
+    "nombre": "pantene verde shampo y acondicionador  de 28 uni. para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1894,
+    "nombre": "pañales adorables XG Paquete de 46 unidades para dar Q.1.25",
+    "precio": 53
+  },
+  {
+    "codigo": 1157,
+    "nombre": "pañales baby kisses talla M de 50 unidades para dar Q.1.50",
+    "precio": 59
+  },
+  {
+    "codigo": 1156,
+    "nombre": "pañales jueguitos talla extra larsh para dar Q.2.00",
+    "precio": 65
+  },
+  {
+    "codigo": 1663,
+    "nombre": "pañales pom pom \"G\" paquete de 50 unidades para dar Q.1.50",
+    "precio": 55
+  },
+  {
+    "codigo": 1664,
+    "nombre": "pañales pom pom \"L\" paquete de 50 unidades para dar Q.1.50",
+    "precio": 55
+  },
+  {
+    "codigo": 1665,
+    "nombre": "pañales pom pom \"M\" paquete de 50 unidades  para dar Q.1.50",
+    "precio": 55
+  },
+  {
+    "codigo": 1821,
+    "nombre": "pañales pom pom \"XG\" paquete de 50 unidades para dar Q.1.50",
+    "precio": 55
+  },
+  {
+    "codigo": 1662,
+    "nombre": "pañales silver \"talla L\"  paquete de 10 unidades para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1660,
+    "nombre": "pañales silver talla Grande paquete de 10 unidades Para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1661,
+    "nombre": "pañales silver talla Mediano paquete de 10 unidades para dar Q.5.00",
+    "precio": 39
+  },
+  {
+    "codigo": 1176,
+    "nombre": "papas pringles grande por media docena para dar Q.12.00",
+    "precio": 60
+  },
+  {
+    "codigo": 628,
+    "nombre": "papas pringles pequeña  bolsa  docena para dar Q.5.00",
+    "precio": 49
+  },
+  {
+    "codigo": 1546,
+    "nombre": "papel chiper fardo de 48 unidades para dar Q.1.50",
+    "precio": 45
+  },
+  {
+    "codigo": 1787,
+    "nombre": "papel encanto cafes ecológico 24 rollos de 1000 hojas para dar Q.5.00",
+    "precio": 98
+  },
+  {
+    "codigo": 1841,
+    "nombre": "papel encanto ecologico color cafes fardo de 12 paquetes por 4 rollos para dar Q.18.00",
+    "precio": 165
+  },
+  {
+    "codigo": 1966,
+    "nombre": "papel encanto rosado de 12 paquetes para dar Q.20.00",
+    "precio": 220
+  },
+  {
+    "codigo": 1982,
+    "nombre": "papel nube blanca económico de 48 rollos 12 paquetes para dar Q.5.00",
+    "precio": 45
+  },
+  {
+    "codigo": 1395,
+    "nombre": "papel rollo Scott yunior fardo de 24 rollos para dar Q.3.00",
+    "precio": 56
+  },
+  {
+    "codigo": 1824,
+    "nombre": "papel rosal NARANJA XG doble hoja  fardo de 12 paquetes para dar Q.15.00 paquete de 4 rollos",
+    "precio": 162
+  },
+  {
+    "codigo": 1394,
+    "nombre": "papel rosal vino tinto fardo de 12 paquetes para dar Q.10..00",
+    "precio": 99
+  },
+  {
+    "codigo": 451,
+    "nombre": "pasta bolsita  de tomate  caja de 12 unidades para dar Q.6.00",
+    "precio": 60
+  },
+  {
+    "codigo": 961,
+    "nombre": "Pasta Corta Ina Caracol - 200gr pesada de 6 bolsas para dar Q.5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 956,
+    "nombre": "Pasta Corta Ina Corbaton - 150gr pesada de 6 bolsas para dar Q.5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 950,
+    "nombre": "Pasta Corta Ina Tipo Codito Mediano - 200g para dar 4.50",
+    "precio": 22.5
+  },
+  {
+    "codigo": 952,
+    "nombre": "Pasta Corta Ina Tipo Codo Grande - 200g para dar Q. Q4.50",
+    "precio": 23.5
+  },
+  {
+    "codigo": 1902,
+    "nombre": "pasta INA caracolito  pesada de 6 bolsas para dar 5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 963,
+    "nombre": "Pasta Ina Codito Mediano 200Gr pesada de 6 bolsas para dar Q.5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 955,
+    "nombre": "Pasta Ina Macarron De 200gr pesada de 6 bolsaspara dar Q.4.50",
+    "precio": 26
+  },
+  {
+    "codigo": 957,
+    "nombre": "Pasta Ina Tipo Nido Entrefino -150g pesada de 6 bolsas para dar Q.5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 639,
+    "nombre": "pasta latita tomate kerns. por docena para dar Q.10.00",
+    "precio": 52
+  },
+  {
+    "codigo": 1357,
+    "nombre": "pastelero paquete de 25 unidades envaica para dar Q.5.00",
+    "precio": 4
+  },
+  {
+    "codigo": 629,
+    "nombre": "pastelito amarillo (raund) de 24 unid. para dar Q.3.00",
+    "precio": 55
+  },
+  {
+    "codigo": 1536,
+    "nombre": "pastelito winni amarillo FARDO DE 96 UNIDADES PARA DAR Q.3.00",
+    "precio": 196
+  },
+  {
+    "codigo": 731,
+    "nombre": "pastelito winni por docena para dar Q.3.00",
+    "precio": 29.5
+  },
+  {
+    "codigo": 608,
+    "nombre": "pega loco de 20 unidades para dar Q.1.50",
+    "precio": 20
+  },
+  {
+    "codigo": 414,
+    "nombre": "pegamosca libreta paquete de 20 unidades para dar Q.2x5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 463,
+    "nombre": "peine fino grande de 12 unidades para dar Q.1.00",
+    "precio": 9.5
+  },
+  {
+    "codigo": 584,
+    "nombre": "peine fino pequeño bolsa de 12 unidades para dar Q.1.00",
+    "precio": 9.5
+  },
+  {
+    "codigo": 437,
+    "nombre": "peine grande surtido por docena para dar Q.2.00",
+    "precio": 18
+  },
+  {
+    "codigo": 478,
+    "nombre": "pelon grande tamarindo de 12 unidades para dar Q.5.00",
+    "precio": 45
+  },
+  {
+    "codigo": 1866,
+    "nombre": "pelotas plásticas de colores de 12 unidades para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1171,
+    "nombre": "pencil candy de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": "proveedor de compras",
+    "nombre": "pendiente a depositar Q.722",
+    "precio": 1
+  },
+  {
+    "codigo": 1374,
+    "nombre": "pepino pall mall doble mykonos xl paquete de 10 para dar Q.26.00",
+    "precio": 210
+  },
+  {
+    "codigo": 15841,
+    "nombre": "Pepsi botellita pequeña para dar Q.3.50",
+    "precio": 32
+  },
+  {
+    "codigo": "proveedor de compra",
+    "nombre": "pero nos deve Q.1,140 por un deposito que se le realizo de mas el deposito fue de Q.1,467",
+    "precio": 1
+  },
+  {
+    "codigo": 549,
+    "nombre": "perrito juguete con dulce de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1024,
+    "nombre": "Picamas Bolsa de 223 gramos.  unidad para dar Q.7.50",
+    "precio": 6.5
+  },
+  {
+    "codigo": 1495,
+    "nombre": "picamas fardo de 48 unidades para dar Q.4.50",
+    "precio": 196
+  },
+  {
+    "codigo": 266,
+    "nombre": "pichel chicle tatoo de 200 uni. para dar Q.3x1.00",
+    "precio": 56
+  },
+  {
+    "codigo": 578,
+    "nombre": "pimienta negra molida meller carton de 12 unidades para dar a Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 552,
+    "nombre": "pincho bote doble amburguesa de 60 unidades para dar Q.1.00",
+    "precio": 55
+  },
+  {
+    "codigo": 623,
+    "nombre": "pinta labios princesa con dulce de 30 unid. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 879,
+    "nombre": "pinta uñas darosa por 1/2 docena para dar Q.5.00",
+    "precio": 23
+  },
+  {
+    "codigo": 871,
+    "nombre": "pinta uñas darosa una docena para dar Q.5.00",
+    "precio": 46
+  },
+  {
+    "codigo": 1161,
+    "nombre": "piñatero bolsa de 180 unidades para dar Q.57.00",
+    "precio": 49
+  },
+  {
+    "codigo": 795,
+    "nombre": "pistola lanza dardos de 30 unidades para dar Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1427,
+    "nombre": "pizarin baston dulce navidad caja de 20 unidades para dar Q.1.50",
+    "precio": 20
+  },
+  {
+    "codigo": 606,
+    "nombre": "pizarrin pinito de 24 unidades para dar Q.1.00",
+    "precio": 18
+  },
+  {
+    "codigo": 602,
+    "nombre": "pizarrin tornillo de 24 unidades para dar Q.1.00",
+    "precio": 18
+  },
+  {
+    "codigo": 1360,
+    "nombre": "plato ondo #6 el ciento paquete de 25 unidades para dar Q.5.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1476,
+    "nombre": "plato ondo viva #8 fardo 10 paquetes por 25 unidades para dar Q.8.00",
+    "precio": 67
+  },
+  {
+    "codigo": 621,
+    "nombre": "policia con dulce juguete de 30 unid. para dar. Q.1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1349,
+    "nombre": "pollitas gomitas sanwich bote de 30 unidades para dar Q.1.00",
+    "precio": 28
+  },
+  {
+    "codigo": 276,
+    "nombre": "pollo azado bolsa de 16 uni. para dar Q.2.50",
+    "precio": 34
+  },
+  {
+    "codigo": 1336,
+    "nombre": "ponds Azul crema S piel suave y tersa para dar Q.23.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1191,
+    "nombre": "ponds morado 50 ml para dar Q.26.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1333,
+    "nombre": "ponds rojo  50 ml crema rejuvenesedora para dar Q.23.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1334,
+    "nombre": "ponds rosado 50 ml crema clarant B3 para dar Q.23.00",
+    "precio": 23
+  },
+  {
+    "codigo": 1332,
+    "nombre": "ponds verde pepino 50 ml crema para dar Q.23.00",
+    "precio": 23
+  },
+  {
+    "codigo": 622,
+    "nombre": "pony juguete con dulce de 30 unid. para dar Q.1.00",
+    "precio": 25
+  },
+  {
+    "codigo": 905,
+    "nombre": "poporopos por 1/2 docena para dar Q.6.50",
+    "precio": 33
+  },
+  {
+    "codigo": 242,
+    "nombre": "popotix bolsa de 50 uni. para dar Q.1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1968,
+    "nombre": "por 12 toallas humedas extra large color blanco para dar a Q.10.00",
+    "precio": 110
+  },
+  {
+    "codigo": 1020,
+    "nombre": "Preparado Mole Malher80gr. unidad para dar 8.50",
+    "precio": 6.95
+  },
+  {
+    "codigo": 1021,
+    "nombre": "Preparado Pepián Malher74gr unidad para dar Q.8.50",
+    "precio": 8
+  },
+  {
+    "codigo": 1948,
+    "nombre": "PRINGLES NARANJA PEQUEÑO PARA DAR Q.5.00",
+    "precio": 4.17
+  },
+  {
+    "codigo": 1943,
+    "nombre": "PRINGLES VERDE PEQUEÑO PARA DAR Q.5.00",
+    "precio": 4.17
+  },
+  {
+    "codigo": 1950,
+    "nombre": "PRINGLES(ROJO) PEQUEÑO",
+    "precio": 4.17
+  },
+  {
+    "codigo": 1054,
+    "nombre": "pulp jugo de manzana 12 unidades para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1126,
+    "nombre": "pulparindo  EXTRAPICANTE de 20 unidades para dar Q.2.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1124,
+    "nombre": "pulparindo MANGO  de 20 unidades para dar Q.2.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1116,
+    "nombre": "pulparindo SANDIA  de 20 unidades para dar Q.2.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1125,
+    "nombre": "pulparindo TAMARINDO  de 20 unidades para dar Q.2.00",
+    "precio": 29
+  },
+  {
+    "codigo": 214,
+    "nombre": "pybe mix dulce bolsa de 240 uni. para dar Q.6x1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 1152,
+    "nombre": "Raid accion total negro 400 ml para dar Q.35.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1494,
+    "nombre": "Raid accion total negro fardo de 12 unidades 400 ml para dar Q.30.00",
+    "precio": 298
+  },
+  {
+    "codigo": 1967,
+    "nombre": "raid casa jardin para dar 35",
+    "precio": 30
+  },
+  {
+    "codigo": 1151,
+    "nombre": "Raimax 400 ml para dar Q.35.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1864,
+    "nombre": "Raptor botella Grande de 600 ml paquete de 12 unidades para dar Q.7.00",
+    "precio": 76
+  },
+  {
+    "codigo": 1861,
+    "nombre": "Raptor botella Mediana 500 ml paquete de 12 unidades para dar Q.5.50",
+    "precio": 56
+  },
+  {
+    "codigo": 1853,
+    "nombre": "Raptor lata caja de 24 unidades  para dar Q.6.00",
+    "precio": 118
+  },
+  {
+    "codigo": 857,
+    "nombre": "rasuradora biic amarilla de 24 unidades para dar Q.2.00",
+    "precio": 40
+  },
+  {
+    "codigo": 320,
+    "nombre": "rasuradora Dorco carton de 48 uni para dar Q.1.50",
+    "precio": 50
+  },
+  {
+    "codigo": 316,
+    "nombre": "rasuradora dorusa bolsa de 12 uni para dar Q.1.00",
+    "precio": 7.5
+  },
+  {
+    "codigo": 322,
+    "nombre": "rasuradora permashap de 28 uni para dar Q.3.50",
+    "precio": 79
+  },
+  {
+    "codigo": 1111,
+    "nombre": "rayovac Grande de 12 pares  para dar Q.10.00",
+    "precio": 110
+  },
+  {
+    "codigo": 431,
+    "nombre": "reloj carton de 30 unidades para dar Q.1.50",
+    "precio": 37
+  },
+  {
+    "codigo": 134,
+    "nombre": "ricato caramelo bolsa de 50 uni. para dar Q.2x1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 446,
+    "nombre": "rollo loco goma de mascar de 24 uni. para dar Q.2.00",
+    "precio": 37
+  },
+  {
+    "codigo": 1169,
+    "nombre": "sabrosandia 40 unidades para dar Q.1.00",
+    "precio": 35
+  },
+  {
+    "codigo": 576,
+    "nombre": "sal de ajo en polvo meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 570,
+    "nombre": "sal de cebolla en polvo meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 557,
+    "nombre": "sal magica caja de 24 unidades para dar Q.1.00",
+    "precio": 19
+  },
+  {
+    "codigo": 436,
+    "nombre": "salsa de soya ina por 1/2 docena para dar Q.4.50",
+    "precio": 23.5
+  },
+  {
+    "codigo": 1004,
+    "nombre": "salsa Ketchup (8onz) de 12 unidades para dar Q.5.00",
+    "precio": 52
+  },
+  {
+    "codigo": 991,
+    "nombre": "Salsita Issima 3 Queso - 106gr caja de 12 unidades para dar Q.3.00",
+    "precio": 3
+  },
+  {
+    "codigo": 1797,
+    "nombre": "samba flash L&M  paquete de 10 cajetillas de 20 cigarros para dar 20 la caja",
+    "precio": 170
+  },
+  {
+    "codigo": 540,
+    "nombre": "santemicina caja de 50 unidades para dar Q.2.00",
+    "precio": 67
+  },
+  {
+    "codigo": 569,
+    "nombre": "sazon completa meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 568,
+    "nombre": "sazonador meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 301,
+    "nombre": "sedal morado liso  shampoo 2 en 1 de 24 uni para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 299,
+    "nombre": "sedal negro shampo 2 en 1 luminosos  de 24 uni. para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 810,
+    "nombre": "sedal rojo crema para peinar de 24 unidades para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 300,
+    "nombre": "sedal rojo shampo 2 en 1 keratina de 24 uni. para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 298,
+    "nombre": "sedal rosado shampo 2 en 1ceramidas  de 24uni. para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 302,
+    "nombre": "sedal verde crema para peinar rizos  de 28 uni para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1393,
+    "nombre": "servilleta nube blanca fardo de 10 paquetes para dar Q.6.00",
+    "precio": 53
+  },
+  {
+    "codigo": 1869,
+    "nombre": "servilletas cotton Whiten fardo de 10 paquetes para dar Q.5.00",
+    "precio": 42
+  },
+  {
+    "codigo": 1036,
+    "nombre": "shaka laka chocolate  200 ml caja de 24 unidades para dar Q.4.00",
+    "precio": 89
+  },
+  {
+    "codigo": 1037,
+    "nombre": "shaka laka fresa 200 ml caja de 24 unidades para dar Q.4.00",
+    "precio": 89
+  },
+  {
+    "codigo": 1038,
+    "nombre": "shaka laka vainilla 200 ml caja de 24 unidades para dar Q.4.00",
+    "precio": 89
+  },
+  {
+    "codigo": 1338,
+    "nombre": "shampo anticomezon sashet de 24 unid para dar Q.1.25",
+    "precio": 24
+  },
+  {
+    "codigo": 1441,
+    "nombre": "shampo de bebe Grande 200 ml unidad para dar Q.37.00",
+    "precio": 32
+  },
+  {
+    "codigo": 1190,
+    "nombre": "shampo de bebe pequeño 100 ml unidad para dar Q.28.00",
+    "precio": 23
+  },
+  {
+    "codigo": 842,
+    "nombre": "shampo dov dorado  oleo de 28 unidades para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 756,
+    "nombre": "shampo dov morado anticaspa de 28 unidades para dar a Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 297,
+    "nombre": "shampo dove azul reconstruccion   de 28 uni. para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 433,
+    "nombre": "shampoo men tira de 24 unid. para dat Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 303,
+    "nombre": "shampoo optims sashet de 24 uni para dar Q.1.00",
+    "precio": 19.5
+  },
+  {
+    "codigo": 287,
+    "nombre": "shampoo optims verde palmolive control caspa  de 24 uni para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 1209,
+    "nombre": "shampoo scoobydoo unidad para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 399,
+    "nombre": "shampoo verde  manzana de 28 unidades  para dar Q.1.00",
+    "precio": 24
+  },
+  {
+    "codigo": 777,
+    "nombre": "shouders 90 ml botecito 1/2 docena para dar Q.10.00",
+    "precio": 50
+  },
+  {
+    "codigo": 1807,
+    "nombre": "sigarro ICE MIX artesanal pade 10 cajetillas  para dar Q.35.00",
+    "precio": 299
+  },
+  {
+    "codigo": 6551,
+    "nombre": "siguiente pago pendiente",
+    "precio": 1
+  },
+  {
+    "codigo": 211,
+    "nombre": "soda frutal bolsa de 64 uni. para dar Q.1.00",
+    "precio": 34
+  },
+  {
+    "codigo": 1118,
+    "nombre": "soledad bolsa de 100 unidades para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1387,
+    "nombre": "sopa coreana bolsa de 20 unidades para dar Q.10.00",
+    "precio": 170
+  },
+  {
+    "codigo": 1386,
+    "nombre": "sopa coreana vaso caja de 16 unidades para dar Q.16.00",
+    "precio": 230
+  },
+  {
+    "codigo": 564,
+    "nombre": "sopa en tira pequeña  con fideos meller carton de 12 unidades para dar a 1.50",
+    "precio": 15
+  },
+  {
+    "codigo": 1331,
+    "nombre": "sopa knorr Costilla de res caja de 12 unidades para dar Q.3.50",
+    "precio": 37
+  },
+  {
+    "codigo": 1330,
+    "nombre": "sopa knorr Gallina con fideos caja de 12 unidades para dar Q.3.50",
+    "precio": 37
+  },
+  {
+    "codigo": 1007,
+    "nombre": "Sopa Laky Men (Sobre Pollo) 80 Gr caja de 24 unidades  para dar Q.2.50",
+    "precio": 52
+  },
+  {
+    "codigo": 1012,
+    "nombre": "Sopa Laky Men Sobre Camaron 80 Gr caja de 24 unidades para dar Q.2.50",
+    "precio": 52
+  },
+  {
+    "codigo": 1008,
+    "nombre": "Sopa Laky Men Sobre res  80 Gr caja de 24 unidades para dar Q.2.50",
+    "precio": 52
+  },
+  {
+    "codigo": 970,
+    "nombre": "Sopa Maggi de Pollo con Fideos Sobre - 55 g caja de 12 unidades para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 565,
+    "nombre": "sopa magui carton en tira de pollo con fideos  de 12 unidades Q.1.50",
+    "precio": 16.5
+  },
+  {
+    "codigo": 1133,
+    "nombre": "sopa meller caja grande de 12 unida para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1010,
+    "nombre": "Sopa vaso  Laky Instantanea Men (Camaron) - 75gr caja de 12 unidades para dar Q.5.00",
+    "precio": 52
+  },
+  {
+    "codigo": 1817,
+    "nombre": "Sopa vaso Laky Men De (CAMARON PICANTE) Instantanea - 75gr caja de 12 unidades",
+    "precio": 52
+  },
+  {
+    "codigo": 1540,
+    "nombre": "sopera fardo de 40  paquetes de 25 unidades para dar Q.6.00",
+    "precio": 185
+  },
+  {
+    "codigo": 350,
+    "nombre": "Speed Stick sobre Caja azul de 18 uni. para dar Q.2.50",
+    "precio": 39
+  },
+  {
+    "codigo": 644,
+    "nombre": "speed stick sobre morado de 18 unid. para dar Q.2.50",
+    "precio": 39
+  },
+  {
+    "codigo": 1109,
+    "nombre": "speed stick tubo (azul) caja de 6 unidades para dar Q.10.00",
+    "precio": 49
+  },
+  {
+    "codigo": 1110,
+    "nombre": "speed stick tubo (morado) caja de 6 unidades para dar Q.10.00",
+    "precio": 49
+  },
+  {
+    "codigo": 1120,
+    "nombre": "splenda bolsa de 100 unidades para dar Q.3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 136,
+    "nombre": "splot chicle acido caja de 24 uni. para dar Q.1.00",
+    "precio": 20
+  },
+  {
+    "codigo": 269,
+    "nombre": "sponch galleta bolsa de 10 uni. para dar a Q.3.00",
+    "precio": 25
+  },
+  {
+    "codigo": 275,
+    "nombre": "sport chocolate bote de 120 uni.",
+    "precio": 51
+  },
+  {
+    "codigo": 265,
+    "nombre": "spray bote de 48 uni. para dar a Q1.00",
+    "precio": 43
+  },
+  {
+    "codigo": 403,
+    "nombre": "squiz blu berry caja de 40 unid. para dar Q.3x1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 137,
+    "nombre": "squiz fresa acida caja de 40 uni. para dar Q.3x1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 138,
+    "nombre": "squiz mango limon acida caja de   40 uni. para dar Q.3x1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 139,
+    "nombre": "squiz mora acida caja de 40 uni. para dar Q.3x1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 1214,
+    "nombre": "stefanie rollon surtido para mujer unidad para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 575,
+    "nombre": "suavirico meller carton de 12 unidades para dar Q.1.00",
+    "precio": 10
+  },
+  {
+    "codigo": 307,
+    "nombre": "suavitel celeste  flor primavera de 12 uni. para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 306,
+    "nombre": "suavitel sol amarrilo de 12 unI para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 1873,
+    "nombre": "Suero Hidra vida (ceresa) para dar Q.15.00",
+    "precio": 13.35
+  },
+  {
+    "codigo": 1447,
+    "nombre": "Suero Hidra vida (coco) para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1446,
+    "nombre": "Suero Hidra vida (fresa) para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1445,
+    "nombre": "Suero Hidra vida (lima) para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1448,
+    "nombre": "Suero Hidra vida (mora azul) para dar Q.15.00",
+    "precio": 13.35
+  },
+  {
+    "codigo": 1484,
+    "nombre": "suero hidra vida coco fardo de 12 unidades para dar Q.15.00",
+    "precio": 160
+  },
+  {
+    "codigo": 1970,
+    "nombre": "suero hidra vida coco para dar Q.18.00",
+    "precio": 13.5
+  },
+  {
+    "codigo": 1972,
+    "nombre": "suero hidra vida fresa",
+    "precio": 13.35
+  },
+  {
+    "codigo": 1483,
+    "nombre": "suero hidra vida fresa fardo de 12 unidades para dar Q.15.00",
+    "precio": 160
+  },
+  {
+    "codigo": 1971,
+    "nombre": "suero hidra vida lima",
+    "precio": 13.35
+  },
+  {
+    "codigo": 1486,
+    "nombre": "suero hidra vida lima fardo de 12 unidades para dar Q.15.00",
+    "precio": 160
+  },
+  {
+    "codigo": 1482,
+    "nombre": "suero hidra vida limon fardo de 12 unidades  para dar Q.15.00",
+    "precio": 160
+  },
+  {
+    "codigo": 1383,
+    "nombre": "Suero Hidra vida limon para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 1865,
+    "nombre": "Suero Hidra vida maracuya para dar Q.15.00",
+    "precio": 13.35
+  },
+  {
+    "codigo": 1485,
+    "nombre": "suero hidra vida mora azul fardo de 12 unidades  para dar Q.15.00",
+    "precio": 160
+  },
+  {
+    "codigo": 1963,
+    "nombre": "Suero Hidra Vida SURTIDO 12 uni para dar a Q15.00",
+    "precio": 160
+  },
+  {
+    "codigo": 1796,
+    "nombre": "suero hidra vida UVA   para dar Q.15.00",
+    "precio": 13.35
+  },
+  {
+    "codigo": 839,
+    "nombre": "suero oral ancalmo de  COCO  caja de 53 sobres para dar Q.1.50",
+    "precio": 65
+  },
+  {
+    "codigo": 840,
+    "nombre": "suero oral ancalmo de  FRESA caja de 53 sobres para dar Q.1.50",
+    "precio": 65
+  },
+  {
+    "codigo": 838,
+    "nombre": "suero oral ancalmo de  NARANJA caja de 54 sobres para dar Q.2x5",
+    "precio": 79
+  },
+  {
+    "codigo": 825,
+    "nombre": "suero oral ancalmo de FRUTAS caja de 54 sobres para dar Q.2x5",
+    "precio": 79
+  },
+  {
+    "codigo": 1957,
+    "nombre": "super cola lata bandeja de 24 unidades",
+    "precio": 72
+  },
+  {
+    "codigo": 1548,
+    "nombre": "super comal por unidad para dar Q.29.00",
+    "precio": 25
+  },
+  {
+    "codigo": 325,
+    "nombre": "super glue chemmer de 12 uni para dar Q.1.25",
+    "precio": 10
+  },
+  {
+    "codigo": 1164,
+    "nombre": "sweet pop botellita con azucar de 36 unid.para dar Q.1.50",
+    "precio": 39
+  },
+  {
+    "codigo": 742,
+    "nombre": "tabcin (CELESTE) efervecente caja de 72 unidades para dar Q.2.00",
+    "precio": 117
+  },
+  {
+    "codigo": 743,
+    "nombre": "tabcin (CELESTE) efervecente media caja de 30 unidades para dar Q.2.00",
+    "precio": 59
+  },
+  {
+    "codigo": 804,
+    "nombre": "tabcin (morado) efervecente media caja de 30 unidades para dar Q.2.00",
+    "precio": 49
+  },
+  {
+    "codigo": 815,
+    "nombre": "tabcin Azul extra fuerte GEL caja de 30 pares para dar Q.5.00",
+    "precio": 125
+  },
+  {
+    "codigo": 790,
+    "nombre": "tabcin efervecente. morado de 60 uni. para dar Q.2.00",
+    "precio": 95
+  },
+  {
+    "codigo": 740,
+    "nombre": "tabcin gel (MORADO) gripe y tos caja de 30 sobres para dar Q.5.00",
+    "precio": 99
+  },
+  {
+    "codigo": 741,
+    "nombre": "tabcin gel (MORADO) gripe y tos media caja 15 sobres  para dar Q.5.00",
+    "precio": 55
+  },
+  {
+    "codigo": 821,
+    "nombre": "tabcin GEL AZUL extra fuerte 1/2 caja de 15 pares para dar Q.5.00",
+    "precio": 65
+  },
+  {
+    "codigo": 822,
+    "nombre": "tabcin GEL ROJO extra fuerte 1/2 caja de 15 pares para dar Q.5.00",
+    "precio": 65
+  },
+  {
+    "codigo": 823,
+    "nombre": "tabcin GEL VERDE extra fuerte 1/2 caja de 15 pares para dar Q.5.00",
+    "precio": 65
+  },
+  {
+    "codigo": 863,
+    "nombre": "tabcin para niños 1/2 caja de 30 unidades para dar Q.2.00",
+    "precio": 43.5
+  },
+  {
+    "codigo": 862,
+    "nombre": "tabcin para niños caja de 60 unidades para dar Q.2.00",
+    "precio": 87
+  },
+  {
+    "codigo": 816,
+    "nombre": "tabcin ROJO  extra fuerte GEL caja de 30 pares para dar Q.5.00",
+    "precio": 125
+  },
+  {
+    "codigo": 859,
+    "nombre": "tabcin rojo extra fuerte 1/2 caja de 30 unidades para Q.2.00",
+    "precio": 50
+  },
+  {
+    "codigo": 858,
+    "nombre": "tabcin rojo extra fuerte caja de 60 unidades para dar Q.2.00",
+    "precio": 98
+  },
+  {
+    "codigo": 817,
+    "nombre": "tabcin VERDE extra fuerte GEL caja de 30 pares para dar Q.5.00",
+    "precio": 125
+  },
+  {
+    "codigo": 1194,
+    "nombre": "tajin botecito pequeño de 45 grs por unidad para dar Q.12.00",
+    "precio": 10
+  },
+  {
+    "codigo": 1195,
+    "nombre": "tajin botellita  mediano de 142 grs por unid para dar Q.24.00",
+    "precio": 21
+  },
+  {
+    "codigo": 1189,
+    "nombre": "talco  4 rosas Para dar Q.12.00",
+    "precio": 9.5
+  },
+  {
+    "codigo": 1380,
+    "nombre": "Tamalera  fardo de 10 paquetes de 50 unidades para dar Q.13.00",
+    "precio": 100
+  },
+  {
+    "codigo": 258,
+    "nombre": "tamarindo bandejita de 25 uni.para dar Q.1.00",
+    "precio": 21
+  },
+  {
+    "codigo": 1871,
+    "nombre": "tampico 1/2 litro 480 ml Caja de 24 unidades para dar Q.4.00",
+    "precio": 75
+  },
+  {
+    "codigo": 1872,
+    "nombre": "tampico bolsa de 30 unidades para dar  Q.1.50",
+    "precio": 37
+  },
+  {
+    "codigo": 1399,
+    "nombre": "tapadera reyma # 16 bolsa de 50 unidades para dar Q.18.00",
+    "precio": 15
+  },
+  {
+    "codigo": 768,
+    "nombre": "tape pequeño  transparente de 12 unidades para dar Q.2.00",
+    "precio": 18
+  },
+  {
+    "codigo": 1123,
+    "nombre": "tarri pop CHAMOY bote de 50 unidades para dar Q.1.50",
+    "precio": 60
+  },
+  {
+    "codigo": 1121,
+    "nombre": "tarri pop MANGO  bote de 50 unidades  para dar Q.1.50",
+    "precio": 60
+  },
+  {
+    "codigo": 1122,
+    "nombre": "tarri pop PIÑA bote de 50 unidades para dar Q.1.50",
+    "precio": 60
+  },
+  {
+    "codigo": 279,
+    "nombre": "tarri pop TAMARINDO bote de 50 uni.para dar Q.1.50",
+    "precio": 60
+  },
+  {
+    "codigo": 657,
+    "nombre": "te con sabor a manzana y canela caja de 20 unidades para dar Q.1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 1196,
+    "nombre": "Te de manzanilla Vida caja de 20 unidades para dar Q.1.00",
+    "precio": 18
+  },
+  {
+    "codigo": 1207,
+    "nombre": "Te de tilo Vida caja de 20 unidades para dar Q.1.00",
+    "precio": 15
+  },
+  {
+    "codigo": 16186,
+    "nombre": "te frio botella de 500 ml para dar a Q.7.50",
+    "precio": 83
+  },
+  {
+    "codigo": 1878,
+    "nombre": "te frio lata  grande de 16 onzas caja de 24 unidades  para dar Q.7.00",
+    "precio": 132
+  },
+  {
+    "codigo": 458,
+    "nombre": "te lipton caja de 20 unidades para dar Q.1.00",
+    "precio": 18
+  },
+  {
+    "codigo": 457,
+    "nombre": "te manzanilla miel supremo caja de 20 unidades para dar Q.1.00",
+    "precio": 16.5
+  },
+  {
+    "codigo": 1027,
+    "nombre": "Té Menta Melocotón Jengibre Sassón20un por caja para dar Q.1.00",
+    "precio": 17
+  },
+  {
+    "codigo": 1197,
+    "nombre": "te nervios (Vida) caja de 20 unidades para dar Q.1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 469,
+    "nombre": "te supremo rosa de jamaica de 20 unidades para dar Q.1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 467,
+    "nombre": "te TILO supremo de 20 unidades para dar Q.1.00",
+    "precio": 16
+  },
+  {
+    "codigo": 466,
+    "nombre": "tela de lluvia de 12 unidades para dar Q.2.50",
+    "precio": 24
+  },
+  {
+    "codigo": 1538,
+    "nombre": "tenedor fardo de 40  paquetes  de 25 unidades para dar Q.3.50",
+    "precio": 100
+  },
+  {
+    "codigo": 1438,
+    "nombre": "tenedor por ciento 4 paquetes por 25 unid. para dar Q.3.50",
+    "precio": 12
+  },
+  {
+    "codigo": 861,
+    "nombre": "tetraciclina  de 500 grs 1/2 caja de 50  unidades para dar Q.1.00",
+    "precio": 30
+  },
+  {
+    "codigo": 860,
+    "nombre": "tetraciclina  de 500 grs caja de 100 unidades para dar Q.1.00",
+    "precio": 53
+  },
+  {
+    "codigo": 1392,
+    "nombre": "this banano de 10 cajetillas para dar Q.15.00",
+    "precio": 100
+  },
+  {
+    "codigo": 1930,
+    "nombre": "this cafes caja de 10 cajas para dar Q.18.00",
+    "precio": 100
+  },
+  {
+    "codigo": 1353,
+    "nombre": "this double caja de 10 paquetes para dar Q.18.00",
+    "precio": 105
+  },
+  {
+    "codigo": 1368,
+    "nombre": "this sandia de 10 cajetillas para dar Q.15.00",
+    "precio": 100
+  },
+  {
+    "codigo": 851,
+    "nombre": "tiburon de 62 unidades para dar Q.0.50",
+    "precio": 26
+  },
+  {
+    "codigo": 1199,
+    "nombre": "tio nacho amarillo aclarante jalea real de 20 unid. para dar Q.2.50",
+    "precio": 39
+  },
+  {
+    "codigo": 1198,
+    "nombre": "tio nacho verde herbolaria color tira de 20 unidades para dar Q.2.50",
+    "precio": 39
+  },
+  {
+    "codigo": 1160,
+    "nombre": "tira de 12 Gran dia avena mosh bolsa roja  para dar Q.3.00",
+    "precio": 30
+  },
+  {
+    "codigo": 363,
+    "nombre": "tira de mini angelitos de 12 unida. para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 362,
+    "nombre": "tira de napolitano de 12 unid. para dar Q.2.00",
+    "precio": 20
+  },
+  {
+    "codigo": 1501,
+    "nombre": "tira mini angelito fardo de 12 tiras  para dar Q.2.00",
+    "precio": 225
+  },
+  {
+    "codigo": 1065,
+    "nombre": "toalla rosada sensation diurnas sanitaria con alas 12 unidades para dar Q.5.00",
+    "precio": 49.8
+  },
+  {
+    "codigo": 1061,
+    "nombre": "toalla sensation sanitaria con alas fardo de 24 unidades para dar Q.5.00",
+    "precio": 99.6
+  },
+  {
+    "codigo": 1376,
+    "nombre": "toallas  pom pom por 1/2 docena para dar Q.10.00",
+    "precio": 55
+  },
+  {
+    "codigo": 1060,
+    "nombre": "Toallas femeninas SILUETA nocturnas (extra largas con alas) Fardo de 24 unidades para dar Q.7.50",
+    "precio": 170
+  },
+  {
+    "codigo": 1064,
+    "nombre": "Toallas femeninas SILUETA nocturnas (extra largas con alas) por 12 unidades para dar Q7.50",
+    "precio": 90
+  },
+  {
+    "codigo": 1063,
+    "nombre": "toallas nocturnas con alas sensation 12 unidades para dar Q.7.50",
+    "precio": 78
+  },
+  {
+    "codigo": 1062,
+    "nombre": "toallas nocturnas con alas sensation fardo de 24 unidades para dar Q.7.50",
+    "precio": 156
+  },
+  {
+    "codigo": 1487,
+    "nombre": "toallas pom pom fardo de 12 unidades para dar Q.10.00",
+    "precio": 109
+  },
+  {
+    "codigo": 142,
+    "nombre": "tomy dulce bolsa de 100 uni. para dar Q.3x1.00",
+    "precio": 28
+  },
+  {
+    "codigo": 951,
+    "nombre": "Tornillo INA  para para dar Q.5.00",
+    "precio": 25
+  },
+  {
+    "codigo": 1473,
+    "nombre": "tornillo italiana 1 FARDO de 48 bolsas para dar Q.3.50",
+    "precio": 135
+  },
+  {
+    "codigo": 1896,
+    "nombre": "tornillo italiana 1/2  FARDO de 24 bolsas para dar Q.3.50",
+    "precio": 68
+  },
+  {
+    "codigo": 1549,
+    "nombre": "tortimax por unidad para dar Q.43.00",
+    "precio": 37
+  },
+  {
+    "codigo": 143,
+    "nombre": "triden fresa 4 pastillas de 40 uni. para dar Q.1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 144,
+    "nombre": "triden menta 4 pastillas de 40 uni. para dar Q.1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 145,
+    "nombre": "triden mora 4 pastillas de 40 uni. para dar Q.1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 146,
+    "nombre": "triden yerbabuena 4 Pastillas de 40 uni. para dar  Q.1.00",
+    "precio": 33
+  },
+  {
+    "codigo": 1343,
+    "nombre": "trueno huevito caja de 24 unidades para dar Q.2.00",
+    "precio": 43
+  },
+  {
+    "codigo": 556,
+    "nombre": "trueno huevito CANGREJO caja de 24 unidades para dar Q.2.00",
+    "precio": 43
+  },
+  {
+    "codigo": 149,
+    "nombre": "trueno pop pequeño caja  de 50 uni. para dar Q.0.50",
+    "precio": 21
+  },
+  {
+    "codigo": 239,
+    "nombre": "trueno pop soda bolsa de 60 uni.",
+    "precio": 38
+  },
+  {
+    "codigo": 593,
+    "nombre": "trululu de 25 unidades para dar Q.2.00",
+    "precio": 37
+  },
+  {
+    "codigo": 1513,
+    "nombre": "tubigoma sabor frambuesa color verde de 126 unidades FARDO DE 12 BANDEJAS para dar Q.3x1.00",
+    "precio": 279
+  },
+  {
+    "codigo": 847,
+    "nombre": "tubigoma sabor frambuesa color verde de 126 unidades para dar 3x1.00",
+    "precio": 26
+  },
+  {
+    "codigo": 1422,
+    "nombre": "tutsi pop cajita con sorpresa de 12 bolsas para dar Q.18.00",
+    "precio": 195
+  },
+  {
+    "codigo": 1429,
+    "nombre": "tutsi pop cajita con sorpresa para dar Q.20.00",
+    "precio": 17
+  },
+  {
+    "codigo": 1788,
+    "nombre": "Ultra clin  (rojo Pequeño) detergente fardo de 20 bolsad de 400 grs para dar Q.6.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1830,
+    "nombre": "Ultra clin (Azul Grande) detergente fardo de 10 bolsad de 850 grs para dar Q.11.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1831,
+    "nombre": "Ultra clin (Azul Pequeño) detergente Pequeño fardo de 20 bolsas de 400 grs para dar Q.6.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1545,
+    "nombre": "Ultra clin (morado Grande) detergente fardo de 10 bolsad de 850 grs para dar Q.10.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1818,
+    "nombre": "Ultra clin (morado pequeño) detergente  fardo de 20 bolsas de 400 grs para dar Q.6.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1439,
+    "nombre": "Ultra clin (rojo Grande) detergente fardo de 10 bolsad de 850 grs para dar Q.10.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1547,
+    "nombre": "Ultra clin (rosado Grande) detergente fardo de 10 bolsad de 850 grs para dar Q.11.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1819,
+    "nombre": "Ultra clin (rosado Pequeño) detergente fardo de 20 bolsas de 400 grs para dar Q.6.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1388,
+    "nombre": "Ultra clin (verde Grande) detergente fardo de 10 bolsad de 850 grs para dar Q.10.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1805,
+    "nombre": "ultra clin verde PEQUEÑO 20 bolsas 400 grs  de  para dar Q.6.00",
+    "precio": 99
+  },
+  {
+    "codigo": 1467,
+    "nombre": "vaca bote amarilla gelatina de 80 unida para dar Q.1.00",
+    "precio": 75
+  },
+  {
+    "codigo": 1442,
+    "nombre": "vaca bote rosado gelatina de 80 unidades para dar Q.1.00",
+    "precio": 75
+  },
+  {
+    "codigo": 1210,
+    "nombre": "vanish (BLANCO) sashet tira de 6 unidades para dar Q.6.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1320,
+    "nombre": "vanish (ROSADO) sashet tira de 6 unidades para dar Q.6.00",
+    "precio": 30
+  },
+  {
+    "codigo": 1192,
+    "nombre": "vaselina de bebe kent por  unidad para dar Q.28.00",
+    "precio": 24
+  },
+  {
+    "codigo": 1361,
+    "nombre": "vasito para Gelatina 4 paquetes de 25 unidades para dar Q.6.00",
+    "precio": 19
+  },
+  {
+    "codigo": 1371,
+    "nombre": "vasito para helado 2.5 onzas (las 200 unid) para dar Q.17.50 el ciento",
+    "precio": 30
+  },
+  {
+    "codigo": 1367,
+    "nombre": "vaso dipsa bio duropor # 8 caja de 40 tiras  de 25 unidades por tira  para dar Q.6.00",
+    "precio": 205
+  },
+  {
+    "codigo": 1542,
+    "nombre": "vaso duropor # 10 caja de 40 tiras para dar Q.8.00",
+    "precio": 265
+  },
+  {
+    "codigo": 932,
+    "nombre": "vaso práctico chamoy  de 20 unidades para dar Q.2.00",
+    "precio": 34
+  },
+  {
+    "codigo": 1366,
+    "nombre": "vaso tarro transparente de 10 onzas plastico de 50 unid. para dar Q.20.00",
+    "precio": 17
+  },
+  {
+    "codigo": 1365,
+    "nombre": "vaso tarro transparente de 16 onzas plastico de 25 unid. para dar Q 17.00",
+    "precio": 13
+  },
+  {
+    "codigo": 152,
+    "nombre": "vela goma grande bote de 100 uni. para dar Q.1.00",
+    "precio": 68
+  },
+  {
+    "codigo": 153,
+    "nombre": "vela goma pequeña bote de  240 uni. para dar Q.3x1.00",
+    "precio": 65
+  },
+  {
+    "codigo": 524,
+    "nombre": "veladora de vaso mediana virgen 1/2 docena para dar Q.7.50",
+    "precio": 39
+  },
+  {
+    "codigo": 439,
+    "nombre": "veladora mediana repuesto  por docena para dar Q.3.50",
+    "precio": 36
+  },
+  {
+    "codigo": 525,
+    "nombre": "veladora vaso  grande 1/2 docena para dar Q.10.00",
+    "precio": 49.5
+  },
+  {
+    "codigo": 428,
+    "nombre": "vinagrito por 1/2  docena para dar. Q.3.50",
+    "precio": 15
+  },
+  {
+    "codigo": 746,
+    "nombre": "viro grip GEL (DIA) caja naranja de 24 sobres para dar Q.5.00",
+    "precio": 85
+  },
+  {
+    "codigo": 747,
+    "nombre": "viro grip GEL (DIA) media caja naranja de 12  sobres para dar Q.5.00",
+    "precio": 45
+  },
+  {
+    "codigo": 749,
+    "nombre": "viro grip GEL (NOCHE)  caja azul de 24 sobres para dar Q.5.00",
+    "precio": 85
+  },
+  {
+    "codigo": 748,
+    "nombre": "viro grip GEL (NOCHE) media caja azul de 12  sobres para dar Q.5.00",
+    "precio": 45
+  },
+  {
+    "codigo": 766,
+    "nombre": "viro grip polvo (dia ) caja de 24 sobres",
+    "precio": 87
+  },
+  {
+    "codigo": 806,
+    "nombre": "viro grip polvo (DIA) 1/2 caja de 12 sobres para dar Q.4.00",
+    "precio": 44
+  },
+  {
+    "codigo": 805,
+    "nombre": "viro grip polvo (noche) 1/2 caja de 12 sobres para dar Q.4.00",
+    "precio": 44
+  },
+  {
+    "codigo": 765,
+    "nombre": "viro grip polvo (noche) caja de 24 sobres para dar Q.4.00",
+    "precio": 87
+  },
+  {
+    "codigo": 829,
+    "nombre": "vitaflenaco caja de 30 unidades para dar Q.2.00",
+    "precio": 48
+  },
+  {
+    "codigo": 1351,
+    "nombre": "vital fuerte bebible caja de 12 unidades",
+    "precio": 65
+  },
+  {
+    "codigo": 824,
+    "nombre": "vitapirena 1/2 caja de 25 sobres  para dar Q.3.50",
+    "precio": 68
+  },
+  {
+    "codigo": 818,
+    "nombre": "vitapirena caja de 50 sobres para dar Q.3.50",
+    "precio": 135
+  },
+  {
+    "codigo": 927,
+    "nombre": "XDENT (FRESA)  30 blister para dar Q.1.50",
+    "precio": 37
+  },
+  {
+    "codigo": 926,
+    "nombre": "XDENT (MENTA)  30 blister para dar Q.1.50",
+    "precio": 37
+  },
+  {
+    "codigo": 930,
+    "nombre": "XDENT (MORA) 30 blister para dar Q.1.50",
+    "precio": 37
+  },
+  {
+    "codigo": 210,
+    "nombre": "yaya bote de 100 uni. para dar Q.3x1.00",
+    "precio": 29
+  },
+  {
+    "codigo": 1166,
+    "nombre": "yogurte 100 bolsa de 100 unidades para dar Q.3x1.00",
+    "precio": 27
+  },
+  {
+    "codigo": 705,
+    "nombre": "yus de fresa por caja de 15 unidades para dar Q.2.50",
+    "precio": 32.5
+  },
+  {
+    "codigo": 704,
+    "nombre": "yus de horchata por caja de 15 unidades para dar Q.2.50",
+    "precio": 32.5
+  },
+  {
+    "codigo": 1949,
+    "nombre": "yus de JOCOTE  por caja de 15 unidades para dar Q.2.50",
+    "precio": 32.5
+  },
+  {
+    "codigo": 706,
+    "nombre": "yus de limon por caja de 14 unidades para dar Q.2.50",
+    "precio": 32.5
+  },
+  {
+    "codigo": 708,
+    "nombre": "yus de naranja por caja de 15 unidades para dar Q.2.50",
+    "precio": 32.5
+  },
+  {
+    "codigo": 707,
+    "nombre": "yus de rosa de jamaica por caja de 15 unidades para dar Q.2.50",
+    "precio": 32.5
+  },
+  {
+    "codigo": 709,
+    "nombre": "yus de tamarindo por caja de 15 unidades para dar Q.2.50",
+    "precio": 32.5
+  },
+  {
+    "codigo": 585,
+    "nombre": "zapote bandejita de 25 unidades para dar Q.2.00",
+    "precio": 35
+  },
+  {
+    "codigo": 482,
+    "nombre": "zorritone bolsa de 100 unidades para dar Q.2x1.00",
+    "precio": 44
+  },
+  {
+    "codigo": 1149,
+    "nombre": "zorritone bote de 500 unidades para dar Q.2x1.00",
+    "precio": 185
+  }
+]
