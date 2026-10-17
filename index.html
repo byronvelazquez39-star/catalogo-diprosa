@@ -414,3 +414,74 @@
 
 </body>
 </html>
+  <!-- Script con la conexión a Google Sheets -->
+  <script>
+    let allProducts = [];
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/18Z1AD66u5uU7oZS7nS4NZpAjh_YJiBlvH8O_ci4e8QM/export?format=csv';
+
+    async function loadCatalog() {
+      try {
+        const response = await fetch(csvUrl);
+        const data = await response.text();
+        const rows = data.split('\n').slice(1);
+        
+        allProducts = rows.map(row => {
+          const cols = row.split(',');
+          if(cols.length >= 4) {
+            return {
+              code: cols[0]?.trim(),
+              unit: cols[1]?.trim(),
+              detail: cols[2]?.replace(/"/g, '').trim(),
+              price: cols[3]?.trim()
+            };
+          }
+          return null;
+        }).filter(p => p && p.detail);
+
+        document.getElementById('loading').style.display = 'none';
+        renderProducts(allProducts);
+      } catch (error) {
+        document.getElementById('loading').innerText = 'Error al cargar el catálogo de productos.';
+      }
+    }
+
+    function renderProducts(products) {
+      const container = document.getElementById('catalog');
+      container.innerHTML = '';
+      
+      if(products.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#cbd5e1;">No se encontraron productos.</p>';
+        return;
+      }
+
+      products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div class="product-title">${p.detail}</div>
+          <div class="product-details">Código: ${p.code} | Presentación: ${p.unit}</div>
+          <div class="product-price">Q.${p.price}</div>
+          <a class="btn-ws" href="https://wa.me/?text=Hola%20DIPROSA,%20me%20interesa:%20${encodeURIComponent(p.detail)}%20(Q.${p.price})" target="_blank">
+            📱 Pedir por WhatsApp
+          </a>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(query) || p.code.toLowerCase().includes(query));
+      renderProducts(filtered);
+    });
+
+    function filtrarCategoria(term) {
+      document.getElementById('searchInput').value = term;
+      const filtered = allProducts.filter(p => p.detail.toLowerCase().includes(term.toLowerCase()));
+      renderProducts(filtered);
+    }
+
+    loadCatalog();
+  </script>
+</body>
+</html>
