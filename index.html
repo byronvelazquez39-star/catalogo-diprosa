@@ -162,10 +162,10 @@
     <p>Selecciona tus productos y arma tu ticket de pedido</p>
   </div>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscando en tus 1,327 productos..." onkeyup="filtrarProductos()" disabled>
+  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Cargando inventario..." onkeyup="filtrarProductos()" disabled>
 
   <div id="catalogContainer">
-    <div style="text-align:center; padding: 20px; color: var(--text-muted);">Cargando inventario completo...</div>
+    <div style="text-align:center; padding: 20px; color: var(--text-muted);">Cargando catálogo completo...</div>
   </div>
 
   <!-- 🧾 TICKET FLOTANTE DE COMPRA -->
@@ -189,6 +189,25 @@
     let productos = [];
     let carrito = [];
 
+    function parseCSVLine(text) {
+      let result = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          result.push(current);
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      result.push(current);
+      return result;
+    }
+
     async function cargarInventario() {
       try {
         const respuesta = await fetch('catalogo.csv');
@@ -200,28 +219,41 @@
           let linea = lineas[i].trim();
           if (!linea) continue;
 
-          let columnas = linea.split('\t');
-          if (columnas.length < 4) {
-            columnas = linea.split(',');
+          let columnas = parseCSVLine(linea);
+          
+          // Buscamos cualquier columna que tenga texto largo (nombre) y una columna que tenga número (precio)
+          let nombre = "";
+          let precio = 0;
+
+          for (let col of columnas) {
+            let limpio = col.replace(/"/g, '').trim();
+            // Si tiene letras y espacio o tamaño considerable, asumimos que es el nombre
+            if (isNaN(limpio) && limpio.length > 3 && !nombre) {
+              nombre = limpio;
+            } 
+            // Si es un número con decimales o valor monetario válido, asumimos que es el precio
+            else if (!isNaN(parseFloat(limpio)) && parseFloat(limpio) > 0 && precio === 0) {
+              precio = parseFloat(limpio);
+            }
           }
 
-          if (columnas.length >= 4) {
-            let detalle = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
-            let precioStr = columnas[3] ? columnas[3].replace(/"/g, '').trim().replace(',', '') : '0';
-            let precio = parseFloat(precioStr) || 0;
-            let estado = columnas[4] ? columnas[4].replace(/"/g, '').trim() : '';
-
-            if (detalle && precio > 0 && (!estado || estado.toLowerCase().includes('activado'))) {
-              productos.push({ nombre: detalle, precio: precio });
-            }
+          if (nombre && precio > 0) {
+            productos.push({ nombre: nombre, precio: precio });
           }
         }
 
         document.getElementById("searchInput").removeAttribute("disabled");
+        document.getElementById("searchInput", "placeholder", "🔎 Escribe para buscar en tus 1,327 productos...");
         document.getElementById("searchInput").placeholder = "🔎 Escribe para buscar en tus 1,327 productos...";
+
+        if (productos.length === 0) {
+          document.getElementById("catalogContainer").innerHTML = `<div style="text-align:center; padding: 20px; color: var(--danger);">No se leyeron productos. Verifica el archivo CSV.</div>`;
+          return;
+        }
+
         renderizarProductos(productos);
       } catch (error) {
-        document.getElementById("catalogContainer").innerHTML = `<div style="text-align:center; padding: 20px; color: var(--danger);">Error al cargar el catálogo. Verifica que catalogo.csv esté en el repositorio.</div>`;
+        document.getElementById("catalogContainer").innerHTML = `<div style="text-align:center; padding: 20px; color: var(--danger);">Error al cargar catalogo.csv.</div>`;
       }
     }
 
