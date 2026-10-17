@@ -139,7 +139,7 @@
       border-radius: 12px;
       padding: 20px;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       max-height: 85vh;
       overflow-y: auto;
       border: 1px solid #444;
@@ -149,6 +149,7 @@
     .ticket-item-info { flex-grow: 1; margin-right: 10px; }
     .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
     .ticket-item-sub { font-size: 12px; color: #aaa; }
+    .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
     
     .ticket-actions { display: flex; align-items: center; gap: 6px; }
     .btn-ticket-qty {
@@ -259,7 +260,7 @@
 
   <script>
     // ⚠️ REEMPLAZA ESTE NÚMERO POR TU WHATSAPP REAL (Con código de país 502)
-    const NUMERO_WHATSAPP = "50248502382"; 
+    const NUMERO_WHATSAPP = "50200000000"; 
 
     let productos = [];
     let carrito = {};
@@ -274,6 +275,10 @@
         document.getElementById('catalogo').innerHTML = '<p>Error al cargar el catálogo.</p>';
       });
 
+    function obtenerKey(p) {
+      return (p.codigo + "_" + p.nombre + "_" + p.precio).replace(/[^a-zA-Z0-9_]/g, "_");
+    }
+
     function renderizar(lista) {
       const contenedor = document.getElementById('catalogo');
       contenedor.innerHTML = '';
@@ -282,7 +287,7 @@
         return;
       }
       lista.forEach(p => {
-        const key = p.codigo || p.nombre;
+        const key = obtenerKey(p);
         const cant = carrito[key] ? carrito[key].cantidad : 0;
 
         contenedor.innerHTML += `
@@ -294,12 +299,12 @@
             <div>
               <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
               ${cant === 0 ? `
-                <button class="btn-add" onclick="cambiarCant('${p.codigo}', '${p.nombre.replace(/'/g, "\\'")}', ${p.precio}, 1)">+ Agregar</button>
+                <button class="btn-add" onclick="cambiarCantPorProducto('${encodeURIComponent(p.codigo)}', '${encodeURIComponent(p.nombre)}',${p.precio}, 1)">+ Agregar</button>
               ` : `
                 <div class="qty-controls">
-                  <button class="btn-qty" onclick="cambiarCant('${p.codigo}', '${p.nombre.replace(/'/g, "\\'")}', ${p.precio}, -1)">-</button>
+                  <button class="btn-qty" onclick="cambiarCantPorProducto('${encodeURIComponent(p.codigo)}', '${encodeURIComponent(p.nombre)}',${p.precio}, -1)">-</button>
                   <span class="qty-num">${cant}</span>
-                  <button class="btn-qty" onclick="cambiarCant('${p.codigo}', '${p.nombre.replace(/'/g, "\\'")}', ${p.precio}, 1)">+</button>
+                  <button class="btn-qty" onclick="cambiarCantPorProducto('${encodeURIComponent(p.codigo)}', '${encodeURIComponent(p.nombre)}',${p.precio}, 1)">+</button>
                 </div>
               `}
             </div>
@@ -308,8 +313,11 @@
       });
     }
 
-    function cambiarCant(codigo, nombre, precio, delta) {
-      const key = codigo || nombre;
+    function cambiarCantPorProducto(codigoEnc, nombreEnc, precio, delta) {
+      const codigo = decodeURIComponent(codigoEnc);
+      const nombre = decodeURIComponent(nombreEnc);
+      const key = obtenerKey({codigo, nombre, precio});
+
       if (!carrito[key]) {
         carrito[key] = { codigo, nombre, precio: parseFloat(precio), cantidad: 0 };
       }
@@ -372,12 +380,13 @@
           <div class="ticket-item">
             <div class="ticket-item-info">
               <div class="ticket-item-title">${item.nombre}</div>
-              <div class="ticket-item-sub">Q${item.precio.toFixed(2)} c/u</div>
+              <div class="ticket-item-sub">Precio unitario: Q ${item.precio.toFixed(2)}</div>
+              <div class="ticket-item-subtotal">Subtotal (${item.cantidad}): Q ${subtotal.toFixed(2)}</div>
             </div>
             <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCant('${item.codigo}', '${item.nombre.replace(/'/g, "\\'")}', ${item.precio}, -1)">-</button>
+              <button class="btn-ticket-qty" onclick="cambiarCantPorProducto('${encodeURIComponent(item.codigo)}', '${encodeURIComponent(item.nombre)}', ${item.precio}, -1)">-</button>
               <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCant('${item.codigo}', '${item.nombre.replace(/'/g, "\\'")}', ${item.precio}, 1)">+</button>
+              <button class="btn-ticket-qty" onclick="cambiarCantPorProducto('${encodeURIComponent(item.codigo)}', '${encodeURIComponent(item.nombre)}', ${item.precio}, 1)">+</button>
               <button class="btn-delete" onclick="eliminarDelTicket('${k}')">🗑️</button>
             </div>
           </div>
@@ -435,8 +444,8 @@
       keys.forEach(k => {
         const item = carrito[k];
         const subtotal = item.cantidad * item.precio;
-        mensaje += `▪️ *${item.cantidad}x* ${item.nombre}\n`;
-        mensaje += `   _Q${item.precio.toFixed(2)} c/u = Q${subtotal.toFixed(2)}_\n`;
+        mensaje += `▪️ *${item.nombre}*\n`;
+        mensaje += `   Cant: *${item.cantidad}* x Q${item.precio.toFixed(2)} c/u = *Q${subtotal.toFixed(2)}*\n`;
       });
 
       mensaje += `\n------------------------------------\n`;
