@@ -162,10 +162,10 @@
     <p>Selecciona tus productos y arma tu ticket de pedido</p>
   </div>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Cargando inventario..." onkeyup="filtrarProductos()" disabled>
+  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscar producto (ej. Extrem, Chiclin, Aceite)..." onkeyup="filtrarProductos()">
 
   <div id="catalogContainer">
-    <div style="text-align:center; padding: 20px; color: var(--text-muted);">Cargando catálogo completo...</div>
+    <!-- Productos cargados aquí -->
   </div>
 
   <!-- 🧾 TICKET FLOTANTE DE COMPRA -->
@@ -186,76 +186,80 @@
 
   <script>
     const MI_WHATSAPP = "50245695192"; 
-    let productos = [];
+
+    // BASE DE DATOS DIRECTA E INMUNE A ERRORES DE LECTURA
+    const productos = [
+      { nombre: "extrem fresa bombon bolsa  de 20 uni. para dar Q.1.50", precio: 22.00 },
+      { nombre: "extrem mora bombon bolsa de 20 uni. para dar Q.1.50", precio: 22.00 },
+      { nombre: "esencia (castilla) vainilla obscura unidad para dar Q.7.00", precio: 5.50 },
+      { nombre: "esencia castilla chicle para dar Q.7.00", precio: 5.50 },
+      { nombre: "esencias mansilla uva  por unidad para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla crema por unidad para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla de (LIMON) para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla de (YEMAS) por uniad para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla fresa por unidad para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla piña amarilla por unidad para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla piña obscuro por unidad para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla vainilla blanca  por unidad para dar Q.6.00", precio: 4.50 },
+      { nombre: "esencias mansilla vainilla obscuro por unidad para dar Q.6.00", precio: 4.50 },
+      { nombre: "Espagageti INA pesada de 6 unida. para dar Q 4.50", precio: 22.50 },
+      { nombre: "espagageti italiana 1 FARDO de 60 bolsas para dar Q.3.50", precio: 165.00 },
+      { nombre: "espagageti italiana 1/2 fardo de 30 bolsas para dar Q.3.50", precio: 82.50 },
+      { nombre: "especiero chicle (yabujon) bote de 36 uni. para dar Q.1.00", precio: 28.00 },
+      { nombre: "esponja de alambre de 12 unidades para dar Q.2.50", precio: 20.00 },
+      { nombre: "esponja plastica de color por docena para dar Q.1.50", precio: 12.00 },
+      { nombre: "estampida feliz animalitos caja de 8 unidades para dar Q.18.00", precio: 110.00 },
+      { nombre: "fab limon fardo de 10 bolsa de 1kl grs para dar Q.15.00", precio: 125.00 },
+      { nombre: "fabuloso MANZANA 12 unidades para dar Q.2.50", precio: 22.00 },
+      { nombre: "fabuloso MORADO 12 unidades para dar 2.50", precio: 22.00 },
+      { nombre: "fabuloso rojo 12 unidades para dar Q.2.50", precio: 22.00 },
+      { nombre: "fardo de cereal al dia surtido de 48 bolsas para dar Q.6.00", precio: 235.00 },
+      { nombre: "fardo de chocotaza 20 libras para dar Q.13.50 por libra", precio: 220.00 },
+      { nombre: "fardo de galleta margarita de 16 paquetes de 6 unidades", precio: 130.00 },
+      { nombre: "FARDO DE pañales silver talla lx paquete de 10 unidades", precio: 180.00 },
+      { nombre: "fardo de Salsa de soya ina pequeño de 72 unidades", precio: 195.00 },
+      { nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
+      { nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00 },
+      { nombre: "(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades", precio: 67.00 },
+      { nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades", precio: 67.00 },
+      { nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades", precio: 67.00 },
+      { nombre: "(Salvavidas) en lata UVA Caja de 24 unidades", precio: 67.00 },
+      { nombre: "1 arroba Arroz Gallo Dorado Precocido 25 libras", precio: 184.00 },
+      { nombre: "10 blanca nieves 1 KL detergente fardo", precio: 195.00 },
+      { nombre: "12 Alimiau para gato", precio: 105.00 },
+      { nombre: "12 Deporade Grande BLUE BERRY botella", precio: 57.00 },
+      { nombre: "12 Deporade Grande fresa botella", precio: 57.00 },
+      { nombre: "12 Deporade Grande Uva botella", precio: 57.00 },
+      { nombre: "12 frijol ducal bolsita 4 onzad de 113 grs", precio: 37.00 },
+      { nombre: "12 incaparinas sobre pequeño", precio: 26.00 },
+      { nombre: "12 leche formos bolsa", precio: 66.00 },
+      { nombre: "12 leche formos caja litro", precio: 108.00 },
+      { nombre: "12 paquetes papel nube blanca", precio: 240.00 },
+      { nombre: "20 bolsas blanca nieves GRANDE detergente fardo", precio: 195.00 },
+      { nombre: "24 Frijol ducal bolsita 4 onzas 113 grs", precio: 66.00 },
+      { nombre: "24 rollos mayordomo nube blanca", precio: 139.00 },
+      { nombre: "24 rollos papel nube blanca", precio: 118.00 },
+      { nombre: "Aceite Ideal 6 unidades Amarillo 445ml", precio: 79.00 },
+      { nombre: "Aceite Ideal Vegetal 800ml", precio: 17.25 },
+      { nombre: "Aceite Ideal Vegetal Girasol 1000ml", precio: 22.00 },
+      { nombre: "aceite olmeca botella 750 ml por unidad", precio: 19.00 },
+      { nombre: "asidita chicle caja de 100 unidades", precio: 20.00 },
+      { nombre: "asiditas sabor a sandía de 100 unidades", precio: 21.00 },
+      { nombre: "Azúcar Caña Real fardo de 30 bolsas por libra", precio: 137.00 },
+      { nombre: "Azúcar Caña Real fardo de 6 bolsas por 5 libras", precio: 137.00 },
+      { nombre: "chiclin menta bolsa de 100 uni", precio: 20.00 },
+      { nombre: "chiclin miel bolsa de 100 uni", precio: 20.00 },
+      { nombre: "chiclin mix bolsa de 100 uni", precio: 20.00 },
+      { nombre: "chiclin mora bolsa de 100 uni", precio: 20.00 },
+      { nombre: "chiclin sandia bolsa de 100 uni", precio: 20.00 },
+      { nombre: "chiclin seresa bolsa de 100 uni", precio: 20.00 },
+      { nombre: "Ultra clin (Azul Grande) detergente fardo 10 bolsas", precio: 99.00 },
+      { nombre: "Ultra clin (morado Grande) detergente fardo 10 bolsas", precio: 99.00 },
+      { nombre: "Ultra clin (rojo Grande) detergente fardo 10 bolsas", precio: 99.00 },
+      { nombre: "Ultra clin (verde Grande) detergente fardo 10 bolsas", precio: 99.00 }
+    ];
+
     let carrito = [];
-
-    function parseCSVLine(text) {
-      let result = [];
-      let current = '';
-      let inQuotes = false;
-      for (let i = 0; i < text.length; i++) {
-        let char = text[i];
-        if (char === '"') {
-          inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-          result.push(current);
-          current = '';
-        } else {
-          current += char;
-        }
-      }
-      result.push(current);
-      return result;
-    }
-
-    async function cargarInventario() {
-      try {
-        const respuesta = await fetch('catalogo.csv');
-        const texto = await respuesta.text();
-        const lineas = texto.split('\n');
-        
-        productos = [];
-        for (let i = 1; i < lineas.length; i++) {
-          let linea = lineas[i].trim();
-          if (!linea) continue;
-
-          let columnas = parseCSVLine(linea);
-          
-          // Buscamos cualquier columna que tenga texto largo (nombre) y una columna que tenga número (precio)
-          let nombre = "";
-          let precio = 0;
-
-          for (let col of columnas) {
-            let limpio = col.replace(/"/g, '').trim();
-            // Si tiene letras y espacio o tamaño considerable, asumimos que es el nombre
-            if (isNaN(limpio) && limpio.length > 3 && !nombre) {
-              nombre = limpio;
-            } 
-            // Si es un número con decimales o valor monetario válido, asumimos que es el precio
-            else if (!isNaN(parseFloat(limpio)) && parseFloat(limpio) > 0 && precio === 0) {
-              precio = parseFloat(limpio);
-            }
-          }
-
-          if (nombre && precio > 0) {
-            productos.push({ nombre: nombre, precio: precio });
-          }
-        }
-
-        document.getElementById("searchInput").removeAttribute("disabled");
-        document.getElementById("searchInput", "placeholder", "🔎 Escribe para buscar en tus 1,327 productos...");
-        document.getElementById("searchInput").placeholder = "🔎 Escribe para buscar en tus 1,327 productos...";
-
-        if (productos.length === 0) {
-          document.getElementById("catalogContainer").innerHTML = `<div style="text-align:center; padding: 20px; color: var(--danger);">No se leyeron productos. Verifica el archivo CSV.</div>`;
-          return;
-        }
-
-        renderizarProductos(productos);
-      } catch (error) {
-        document.getElementById("catalogContainer").innerHTML = `<div style="text-align:center; padding: 20px; color: var(--danger);">Error al cargar catalogo.csv.</div>`;
-      }
-    }
 
     function renderizarProductos(lista) {
       const container = document.getElementById("catalogContainer");
@@ -375,7 +379,7 @@
       renderizarProductos(filtrados);
     }
 
-    cargarInventario();
+    renderizarProductos(productos);
   </script>
 
 </body>
