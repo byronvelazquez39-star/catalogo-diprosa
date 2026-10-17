@@ -162,10 +162,10 @@
     <p>Selecciona tus productos y arma tu ticket de pedido</p>
   </div>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscar producto (ej. Chiclin, Aceite, Frijol)..." onkeyup="filtrarProductos()">
+  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscando en tus 1,327 productos..." onkeyup="filtrarProductos()" disabled>
 
   <div id="catalogContainer">
-    <!-- Productos cargados aquí -->
+    <div style="text-align:center; padding: 20px; color: var(--text-muted);">Cargando inventario completo...</div>
   </div>
 
   <!-- 🧾 TICKET FLOTANTE DE COMPRA -->
@@ -186,53 +186,44 @@
 
   <script>
     const MI_WHATSAPP = "50245695192"; 
-
-    const productos = [
-      { id: "30", nombre: "Chiclin Menta (Bolsa 100 uni)", precio: 20.00 },
-      { id: "31", nombre: "Chiclin Miel (Bolsa 100 uni)", precio: 20.00 },
-      { id: "32", nombre: "Chiclin Mix (Bolsa 100 uni)", precio: 20.00 },
-      { id: "33", nombre: "Chiclin Mora (Bolsa 100 uni)", precio: 20.00 },
-      { id: "34", nombre: "Chiclin Sandia (Bolsa 100 uni)", precio: 20.00 },
-      { id: "25", nombre: "Chiclin Cereza (Bolsa 100 uni)", precio: 20.00 },
-      { id: "987", nombre: "(Almohadita) 4 oz por bolsa", precio: 29.50 },
-      { id: "1655", nombre: "(Almohadita) Fardo 4 oz", precio: 110.00 },
-      { id: "1836", nombre: "(CARNAVAL) Lata Soda Naranjada (Caja 24)", precio: 67.00 },
-      { id: "1834", nombre: "(Salvavidas) Lata Limonada (Caja 24)", precio: 67.00 },
-      { id: "1835", nombre: "(Salvavidas) Lata Roja (Caja 24)", precio: 67.00 },
-      { id: "1833", nombre: "(Salvavidas) Lata Uva (Caja 24)", precio: 67.00 },
-      { id: "1856", nombre: "1 Arroba Arroz Gallo Dorado Precocido 25 Lbs", precio: 184.00 },
-      { id: "1960", nombre: "10 Blanca Nieves 1 KL Detergente Fardo", precio: 195.00 },
-      { id: "1401", nombre: "10 Bolsas Blanca Nieves Grande Medio Fardo", precio: 97.50 },
-      { id: "1453", nombre: "12 Alimiau para Gato", precio: 105.00 },
-      { id: "1940", nombre: "12 Deporade Grande Blue Berry", precio: 57.00 },
-      { id: "1933", nombre: "12 Deporade Grande Fresa", precio: 57.00 },
-      { id: "1932", nombre: "12 Deporade Grande Uva", precio: 57.00 },
-      { id: "1931", nombre: "12 Deporade Pequeño Fresa", precio: 36.00 },
-      { id: "1934", nombre: "12 Deporade Pequeño Uva", precio: 36.00 },
-      { id: "783", nombre: "12 Frijol Ducal Bolsita 4 oz (113 grs)", precio: 37.00 },
-      { id: "750", nombre: "12 Incaparina Sobre Pequeño", precio: 26.00 },
-      { id: "1396", nombre: "12 Leche Formos Bolsa", precio: 66.00 },
-      { id: "1452", nombre: "12 Leche Formos Caja Litro", precio: 108.00 },
-      { id: "1868", nombre: "12 Paquetes Papel Nube Blanca", precio: 240.00 },
-      { id: "1390", nombre: "20 Bolsas Blanca Nieves Grande Fardo", precio: 195.00 },
-      { id: "1435", nombre: "20 Libras Chocolate Rico Fardo", precio: 270.00 },
-      { id: "782", nombre: "24 Frijol Ducal Bolsita 4 oz (113 grs)", precio: 66.00 },
-      { id: "1887", nombre: "24 Rollos Mayordomo Nube Blanca", precio: 139.00 },
-      { id: "1440", nombre: "24 Rollos Papel Nube Blanca", precio: 118.00 },
-      { id: "1541", nombre: "Azúcar Caña Real (Fardo 30 lbs)", precio: 137.00 },
-      { id: "969", nombre: "Azúcar Caña Real (Fardo 6 x 5 lbs)", precio: 137.00 },
-      { id: "937", nombre: "Aceite Ideal Amarillo 445ml (6 Unidades)", precio: 79.00 },
-      { id: "936", nombre: "Aceite Ideal Vegetal 800ml", precio: 17.25 },
-      { id: "938", nombre: "Aceite Ideal Vegetal Girasol 1000ml", precio: 22.00 },
-      { id: "1046", nombre: "Aceite Olmeca Botella 750ml", precio: 19.00 },
-      { id: "1830", nombre: "Ultra Clin Azul Grande (10 Bolsas 850 grs)", precio: 99.00 },
-      { id: "1831", nombre: "Ultra Clin Azul Pequeño (20 Bolsas 400 grs)", precio: 99.00 },
-      { id: "1545", nombre: "Ultra Clin Morado Grande (10 Bolsas 850 grs)", precio: 99.00 },
-      { id: "1439", nombre: "Ultra Clin Rojo Grande (10 Bolsas 850 grs)", precio: 99.00 },
-      { id: "1388", nombre: "Ultra Clin Verde Grande (10 Bolsas 850 grs)", precio: 99.00 }
-    ];
-
+    let productos = [];
     let carrito = [];
+
+    async function cargarInventario() {
+      try {
+        const respuesta = await fetch('catalogo.csv');
+        const texto = await respuesta.text();
+        const lineas = texto.split('\n');
+        
+        productos = [];
+        for (let i = 1; i < lineas.length; i++) {
+          let linea = lineas[i].trim();
+          if (!linea) continue;
+
+          let columnas = linea.split('\t');
+          if (columnas.length < 4) {
+            columnas = linea.split(',');
+          }
+
+          if (columnas.length >= 4) {
+            let detalle = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
+            let precioStr = columnas[3] ? columnas[3].replace(/"/g, '').trim().replace(',', '') : '0';
+            let precio = parseFloat(precioStr) || 0;
+            let estado = columnas[4] ? columnas[4].replace(/"/g, '').trim() : '';
+
+            if (detalle && precio > 0 && (!estado || estado.toLowerCase().includes('activado'))) {
+              productos.push({ nombre: detalle, precio: precio });
+            }
+          }
+        }
+
+        document.getElementById("searchInput").removeAttribute("disabled");
+        document.getElementById("searchInput").placeholder = "🔎 Escribe para buscar en tus 1,327 productos...";
+        renderizarProductos(productos);
+      } catch (error) {
+        document.getElementById("catalogContainer").innerHTML = `<div style="text-align:center; padding: 20px; color: var(--danger);">Error al cargar el catálogo. Verifica que catalogo.csv esté en el repositorio.</div>`;
+      }
+    }
 
     function renderizarProductos(lista) {
       const container = document.getElementById("catalogContainer");
@@ -243,7 +234,9 @@
         return;
       }
 
-      lista.forEach((prod) => {
+      const limite = lista.slice(0, 50);
+
+      limite.forEach((prod) => {
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
@@ -340,13 +333,17 @@
       window.open(url, '_blank');
     }
 
+    function normalizar(texto) {
+      return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
     function filtrarProductos() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(query));
+      const query = normalizar(document.getElementById("searchInput").value);
+      const filtrados = productos.filter(p => normalizar(p.nombre).includes(query));
       renderizarProductos(filtrados);
     }
 
-    renderizarProductos(productos);
+    cargarInventario();
   </script>
 
 </body>
