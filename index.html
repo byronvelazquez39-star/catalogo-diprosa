@@ -21,6 +21,8 @@
     .app-container {
       max-width: 480px;
       margin: 0 auto;
+      background-color: #f4f6f8;
+      min-height: 100vh;
     }
 
     /* Encabezado Superior */
@@ -33,13 +35,13 @@
     }
     .header h1 {
       margin: 0;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
     }
     .header p {
       color: #cbd5e1;
       margin: 5px 0 0 0;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     /* Buscador */
@@ -53,15 +55,16 @@
       border: 2px solid #3182ce;
       border-radius: 8px;
       outline: none;
+      background: #ffffff;
     }
 
     /* Sección Título Categorías */
     .section-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
       color: #1a365d;
       text-align: center;
-      margin: 10px 0 15px 0;
+      margin: 10px 0 12px 0;
     }
 
     /* Categorías de DIPROSA */
@@ -106,23 +109,17 @@
     /* Contenedor de Catálogo Dinámico */
     .loading {
       text-align: center;
-      font-size: 16px;
+      font-size: 15px;
       color: #4a5568;
       padding: 20px;
     }
 
     .catalog-container {
-      display: grid;
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
       padding: 0 15px;
       margin-bottom: 25px;
-    }
-
-    @media (min-width: 600px) {
-      .catalog-container {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      }
     }
 
     .product-card {
@@ -130,7 +127,7 @@
       border-radius: 8px;
       padding: 15px;
       border: 1px solid #e2e8f0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
 
     .product-title {
@@ -165,7 +162,7 @@
       font-size: 14px;
     }
 
-    /* Tarjetas de Servicio */
+    /* Accesos */
     .menu-cards {
       display: flex;
       flex-direction: column;
@@ -179,7 +176,6 @@
       border-radius: 8px;
       padding: 14px 16px;
       border: 1px solid #e2e8f0;
-      cursor: pointer;
     }
 
     .card-text {
@@ -189,12 +185,10 @@
       margin: 0;
     }
 
-    /* Región y País */
+    /* Cobertura */
     .region-container {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+      justify-content: center;
       padding: 0 15px;
       margin-bottom: 25px;
     }
@@ -202,15 +196,7 @@
     .region-selector {
       display: flex;
       align-items: center;
-      justify-content: center;
       gap: 16px;
-      width: 100%;
-    }
-
-    .country-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .flag-icon {
@@ -220,64 +206,28 @@
       border-radius: 2px;
     }
 
-    .country-name {
-      color: #1a365d;
-      font-weight: bold;
-      font-size: 14px;
-    }
-
-    .divider {
-      width: 1px;
-      height: 25px;
-      background-color: #cbd5e1;
-    }
-
-    /* Footer Azul */
+    /* Footer */
     .footer-container {
       background-color: #1a365d;
       color: #ffffff;
       padding: 20px 15px 15px 15px;
-    }
-
-    .footer-brand {
       text-align: center;
-      margin-bottom: 15px;
     }
 
     .brand-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: bold;
       margin-bottom: 10px;
     }
 
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    .social-icon {
-      width: 36px;
-      height: 36px;
-      border: 1.5px solid #ffffff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      text-decoration: none;
-    }
-
     .copyright {
-      text-align: center;
       font-size: 11px;
       color: #94a3b8;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding-top: 12px;
     }
 
-    /* Barra Fija Inferior */
+    /* Barra Inferior Fija */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -310,22 +260,6 @@
     .nav-item i {
       font-size: 20px;
     }
-
-    .cart-badge {
-      position: absolute;
-      top: 8px;
-      right: 28%;
-      background-color: #dc2626;
-      color: #ffffff;
-      font-size: 10px;
-      font-weight: bold;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
   </style>
 </head>
 <body>
@@ -340,7 +274,7 @@
 
     <!-- Buscador -->
     <div class="search-container">
-      <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar producto (ej: Aceite, Frijol, Gelatina)...">
+      <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar producto...">
     </div>
 
     <!-- Categorías -->
@@ -364,11 +298,11 @@
       </div>
     </div>
 
-    <!-- Contenedor del Catálogo Dinámico -->
+    <!-- Catálogo Dinámico -->
     <div id="loading" class="loading">Cargando catálogo de productos...</div>
     <div id="catalog" class="catalog-container"></div>
 
-    <!-- Accesos de Servicio -->
+    <!-- Accesos -->
     <div class="menu-cards">
       <div class="card-item">
         <p class="card-text">Lista General de Precios y Mayoreo</p>
@@ -378,27 +312,21 @@
       </div>
     </div>
 
-    <!-- Selector de Cobertura -->
+    <!-- Cobertura -->
     <div class="region-container">
       <div class="region-selector">
-        <div class="country-box">
+        <div style="display:flex; align-items:center; gap:8px;">
           <img class="flag-icon" src="https://flagcdn.com/w40/gt.png" alt="Guatemala">
-          <span class="country-name">Guatemala</span>
+          <span style="font-weight:bold; font-size:14px; color:#1a365d;">Guatemala</span>
         </div>
-        <div class="divider"></div>
-        <span style="font-weight: bold; font-size: 14px; color: #1a365d;">Español</span>
+        <div style="width:1px; height:25px; background:#cbd5e1;"></div>
+        <span style="font-weight:bold; font-size:14px; color:#1a365d;">Español</span>
       </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer-container">
-      <div class="footer-brand">
-        <div class="brand-title">DIPROSA</div>
-        <div class="social-icons">
-          <a href="#" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
-          <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
-        </div>
-      </div>
+      <div class="brand-title">DIPROSA</div>
       <div class="copyright">
         © 2026 DIPROSA. Todos los derechos reservados.
       </div>
@@ -408,25 +336,16 @@
 
   <!-- Barra Fija Inferior -->
   <nav class="bottom-nav">
-    <a href="#" class="nav-item active">
-      <i class="fa-solid fa-house"></i>
-    </a>
-    <a href="#" class="nav-item">
-      <i class="fa-solid fa-cart-shopping"></i>
-      <span class="cart-badge">1</span>
-    </a>
-    <a href="#" class="nav-item">
-      <i class="fa-regular fa-address-card"></i>
-    </a>
-    <a href="#" class="nav-item">
-      <i class="fa-solid fa-bars"></i>
-    </a>
+    <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-cart-shopping"></i></a>
+    <a href="#" class="nav-item"><i class="fa-regular fa-address-card"></i></a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-bars"></i></a>
   </nav>
 
-  <!-- JavaScript Carga Automática de Google Sheets -->
+  <!-- Script con URL completa y correcta -->
   <script>
     let allProducts = [];
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTtasVXpH4oXxOpUOfMiQzTpyuvFy3ZYDVzoSkIbOLir6wA-jZ3Y8e5pLz9_B9R2Wd1uN_U3X0M/pub?output=csv';
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/18Z1AD66u5uU7oZS7nS4NZpAjh_YJiBlvH8O_ci4e8QM/export?format=csv';
 
     async function loadCatalog() {
       try {
@@ -459,7 +378,7 @@
       container.innerHTML = '';
       
       if(products.length === 0) {
-        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No se encontraron productos.</p>';
+        container.innerHTML = '<p style="text-align:center;">No se encontraron productos.</p>';
         return;
       }
 
