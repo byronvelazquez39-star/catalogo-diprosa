@@ -8,7 +8,7 @@
     :root {
       --primary: #1E3A8A;
       --secondary: #25D366;
-      --bg: #121212; /* Fondo oscuro elegante como en tu captura */
+      --bg: #121212;
       --card-bg: #1E1E1E;
       --text: #FFFFFF;
       --text-muted: #A0AEC0;
@@ -20,7 +20,7 @@
       color: var(--text);
       margin: 0;
       padding: 15px;
-      padding-bottom: 250px;
+      padding-bottom: 240px;
     }
     .header {
       text-align: center;
@@ -30,8 +30,8 @@
       border-radius: 10px;
       margin-bottom: 15px;
     }
-    .header h1 { margin: 0; font-size: 1.4rem; }
-    .header p { margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.9; }
+    .header h1 { margin: 0; font-size: 1.3rem; }
+    .header p { margin: 5px 0 0 0; font-size: 0.85rem; opacity: 0.9; }
     .search-box {
       width: 100%;
       padding: 12px;
@@ -43,43 +43,31 @@
       margin-bottom: 15px;
     }
     .search-box::placeholder { color: #A0AEC0; }
+    
     .product-card {
       background: var(--card-bg);
       border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 12px;
+      padding: 12px 15px;
+      margin-bottom: 10px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       gap: 10px;
     }
-    .product-info { display: flex; justify-content: space-between; align-items: center; }
-    .product-title { font-weight: bold; font-size: 1rem; }
-    .product-price { color: #63B3ED; font-size: 1.1rem; font-weight: bold; }
+    .product-info { flex: 1; }
+    .product-title { font-weight: bold; font-size: 0.95rem; margin-bottom: 4px; }
+    .product-price { color: #63B3ED; font-size: 1.05rem; font-weight: bold; }
     
-    .product-options {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-    .flavor-select {
-      flex: 1;
-      padding: 8px;
-      background: #2D3748;
-      color: white;
-      border: 1px solid #4A5568;
-      border-radius: 6px;
-      font-size: 0.9rem;
-    }
     .btn-add {
       background-color: var(--primary);
       color: white;
       border: none;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       white-space: nowrap;
     }
     .btn-add:active { opacity: 0.8; }
@@ -92,26 +80,26 @@
       right: 0;
       background: #1A202C;
       border-top: 3px solid var(--secondary);
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.4);
-      padding: 15px;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.5);
+      padding: 12px 15px;
       max-height: 220px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       z-index: 1000;
     }
     .ticket-header {
       display: flex;
       justify-content: space-between;
       font-weight: bold;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       border-bottom: 1px dashed #4A5568;
       padding-bottom: 5px;
     }
     .ticket-list {
       overflow-y: auto;
       max-height: 90px;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -140,16 +128,16 @@
 
   <div class="header">
     <h1>📦 Distribuidora DIPROSA</h1>
-    <p>Selecciona el sabor y arma tu pedido</p>
+    <p>Selecciona tus productos y arma tu ticket de pedido</p>
   </div>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscar producto (ej. Chiclin)..." onkeyup="filtrarProductos()">
+  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscar producto (ej. Chiclin, Aceite, Frijol)..." onkeyup="filtrarProductos()">
 
   <div id="catalogContainer">
-    <!-- Lista de productos -->
+    <!-- Lista cargada dinámicamente -->
   </div>
 
-  <!-- 🧾 TICKET DE COMPRA FLOTANTE -->
+  <!-- 🧾 TICKET FLOTANTE DE COMPRA -->
   <div class="ticket-container">
     <div class="ticket-header">
       <span>🧾 Tu Pedido:</span>
@@ -168,26 +156,50 @@
   <script>
     const MI_WHATSAPP = "50245695192"; 
 
-    // Lista de productos con opciones de sabores para Chiclín
+    // LISTA BASADA EN TU INVENTARIO REAL
     const productos = [
-      { 
-        id: "chiclin", 
-        nombre: "Chiclin (Docena)", 
-        precio: 15.00, 
-        sabores: ["Menta", "Fresa", "Tutti Frutti", "Hierbabuena", "Uva"] 
-      },
-      { 
-        id: "almohadita4oz", 
-        nombre: "(Almohadita) 4 onzas por docena", 
-        precio: 29.50, 
-        sabores: ["Sabor Estándar"] 
-      },
-      { 
-        id: "almohaditafardo", 
-        nombre: "(Almohadita) Fardo 4 onzas", 
-        precio: 110.00, 
-        sabores: ["Sabor Estándar"] 
-      }
+      { id: "30", nombre: "Chiclin Menta (Bolsa 100 uni)", precio: 20.00 },
+      { id: "31", nombre: "Chiclin Miel (Bolsa 100 uni)", precio: 20.00 },
+      { id: "32", nombre: "Chiclin Mix (Bolsa 100 uni)", precio: 20.00 },
+      { id: "33", nombre: "Chiclin Mora (Bolsa 100 uni)", precio: 20.00 },
+      { id: "34", nombre: "Chiclin Sandia (Bolsa 100 uni)", precio: 20.00 },
+      { id: "25", nombre: "Chiclin Cereza (Bolsa 100 uni)", precio: 20.00 },
+      { id: "987", nombre: "(Almohadita) 4 oz por docena para dar Q3.00", precio: 29.50 },
+      { id: "1655", nombre: "(Almohadita) Fardo 4 oz para dar Q3.00", precio: 110.00 },
+      { id: "1836", nombre: "(CARNAVAL) Lata Soda Naranjada (Caja 24)", precio: 67.00 },
+      { id: "1834", nombre: "(Salvavidas) Lata Limonada (Caja 24)", precio: 67.00 },
+      { id: "1835", nombre: "(Salvavidas) Lata Roja (Caja 24)", precio: 67.00 },
+      { id: "1833", nombre: "(Salvavidas) Lata Uva (Caja 24)", precio: 67.00 },
+      { id: "1856", nombre: "1 Arroba Arroz Gallo Dorado Precocido 25 Lbs", precio: 184.00 },
+      { id: "1960", nombre: "10 Blanca Nieves 1 KL Detergente Fardo", precio: 195.00 },
+      { id: "1401", nombre: "10 Bolsas Blanca Nieves Grande Medio Fardo", precio: 97.50 },
+      { id: "1453", nombre: "12 Alimiau para Gato", precio: 105.00 },
+      { id: "1940", nombre: "12 Deporade Grande Blue Berry", precio: 57.00 },
+      { id: "1933", nombre: "12 Deporade Grande Fresa", precio: 57.00 },
+      { id: "1932", nombre: "12 Deporade Grande Uva", precio: 57.00 },
+      { id: "1931", nombre: "12 Deporade Pequeño Fresa", precio: 36.00 },
+      { id: "1934", nombre: "12 Deporade Pequeño Uva", precio: 36.00 },
+      { id: "783", nombre: "12 Frijol Ducal Bolsita 4 oz (113 grs)", precio: 37.00 },
+      { id: "750", nombre: "12 Incaparina Sobre Pequeño", precio: 26.00 },
+      { id: "1396", nombre: "12 Leche Formos Bolsa", precio: 66.00 },
+      { id: "1452", nombre: "12 Leche Formos Caja Litro", precio: 108.00 },
+      { id: "1868", nombre: "12 Paquetes Papel Nube Blanca", precio: 240.00 },
+      { id: "1390", nombre: "20 Bolsas Blanca Nieves Grande Fardo", precio: 195.00 },
+      { id: "1435", nombre: "20 Libras Chocolate Rico Fardo", precio: 270.00 },
+      { id: "782", nombre: "24 Frijol Ducal Bolsita 4 oz (113 grs)", precio: 66.00 },
+      { id: "1887", nombre: "24 Rollos Mayordomo Nube Blanca", precio: 139.00 },
+      { id: "1440", nombre: "24 Rollos Papel Nube Blanca", precio: 118.00 },
+      { id: "1541", nombre: "Azúcar Caña Real (Fardo 30 lbs)", precio: 137.00 },
+      { id: "969", nombre: "Azúcar Caña Real (Fardo 6 x 5 lbs)", precio: 137.00 },
+      { id: "937", nombre: "Aceite Ideal Amarillo 445ml (6 Unidades)", precio: 79.00 },
+      { id: "936", nombre: "Aceite Ideal Vegetal 800ml", precio: 17.25 },
+      { id: "938", nombre: "Aceite Ideal Vegetal Girasol 1000ml", precio: 22.00 },
+      { id: "1046", nombre: "Aceite Olmeca Botella 750ml", precio: 19.00 },
+      { id: "1830", nombre: "Ultra Clin Azul Grande (10 Bolsas 850 grs)", precio: 99.00 },
+      { id: "1831", nombre: "Ultra Clin Azul Pequeño (20 Bolsas 400 grs)", precio: 99.00 },
+      { id: "1545", nombre: "Ultra Clin Morado Grande (10 Bolsas 850 grs)", precio: 99.00 },
+      { id: "1439", nombre: "Ultra Clin Rojo Grande (10 Bolsas 850 grs)", precio: 99.00 },
+      { id: "1388", nombre: "Ultra Clin Verde Grande (10 Bolsas 850 grs)", precio: 99.00 }
     ];
 
     let carrito = [];
@@ -196,10 +208,12 @@
       const container = document.getElementById("catalogContainer");
       container.innerHTML = "";
 
-      lista.forEach((prod) => {
-        // Generar las opciones del selector de sabores
-        let opcionesHTML = prod.sabores.map(sabor => `<option value="${sabor}">${sabor}</option>`).join('');
+      if (lista.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">No se encontraron productos.</div>`;
+        return;
+      }
 
+      lista.forEach((prod) => {
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
@@ -207,32 +221,20 @@
             <div class="product-title">${prod.nombre}</div>
             <div class="product-price">Q${prod.precio.toFixed(2)}</div>
           </div>
-          <div class="product-options">
-            <select id="sabor-${prod.id}" class="flavor-select">
-              ${opcionesHTML}
-            </select>
-            <button class="btn-add" onclick="agregarAlCarrito('${prod.id}', '${prod.nombre}', ${prod.precio})">
-              + Agregar
-            </button>
-          </div>
+          <button class="btn-add" onclick="agregarAlCarrito('${prod.nombre.replace(/'/g, "\\'")}', ${prod.precio})">
+            + Agregar
+          </button>
         `;
         container.appendChild(card);
       });
     }
 
-    function agregarAlCarrito(idProd, nombreBase, precio) {
-      // Capturar el sabor seleccionado en el menú desplegable
-      const selectSabor = document.getElementById(`sabor-${idProd}`);
-      const saborElegido = selectSabor ? selectSabor.value : "";
-      
-      // Crear un nombre único que incluya el sabor (ej: "Chiclin (Docena) - Fresa")
-      const nombreCompleto = saborElegido !== "Sabor Estándar" ? `${nombreBase} (${saborElegido})` : nombreBase;
-
-      const existe = carrito.find(item => item.nombre === nombreCompleto);
+    function agregarAlCarrito(nombre, precio) {
+      const existe = carrito.find(item => item.nombre === nombre);
       if (existe) {
         existe.cantidad += 1;
       } else {
-        carrito.push({ nombre: nombreCompleto, precio, cantidad: 1 });
+        carrito.push({ nombre, precio, cantidad: 1 });
       }
       actualizarTicket();
     }
