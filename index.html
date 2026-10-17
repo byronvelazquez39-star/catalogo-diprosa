@@ -8,6 +8,7 @@
     :root {
       --primary: #1E3A8A;
       --secondary: #25D366;
+      --danger: #EF4444;
       --bg: #121212;
       --card-bg: #1E1E1E;
       --text: #FFFFFF;
@@ -20,7 +21,7 @@
       color: var(--text);
       margin: 0;
       padding: 15px;
-      padding-bottom: 240px;
+      padding-bottom: 250px;
     }
     .header {
       text-align: center;
@@ -63,7 +64,7 @@
       background-color: var(--primary);
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
@@ -82,7 +83,7 @@
       border-top: 3px solid var(--secondary);
       box-shadow: 0 -4px 12px rgba(0,0,0,0.5);
       padding: 12px 15px;
-      max-height: 220px;
+      max-height: 240px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -98,7 +99,7 @@
     }
     .ticket-list {
       overflow-y: auto;
-      max-height: 90px;
+      max-height: 100px;
       font-size: 0.85rem;
       margin: 0;
       padding: 0;
@@ -107,8 +108,38 @@
     .ticket-item {
       display: flex;
       justify-content: space-between;
-      padding: 4px 0;
+      align-items: center;
+      padding: 6px 0;
       border-bottom: 1px solid #2D3748;
+      gap: 10px;
+    }
+    .ticket-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-qty {
+      background: #4A5568;
+      color: white;
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-delete {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-weight: bold;
     }
     .btn-ws {
       background-color: var(--secondary);
@@ -134,7 +165,7 @@
   <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscar producto (ej. Chiclin, Aceite, Frijol)..." onkeyup="filtrarProductos()">
 
   <div id="catalogContainer">
-    <!-- Lista cargada dinámicamente -->
+    <!-- Productos cargados aquí -->
   </div>
 
   <!-- 🧾 TICKET FLOTANTE DE COMPRA -->
@@ -156,7 +187,6 @@
   <script>
     const MI_WHATSAPP = "50245695192"; 
 
-    // LISTA BASADA EN TU INVENTARIO REAL
     const productos = [
       { id: "30", nombre: "Chiclin Menta (Bolsa 100 uni)", precio: 20.00 },
       { id: "31", nombre: "Chiclin Miel (Bolsa 100 uni)", precio: 20.00 },
@@ -164,8 +194,8 @@
       { id: "33", nombre: "Chiclin Mora (Bolsa 100 uni)", precio: 20.00 },
       { id: "34", nombre: "Chiclin Sandia (Bolsa 100 uni)", precio: 20.00 },
       { id: "25", nombre: "Chiclin Cereza (Bolsa 100 uni)", precio: 20.00 },
-      { id: "987", nombre: "(Almohadita) 4 oz por docena para dar Q3.00", precio: 29.50 },
-      { id: "1655", nombre: "(Almohadita) Fardo 4 oz para dar Q3.00", precio: 110.00 },
+      { id: "987", nombre: "(Almohadita) 4 oz por bolsa", precio: 29.50 },
+      { id: "1655", nombre: "(Almohadita) Fardo 4 oz", precio: 110.00 },
       { id: "1836", nombre: "(CARNAVAL) Lata Soda Naranjada (Caja 24)", precio: 67.00 },
       { id: "1834", nombre: "(Salvavidas) Lata Limonada (Caja 24)", precio: 67.00 },
       { id: "1835", nombre: "(Salvavidas) Lata Roja (Caja 24)", precio: 67.00 },
@@ -239,6 +269,23 @@
       actualizarTicket();
     }
 
+    function cambiarCantidad(nombre, delta) {
+      const item = carrito.find(i => i.nombre === nombre);
+      if (item) {
+        item.cantidad += delta;
+        if (item.cantidad <= 0) {
+          eliminarDelCarrito(nombre);
+        } else {
+          actualizarTicket();
+        }
+      }
+    }
+
+    function eliminarDelCarrito(nombre) {
+      carrito = carrito.filter(item => item.nombre !== nombre);
+      actualizarTicket();
+    }
+
     function actualizarTicket() {
       const listElement = document.getElementById("ticketList");
       const totalElement = document.getElementById("ticketTotal");
@@ -259,8 +306,12 @@
         const li = document.createElement("li");
         li.className = "ticket-item";
         li.innerHTML = `
-          <span>${item.cantidad}x ${item.nombre}</span>
-          <span><b>Q${subtotal.toFixed(2)}</b></span>
+          <span style="flex: 1;">${item.cantidad}x ${item.nombre}</span>
+          <div class="ticket-item-controls">
+            <button class="btn-qty" onclick="cambiarCantidad('${item.nombre.replace(/'/g, "\\'")}', -1)">-</button>
+            <button class="btn-qty" onclick="cambiarCantidad('${item.nombre.replace(/'/g, "\\'")}', 1)">+</button>
+            <button class="btn-delete" onclick="eliminarDelCarrito('${item.nombre.replace(/'/g, "\\'")}')">Quitar</button>
+          </div>
         `;
         listElement.appendChild(li);
       });
