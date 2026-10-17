@@ -8,9 +8,10 @@
     :root {
       --primary: #1E3A8A;
       --secondary: #25D366;
-      --bg: #F4F6F8;
-      --card-bg: #FFFFFF;
-      --text: #1A202C;
+      --bg: #121212; /* Fondo oscuro elegante como en tu captura */
+      --card-bg: #1E1E1E;
+      --text: #FFFFFF;
+      --text-muted: #A0AEC0;
     }
     * { box-sizing: border-box; }
     body {
@@ -19,7 +20,7 @@
       color: var(--text);
       margin: 0;
       padding: 15px;
-      padding-bottom: 230px;
+      padding-bottom: 250px;
     }
     .header {
       text-align: center;
@@ -34,24 +35,42 @@
     .search-box {
       width: 100%;
       padding: 12px;
-      border: 1px solid #CBD5E1;
+      background: #2D3748;
+      border: 1px solid #4A5568;
+      color: white;
       border-radius: 8px;
       font-size: 1rem;
       margin-bottom: 15px;
     }
+    .search-box::placeholder { color: #A0AEC0; }
     .product-card {
       background: var(--card-bg);
       border-radius: 8px;
       padding: 15px;
       margin-bottom: 12px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .product-info { display: flex; justify-content: space-between; align-items: center; }
+    .product-title { font-weight: bold; font-size: 1rem; }
+    .product-price { color: #63B3ED; font-size: 1.1rem; font-weight: bold; }
+    
+    .product-options {
+      display: flex;
+      gap: 8px;
       align-items: center;
     }
-    .product-info { display: flex; flex-direction: column; gap: 4px; }
-    .product-title { font-weight: bold; font-size: 1rem; }
-    .product-price { color: var(--primary); font-size: 1.1rem; font-weight: bold; }
+    .flavor-select {
+      flex: 1;
+      padding: 8px;
+      background: #2D3748;
+      color: white;
+      border: 1px solid #4A5568;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
     .btn-add {
       background-color: var(--primary);
       color: white;
@@ -61,6 +80,7 @@
       font-weight: bold;
       cursor: pointer;
       font-size: 0.9rem;
+      white-space: nowrap;
     }
     .btn-add:active { opacity: 0.8; }
 
@@ -70,11 +90,11 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: #FFFFFF;
-      border-top: 3px solid var(--primary);
-      box-shadow: 0 -4px 12px rgba(0,0,0,0.15);
+      background: #1A202C;
+      border-top: 3px solid var(--secondary);
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.4);
       padding: 15px;
-      max-height: 210px;
+      max-height: 220px;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -85,7 +105,7 @@
       justify-content: space-between;
       font-weight: bold;
       font-size: 1.1rem;
-      border-bottom: 1px dashed #CBD5E1;
+      border-bottom: 1px dashed #4A5568;
       padding-bottom: 5px;
     }
     .ticket-list {
@@ -100,10 +120,11 @@
       display: flex;
       justify-content: space-between;
       padding: 4px 0;
+      border-bottom: 1px solid #2D3748;
     }
     .btn-ws {
       background-color: var(--secondary);
-      color: white;
+      color: #000;
       border: none;
       padding: 12px;
       border-radius: 8px;
@@ -119,10 +140,10 @@
 
   <div class="header">
     <h1>📦 Distribuidora DIPROSA</h1>
-    <p>Agrega tus productos para armar tu ticket de compra</p>
+    <p>Selecciona el sabor y arma tu pedido</p>
   </div>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscar producto..." onkeyup="filtrarProductos()">
+  <input type="text" id="searchInput" class="search-box" placeholder="🔎 Buscar producto (ej. Chiclin)..." onkeyup="filtrarProductos()">
 
   <div id="catalogContainer">
     <!-- Lista de productos -->
@@ -136,7 +157,7 @@
     </div>
     
     <ul id="ticketList" class="ticket-list">
-      <li style="color: #6B7280; text-align: center;">El ticket está vacío. ¡Presiona "+ Agregar"!</li>
+      <li style="color: var(--text-muted); text-align: center;">El ticket está vacío. ¡Presiona "+ Agregar"!</li>
     </ul>
 
     <button class="btn-ws" onclick="enviarPedidoWhatsApp()">
@@ -147,11 +168,26 @@
   <script>
     const MI_WHATSAPP = "50245695192"; 
 
-    // Lista de productos base
+    // Lista de productos con opciones de sabores para Chiclín
     const productos = [
-      { nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
-      { nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00 },
-      { nombre: "Chiclin Menta (Docena)", precio: 15.00 }
+      { 
+        id: "chiclin", 
+        nombre: "Chiclin (Docena)", 
+        precio: 15.00, 
+        sabores: ["Menta", "Fresa", "Tutti Frutti", "Hierbabuena", "Uva"] 
+      },
+      { 
+        id: "almohadita4oz", 
+        nombre: "(Almohadita) 4 onzas por docena", 
+        precio: 29.50, 
+        sabores: ["Sabor Estándar"] 
+      },
+      { 
+        id: "almohaditafardo", 
+        nombre: "(Almohadita) Fardo 4 onzas", 
+        precio: 110.00, 
+        sabores: ["Sabor Estándar"] 
+      }
     ];
 
     let carrito = [];
@@ -161,6 +197,9 @@
       container.innerHTML = "";
 
       lista.forEach((prod) => {
+        // Generar las opciones del selector de sabores
+        let opcionesHTML = prod.sabores.map(sabor => `<option value="${sabor}">${sabor}</option>`).join('');
+
         const card = document.createElement("div");
         card.className = "product-card";
         card.innerHTML = `
@@ -168,20 +207,32 @@
             <div class="product-title">${prod.nombre}</div>
             <div class="product-price">Q${prod.precio.toFixed(2)}</div>
           </div>
-          <button class="btn-add" onclick="agregarAlCarrito('${prod.nombre.replace(/'/g, "\\'")}', ${prod.precio})">
-            + Agregar
-          </button>
+          <div class="product-options">
+            <select id="sabor-${prod.id}" class="flavor-select">
+              ${opcionesHTML}
+            </select>
+            <button class="btn-add" onclick="agregarAlCarrito('${prod.id}', '${prod.nombre}', ${prod.precio})">
+              + Agregar
+            </button>
+          </div>
         `;
         container.appendChild(card);
       });
     }
 
-    function agregarAlCarrito(nombre, precio) {
-      const existe = carrito.find(item => item.nombre === nombre);
+    function agregarAlCarrito(idProd, nombreBase, precio) {
+      // Capturar el sabor seleccionado en el menú desplegable
+      const selectSabor = document.getElementById(`sabor-${idProd}`);
+      const saborElegido = selectSabor ? selectSabor.value : "";
+      
+      // Crear un nombre único que incluya el sabor (ej: "Chiclin (Docena) - Fresa")
+      const nombreCompleto = saborElegido !== "Sabor Estándar" ? `${nombreBase} (${saborElegido})` : nombreBase;
+
+      const existe = carrito.find(item => item.nombre === nombreCompleto);
       if (existe) {
         existe.cantidad += 1;
       } else {
-        carrito.push({ nombre, precio, cantidad: 1 });
+        carrito.push({ nombre: nombreCompleto, precio, cantidad: 1 });
       }
       actualizarTicket();
     }
@@ -194,7 +245,7 @@
       let totalGeneral = 0;
 
       if (carrito.length === 0) {
-        listElement.innerHTML = '<li style="color: #6B7280; text-align: center;">El ticket está vacío. ¡Presiona "+ Agregar"!</li>';
+        listElement.innerHTML = '<li style="color: var(--text-muted); text-align: center;">El ticket está vacío. ¡Presiona "+ Agregar"!</li>';
         totalElement.innerText = "Total: Q0.00";
         return;
       }
