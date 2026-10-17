@@ -1,29 +1,64 @@
-function exportarCatalogoAJSON() {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Hoja 1"); // O el nombre exacto de tu pestaña
-  var data = sheet.getDataRange().getValues();
-  var headers = data[0];
-  
-  // Buscamos las columnas automáticamente por sus nombres
-  var colDetalle = headers.indexOf("Detalle");
-  var colPrecio = headers.indexOf("Monto Venta 1");
-  var colCodigo = headers.indexOf("Codigo");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo DIPROSA</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; }
+    h1 { text-align: center; color: #1a252f; margin-bottom: 20px; }
+    .search-box { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+    .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+    .codigo { font-size: 12px; color: #7f8c8d; margin-bottom: 5px; }
+    .nombre { font-size: 15px; font-weight: bold; color: #2c3e50; margin-bottom: 8px; }
+    .precio { font-size: 16px; color: #27ae60; font-weight: bold; }
+  </style>
+</head>
+<body>
 
-  var productos = [];
+  <h1>📦 Catálogo DIPROSA</h1>
+  <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." onkeyup="filtrar()">
 
-  for (var i = 1; i < data.length; i++) {
-    var row = data[i];
-    if (row[colDetalle]) { // Si tiene nombre/detalle
-      productos.push({
-        codigo: row[colCodigo] || "",
-        nombre: row[colDetalle],
-        precio: row[colPrecio] || 0
+  <div id="catalogo" class="grid">Cargando productos...</div>
+
+  <script>
+    let productos = [];
+
+    fetch('productos.json')
+      .then(res => res.json())
+      .then(data => {
+        productos = data;
+        renderizar(productos);
+      })
+      .catch(err => {
+        document.getElementById('catalogo').innerHTML = '<p>Error al cargar el catálogo.</p>';
+      });
+
+    function renderizar(lista) {
+      const contenedor = document.getElementById('catalogo');
+      contenedor.innerHTML = '';
+      if(lista.length === 0) {
+        contenedor.innerHTML = '<p>No se encontraron productos.</p>';
+        return;
+      }
+      lista.forEach(p => {
+        contenedor.innerHTML += `
+          <div class="card">
+            <div class="codigo">${p.codigo}</div>
+            <div class="nombre">${p.nombre}</div>
+            <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
+          </div>
+        `;
       });
     }
-  }
 
-  var jsonOutput = JSON.stringify(productos, null, 2);
-  Logger.log(jsonOutput); // Aquí se genera todo tu inventario en formato digital listo para GitHub
-  
-  // Opcional: Esto lo podemos conectar directo a GitHub con un token o descargarlo en un archivo JSON
-  return jsonOutput;
-}
+    function filtrar() {
+      const q = document.getElementById('buscar').value.toLowerCase();
+      const filtrados = productos.filter(p => p.nombre.toLowerCase().includes(q) || p.codigo.toString().toLowerCase().includes(q));
+      renderizar(filtrados);
+    }
+  </script>
+
+</body>
+</html>
