@@ -118,7 +118,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      box-shadow: -4px 10px rgba(0,0,0,0.5);
       z-index: 1000;
     }
     .cart-info { font-size: 15px; cursor: pointer; }
@@ -319,7 +319,28 @@
     let productos = [];
     let productosFiltrados = [];
     let limiteActual = 40;
-    let carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {};
+    
+    // Limpieza estricta de carrito corrupto previo
+    let carrito = {};
+    try {
+      const guardado = JSON.parse(localStorage.getItem('carrito_diprosa'));
+      if (guardado && typeof guardado === 'object') {
+        for (let k in guardado) {
+          let item = guardado[k];
+          if (item && item.nombre && !isNaN(parseFloat(item.precio)) && !isNaN(parseInt(item.cantidad)) && parseInt(item.cantidad) > 0) {
+            carrito[k] = {
+              nombre: item.nombre,
+              precio: parseFloat(item.precio),
+              cantidad: parseInt(item.cantidad)
+            };
+          }
+        }
+      }
+    } catch(e) {
+      carrito = {};
+    }
+    localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+
     let debounceTimer;
 
     fetch('productos.json?v=' + new Date().getTime())
@@ -335,7 +356,7 @@
       });
 
     function obtenerKey(nombre, precio) {
-      return nombre.trim() + '_' + precio;
+      return nombre.trim() + '_' + parseFloat(precio);
     }
 
     function renderizarCatalogo() {
@@ -351,7 +372,8 @@
       
       listaCorte.forEach((p) => {
         const pKey = obtenerKey(p.nombre, p.precio);
-        const cant = carrito[pKey] ? carrito[pKey].cantidad : 0;
+        const cant = (carrito[pKey] && carrito[pKey].cantidad) ? parseInt(carrito[pKey].cantidad) : 0;
+        const nombreB64 = btoa(unescape(encodeURIComponent(p.nombre)));
 
         html += `
           <div class="card">
@@ -361,12 +383,12 @@
             <div>
               <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
               ${cant === 0 ? `
-                <button class="btn-add" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio})">+ Agregar</button>
+                <button class="btn-add" onclick="cambiarCant('${nombreB64}',${p.precio}, 1)">+ Agregar</button>
               ` : `
                 <div class="qty-controls">
-                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio}, -1)">-</button>
+                  <button class="btn-qty" onclick="cambiarCant('${nombreB64}',${p.precio}, -1)">-</button>
                   <span class="qty-num">${cant}</span>
-                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio}, 1)">+</button>
+                  <button class="btn-qty" onclick="cambiarCant('${nombreB64}',${p.precio}, 1)">+</button>
                 </div>
               `}
             </div>
@@ -391,11 +413,12 @@
     function cambiarCant(nombreB64, precio, delta) {
       const nombre = decodeURIComponent(escape(atob(nombreB64)));
       const pKey = obtenerKey(nombre, precio);
+      const precioNum = parseFloat(precio);
 
       if (!carrito[pKey]) {
-        carrito[pKey] = { nombre: nombre, precio: parseFloat(precio), cantidad: 0 };
+        carrito[pKey] = { nombre: nombre, precio: precioNum, cantidad: 0 };
       }
-      carrito[pKey].cantidad += delta;
+      carrito[pKey].cantidad += parseInt(delta);
 
       if (carrito[pKey].cantidad <= 0) {
         delete carrito[pKey];
@@ -420,8 +443,13 @@
       let totalCant = 0;
       let totalMonto = 0;
       for (let k in carrito) {
-        totalCant += carrito[k].cantidad;
-        totalMonto += carrito[k].cantidad * carrito[k].precio;
+        let item = carrito[k];
+        if (item && !isNaN(item.cantidad) && !isNaN(item.precio)) {
+          let cant = parseInt(item.cantidad);
+          let prec = parseFloat(item.precio);
+          totalCant += cant;
+          totalMonto += cant * prec;
+        }
       }
       document.getElementById('cant-items').innerText = totalCant;
       document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
@@ -475,7 +503,11 @@
 
       keys.forEach(k => {
         const item = carrito[k];
-        const subtotal = item.cantidad * item.precio;
+        if (!item || isNaN(item.cantidad) || isNaN(item.precio)) return;
+
+        let cant = parseInt(item.cantidad);
+        let prec = parseFloat(item.precio);
+        const subtotal = cant * prec;
         subtotalGeneral += subtotal;
         
         const nombreB64 = btoa(unescape(encodeURIComponent(item.nombre)));
@@ -484,14 +516,14 @@
           <div class="ticket-item">
             <div class="ticket-item-info">
               <div class="ticket-item-title">${item.nombre}</div>
-              <div class="ticket-item-sub">Precio unitario: Q ${item.precio.toFixed(2)} c/u</div>
-              <div class="ticket-item-subtotal">Subtotal (${item.cantidad}): Q ${subtotal.toFixed(2)}</div>
+              <div class="ticket-item-sub">Precio unitario: Q ${prec.toFixed(2)} c/u</div>
+              <div class="ticket-item-subtotal">Subtotal (${cant}): Q ${subtotal.toFixed(2)}</div>
             </div>
             <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, -1)">-</button>
-              <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, 1)">+</button>
-              <button class="btn-delete" onclick="eliminarDelTicketDirecto('${nombreB64}', ${item.precio})">🗑️</button>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${prec}, -1)">-</button>
+              <span style="font-weight:bold; min-width:15px; text-align:center;">${cant}</span>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${prec}, 1)">+</button>
+              <button class="btn-delete" onclick="eliminarDelTicketDirecto('${nombreB64}', ${prec})">🗑️</button>
             </div>
           </div>
         `;
@@ -543,14 +575,16 @@
 
       let subtotalGeneral = 0;
       keys.forEach(k => {
-        subtotalGeneral += carrito[k].cantidad * carrito[k].precio;
+        let item = carrito[k];
+        if (item && !isNaN(item.cantidad) && !isNaN(item.precio)) {
+          subtotalGeneral += parseInt(item.cantidad) * parseFloat(item.precio);
+        }
       });
 
       const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
       const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
       const totalFinal = subtotalGeneral - montoDescuento;
 
-      // Formato limpio y profesional para WhatsApp
       let mensaje = "*DISTRIBUIDORA DIPROSITRIX*\n";
       mensaje += "*" + numTicketStr + "*\n";
       mensaje += "Fecha: " + new Date().toLocaleString('es-GT') + "\n\n";
@@ -563,9 +597,13 @@
       let i = 1;
       keys.forEach(k => {
         const item = carrito[k];
-        const subtotal = item.cantidad * item.precio;
+        if (!item || isNaN(item.cantidad) || isNaN(item.precio)) return;
+
+        let cant = parseInt(item.cantidad);
+        let prec = parseFloat(item.precio);
+        const subtotal = cant * prec;
         mensaje += i + ". " + item.nombre + "\n";
-        mensaje += "   Cant: " + item.cantidad + " x Q" + item.precio.toFixed(2) + " = Q" + subtotal.toFixed(2) + "\n";
+        mensaje += "   Cant: " + cant + " x Q" + prec.toFixed(2) + " = Q" + subtotal.toFixed(2) + "\n";
         i++;
       });
 
