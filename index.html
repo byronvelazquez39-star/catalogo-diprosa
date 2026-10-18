@@ -119,7 +119,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      box-shadow: -4px 10px rgba(0,0,0,0.5);
       z-index: 1000;
     }
     .cart-info { font-size: 15px; cursor: pointer; }
@@ -492,7 +492,6 @@
 
       const numTicket = Math.floor(1000 + Math.random() * 9000);
 
-      // Usar secuencias de escape unicode explícitas para garantizar renderizado correcto en WhatsApp
       let mensaje = "\uD83E\uFEFE *TICKET DE PEDIDO #" + numTicket + "*\n";
       mensaje += "\uD83D\uDCC5 *Fecha:* " + new Date().toLocaleString('es-GT') + "\n";
       mensaje += "------------------------------------\n\n";
@@ -513,15 +512,15 @@
       mensaje += "------------------------------------\n\n";
       mensaje += "\uD83D\uDC4B ¡Hola! Quisiera confirmar este pedido por favor.";
 
-      // Limpiar el carrito y cerrar el modal automáticamente tras enviar a WhatsApp
+      // Limpiar el carrito
       carrito = {};
       localStorage.removeItem('carrito_diprosa');
       actualizarUIResumen();
       renderizarCatalogo();
       cerrarTicket();
 
-      const url = "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + encodeURIComponent(mensaje);
-      window.open(url, '_blank');
+      // Usar location.href para abrir WhatsApp de forma directa y fluida sin bloqueos en el celular
+      window.location.href = "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + encodeURIComponent(mensaje);
     }
   </script>
 
