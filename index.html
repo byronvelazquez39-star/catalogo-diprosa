@@ -26,11 +26,20 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             padding: 20px;
-            padding-bottom: 100px;
+            padding-bottom: 120px;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
+        }
+        .welcome-banner {
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            color: #121212;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
         }
         header {
             margin-bottom: 24px;
@@ -90,12 +99,12 @@
         }
         .card-price {
             font-size: 1.25rem;
-            color: var(--accent-color);
+            color: #22c55e;
             font-weight: bold;
             margin-bottom: 12px;
         }
         .btn-add {
-            background-color: var(--accent-color);
+            background-color: var(--success-color);
             color: white;
             border: none;
             padding: 8px 12px;
@@ -106,130 +115,137 @@
             transition: background-color 0.2s;
         }
         .btn-add:hover {
-            background-color: var(--accent-hover);
+            opacity: 0.9;
         }
         .cart-float {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 360px;
-            max-width: calc(100vw - 40px);
+            bottom: 0;
+            left: 0;
+            width: 100%;
             background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            max-height: 500px;
-            z-index: 1000;
-        }
-        .cart-header {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: bold;
+            border-top: 2px solid var(--success-color);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        .cart-items {
-            overflow-y: auto;
-            padding: 12px 16px;
-            flex-grow: 1;
-        }
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-        .cart-item-info {
-            flex-grow: 1;
-            margin-right: 8px;
-        }
-        .cart-controls {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-qty {
-            background-color: var(--border-color);
-            color: var(--text-main);
-            border: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
+            box-sizing: border-box;
             cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-remove {
-            background-color: transparent;
-            color: var(--danger-color);
-            border: none;
-            cursor: pointer;
-            margin-left: 6px;
-            font-size: 1.1rem;
-        }
-        .cart-footer {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border-color);
-            background-color: rgba(0,0,0,0.2);
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
+            z-index: 100;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
         }
         .btn-whatsapp {
             background-color: var(--success-color);
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
-            width: 100%;
+            padding: 10px 18px;
+            border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            font-size: 14px;
         }
-        .btn-whatsapp:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        /* Estilos del Modal para visualizar el Ticket */
+        #modal-ticket {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 420px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--success-color);
+            text-align: center;
+        }
+        .modal-body {
+            overflow-y: auto;
+            flex-grow: 1;
+            font-size: 14px;
+            background-color: #0f172a;
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            border: 1px solid var(--border-color);
+        }
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-cerrar {
+            background-color: #475569;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            flex: 1;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-enviar-modal {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            flex: 1;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="welcome-banner">
+            👋 ¡Bienvenido a DIPROSA!<br>
+            <span style="font-weight: normal; font-size: 0.9rem;">Selecciona tus productos, arma tu ticket y envíanos tu pedido.</span>
+        </div>
+
         <header>
-            <h1>Catálogo DIPROSA</h1>
-            <input type="text" id="searchInput" class="search-box" placeholder="Buscar productos...">
+            <h1>📦 Catálogo en Línea</h1>
+            <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por nombre o código...">
             <div id="stats" class="stats">Cargando productos...</div>
         </header>
         <div id="productGrid" class="grid"></div>
     </div>
 
-    <div class="cart-float">
-        <div class="cart-header">
-            <span>🛒 Tu Pedido</span>
-            <span id="cartCount">0 items</span>
-        </div>
-        <div id="cartItems" class="cart-items">
-            <div style="color: var(--text-muted); text-align: center; padding: 20px;">Tu carrito está vacío</div>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cartTotal">Q0.00</span>
+    <!-- Barra inferior flotante que abre el ticket al tocarla -->
+    <div class="cart-float" onclick="abrirModalTicket()">
+        <div>🛒 Artículos: <span id="contador-carrito">0</span></div>
+        <div>Total: <strong id="total-carrito" style="color: #22c55e;">Q0.00</strong></div>
+        <button class="btn-whatsapp" onclick="event.stopPropagation(); abrirModalTicket();">Ver Ticket 👁️</button>
+    </div>
+
+    <!-- Modal emergente para visualizar el pedido antes de enviarlo -->
+    <div id="modal-ticket">
+        <div class="modal-content">
+            <div class="modal-header">📄 Resumen del Pedido</div>
+            <div id="texto-ticket" class="modal-body">Cargando...</div>
+            <div class="modal-footer">
+                <button class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
+                <button class="btn-enviar-modal" onclick="enviarWhatsApp()">Enviar WhatsApp 📱</button>
             </div>
-            <button id="whatsappBtn" class="btn-whatsapp" disabled onclick="enviarPedidoWhatsApp()">
-                Enviar Pedido por WhatsApp 📱
-            </button>
         </div>
     </div>
 
@@ -250,7 +266,7 @@
             .then(data => {
                 productos = data;
                 renderizarProductos(productos);
-                actualizarCarritoUI();
+                actualizarBarraFlotante();
             })
             .catch(error => {
                 console.error('Error al cargar productos:', error);
@@ -269,6 +285,9 @@
             }
 
             lista.forEach((p, index) => {
+                const id = p.codigo || p.nombre;
+                const enCarrito = carrito[id] ? carrito[id].cantidad : 0;
+
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
@@ -278,7 +297,9 @@
                     </div>
                     <div>
                         <div class="card-price">Q${Number(p.precio).toFixed(2)}</div>
-                        <button class="btn-add" onclick="agregarAlCarrito(${index})">Agregar +</button>
+                        <button class="btn-add" onclick="agregarAlCarrito(${index})">
+                            ${enCarrito > 0 ? 'Agregados: ' + enCarrito : 'Agregar +'}
+                        </button>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -322,76 +343,41 @@
             guardarYActualizar();
         }
 
-        function cambiarCantidad(id, cambio) {
-            if (carrito[id]) {
-                carrito[id].cantidad += cambio;
-                if (carrito[id].cantidad <= 0) {
-                    delete carrito[id];
-                }
-            }
-            guardarYActualizar();
-        }
-
-        function eliminarDelCarrito(id) {
-            delete carrito[id];
-            guardarYActualizar();
-        }
-
         function guardarYActualizar() {
             localStorage.setItem('diprosa_carrito', JSON.stringify(carrito));
-            actualizarCarritoUI();
-        }
-
-        function actualizarCarritoUI() {
-            const container = document.getElementById('cartItems');
-            const totalElement = document.getElementById('cartTotal');
-            const countElement = document.getElementById('cartCount');
-            const whatsappBtn = document.getElementById('whatsappBtn');
-
-            container.innerHTML = '';
-            let total = 0;
-            let totalItems = 0;
-            const keys = Object.keys(carrito);
-
-            if (keys.length === 0) {
-                container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px;">Tu carrito está vacío</div>';
-                totalElement.innerText = 'Q0.00';
-                countElement.innerText = '0 items';
-                whatsappBtn.disabled = true;
-                return;
+            actualizarBarraFlotante();
+            
+            // Si el modal está abierto, actualizamos su contenido en tiempo real
+            if (document.getElementById('modal-ticket').style.display === 'flex') {
+                document.getElementById('texto-ticket').innerText = generarTextoTicket();
             }
 
-            keys.forEach(id => {
-                const item = carrito[id];
-                total += item.precio * item.cantidad;
-                totalItems += item.cantidad;
-
-                const div = document.createElement('div');
-                div.className = 'cart-item';
-                div.innerHTML = `
-                    <div class="cart-item-info">
-                        <div style="font-weight: 500;">${item.nombre}</div>
-                        <div style="color: var(--text-muted); font-size: 0.8rem;">Q${item.precio.toFixed(2)} c/u</div>
-                    </div>
-                    <div class="cart-controls">
-                        <button class="btn-qty" onclick="cambiarCantidad('${id}', -1)">-</button>
-                        <span>${item.cantidad}</span>
-                        <button class="btn-qty" onclick="cambiarCantidad('${id}', 1)">+</button>
-                        <button class="btn-remove" onclick="eliminarDelCarrito('${id}')">&times;</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-
-            totalElement.innerText = `Q${total.toFixed(2)}`;
-            countElement.innerText = `${totalItems} item${totalItems === 1 ? '' : 's'}`;
-            whatsappBtn.disabled = false;
+            // Actualizar vista de productos para reflejar los botones
+            const termino = normalizarTexto(document.getElementById('searchInput').value);
+            if (termino === "") {
+                renderizarProductos(productos);
+            } else {
+                renderizarProductos(productos.filter(p => 
+                    normalizarTexto(p.nombre).includes(termino) || normalizarTexto(p.codigo).includes(termino)
+                ));
+            }
         }
 
-        function enviarPedidoWhatsApp() {
-            const keys = Object.keys(carrito);
-            if (keys.length === 0) return;
+        function actualizarBarraFlotante() {
+            let totalItems = 0;
+            let totalPrecio = 0;
 
+            for (let id in carrito) {
+                totalItems += carrito[id].cantidad;
+                totalPrecio += carrito[id].cantidad * carrito[id].precio;
+            }
+
+            document.getElementById('contador-carrito').innerText = totalItems;
+            document.getElementById('total-carrito').innerText = 'Q' + totalPrecio.toFixed(2);
+        }
+
+        function generarTextoTicket() {
+            const keys = Object.keys(carrito);
             let mensaje = `*TICKET DE PEDIDO - DIPROSA*\n`;
             mensaje += `*Fecha:* ${new Date().toLocaleDateString()}\n`;
             mensaje += `-----------------------------------\n\n`;
@@ -409,9 +395,32 @@
             mensaje += `*TOTAL A PAGAR: Q${subtotalGeneral.toFixed(2)}*\n`;
             mensaje += `-----------------------------------\n`;
             mensaje += `👋 ¡Hola! Quisiera confirmar este pedido.`;
+            return mensaje;
+        }
 
+        function abrirModalTicket() {
+            const keys = Object.keys(carrito);
+            if (keys.length === 0) {
+                alert("Tu carrito está vacío.");
+                return;
+            }
+
+            document.getElementById('texto-ticket').innerText = generarTextoTicket();
+            document.getElementById('modal-ticket').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-ticket').style.display = 'none';
+        }
+
+        function enviarWhatsApp() {
+            const keys = Object.keys(carrito);
+            if (keys.length === 0) return;
+
+            const mensaje = generarTextoTicket();
             const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
+            cerrarModal();
         }
     </script>
 </body>
