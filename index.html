@@ -292,7 +292,6 @@
         document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">Error al cargar los productos.</p>';
       });
 
-    // Guardar los ítems usando un ID numérico interno basado en su posición global para evitar fallos de texto
     function renderizarCatalogo() {
       const contenedor = document.getElementById('catalogo');
       if (!productosFiltrados || productosFiltrados.length === 0) {
@@ -488,16 +487,16 @@
       keys.forEach(k => {
         const item = carrito[k];
         const subtotal = item.cantidad * item.precio;
-        mensaje += `▪️ *${item.nombre}*\n`;
-        mensaje += `   Cant: *${item.cantidad}* x Q${item.precio.toFixed(2)} c/u = *Q${subtotal.toFixed(2)}*\n`;
+        mensaje += `📦 *${item.nombre}*\n`;
+        mensaje += `    Cant: *${item.cantidad}* x Q${item.precio.toFixed(2)} c/u = *Q${subtotal.toFixed(2)}*\n\n`;
       });
 
-      mensaje += `\n------------------------------------\n`;
-      mensaje += `🔹 *Subtotal:* Q${subtotalGeneral.toFixed(2)}\n`;
+      mensaje += `------------------------------------\n`;
+      mensaje += `💵 *Subtotal:* Q${subtotalGeneral.toFixed(2)}\n`;
       if(pctDescuento > 0) {
-        mensaje += `🎁 *Descuento (${pctDescuento}%):* -Q${montoDescuento.toFixed(2)}\n`;
+        mensaje += `🏷️ *Descuento (${pctDescuento}%):* -Q${montoDescuento.toFixed(2)}\n`;
       }
-      mensaje += `💰 *TOTAL A PAGAR: Q${totalFinal.toFixed(2)}*\n`;
+      mensaje += `🟢 *TOTAL A PAGAR: Q${totalFinal.toFixed(2)}*\n`;
       mensaje += `------------------------------------\n\n`;
       mensaje += `👋 ¡Hola! Quisiera confirmar este pedido por favor.`;
 
