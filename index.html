@@ -204,7 +204,6 @@
     }
 
     .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
-    .btn-new-order { background: var(--danger-color); color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 5px; }
     
     .btn-modal-wa { 
       background: var(--wa-color); 
@@ -280,8 +279,7 @@
         </div>
       </div>
 
-      <a id="btn-envio-wa" class="btn-modal-wa" href="#" target="_blank">📲 Enviar Pedido a WhatsApp</a>
-      <button class="btn-new-order" onclick="limpiarPedidoNuevo()">🗑️ Vaciar Ticket para Nuevo Pedido</button>
+      <a id="btn-envio-wa" class="btn-modal-wa" href="#" target="_blank" onclick="limpiarDespuesDeEnviar()">📲 Enviar Pedido a WhatsApp</a>
       <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
     </div>
   </div>
@@ -484,7 +482,7 @@
 
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
 
-      // Generar mensaje con EMOJIS limpios y directos para WhatsApp
+      // Generar mensaje con EMOJIS limpios
       const numTicket = Math.floor(1000 + Math.random() * 9000);
       let mensaje = "🧾 *TICKET DE PEDIDO #" + numTicket + "*\n";
       mensaje += "📅 *Fecha:* " + new Date().toLocaleString('es-GT') + "\n";
@@ -514,14 +512,15 @@
       document.getElementById('modal-ticket').style.display = 'none';
     }
 
-    function limpiarPedidoNuevo() {
-      if (confirm("¿Estás seguro de vaciar el ticket para un nuevo pedido?")) {
+    function limpiarDespuesDeEnviar() {
+      // Limpia el carrito automáticamente medio segundo después de abrir WhatsApp
+      setTimeout(() => {
         carrito = {};
         localStorage.removeItem('carrito_diprosa');
         actualizarUIResumen();
         renderizarCatalogo();
         cerrarTicket();
-      }
+      }, 500);
     }
   </script>
 
