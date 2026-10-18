@@ -1,187 +1,191 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA</title>
-    <style>
-        :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #ffffff;
-            --accent-color: #27ae60;
-            --wa-color: #25d366;
+    <div class="welcome-banner">
+        <h2>👋 ¡Bienvenido a DIPROSA!</h2>
+        <p>Selecciona tus productos y arma tu pedido fácilmente.</p>
+    </div>
+
+    <h1>📦 Catálogo en Línea</h1>
+    <input type="text" id="buscar" placeholder="🔍 Buscar por nombre o código...">
+
+    <div id="catalogo" class="grid">Cargando productos...</div>
+
+    <div class="cart-bar" onclick="abrirModalTicket()">
+        <div>🛒 Artículos: <span id="contador-carrito">0</span></div>
+        <div>Total: <strong id="total-carrito">Q0.00</strong></div>
+        <button class="btn-enviar-wa" onclick="event.stopPropagation(); abrirModalTicket();">Ver Pedido 👁️</button>
+    </div>
+
+    <!-- Modal para visualizar el ticket antes de enviarlo -->
+    <div id="modal-ticket">
+        <div class="modal-content">
+            <div class="modal-header">📄 Resumen del Pedido</div>
+            <div id="texto-ticket" class="modal-body">Cargando...</div>
+            <div class="modal-footer">
+                <button class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
+                <button class="btn-enviar-modal" onclick="enviarWhatsApp()">Enviar WhatsApp 📱</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const NUMERO_WHATSAPP = "50248502382";
+        let productos = [];
+        let carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {};
+
+        function guardarCarrito() {
+            localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+            actualizarBarraFlotante();
         }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 15px;
-            padding-bottom: 120px;
+
+        fetch('productos.json')
+            .then(res => res.json())
+            .then(data => {
+                productos = data;
+                renderizar(productos);
+                actualizarBarraFlotante();
+            })
+            .catch(() => {
+                document.getElementById('catalogo').innerHTML = '<p>Error al cargar el catálogo.</p>';
+            });
+
+        function obtenerKey(p) {
+            return (p.codigo + "_" + p.nombre).replace(/[^a-zA-Z0-9_]/g, "_");
         }
-        .welcome-banner {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
-            color: #121212;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            text-align: center;
+
+        function renderizar(lista) {
+            const contenedor = document.getElementById('catalogo');
+            contenedor.innerHTML = '';
+            
+            if(lista.length === 0) {
+                contenedor.innerHTML = '<p>No se encontraron productos.</p>';
+                return;
+            }
+
+            lista.forEach(p => {
+                const key = obtenerKey(p);
+                const enCarrito = carrito[key] ? carrito[key].cantidad : 0;
+
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${p.imagen || 'placeholder.jpg'}" alt="${p.nombre}">
+                    <div>
+                        <h3>${p.nombre}</h3>
+                        <p>Código: ${p.codigo}</p>
+                        <div class="precio">Q${Number(p.precio).toFixed(2)}</div>
+                    </div>
+                    <button class="btn-agregar" onclick='cambiarCantidad("${key}", 1)'>
+                        ${enCarrito > 0 ? 'Agregados: ' + enCarrito : 'Agregar ➕'}
+                    </button>
+                `;
+                contenedor.appendChild(card);
+            });
         }
-        h1 {
-            font-size: 1.5rem;
-            text-align: center;
-            margin-bottom: 15px;
+
+        let timerBusqueda;
+        document.getElementById('buscar').addEventListener('input', (e) => {
+            const texto = e.target.value.toLowerCase().trim();
+            clearTimeout(timerBusqueda);
+            
+            if (texto === "") {
+                renderizar(productos);
+                return;
+            }
+
+            timerBusqueda = setTimeout(() => {
+                const filtrados = productos.filter(p => 
+                    p.nombre.toLowerCase().includes(texto) || 
+                    String(p.codigo).toLowerCase().includes(texto)
+                );
+                renderizar(filtrados);
+            }, 250);
+        });
+
+        function cambiarCantidad(key, delta) {
+            const producto = productos.find(p => obtenerKey(p) === key);
+            if (!producto) return;
+
+            if (!carrito[key]) {
+                carrito[key] = {
+                    nombre: producto.nombre,
+                    codigo: producto.codigo,
+                    precio: Number(producto.precio),
+                    cantidad: 0
+                };
+            }
+
+            carrito[key].cantidad += delta;
+            if (carrito[key].cantidad <= 0) {
+                delete carrito[key];
+            }
+
+            guardarCarrito();
+            const textoActual = document.getElementById('buscar').value.toLowerCase().trim();
+            if (textoActual === "") {
+                renderizar(productos);
+            } else {
+                renderizar(productos.filter(p => 
+                    p.nombre.toLowerCase().includes(textoActual) || 
+                    String(p.codigo).toLowerCase().includes(textoActual)
+                ));
+            }
         }
-        #buscar {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            box-sizing: border-box;
-            margin-bottom: 20px;
+
+        function actualizarBarraFlotante() {
+            let totalItems = 0;
+            let totalPrecio = 0;
+
+            for (let k in carrito) {
+                totalItems += carrito[k].cantidad;
+                totalPrecio += carrito[k].cantidad * carrito[k].precio;
+            }
+
+            document.getElementById('contador-carrito').innerText = totalItems;
+            document.getElementById('total-carrito').innerText = 'Q' + totalPrecio.toFixed(2);
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+
+        function generarTextoTicket() {
+            const keys = Object.keys(carrito);
+            let mensaje = `*TICKET DE PEDIDO - DIPROSA*\n`;
+            mensaje += `*Fecha:* ${new Date().toLocaleDateString()}\n`;
+            mensaje += `-----------------------------------\n\n`;
+
+            let subtotalGeneral = 0;
+            keys.forEach(k => {
+                const item = carrito[k];
+                const subtotalItem = item.cantidad * item.precio;
+                subtotalGeneral += subtotalItem;
+                mensaje += `• *${item.nombre}* (Cod: ${item.codigo})\n`;
+                mensaje += `  Cant: *${item.cantidad}* | Subtotal: Q${subtotalItem.toFixed(2)}\n\n`;
+            });
+
+            mensaje += `-----------------------------------\n`;
+            mensaje += `*TOTAL A PAGAR: Q${subtotalGeneral.toFixed(2)}*\n`;
+            mensaje += `-----------------------------------\n`;
+            mensaje += `👋 ¡Hola! Quisiera confirmar este pedido.`;
+            return mensaje;
         }
-        .card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid #333;
+
+        function abrirModalTicket() {
+            const keys = Object.keys(carrito);
+            if (keys.length === 0) {
+                alert("Tu carrito está vacío.");
+                return;
+            }
+
+            document.getElementById('texto-ticket').innerText = generarTextoTicket();
+            document.getElementById('modal-ticket').style.display = 'flex';
         }
-        .card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 6px;
-            background-color: #333;
+
+        function cerrarModal() {
+            document.getElementById('modal-ticket').style.display = 'none';
         }
-        .card h3 {
-            font-size: 14px;
-            margin: 8px 0 4px 0;
+
+        function enviarWhatsApp() {
+            const mensaje = generarTextoTicket();
+            const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+            cerrarModal();
         }
-        .card p {
-            font-size: 13px;
-            color: #aaa;
-            margin: 0 0 10px 0;
-        }
-        .precio {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 8px;
-        }
-        .btn-agregar {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-        }
-        .cart-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #1e1e1e;
-            border-top: 2px solid var(--accent-color);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            cursor: pointer;
-            z-index: 100;
-        }
-        .btn-enviar-wa {
-            background-color: var(--wa-color);
-            color: #121212;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        #modal-ticket {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .modal-content {
-            background-color: #1e1e1e;
-            border: 1px solid #444;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .modal-header {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--accent-color);
-            text-align: center;
-        }
-        .modal-body {
-            overflow-y: auto;
-            flex-grow: 1;
-            font-size: 14px;
-            background-color: #121212;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            white-space: pre-wrap;
-            line-height: 1.4;
-        }
-        .modal-footer {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-cerrar {
-            background-color: #555;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-enviar-modal {
-            background-color: var(--wa-color);
-            color: #121212;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
+    </script>
+</body>
+</html>
