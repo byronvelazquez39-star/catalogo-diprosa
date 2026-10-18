@@ -6,270 +6,402 @@
     <title>Catálogo DIPROSA</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-color: #ffffff;
-            --accent-color: #27ae60;
-            --wa-color: #25d366;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
         body {
-            font-family: Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 15px;
-            padding-bottom: 120px;
+            color: var(--text-main);
+            padding: 20px;
+            padding-bottom: 100px;
         }
-        .welcome-banner {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
-            color: #121212;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 24px;
             text-align: center;
         }
         h1 {
-            font-size: 1.5rem;
-            text-align: center;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: var(--text-main);
         }
-        #buscar {
+        .search-box {
             width: 100%;
-            padding: 12px;
-            font-size: 16px;
+            max-width: 600px;
+            padding: 12px 20px;
             border-radius: 8px;
-            border: 1px solid #444;
+            border: 1px solid var(--border-color);
             background-color: var(--card-bg);
-            color: var(--text-color);
-            box-sizing: border-box;
-            margin-bottom: 20px;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+            margin: 0 auto;
+            display: block;
+        }
+        .search-box:focus {
+            border-color: var(--accent-color);
+        }
+        .stats {
+            margin-top: 8px;
+            font-size: 0.875rem;
+            color: var(--text-muted);
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
         }
         .card {
             background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid #333;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         .card-code {
-            font-size: 11px;
-            color: #888;
-            margin: 0 0 6px 0;
-            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
         }
-        .card h3 {
-            font-size: 13px;
-            margin: 0 0 8px 0;
-            text-align: center;
-            line-height: 1.2;
-            font-weight: normal;
-        }
-        .precio {
-            font-weight: bold;
+        .card-price {
+            font-size: 1.25rem;
             color: var(--accent-color);
-            margin-bottom: 10px;
-            text-align: center;
-            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
         }
-        .btn-agregar {
+        .btn-add {
             background-color: var(--accent-color);
             color: white;
             border: none;
-            padding: 8px;
+            padding: 8px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 600;
             width: 100%;
-            font-size: 13px;
+            transition: background-color 0.2s;
         }
-        .cart-bar {
+        .btn-add:hover {
+            background-color: var(--accent-hover);
+        }
+        .cart-float {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #1e1e1e;
-            border-top: 2px solid var(--accent-color);
-            padding: 12px 20px;
+            bottom: 20px;
+            right: 20px;
+            width: 360px;
+            max-width: calc(100vw - 40px);
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            max-height: 500px;
+            z-index: 1000;
+        }
+        .cart-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: bold;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-sizing: border-box;
-            cursor: pointer;
-            z-index: 100;
         }
-        .btn-enviar-wa {
-            background-color: var(--wa-color);
-            color: #121212;
+        .cart-items {
+            overflow-y: auto;
+            padding: 12px 16px;
+            flex-grow: 1;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        .cart-item-info {
+            flex-grow: 1;
+            margin-right: 8px;
+        }
+        .cart-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-qty {
+            background-color: var(--border-color);
+            color: var(--text-main);
             border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-remove {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: none;
+            cursor: pointer;
+            margin-left: 6px;
+            font-size: 1.1rem;
+        }
+        .cart-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+            background-color: rgba(0,0,0,0.2);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        .btn-whatsapp {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            width: 100%;
             font-weight: bold;
             cursor: pointer;
-            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-whatsapp:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-
-    <div class="welcome-banner">
-        <h2>👋 ¡Bienvenido a DIPROSA!</h2>
-        <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
+    <div class="container">
+        <header>
+            <h1>Catálogo DIPROSA</h1>
+            <input type="text" id="searchInput" class="search-box" placeholder="Buscar productos...">
+            <div id="stats" class="stats">Cargando productos...</div>
+        </header>
+        <div id="productGrid" class="grid"></div>
     </div>
 
-    <h1>📦 Catálogo en Línea</h1>
-    <input type="text" id="buscar" placeholder="🔍 Buscar por nombre o código...">
-
-    <div id="catalogo" class="grid">Cargando productos...</div>
-
-    <div class="cart-bar" onclick="abrirTicket()">
-        <div>🛒 Artículos: <span id="contador-carrito">0</span></div>
-        <div>Total: <strong id="total-carrito">Q0.00</strong></div>
-        <button class="btn-enviar-wa" onclick="event.stopPropagation(); abrirTicket();">Enviar Pedido 📱</button>
+    <div class="cart-float">
+        <div class="cart-header">
+            <span>🛒 Tu Pedido</span>
+            <span id="cartCount">0 items</span>
+        </div>
+        <div id="cartItems" class="cart-items">
+            <div style="color: var(--text-muted); text-align: center; padding: 20px;">Tu carrito está vacío</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">Q0.00</span>
+            </div>
+            <button id="whatsappBtn" class="btn-whatsapp" disabled onclick="enviarPedidoWhatsApp()">
+                Enviar Pedido por WhatsApp 📱
+            </button>
+        </div>
     </div>
 
     <script>
         const NUMERO_WHATSAPP = "50248502382";
         let productos = [];
-        let carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {};
+        let carrito = JSON.parse(localStorage.getItem('diprosa_carrito')) || {};
 
-        function guardarCarrito() {
-            localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
-            actualizarBarraFlotante();
+        function normalizarTexto(texto) {
+            if (!texto) return '';
+            return texto.toString().toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
         }
 
         fetch('productos.json')
-            .then(res => res.json())
+            .then(response => response.json())
             .then(data => {
                 productos = data;
-                renderizar(productos);
-                actualizarBarraFlotante();
+                renderizarProductos(productos);
+                actualizarCarritoUI();
             })
-            .catch(() => {
-                document.getElementById('catalogo').innerHTML = '<p>Error al cargar el catálogo.</p>';
+            .catch(error => {
+                console.error('Error al cargar productos:', error);
+                document.getElementById('stats').innerText = 'Error al cargar el catálogo de productos.';
             });
 
-        function obtenerKey(p) {
-            return (p.codigo + "_" + p.nombre).replace(/[^a-zA-Z0-9_]/g, "_");
-        }
-
-        function renderizar(lista) {
-            const contenedor = document.getElementById('catalogo');
-            contenedor.innerHTML = '';
+        function renderizarProductos(lista) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
             
-            if(lista.length === 0) {
-                contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se encontraron productos.</p>';
+            document.getElementById('stats').innerText = `Mostrando ${lista.length} productos`;
+
+            if (lista.length === 0) {
+                grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center;">No se encontraron productos.</p>';
                 return;
             }
 
-            lista.forEach(p => {
-                const key = obtenerKey(p);
-                const enCarrito = carrito[key] ? carrito[key].cantidad : 0;
-
+            lista.forEach((p, index) => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
                     <div>
-                        <div class="card-code">${p.codigo}</div>
-                        <h3>${p.nombre}</h3>
+                        <div class="card-code">Cód: ${p.codigo || 'N/A'}</div>
+                        <div class="card-title">${p.nombre}</div>
                     </div>
                     <div>
-                        <div class="precio">Q ${Number(p.precio).toFixed(2)}</div>
-                        <button class="btn-agregar" onclick='cambiarCantidad("${key}", 1)'>
-                            ${enCarrito > 0 ? 'Agregados: ' + enCarrito : '+ Agregar'}
-                        </button>
+                        <div class="card-price">Q${Number(p.precio).toFixed(2)}</div>
+                        <button class="btn-add" onclick="agregarAlCarrito(${index})">Agregar +</button>
                     </div>
                 `;
-                contenedor.appendChild(card);
+                grid.appendChild(card);
             });
         }
 
-        let timerBusqueda;
-        document.getElementById('buscar').addEventListener('input', (e) => {
-            const texto = e.target.value.toLowerCase().trim();
-            clearTimeout(timerBusqueda);
-            
-            if (texto === "") {
-                renderizar(productos);
+        let debounceTimer;
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const termino = normalizarTexto(e.target.value);
+            clearTimeout(debounceTimer);
+
+            if (termino === "") {
+                renderizarProductos(productos);
                 return;
             }
 
-            timerBusqueda = setTimeout(() => {
-                const filtrados = productos.filter(p => 
-                    p.nombre.toLowerCase().includes(texto) || 
-                    String(p.codigo).toLowerCase().includes(texto)
-                );
-                renderizar(filtrados);
+            debounceTimer = setTimeout(() => {
+                const filtrados = productos.filter(p => {
+                    const nombreNorm = normalizarTexto(p.nombre);
+                    const codigoNorm = normalizarTexto(p.codigo);
+                    return nombreNorm.includes(termino) || codigoNorm.includes(termino);
+                });
+                renderizarProductos(filtrados);
             }, 250);
         });
 
-        function cambiarCantidad(key, delta) {
-            const producto = productos.find(p => obtenerKey(p) === key);
-            if (!producto) return;
+        function agregarAlCarrito(index) {
+            const producto = productos[index];
+            const id = producto.codigo || producto.nombre;
 
-            if (!carrito[key]) {
-                carrito[key] = {
+            if (carrito[id]) {
+                carrito[id].cantidad += 1;
+            } else {
+                carrito[id] = {
                     nombre: producto.nombre,
                     codigo: producto.codigo,
                     precio: Number(producto.precio),
-                    cantidad: 0
+                    cantidad: 1
                 };
             }
-
-            carrito[key].cantidad += delta;
-            if (carrito[key].cantidad <= 0) {
-                delete carrito[key];
-            }
-
-            guardarCarrito();
-            const textoActual = document.getElementById('buscar').value.toLowerCase().trim();
-            if (textoActual === "") {
-                renderizar(productos);
-            } else {
-                renderizar(productos.filter(p => 
-                    p.nombre.toLowerCase().includes(textoActual) || 
-                    String(p.codigo).toLowerCase().includes(textoActual)
-                ));
-            }
+            guardarYActualizar();
         }
 
-        function actualizarBarraFlotante() {
+        function cambiarCantidad(id, cambio) {
+            if (carrito[id]) {
+                carrito[id].cantidad += cambio;
+                if (carrito[id].cantidad <= 0) {
+                    delete carrito[id];
+                }
+            }
+            guardarYActualizar();
+        }
+
+        function eliminarDelCarrito(id) {
+            delete carrito[id];
+            guardarYActualizar();
+        }
+
+        function guardarYActualizar() {
+            localStorage.setItem('diprosa_carrito', JSON.stringify(carrito));
+            actualizarCarritoUI();
+        }
+
+        function actualizarCarritoUI() {
+            const container = document.getElementById('cartItems');
+            const totalElement = document.getElementById('cartTotal');
+            const countElement = document.getElementById('cartCount');
+            const whatsappBtn = document.getElementById('whatsappBtn');
+
+            container.innerHTML = '';
+            let total = 0;
             let totalItems = 0;
-            let totalPrecio = 0;
-
-            for (let k in carrito) {
-                totalItems += carrito[k].cantidad;
-                totalPrecio += carrito[k].cantidad * carrito[k].precio;
-            }
-
-            document.getElementById('contador-carrito').innerText = totalItems;
-            document.getElementById('total-carrito').innerText = 'Q' + totalPrecio.toFixed(2);
-        }
-
-        function abrirTicket() {
             const keys = Object.keys(carrito);
+
             if (keys.length === 0) {
-                alert("Tu carrito está vacío.");
+                container.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 20px;">Tu carrito está vacío</div>';
+                totalElement.innerText = 'Q0.00';
+                countElement.innerText = '0 items';
+                whatsappBtn.disabled = true;
                 return;
             }
+
+            keys.forEach(id => {
+                const item = carrito[id];
+                total += item.precio * item.cantidad;
+                totalItems += item.cantidad;
+
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <div class="cart-item-info">
+                        <div style="font-weight: 500;">${item.nombre}</div>
+                        <div style="color: var(--text-muted); font-size: 0.8rem;">Q${item.precio.toFixed(2)} c/u</div>
+                    </div>
+                    <div class="cart-controls">
+                        <button class="btn-qty" onclick="cambiarCantidad('${id}', -1)">-</button>
+                        <span>${item.cantidad}</span>
+                        <button class="btn-qty" onclick="cambiarCantidad('${id}', 1)">+</button>
+                        <button class="btn-remove" onclick="eliminarDelCarrito('${id}')">&times;</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            totalElement.innerText = `Q${total.toFixed(2)}`;
+            countElement.innerText = `${totalItems} item${totalItems === 1 ? '' : 's'}`;
+            whatsappBtn.disabled = false;
+        }
+
+        function enviarPedidoWhatsApp() {
+            const keys = Object.keys(carrito);
+            if (keys.length === 0) return;
 
             let mensaje = `*TICKET DE PEDIDO - DIPROSA*\n`;
             mensaje += `*Fecha:* ${new Date().toLocaleDateString()}\n`;
             mensaje += `-----------------------------------\n\n`;
 
             let subtotalGeneral = 0;
-            keys.forEach(k => {
-                const item = carrito[k];
+            keys.forEach(id => {
+                const item = carrito[id];
                 const subtotalItem = item.cantidad * item.precio;
                 subtotalGeneral += subtotalItem;
-                mensaje += `• *${item.nombre}* (Cod: ${item.codigo})\n`;
+                mensaje += `• *${item.nombre}* (Cod: ${item.codigo || 'N/A'})\n`;
                 mensaje += `  Cant: *${item.cantidad}* | Subtotal: Q${subtotalItem.toFixed(2)}\n\n`;
             });
 
