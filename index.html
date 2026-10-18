@@ -309,4 +309,288 @@
       </div>
 
       <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido a WhatsApp</button>
-      <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</
+      <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
+    </div>
+  </div>
+
+  <script>
+    const NUMERO_WHATSAPP = "50248502382"; 
+
+    let productos = [];
+    let productosFiltrados = [];
+    let limiteActual = 40;
+    let carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {};
+    let debounceTimer;
+
+    fetch('productos.json?v=' + new Date().getTime())
+      .then(res => res.json())
+      .then(data => {
+        productos = data;
+        productosFiltrados = data;
+        renderizarCatalogo();
+        actualizarUIResumen();
+      })
+      .catch(() => {
+        document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">Error al cargar los productos.</p>';
+      });
+
+    function obtenerKey(nombre, precio) {
+      return nombre.trim() + '_' + precio;
+    }
+
+    function renderizarCatalogo() {
+      const contenedor = document.getElementById('catalogo');
+      if (!productosFiltrados || productosFiltrados.length === 0) {
+        contenedor.innerHTML = '<p>No se encontraron productos.</p>';
+        document.getElementById('btn-mas').style.display = 'none';
+        return;
+      }
+
+      const listaCorte = productosFiltrados.slice(0, limiteActual);
+      let html = '';
+      
+      listaCorte.forEach((p) => {
+        const pKey = obtenerKey(p.nombre, p.precio);
+        const cant = carrito[pKey] ? carrito[pKey].cantidad : 0;
+
+        html += `
+          <div class="card">
+            <div>
+              <div class="nombre">${p.nombre}</div>
+            </div>
+            <div>
+              <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
+              ${cant === 0 ? `
+                <button class="btn-add" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio})">+ Agregar</button>
+              ` : `
+                <div class="qty-controls">
+                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio}, -1)">-</button>
+                  <span class="qty-num">${cant}</span>
+                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio}, 1)">+</button>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      });
+      
+      contenedor.innerHTML = html;
+
+      if (productosFiltrados.length > limiteActual) {
+        document.getElementById('btn-mas').style.display = 'block';
+      } else {
+        document.getElementById('btn-mas').style.display = 'none';
+      }
+    }
+
+    function cargarMasProductos() {
+      limiteActual += 40;
+      renderizarCatalogo();
+    }
+
+    function cambiarCant(nombreB64, precio, delta) {
+      const nombre = decodeURIComponent(escape(atob(nombreB64)));
+      const pKey = obtenerKey(nombre, precio);
+
+      if (!carrito[pKey]) {
+        carrito[pKey] = { nombre: nombre, precio: parseFloat(precio), cantidad: 0 };
+      }
+      carrito[pKey].cantidad += delta;
+
+      if (carrito[pKey].cantidad <= 0) {
+        delete carrito[pKey];
+      }
+
+      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function eliminarDelTicketDirecto(nombreB64, precio) {
+      const nombre = decodeURIComponent(escape(atob(nombreB64)));
+      const pKey = obtenerKey(nombre, precio);
+      
+      delete carrito[pKey];
+      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function actualizarUIResumen() {
+      let totalCant = 0;
+      let totalMonto = 0;
+      for (let k in carrito) {
+        totalCant += carrito[k].cantidad;
+        totalMonto += carrito[k].cantidad * carrito[k].precio;
+      }
+      document.getElementById('cant-items').innerText = totalCant;
+      document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
+      
+      if(document.getElementById('modal-ticket').style.display === 'flex') {
+        actualizarContenidoTicket();
+      }
+    }
+
+    function filtrarDebounce() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        if (q === "") {
+          productosFiltrados = productos;
+        } else {
+          productosFiltrados = productos.filter(p => 
+            (p.nombre && p.nombre.toLowerCase().includes(q))
+          );
+        }
+        renderizarCatalogo();
+      }, 200);
+    }
+
+    function obtenerSiguienteTicket() {
+      let ultimoNum = parseInt(localStorage.getItem('correlativo_ticket')) || 0;
+      return ultimoNum + 1;
+    }
+
+    function abrirTicket() {
+      const keys = Object.keys(carrito);
+      if(keys.length === 0) {
+        alert("El carrito está vacío. Agrega productos primero.");
+        return;
+      }
+      actualizarContenidoTicket();
+      document.getElementById('modal-ticket').style.display = 'flex';
+    }
+
+    function actualizarContenidoTicket() {
+      const keys = Object.keys(carrito);
+      const contenedor = document.getElementById('ticket-items');
+      contenedor.innerHTML = '';
+      let subtotalGeneral = 0;
+
+      if(keys.length === 0) {
+        cerrarTicket();
+        return;
+      }
+
+      keys.forEach(k => {
+        const item = carrito[k];
+        const subtotal = item.cantidad * item.precio;
+        subtotalGeneral += subtotal;
+        
+        const nombreB64 = btoa(unescape(encodeURIComponent(item.nombre)));
+
+        contenedor.innerHTML += `
+          <div class="ticket-item">
+            <div class="ticket-item-info">
+              <div class="ticket-item-title">${item.nombre}</div>
+              <div class="ticket-item-sub">Precio unitario: Q ${item.precio.toFixed(2)} c/u</div>
+              <div class="ticket-item-subtotal">Subtotal (${item.cantidad}): Q ${subtotal.toFixed(2)}</div>
+            </div>
+            <div class="ticket-actions">
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, -1)">-</button>
+              <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, 1)">+</button>
+              <button class="btn-delete" onclick="eliminarDelTicketDirecto('${nombreB64}', ${item.precio})">🗑️</button>
+            </div>
+          </div>
+        `;
+      });
+
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
+
+      document.getElementById('ticket-subtotal').innerText = subtotalGeneral.toFixed(2);
+      document.getElementById('txt-pct').innerText = pctDescuento;
+      document.getElementById('ticket-descuento-monto').innerText = montoDescuento.toFixed(2);
+      document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
+      
+      if(pctDescuento > 0) {
+        document.getElementById('fila-rebaja').style.display = 'flex';
+      } else {
+        document.getElementById('fila-rebaja').style.display = 'none';
+      }
+
+      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
+      const numActual = obtenerSiguienteTicket();
+      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numActual).padStart(8, '0');
+    }
+
+    function cerrarTicket() {
+      document.getElementById('modal-ticket').style.display = 'none';
+    }
+
+    function enviarWhatsAppYLimpiar() {
+      const keys = Object.keys(carrito);
+      if (keys.length === 0) {
+        alert("El carrito está vacío.");
+        return;
+      }
+
+      const receptor = document.getElementById('cliente-receptor').value.trim();
+      const referencia = document.getElementById('cliente-referencia').value.trim();
+
+      if (receptor === "") {
+        alert("Por favor ingresa el nombre del Receptor / Cliente.");
+        document.getElementById('cliente-receptor').focus();
+        return;
+      }
+
+      let numTicketNum = obtenerSiguienteTicket();
+      localStorage.setItem('correlativo_ticket', numTicketNum);
+      const numTicketStr = "Tiquete # " + String(numTicketNum).padStart(8, '0');
+
+      let subtotalGeneral = 0;
+      keys.forEach(k => {
+        subtotalGeneral += carrito[k].cantidad * carrito[k].precio;
+      });
+
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
+
+      // Formato limpio y profesional para WhatsApp
+      let mensaje = "*DISTRIBUIDORA DIPROSITRIX*\n";
+      mensaje += "*" + numTicketStr + "*\n";
+      mensaje += "Fecha: " + new Date().toLocaleString('es-GT') + "\n\n";
+      mensaje += "Receptor: " + receptor + "\n";
+      mensaje += "Referencias: " + (referencia !== "" ? referencia : "Ninguna") + "\n";
+      mensaje += "Forma de Pago: Contado\n";
+      mensaje += "--------------------------------\n";
+      mensaje += "DETALLE DE PRODUCTOS:\n";
+
+      let i = 1;
+      keys.forEach(k => {
+        const item = carrito[k];
+        const subtotal = item.cantidad * item.precio;
+        mensaje += i + ". " + item.nombre + "\n";
+        mensaje += "   Cant: " + item.cantidad + " x Q" + item.precio.toFixed(2) + " = Q" + subtotal.toFixed(2) + "\n";
+        i++;
+      });
+
+      mensaje += "--------------------------------\n";
+      mensaje += "Subtotal: Q" + subtotalGeneral.toFixed(2) + "\n";
+      if(pctDescuento > 0) {
+        mensaje += "Descuento (" + pctDescuento + "%): -Q" + montoDescuento.toFixed(2) + "\n";
+      }
+      mensaje += "TOTAL A PAGAR: Q" + totalFinal.toFixed(2) + "\n";
+      mensaje += "--------------------------------\n";
+      mensaje += "¡Hola! Confirmo este pedido por favor.";
+
+      const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
+      
+      window.open(urlWA, '_blank');
+
+      carrito = {};
+      localStorage.removeItem('carrito_diprosa');
+      document.getElementById('cliente-receptor').value = "";
+      document.getElementById('cliente-referencia').value = "";
+      actualizarUIResumen();
+      renderizarCatalogo();
+      cerrarTicket();
+    }
+  </script>
+
+</body>
+</html>
