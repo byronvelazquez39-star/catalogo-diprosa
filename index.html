@@ -207,14 +207,15 @@
     .btn-modal-wa { 
       background: var(--wa-color); 
       color: white; 
-      text-decoration: none;
-      display: block;
+      border: none;
+      width: 100%;
       text-align: center;
       padding: 12px 15px; 
       border-radius: 6px; 
       font-weight: bold; 
       margin-top: 5px; 
       font-size: 16px; 
+      cursor: pointer;
       box-sizing: border-box;
     }
   </style>
@@ -278,7 +279,7 @@
         </div>
       </div>
 
-      <a id="btn-envio-wa" class="btn-modal-wa" href="#">📲 Enviar Pedido a WhatsApp</a>
+      <button class="btn-modal-wa" onclick="enviarWhatsApp()">📲 Enviar Pedido a WhatsApp</button>
       <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
     </div>
   </div>
@@ -480,35 +481,61 @@
       }
 
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
+    }
 
-      // Generar enlace directo para WhatsApp
+    function cerrarTicket() {
+      document.getElementById('modal-ticket').style.display = 'none';
+    }
+
+    function enviarWhatsApp() {
+      const keys = Object.keys(carrito);
+      if (keys.length === 0) {
+        alert("El carrito está vacío.");
+        return;
+      }
+
+      let subtotalGeneral = 0;
+      keys.forEach(k => {
+        subtotalGeneral += carrito[k].cantidad * carrito[k].precio;
+      });
+
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
+
       const numTicket = Math.floor(1000 + Math.random() * 9000);
-      let mensaje = "🧾 *TICKET DE PEDIDO #" + numTicket + "*\n";
-      mensaje += "📅 *Fecha:* " + new Date().toLocaleString('es-GT') + "\n";
+
+      let mensaje = "\uD83E\uFEFE *TICKET DE PEDIDO #" + numTicket + "*\n";
+      mensaje += "\uD83D\uDCC5 *Fecha:* " + new Date().toLocaleString('es-GT') + "\n";
       mensaje += "------------------------------------\n\n";
 
       keys.forEach(k => {
         const item = carrito[k];
         const subtotal = item.cantidad * item.precio;
-        mensaje += "📦 *" + item.nombre + "*\n";
+        mensaje += "\uD83D\uDCE6 *" + item.nombre + "*\n";
         mensaje += "    Cant: *" + item.cantidad + "* x Q" + item.precio.toFixed(2) + " c/u = *Q" + subtotal.toFixed(2) + "*\n\n";
       });
 
       mensaje += "------------------------------------\n";
-      mensaje += "💵 *Subtotal:* Q" + subtotalGeneral.toFixed(2) + "\n";
+      mensaje += "\uD83D\uDCB5 *Subtotal:* Q" + subtotalGeneral.toFixed(2) + "\n";
       if(pctDescuento > 0) {
-        mensaje += "🏷️ *Descuento (" + pctDescuento + "%):* -Q" + montoDescuento.toFixed(2) + "\n";
+        mensaje += "\uD83C\uFF87 *Descuento (" + pctDescuento + "%):* -Q" + montoDescuento.toFixed(2) + "\n";
       }
-      mensaje += "🟢 *TOTAL A PAGAR: Q" + totalFinal.toFixed(2) + "*\n";
+      mensaje += "\uD83D\uDFE2 *TOTAL A PAGAR: Q" + totalFinal.toFixed(2) + "*\n";
       mensaje += "------------------------------------\n\n";
-      mensaje += "👋 ¡Hola! Quisiera confirmar este pedido por favor.";
+      mensaje += "\uD83D\uDC4B ¡Hola! Quisiera confirmar este pedido por favor.";
 
-      const linkWA = document.getElementById('btn-envio-wa');
-      linkWA.href = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
-    }
+      const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
+      
+      // Abrir WhatsApp en pestaña nueva
+      window.open(urlWA, '_blank');
 
-    function cerrarTicket() {
-      document.getElementById('modal-ticket').style.display = 'none';
+      // LIMPIEZA TOTAL INMEDIATA DEL CARRITO Y MEMORIA LOCAL
+      carrito = {};
+      localStorage.removeItem('carrito_diprosa');
+      actualizarUIResumen();
+      renderizarCatalogo();
+      cerrarTicket();
     }
   </script>
 
