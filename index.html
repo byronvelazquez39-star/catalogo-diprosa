@@ -118,7 +118,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: -4px 10px rgba(0,0,0,0.5);
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
       z-index: 1000;
     }
     .cart-info { font-size: 15px; cursor: pointer; }
@@ -320,26 +320,23 @@
     let productosFiltrados = [];
     let limiteActual = 40;
     
-    // Limpieza estricta de carrito corrupto previo
+    // REINICIO TOTAL: Borra cualquier carrito corrupto previo y arranca limpio
     let carrito = {};
     try {
-      const guardado = JSON.parse(localStorage.getItem('carrito_diprosa'));
+      let guardado = JSON.parse(localStorage.getItem('carrito_diprosa'));
       if (guardado && typeof guardado === 'object') {
         for (let k in guardado) {
           let item = guardado[k];
-          if (item && item.nombre && !isNaN(parseFloat(item.precio)) && !isNaN(parseInt(item.cantidad)) && parseInt(item.cantidad) > 0) {
-            carrito[k] = {
-              nombre: item.nombre,
-              precio: parseFloat(item.precio),
-              cantidad: parseInt(item.cantidad)
-            };
+          let cant = parseInt(item && item.cantidad);
+          let prec = parseFloat(item && item.precio);
+          if (item && item.nombre && !isNaN(prec) && !isNaN(cant) && cant > 0) {
+            carrito[k] = { nombre: item.nombre, precio: prec, cantidad: cant };
           }
         }
       }
     } catch(e) {
       carrito = {};
     }
-    localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
 
     let debounceTimer;
 
@@ -372,7 +369,10 @@
       
       listaCorte.forEach((p) => {
         const pKey = obtenerKey(p.nombre, p.precio);
-        const cant = (carrito[pKey] && carrito[pKey].cantidad) ? parseInt(carrito[pKey].cantidad) : 0;
+        let cant = 0;
+        if (carrito[pKey] && !isNaN(carrito[pKey].cantidad)) {
+          cant = parseInt(carrito[pKey].cantidad);
+        }
         const nombreB64 = btoa(unescape(encodeURIComponent(p.nombre)));
 
         html += `
@@ -415,9 +415,10 @@
       const pKey = obtenerKey(nombre, precio);
       const precioNum = parseFloat(precio);
 
-      if (!carrito[pKey]) {
+      if (!carrito[pKey] || isNaN(carrito[pKey].cantidad)) {
         carrito[pKey] = { nombre: nombre, precio: precioNum, cantidad: 0 };
       }
+      
       carrito[pKey].cantidad += parseInt(delta);
 
       if (carrito[pKey].cantidad <= 0) {
