@@ -292,10 +292,7 @@
         document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">Error al cargar los productos.</p>';
       });
 
-    function obtenerKey(p) {
-      return (p.codigo ? p.codigo + '_' : '') + p.nombre + '_' + p.precio;
-    }
-
+    // Guardar los ítems usando un ID numérico interno basado en su posición global para evitar fallos de texto
     function renderizarCatalogo() {
       const contenedor = document.getElementById('catalogo');
       if (!productosFiltrados || productosFiltrados.length === 0) {
@@ -308,8 +305,8 @@
       let html = '';
       
       listaCorte.forEach((p) => {
-        const pKey = obtenerKey(p);
-        const cant = carrito[pKey] ? carrito[pKey].cantidad : 0;
+        const realIndex = productos.findIndex(item => item.codigo === p.codigo && item.nombre === p.nombre && item.precio === p.precio);
+        const cant = carrito[realIndex] ? carrito[realIndex].cantidad : 0;
 
         html += `
           <div class="card">
@@ -320,12 +317,12 @@
             <div>
               <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
               ${cant === 0 ? `
-                <button class="btn-add" onclick="cambiarCantPorKey('${encodeURIComponent(pKey)}', '${encodeURIComponent(p.codigo || '')}', '${encodeURIComponent(p.nombre)}',${p.precio}, 1)">+ Agregar</button>
+                <button class="btn-add" onclick="cambiarCant(${realIndex}, 1)">+ Agregar</button>
               ` : `
                 <div class="qty-controls">
-                  <button class="btn-qty" onclick="cambiarCantPorKey('${encodeURIComponent(pKey)}', '${encodeURIComponent(p.codigo || '')}', '${encodeURIComponent(p.nombre)}',${p.precio}, -1)">-</button>
+                  <button class="btn-qty" onclick="cambiarCant(${realIndex}, -1)">-</button>
                   <span class="qty-num">${cant}</span>
-                  <button class="btn-qty" onclick="cambiarCantPorKey('${encodeURIComponent(pKey)}', '${encodeURIComponent(p.codigo || '')}', '${encodeURIComponent(p.nombre)}',${p.precio}, 1)">+</button>
+                  <button class="btn-qty" onclick="cambiarCant(${realIndex}, 1)">+</button>
                 </div>
               `}
             </div>
@@ -347,20 +344,25 @@
       renderizarCatalogo();
     }
 
-    function cambiarCantPorKey(pKeyEnc, codigoEnc, nombreEnc, precio, delta) {
-      const pKey = decodeURIComponent(pKeyEnc);
-      const codigo = decodeURIComponent(codigoEnc);
-      const nombre = decodeURIComponent(nombreEnc);
+    function cambiarCant(index, delta) {
+      if (!productos[index]) return;
 
-      if (!carrito[pKey]) {
-        carrito[pKey] = { codigo: codigo, nombre: nombre, precio: parseFloat(precio), cantidad: 0 };
+      if (!carrito[index]) {
+        carrito[index] = { codigo: productos[index].codigo, nombre: productos[index].nombre, precio: parseFloat(productos[index].precio), cantidad: 0 };
       }
-      carrito[pKey].cantidad += delta;
+      carrito[index].cantidad += delta;
 
-      if (carrito[pKey].cantidad <= 0) {
-        delete carrito[pKey];
+      if (carrito[index].cantidad <= 0) {
+        delete carrito[index];
       }
 
+      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function eliminarDelTicket(index) {
+      delete carrito[index];
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
       actualizarUIResumen();
       renderizarCatalogo();
@@ -431,10 +433,10 @@
               <div class="ticket-item-subtotal">Subtotal (${item.cantidad}): Q ${subtotal.toFixed(2)}</div>
             </div>
             <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCantPorKey('${encodeURIComponent(k)}', '${encodeURIComponent(item.codigo || '')}', '${encodeURIComponent(item.nombre)}', ${item.precio}, -1)">-</button>
+              <button class="btn-ticket-qty" onclick="cambiarCant(${k}, -1)">-</button>
               <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCantPorKey('${encodeURIComponent(k)}', '${encodeURIComponent(item.codigo || '')}', '${encodeURIComponent(item.nombre)}', ${item.precio}, 1)">+</button>
-              <button class="btn-delete" onclick="eliminarDelTicket('${encodeURIComponent(k)}')">🗑️</button>
+              <button class="btn-ticket-qty" onclick="cambiarCant(${k}, 1)">+</button>
+              <button class="btn-delete" onclick="eliminarDelTicket(${k})">🗑️</button>
             </div>
           </div>
         `;
@@ -456,14 +458,6 @@
       }
 
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-    }
-
-    function eliminarDelTicket(keyEnc) {
-      const key = decodeURIComponent(keyEnc);
-      delete carrito[key];
-      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
-      actualizarUIResumen();
-      renderizarCatalogo();
     }
 
     function cerrarTicket() {
