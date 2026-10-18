@@ -58,26 +58,23 @@
             justify-content: space-between;
             border: 1px solid #333;
         }
-        .card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 6px;
-            background-color: #333;
-        }
         .card h3 {
             font-size: 14px;
             margin: 8px 0 4px 0;
+            text-align: center;
         }
         .card p {
             font-size: 13px;
             color: #aaa;
             margin: 0 0 10px 0;
+            text-align: center;
         }
         .precio {
             font-weight: bold;
             color: var(--accent-color);
             margin-bottom: 8px;
+            text-align: center;
+            font-size: 1.1rem;
         }
         .btn-agregar {
             background-color: var(--accent-color);
@@ -114,75 +111,6 @@
             cursor: pointer;
             font-size: 14px;
         }
-        /* Ventana emergente (Modal) para visualizar el pedido */
-        #modal-ticket {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .modal-content {
-            background-color: #1e1e1e;
-            border: 1px solid #444;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .modal-header {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--accent-color);
-            text-align: center;
-        }
-        .modal-body {
-            overflow-y: auto;
-            flex-grow: 1;
-            font-size: 14px;
-            background-color: #121212;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            white-space: pre-wrap;
-            line-height: 1.4;
-        }
-        .modal-footer {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-cerrar {
-            background-color: #555;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-enviar-modal {
-            background-color: var(--wa-color);
-            color: #121212;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            font-weight: bold;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -197,22 +125,10 @@
 
     <div id="catalogo" class="grid">Cargando productos...</div>
 
-    <div class="cart-bar" onclick="abrirModalTicket()">
+    <div class="cart-bar" onclick="abrirTicket()">
         <div>🛒 Artículos: <span id="contador-carrito">0</span></div>
         <div>Total: <strong id="total-carrito">Q0.00</strong></div>
-        <button class="btn-enviar-wa" onclick="event.stopPropagation(); abrirModalTicket();">Ver Pedido 👁️</button>
-    </div>
-
-    <!-- Modal para visualizar el ticket antes de enviarlo -->
-    <div id="modal-ticket">
-        <div class="modal-content">
-            <div class="modal-header">📄 Resumen del Pedido</div>
-            <div id="texto-ticket" class="modal-body">Cargando...</div>
-            <div class="modal-footer">
-                <button class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
-                <button class="btn-enviar-modal" onclick="enviarWhatsApp()">Enviar WhatsApp 📱</button>
-            </div>
-        </div>
+        <button class="btn-enviar-wa" onclick="event.stopPropagation(); abrirTicket();">Enviar Pedido 📱</button>
     </div>
 
     <script>
@@ -256,14 +172,11 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
-                    <img src="${p.imagen || 'placeholder.jpg'}" alt="${p.nombre}">
-                    <div>
-                        <h3>${p.nombre}</h3>
-                        <p>Código: ${p.codigo}</p>
-                        <div class="precio">Q${Number(p.precio).toFixed(2)}</div>
-                    </div>
+                    <p style="font-size: 11px; color: #888; margin: 0; text-align: right;">Cód: ${p.codigo}</p>
+                    <h3>${p.nombre}</h3>
+                    <div class="precio">Q${Number(p.precio).toFixed(2)}</div>
                     <button class="btn-agregar" onclick='cambiarCantidad("${key}", 1)'>
-                        ${enCarrito > 0 ? 'Agregados: ' + enCarrito : 'Agregar ➕'}
+                        ${enCarrito > 0 ? 'Agregados: ' + enCarrito : '+ Agregar'}
                     </button>
                 `;
                 contenedor.appendChild(card);
@@ -332,8 +245,13 @@
             document.getElementById('total-carrito').innerText = 'Q' + totalPrecio.toFixed(2);
         }
 
-        function generarTextoTicket() {
+        function abrirTicket() {
             const keys = Object.keys(carrito);
+            if (keys.length === 0) {
+                alert("Tu carrito está vacío.");
+                return;
+            }
+
             let mensaje = `*TICKET DE PEDIDO - DIPROSA*\n`;
             mensaje += `*Fecha:* ${new Date().toLocaleDateString()}\n`;
             mensaje += `-----------------------------------\n\n`;
@@ -351,29 +269,9 @@
             mensaje += `*TOTAL A PAGAR: Q${subtotalGeneral.toFixed(2)}*\n`;
             mensaje += `-----------------------------------\n`;
             mensaje += `👋 ¡Hola! Quisiera confirmar este pedido.`;
-            return mensaje;
-        }
 
-        function abrirModalTicket() {
-            const keys = Object.keys(carrito);
-            if (keys.length === 0) {
-                alert("Tu carrito está vacío.");
-                return;
-            }
-
-            document.getElementById('texto-ticket').innerText = generarTextoTicket();
-            document.getElementById('modal-ticket').style.display = 'flex';
-        }
-
-        function cerrarModal() {
-            document.getElementById('modal-ticket').style.display = 'none';
-        }
-
-        function enviarWhatsApp() {
-            const mensaje = generarTextoTicket();
             const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
-            cerrarModal();
         }
     </script>
 </body>
