@@ -1,427 +1,508 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --success-color: #22c55e;
-            --danger-color: #ef4444;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 20px;
-            padding-bottom: 120px;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .welcome-banner {
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
-            color: #121212;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-        }
-        header {
-            margin-bottom: 24px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 12px;
-            color: var(--text-main);
-        }
-        .search-box {
-            width: 100%;
-            max-width: 600px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-            margin: 0 auto;
-            display: block;
-        }
-        .search-box:focus {
-            border-color: var(--accent-color);
-        }
-        .stats {
-            margin-top: 8px;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-        }
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .card-code {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-        .card-price {
-            font-size: 1.25rem;
-            color: #22c55e;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-        .btn-add {
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-        .btn-add:hover {
-            opacity: 0.9;
-        }
-        .cart-float {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--card-bg);
-            border-top: 2px solid var(--success-color);
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.4);
-        }
-        .btn-whatsapp {
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        /* Estilos del Modal para visualizar el Ticket */
-        #modal-ticket {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .modal-content {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            width: 100%;
-            max-width: 420px;
-            max-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .modal-header {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: var(--success-color);
-            text-align: center;
-        }
-        .modal-body {
-            overflow-y: auto;
-            flex-grow: 1;
-            font-size: 14px;
-            background-color: #0f172a;
-            padding: 14px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            white-space: pre-wrap;
-            line-height: 1.5;
-            border: 1px solid var(--border-color);
-        }
-        .modal-footer {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-cerrar {
-            background-color: #475569;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-enviar-modal {
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            flex: 1;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo DIPROSA</title>
+  <style>
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --accent-color: #27ae60;
+      --wa-color: #25d366;
+      --danger-color: #e74c3c;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+      padding-bottom: 120px;
+    }
+    .welcome-banner {
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      color: #121212;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .welcome-banner h2 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
+    .welcome-banner p { margin: 0; font-size: 13px; color: #e0f2f1; }
+
+    h1 { text-align: center; margin-bottom: 15px; font-size: 22px; }
+    .search-box {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+      box-sizing: border-box;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
+    .card {
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .codigo { font-size: 11px; color: #888; margin-bottom: 5px; }
+    .nombre { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+    .precio { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 10px; }
+    
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-qty {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-qty:active { background-color: #555; }
+    .qty-num { font-size: 16px; font-weight: bold; min-width: 20px; }
+
+    .btn-add {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-cargar-mas {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 12px;
+      border-radius: 8px;
+      width: 100%;
+      margin-top: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Barra Flotante */
+    .cart-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1f1f1f;
+      border-top: 2px solid #333;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      z-index: 1000;
+    }
+    .cart-info { font-size: 15px; cursor: pointer; }
+    .cart-total { font-size: 18px; color: var(--accent-color); font-weight: bold; }
+    .btn-wa {
+      background-color: var(--wa-color);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    /* Modal Ticket */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+    .modal-content {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 85vh;
+      overflow-y: auto;
+      border: 1px solid #444;
+    }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 10px; margin-bottom: 15px; }
+    .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
+    .ticket-item-info { flex-grow: 1; margin-right: 10px; }
+    .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+    .ticket-item-sub { font-size: 12px; color: #aaa; }
+    .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
+    
+    .ticket-actions { display: flex; align-items: center; gap: 4px; }
+    .btn-ticket-qty {
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      width: 26px; height: 26px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-delete {
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .discount-section {
+      background: #252525;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .discount-section label { font-size: 14px; font-weight: bold; }
+    .discount-select {
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+    .btn-modal-wa { background: var(--wa-color); color: white; border: none; padding: 12px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 5px; font-size: 16px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="welcome-banner">
-            👋 ¡Bienvenido a DIPROSA!<br>
-            <span style="font-weight: normal; font-size: 0.9rem;">Selecciona tus productos, arma tu ticket y envíanos tu pedido.</span>
+
+  <!-- Saludo de bienvenida -->
+  <div class="welcome-banner">
+    <h2>👋 ¡Bienvenido a DIPROSA!</h2>
+    <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
+  </div>
+
+  <h1>📦 Catálogo en Línea</h1>
+  <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
+
+  <div id="catalogo" class="grid">Cargando productos...</div>
+  <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
+
+  <!-- Barra Flotante -->
+  <div class="cart-bar">
+    <div class="cart-info" onclick="abrirTicket()">
+      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
+      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
+    </div>
+    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  </div>
+
+  <!-- Modal Ticket -->
+  <div id="modal-ticket" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3>🧾 TICKET DE COMPRA</h3>
+        <p style="font-size: 12px; color: #888;" id="ticket-fecha"></p>
+      </div>
+      
+      <div id="ticket-items"></div>
+
+      <!-- Selector de Descuento -->
+      <div class="discount-section">
+        <label for="descuento-pct">Descuento aplicado:</label>
+        <select id="descuento-pct" class="discount-select" onchange="actualizarContenidoTicket()">
+          <option value="0">Sin descuento (0%)</option>
+          <option value="1">1 %</option>
+          <option value="2">2 %</option>
+          <option value="3">3 %</option>
+        </select>
+      </div>
+
+      <div id="resumen-totales" style="border-top: 1px dashed #555; padding-top: 10px;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #aaa; margin-bottom: 5px;">
+          <span>Subtotal:</span>
+          <span>Q <span id="ticket-subtotal">0.00</span></span>
         </div>
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #e67e22; margin-bottom: 5px;" id="fila-rebaja">
+          <span>Descuento (<span id="txt-pct">0</span>%):</span>
+          <span>- Q <span id="ticket-descuento-monto">0.00</span></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: var(--accent-color);">
+          <span>Total Final:</span>
+          <span>Q <span id="ticket-total">0.00</span></span>
+        </div>
+      </div>
 
-        <header>
-            <h1>📦 Catálogo en Línea</h1>
-            <input type="text" id="searchInput" class="search-box" placeholder="🔍 Buscar por nombre o código...">
-            <div id="stats" class="stats">Cargando productos...</div>
-        </header>
-        <div id="productGrid" class="grid"></div>
+      <button class="btn-modal-wa" onclick="enviarWhatsApp()">📲 Enviar Pedido a WhatsApp</button>
+      <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
     </div>
+  </div>
 
-    <!-- Barra inferior flotante que abre el ticket al tocarla -->
-    <div class="cart-float" onclick="abrirModalTicket()">
-        <div>🛒 Artículos: <span id="contador-carrito">0</span></div>
-        <div>Total: <strong id="total-carrito" style="color: #22c55e;">Q0.00</strong></div>
-        <button class="btn-whatsapp" onclick="event.stopPropagation(); abrirModalTicket();">Ver Ticket 👁️</button>
-    </div>
+  <script>
+    const NUMERO_WHATSAPP = "50248502382"; 
 
-    <!-- Modal emergente para visualizar el pedido antes de enviarlo -->
-    <div id="modal-ticket">
-        <div class="modal-content">
-            <div class="modal-header">📄 Resumen del Pedido</div>
-            <div id="texto-ticket" class="modal-body">Cargando...</div>
-            <div class="modal-footer">
-                <button class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
-                <button class="btn-enviar-modal" onclick="enviarWhatsApp()">Enviar WhatsApp 📱</button>
+    let productos = [];
+    let productosFiltrados = [];
+    let limiteActual = 40;
+    let carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {};
+    let debounceTimer;
+
+    fetch('productos.json?v=' + new Date().getTime())
+      .then(res => res.json())
+      .then(data => {
+        productos = data;
+        productosFiltrados = data;
+        renderizarCatalogo();
+        actualizarUIResumen();
+      })
+      .catch(() => {
+        document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">Error al cargar los productos.</p>';
+      });
+
+    function renderizarCatalogo() {
+      const contenedor = document.getElementById('catalogo');
+      if (!productosFiltrados || productosFiltrados.length === 0) {
+        contenedor.innerHTML = '<p>No se encontraron productos.</p>';
+        document.getElementById('btn-mas').style.display = 'none';
+        return;
+      }
+
+      const listaCorte = productosFiltrados.slice(0, limiteActual);
+      let html = '';
+      
+      listaCorte.forEach((p) => {
+        // Usar identificador único basado en código y nombre para evitar desalineación al buscar
+        const pKey = (p.codigo ? p.codigo + '_' : '') + p.nombre + '_' + p.precio;
+        const cant = carrito[pKey] ? carrito[pKey].cantidad : 0;
+
+        html += `
+          <div class="card">
+            <div>
+              <div class="codigo">${p.codigo ? 'Cód: ' + p.codigo : ''}</div>
+              <div class="nombre">${p.nombre}</div>
             </div>
-        </div>
-    </div>
+            <div>
+              <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
+              ${cant === 0 ? `
+                <button class="btn-add" onclick='cambiarCantPorKey(${JSON.stringify(pKey)},${JSON.stringify(p.codigo || "")}, ${JSON.stringify(p.nombre)},${p.precio}, 1)'>+ Agregar</button>
+              ` : `
+                <div class="qty-controls">
+                  <button class="btn-qty" onclick='cambiarCantPorKey(${JSON.stringify(pKey)},${JSON.stringify(p.codigo || "")}, ${JSON.stringify(p.nombre)},${p.precio}, -1)'>-</button>
+                  <span class="qty-num">${cant}</span>
+                  <button class="btn-qty" onclick='cambiarCantPorKey(${JSON.stringify(pKey)},${JSON.stringify(p.codigo || "")}, ${JSON.stringify(p.nombre)},${p.precio}, 1)'>+</button>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      });
+      
+      contenedor.innerHTML = html;
 
-    <script>
-        const NUMERO_WHATSAPP = "50248502382";
-        let productos = [];
-        let carrito = JSON.parse(localStorage.getItem('diprosa_carrito')) || {};
+      if (productosFiltrados.length > limiteActual) {
+        document.getElementById('btn-mas').style.display = 'block';
+      } else {
+        document.getElementById('btn-mas').style.display = 'none';
+      }
+    }
 
-        function normalizarTexto(texto) {
-            if (!texto) return '';
-            return texto.toString().toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "");
+    function cargarMasProductos() {
+      limiteActual += 40;
+      renderizarCatalogo();
+    }
+
+    function cambiarCantPorKey(pKey, codigo, nombre, precio, delta) {
+      if (!carrito[pKey]) {
+        carrito[pKey] = { codigo: codigo, nombre: nombre, precio: parseFloat(precio), cantidad: 0 };
+      }
+      carrito[pKey].cantidad += delta;
+
+      if (carrito[pKey].cantidad <= 0) {
+        delete carrito[pKey];
+      }
+
+      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function actualizarUIResumen() {
+      let totalCant = 0;
+      let totalMonto = 0;
+      for (let k in carrito) {
+        totalCant += carrito[k].cantidad;
+        totalMonto += carrito[k].cantidad * carrito[k].precio;
+      }
+      document.getElementById('cant-items').innerText = totalCant;
+      document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
+      
+      if(document.getElementById('modal-ticket').style.display === 'flex') {
+        actualizarContenidoTicket();
+      }
+    }
+
+    function filtrarDebounce() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        if (q === "") {
+          productosFiltrados = productos;
+        } else {
+          productosFiltrados = productos.filter(p => 
+            (p.nombre && p.nombre.toLowerCase().includes(q)) || 
+            (p.codigo && p.codigo.toString().toLowerCase().includes(q))
+          );
         }
+        renderizarCatalogo();
+      }, 200);
+    }
 
-        fetch('productos.json')
-            .then(response => response.json())
-            .then(data => {
-                productos = data;
-                renderizarProductos(productos);
-                actualizarBarraFlotante();
-            })
-            .catch(error => {
-                console.error('Error al cargar productos:', error);
-                document.getElementById('stats').innerText = 'Error al cargar el catálogo de productos.';
-            });
+    function abrirTicket() {
+      const keys = Object.keys(carrito);
+      if(keys.length === 0) {
+        alert("El carrito está vacío. Agrega productos primero.");
+        return;
+      }
+      actualizarContenidoTicket();
+      document.getElementById('modal-ticket').style.display = 'flex';
+    }
 
-        function renderizarProductos(lista) {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-            
-            document.getElementById('stats').innerText = `Mostrando ${lista.length} productos`;
+    function actualizarContenidoTicket() {
+      const keys = Object.keys(carrito);
+      const contenedor = document.getElementById('ticket-items');
+      contenedor.innerHTML = '';
+      let subtotalGeneral = 0;
 
-            if (lista.length === 0) {
-                grid.innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1; text-align: center;">No se encontraron productos.</p>';
-                return;
-            }
+      if(keys.length === 0) {
+        cerrarTicket();
+        return;
+      }
 
-            lista.forEach((p, index) => {
-                const id = p.codigo || p.nombre;
-                const enCarrito = carrito[id] ? carrito[id].cantidad : 0;
+      keys.forEach(k => {
+        const item = carrito[k];
+        const subtotal = item.cantidad * item.precio;
+        subtotalGeneral += subtotal;
+        contenedor.innerHTML += `
+          <div class="ticket-item">
+            <div class="ticket-item-info">
+              <div class="ticket-item-title">${item.nombre}</div>
+              <div class="ticket-item-sub">Precio unitario: Q ${item.precio.toFixed(2)} c/u</div>
+              <div class="ticket-item-subtotal">Subtotal (${item.cantidad}): Q ${subtotal.toFixed(2)}</div>
+            </div>
+            <div class="ticket-actions">
+              <button class="btn-ticket-qty" onclick='cambiarCantPorKey(${JSON.stringify(k)}, ${JSON.stringify(item.codigo || "")}, ${JSON.stringify(item.nombre)}, ${item.precio}, -1)'>-</button>
+              <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
+              <button class="btn-ticket-qty" onclick='cambiarCantPorKey(${JSON.stringify(k)}, ${JSON.stringify(item.codigo || "")}, ${JSON.stringify(item.nombre)}, ${item.precio}, 1)'>+</button>
+              <button class="btn-delete" onclick="eliminarDelTicket(${JSON.stringify(k)})">🗑️</button>
+            </div>
+          </div>
+        `;
+      });
 
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div>
-                        <div class="card-code">Cód: ${p.codigo || 'N/A'}</div>
-                        <div class="card-title">${p.nombre}</div>
-                    </div>
-                    <div>
-                        <div class="card-price">Q${Number(p.precio).toFixed(2)}</div>
-                        <button class="btn-add" onclick="agregarAlCarrito(${index})">
-                            ${enCarrito > 0 ? 'Agregados: ' + enCarrito : 'Agregar +'}
-                        </button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
 
-        let debounceTimer;
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const termino = normalizarTexto(e.target.value);
-            clearTimeout(debounceTimer);
+      document.getElementById('ticket-subtotal').innerText = subtotalGeneral.toFixed(2);
+      document.getElementById('txt-pct').innerText = pctDescuento;
+      document.getElementById('ticket-descuento-monto').innerText = montoDescuento.toFixed(2);
+      document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
+      
+      if(pctDescuento > 0) {
+        document.getElementById('fila-rebaja').style.display = 'flex';
+      } else {
+        document.getElementById('fila-rebaja').style.display = 'none';
+      }
 
-            if (termino === "") {
-                renderizarProductos(productos);
-                return;
-            }
+      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
+    }
 
-            debounceTimer = setTimeout(() => {
-                const filtrados = productos.filter(p => {
-                    const nombreNorm = normalizarTexto(p.nombre);
-                    const codigoNorm = normalizarTexto(p.codigo);
-                    return nombreNorm.includes(termino) || codigoNorm.includes(termino);
-                });
-                renderizarProductos(filtrados);
-            }, 250);
-        });
+    function eliminarDelTicket(key) {
+      delete carrito[key];
+      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
 
-        function agregarAlCarrito(index) {
-            const producto = productos[index];
-            const id = producto.codigo || producto.nombre;
+    function cerrarTicket() {
+      document.getElementById('modal-ticket').style.display = 'none';
+    }
 
-            if (carrito[id]) {
-                carrito[id].cantidad += 1;
-            } else {
-                carrito[id] = {
-                    nombre: producto.nombre,
-                    codigo: producto.codigo,
-                    precio: Number(producto.precio),
-                    cantidad: 1
-                };
-            }
-            guardarYActualizar();
-        }
+    function enviarWhatsApp() {
+      const keys = Object.keys(carrito);
+      if (keys.length === 0) {
+        alert("El carrito está vacío.");
+        return;
+      }
 
-        function guardarYActualizar() {
-            localStorage.setItem('diprosa_carrito', JSON.stringify(carrito));
-            actualizarBarraFlotante();
-            
-            // Si el modal está abierto, actualizamos su contenido en tiempo real
-            if (document.getElementById('modal-ticket').style.display === 'flex') {
-                document.getElementById('texto-ticket').innerText = generarTextoTicket();
-            }
+      let subtotalGeneral = 0;
+      keys.forEach(k => {
+        subtotalGeneral += carrito[k].cantidad * carrito[k].precio;
+      });
 
-            // Actualizar vista de productos para reflejar los botones
-            const termino = normalizarTexto(document.getElementById('searchInput').value);
-            if (termino === "") {
-                renderizarProductos(productos);
-            } else {
-                renderizarProductos(productos.filter(p => 
-                    normalizarTexto(p.nombre).includes(termino) || normalizarTexto(p.codigo).includes(termino)
-                ));
-            }
-        }
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
 
-        function actualizarBarraFlotante() {
-            let totalItems = 0;
-            let totalPrecio = 0;
+      const numTicket = Math.floor(1000 + Math.random() * 9000);
+      let mensaje = `🧾 *TICKET DE PEDIDO #${numTicket}*\n`;
+      mensaje += `📅 *Fecha:* ${new Date().toLocaleString('es-GT')}\n`;
+      mensaje += `------------------------------------\n\n`;
 
-            for (let id in carrito) {
-                totalItems += carrito[id].cantidad;
-                totalPrecio += carrito[id].cantidad * carrito[id].precio;
-            }
+      keys.forEach(k => {
+        const item = carrito[k];
+        const subtotal = item.cantidad * item.precio;
+        mensaje += `▪️ *${item.nombre}*\n`;
+        mensaje += `   Cant: *${item.cantidad}* x Q${item.precio.toFixed(2)} c/u = *Q${subtotal.toFixed(2)}*\n`;
+      });
 
-            document.getElementById('contador-carrito').innerText = totalItems;
-            document.getElementById('total-carrito').innerText = 'Q' + totalPrecio.toFixed(2);
-        }
+      mensaje += `\n------------------------------------\n`;
+      mensaje += `🔹 *Subtotal:* Q${subtotalGeneral.toFixed(2)}\n`;
+      if(pctDescuento > 0) {
+        mensaje += `🎁 *Descuento (${pctDescuento}%):* -Q${montoDescuento.toFixed(2)}\n`;
+      }
+      mensaje += `💰 *TOTAL A PAGAR: Q${totalFinal.toFixed(2)}*\n`;
+      mensaje += `------------------------------------\n\n`;
+      mensaje += `👋 ¡Hola! Quisiera confirmar este pedido por favor.`;
 
-        function generarTextoTicket() {
-            const keys = Object.keys(carrito);
-            let mensaje = `*TICKET DE PEDIDO - DIPROSA*\n`;
-            mensaje += `*Fecha:* ${new Date().toLocaleDateString()}\n`;
-            mensaje += `-----------------------------------\n\n`;
+      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
+  </script>
 
-            let subtotalGeneral = 0;
-            keys.forEach(id => {
-                const item = carrito[id];
-                const subtotalItem = item.cantidad * item.precio;
-                subtotalGeneral += subtotalItem;
-                mensaje += `• *${item.nombre}* (Cod: ${item.codigo || 'N/A'})\n`;
-                mensaje += `  Cant: *${item.cantidad}* | Subtotal: Q${subtotalItem.toFixed(2)}\n\n`;
-            });
-
-            mensaje += `-----------------------------------\n`;
-            mensaje += `*TOTAL A PAGAR: Q${subtotalGeneral.toFixed(2)}*\n`;
-            mensaje += `-----------------------------------\n`;
-            mensaje += `👋 ¡Hola! Quisiera confirmar este pedido.`;
-            return mensaje;
-        }
-
-        function abrirModalTicket() {
-            const keys = Object.keys(carrito);
-            if (keys.length === 0) {
-                alert("Tu carrito está vacío.");
-                return;
-            }
-
-            document.getElementById('texto-ticket').innerText = generarTextoTicket();
-            document.getElementById('modal-ticket').style.display = 'flex';
-        }
-
-        function cerrarModal() {
-            document.getElementById('modal-ticket').style.display = 'none';
-        }
-
-        function enviarWhatsApp() {
-            const keys = Object.keys(carrito);
-            if (keys.length === 0) return;
-
-            const mensaje = generarTextoTicket();
-            const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
-            cerrarModal();
-        }
-    </script>
 </body>
 </html>
