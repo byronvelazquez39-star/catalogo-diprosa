@@ -292,6 +292,10 @@
         document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">Error al cargar los productos.</p>';
       });
 
+    function obtenerKey(nombre, precio) {
+      return nombre.trim() + '_' + precio;
+    }
+
     function renderizarCatalogo() {
       const contenedor = document.getElementById('catalogo');
       if (!productosFiltrados || productosFiltrados.length === 0) {
@@ -304,8 +308,8 @@
       let html = '';
       
       listaCorte.forEach((p) => {
-        const realIndex = productos.findIndex(item => item.codigo === p.codigo && item.nombre === p.nombre && item.precio === p.precio);
-        const cant = carrito[realIndex] ? carrito[realIndex].cantidad : 0;
+        const pKey = obtenerKey(p.nombre, p.precio);
+        const cant = carrito[pKey] ? carrito[pKey].cantidad : 0;
 
         html += `
           <div class="card">
@@ -316,12 +320,12 @@
             <div>
               <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
               ${cant === 0 ? `
-                <button class="btn-add" onclick="cambiarCant(${realIndex}, 1)">+ Agregar</button>
+                <button class="btn-add" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}', ${p.precio}, 1, '${p.codigo || ''}')">+ Agregar</button>
               ` : `
                 <div class="qty-controls">
-                  <button class="btn-qty" onclick="cambiarCant(${realIndex}, -1)">-</button>
+                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}', ${p.precio}, -1, '${p.codigo || ''}')">-</button>
                   <span class="qty-num">${cant}</span>
-                  <button class="btn-qty" onclick="cambiarCant(${realIndex}, 1)">+</button>
+                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}', ${p.precio}, 1, '${p.codigo || ''}')">+</button>
                 </div>
               `}
             </div>
@@ -343,16 +347,17 @@
       renderizarCatalogo();
     }
 
-    function cambiarCant(index, delta) {
-      if (!productos[index]) return;
+    function cambiarCant(nombreB64, precio, delta, codigo) {
+      const nombre = decodeURIComponent(escape(atob(nombreB64)));
+      const pKey = obtenerKey(nombre, precio);
 
-      if (!carrito[index]) {
-        carrito[index] = { codigo: productos[index].codigo, nombre: productos[index].nombre, precio: parseFloat(productos[index].precio), cantidad: 0 };
+      if (!carrito[pKey]) {
+        carrito[pKey] = { codigo: codigo, nombre: nombre, precio: parseFloat(precio), cantidad: 0 };
       }
-      carrito[index].cantidad += delta;
+      carrito[pKey].cantidad += delta;
 
-      if (carrito[index].cantidad <= 0) {
-        delete carrito[index];
+      if (carrito[pKey].cantidad <= 0) {
+        delete carrito[pKey];
       }
 
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
@@ -360,8 +365,11 @@
       renderizarCatalogo();
     }
 
-    function eliminarDelTicket(index) {
-      delete carrito[index];
+    function eliminarDelTicketDirecto(nombreB64, precio) {
+      const nombre = decodeURIComponent(escape(atob(nombreB64)));
+      const pKey = obtenerKey(nombre, precio);
+      
+      delete carrito[pKey];
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
       actualizarUIResumen();
       renderizarCatalogo();
@@ -424,6 +432,9 @@
         const item = carrito[k];
         const subtotal = item.cantidad * item.precio;
         subtotalGeneral += subtotal;
+        
+        const nombreB64 = btoa(unescape(encodeURIComponent(item.nombre)));
+
         contenedor.innerHTML += `
           <div class="ticket-item">
             <div class="ticket-item-info">
@@ -432,10 +443,10 @@
               <div class="ticket-item-subtotal">Subtotal (${item.cantidad}): Q ${subtotal.toFixed(2)}</div>
             </div>
             <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCant(${k}, -1)">-</button>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, -1, '${item.codigo || ''}')">-</button>
               <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCant(${k}, 1)">+</button>
-              <button class="btn-delete" onclick="eliminarDelTicket(${k})">🗑️</button>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, 1, '${item.codigo || ''}')">+</button>
+              <button class="btn-delete" onclick="eliminarDelTicketDirecto('${nombreB64}', ${item.precio})">🗑️</button>
             </div>
           </div>
         `;
@@ -480,27 +491,36 @@
       const totalFinal = subtotalGeneral - montoDescuento;
 
       const numTicket = Math.floor(1000 + Math.random() * 9000);
-      let mensaje = `🧾 *TICKET DE PEDIDO #${numTicket}*\n`;
-      mensaje += `📅 *Fecha:* ${new Date().toLocaleString('es-GT')}\n`;
-      mensaje += `------------------------------------\n\n`;
+
+      // Usar secuencias de escape unicode explícitas para garantizar renderizado correcto en WhatsApp
+      let mensaje = "\uD83E\uFEFE *TICKET DE PEDIDO #" + numTicket + "*\n";
+      mensaje += "\uD83D\uDCC5 *Fecha:* " + new Date().toLocaleString('es-GT') + "\n";
+      mensaje += "------------------------------------\n\n";
 
       keys.forEach(k => {
         const item = carrito[k];
         const subtotal = item.cantidad * item.precio;
-        mensaje += `📦 *${item.nombre}*\n`;
-        mensaje += `    Cant: *${item.cantidad}* x Q${item.precio.toFixed(2)} c/u = *Q${subtotal.toFixed(2)}*\n\n`;
+        mensaje += "\uD83D\uDCE6 *" + item.nombre + "*\n";
+        mensaje += "    Cant: *" + item.cantidad + "* x Q" + item.precio.toFixed(2) + " c/u = *Q" + subtotal.toFixed(2) + "*\n\n";
       });
 
-      mensaje += `------------------------------------\n`;
-      mensaje += `💵 *Subtotal:* Q${subtotalGeneral.toFixed(2)}\n`;
+      mensaje += "------------------------------------\n";
+      mensaje += "\uD83D\uDCB5 *Subtotal:* Q" + subtotalGeneral.toFixed(2) + "\n";
       if(pctDescuento > 0) {
-        mensaje += `🏷️ *Descuento (${pctDescuento}%):* -Q${montoDescuento.toFixed(2)}\n`;
+        mensaje += "\uD83C\uFF87 *Descuento (" + pctDescuento + "%):* -Q" + montoDescuento.toFixed(2) + "\n";
       }
-      mensaje += `🟢 *TOTAL A PAGAR: Q${totalFinal.toFixed(2)}*\n`;
-      mensaje += `------------------------------------\n\n`;
-      mensaje += `👋 ¡Hola! Quisiera confirmar este pedido por favor.`;
+      mensaje += "\uD83D\uDFE2 *TOTAL A PAGAR: Q" + totalFinal.toFixed(2) + "*\n";
+      mensaje += "------------------------------------\n\n";
+      mensaje += "\uD83D\uDC4B ¡Hola! Quisiera confirmar este pedido por favor.";
 
-      const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+      // Limpiar el carrito y cerrar el modal automáticamente tras enviar a WhatsApp
+      carrito = {};
+      localStorage.removeItem('carrito_diprosa');
+      actualizarUIResumen();
+      renderizarCatalogo();
+      cerrarTicket();
+
+      const url = "https://wa.me/" + NUMERO_WHATSAPP + "?text=" + encodeURIComponent(mensaje);
       window.open(url, '_blank');
     }
   </script>
