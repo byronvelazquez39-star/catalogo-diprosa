@@ -46,8 +46,8 @@
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
         }
         .card {
             background-color: var(--card-bg);
@@ -57,22 +57,25 @@
             flex-direction: column;
             justify-content: space-between;
             border: 1px solid #333;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .card-code {
+            font-size: 11px;
+            color: #888;
+            margin: 0 0 6px 0;
+            text-align: center;
         }
         .card h3 {
-            font-size: 14px;
-            margin: 8px 0 4px 0;
-            text-align: center;
-        }
-        .card p {
             font-size: 13px;
-            color: #aaa;
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0;
             text-align: center;
+            line-height: 1.2;
+            font-weight: normal;
         }
         .precio {
             font-weight: bold;
             color: var(--accent-color);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             text-align: center;
             font-size: 1.1rem;
         }
@@ -85,6 +88,7 @@
             cursor: pointer;
             font-weight: bold;
             width: 100%;
+            font-size: 13px;
         }
         .cart-bar {
             position: fixed;
@@ -117,7 +121,7 @@
 
     <div class="welcome-banner">
         <h2>👋 ¡Bienvenido a DIPROSA!</h2>
-        <p>Selecciona tus productos y arma tu pedido fácilmente.</p>
+        <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
     </div>
 
     <h1>📦 Catálogo en Línea</h1>
@@ -161,7 +165,7 @@
             contenedor.innerHTML = '';
             
             if(lista.length === 0) {
-                contenedor.innerHTML = '<p>No se encontraron productos.</p>';
+                contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se encontraron productos.</p>';
                 return;
             }
 
@@ -172,12 +176,16 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `
-                    <p style="font-size: 11px; color: #888; margin: 0; text-align: right;">Cód: ${p.codigo}</p>
-                    <h3>${p.nombre}</h3>
-                    <div class="precio">Q${Number(p.precio).toFixed(2)}</div>
-                    <button class="btn-agregar" onclick='cambiarCantidad("${key}", 1)'>
-                        ${enCarrito > 0 ? 'Agregados: ' + enCarrito : '+ Agregar'}
-                    </button>
+                    <div>
+                        <div class="card-code">${p.codigo}</div>
+                        <h3>${p.nombre}</h3>
+                    </div>
+                    <div>
+                        <div class="precio">Q ${Number(p.precio).toFixed(2)}</div>
+                        <button class="btn-agregar" onclick='cambiarCantidad("${key}", 1)'>
+                            ${enCarrito > 0 ? 'Agregados: ' + enCarrito : '+ Agregar'}
+                        </button>
+                    </div>
                 `;
                 contenedor.appendChild(card);
             });
