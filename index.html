@@ -60,7 +60,6 @@
       flex-direction: column;
       justify-content: space-between;
     }
-    .codigo { font-size: 11px; color: #888; margin-bottom: 5px; }
     .nombre { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
     .precio { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 10px; }
     
@@ -183,11 +182,30 @@
       cursor: pointer;
     }
 
+    .client-info-section {
+      background: #252525;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+    .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
+    .client-input {
+      width: 100%;
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
     .discount-section {
       background: #252525;
       padding: 10px;
       border-radius: 8px;
-      margin-top: 15px;
       margin-bottom: 15px;
       display: flex;
       justify-content: space-between;
@@ -208,14 +226,15 @@
     .btn-modal-wa { 
       background: var(--wa-color); 
       color: white; 
-      text-decoration: none;
-      display: block;
+      border: none;
+      width: 100%;
       text-align: center;
       padding: 12px 15px; 
       border-radius: 6px; 
       font-weight: bold; 
       margin-top: 5px; 
       font-size: 16px; 
+      cursor: pointer;
       box-sizing: border-box;
     }
   </style>
@@ -249,9 +268,19 @@
       <div class="ticket-header">
         <h3>🧾 TICKET DE COMPRA</h3>
         <p style="font-size: 12px; color: #888;" id="ticket-fecha"></p>
+        <p style="font-size: 14px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
       </div>
       
       <div id="ticket-items"></div>
+
+      <!-- Datos del Cliente y Ubicación -->
+      <div class="client-info-section">
+        <label for="cliente-receptor">👤 Receptor / Nombre del Cliente:</label>
+        <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda Mi Barrio">
+
+        <label for="cliente-referencia">📍 Referencias para el Repartidor:</label>
+        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Esquina color celeste, frente a la gasolinera..."></textarea>
+      </div>
 
       <!-- Selector de Descuento -->
       <div class="discount-section">
@@ -279,7 +308,7 @@
         </div>
       </div>
 
-      <a id="btn-envio-wa" class="btn-modal-wa" href="#" target="_blank" onclick="limpiarDespuesDeEnviar()">📲 Enviar Pedido a WhatsApp</a>
+      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido a WhatsApp</button>
       <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
     </div>
   </div>
@@ -327,18 +356,17 @@
         html += `
           <div class="card">
             <div>
-              <div class="codigo">${p.codigo ? 'Cód: ' + p.codigo : ''}</div>
               <div class="nombre">${p.nombre}</div>
             </div>
             <div>
               <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
               ${cant === 0 ? `
-                <button class="btn-add" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}', ${p.precio}, 1, '${p.codigo || ''}')">+ Agregar</button>
+                <button class="btn-add" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio}, 1)">+ Agregar</button>
               ` : `
                 <div class="qty-controls">
-                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}', ${p.precio}, -1, '${p.codigo || ''}')">-</button>
+                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio}, -1)">-</button>
                   <span class="qty-num">${cant}</span>
-                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}', ${p.precio}, 1, '${p.codigo || ''}')">+</button>
+                  <button class="btn-qty" onclick="cambiarCant('${btoa(unescape(encodeURIComponent(p.nombre)))}',${p.precio}, 1)">+</button>
                 </div>
               `}
             </div>
@@ -360,12 +388,12 @@
       renderizarCatalogo();
     }
 
-    function cambiarCant(nombreB64, precio, delta, codigo) {
+    function cambiarCant(nombreB64, precio, delta) {
       const nombre = decodeURIComponent(escape(atob(nombreB64)));
       const pKey = obtenerKey(nombre, precio);
 
       if (!carrito[pKey]) {
-        carrito[pKey] = { codigo: codigo, nombre: nombre, precio: parseFloat(precio), cantidad: 0 };
+        carrito[pKey] = { nombre: nombre, precio: parseFloat(precio), cantidad: 0 };
       }
       carrito[pKey].cantidad += delta;
 
@@ -412,12 +440,16 @@
           productosFiltrados = productos;
         } else {
           productosFiltrados = productos.filter(p => 
-            (p.nombre && p.nombre.toLowerCase().includes(q)) || 
-            (p.codigo && p.codigo.toString().toLowerCase().includes(q))
+            (p.nombre && p.nombre.toLowerCase().includes(q))
           );
         }
         renderizarCatalogo();
       }, 200);
+    }
+
+    function obtenerSiguienteTicket() {
+      let ultimoNum = parseInt(localStorage.getItem('correlativo_ticket')) || 0;
+      return ultimoNum + 1;
     }
 
     function abrirTicket() {
@@ -456,9 +488,9 @@
               <div class="ticket-item-subtotal">Subtotal (${item.cantidad}): Q ${subtotal.toFixed(2)}</div>
             </div>
             <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, -1, '${item.codigo || ''}')">-</button>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, -1)">-</button>
               <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, 1, '${item.codigo || ''}')">+</button>
+              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${item.precio}, 1)">+</button>
               <button class="btn-delete" onclick="eliminarDelTicketDirecto('${nombreB64}', ${item.precio})">🗑️</button>
             </div>
           </div>
@@ -481,46 +513,79 @@
       }
 
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-
-      // Generar mensaje con EMOJIS limpios
-      const numTicket = Math.floor(1000 + Math.random() * 9000);
-      let mensaje = "🧾 *TICKET DE PEDIDO #" + numTicket + "*\n";
-      mensaje += "📅 *Fecha:* " + new Date().toLocaleString('es-GT') + "\n";
-      mensaje += "------------------------------------\n\n";
-
-      keys.forEach(k => {
-        const item = carrito[k];
-        const subtotal = item.cantidad * item.precio;
-        mensaje += "📦 *" + item.nombre + "*\n";
-        mensaje += "    Cant: *" + item.cantidad + "* x Q" + item.precio.toFixed(2) + " c/u = *Q" + subtotal.toFixed(2) + "*\n\n";
-      });
-
-      mensaje += "------------------------------------\n";
-      mensaje += "💵 *Subtotal:* Q" + subtotalGeneral.toFixed(2) + "\n";
-      if(pctDescuento > 0) {
-        mensaje += "🏷️ *Descuento (" + pctDescuento + "%):* -Q" + montoDescuento.toFixed(2) + "\n";
-      }
-      mensaje += "🟢 *TOTAL A PAGAR: Q" + totalFinal.toFixed(2) + "*\n";
-      mensaje += "------------------------------------\n\n";
-      mensaje += "👋 ¡Hola! Quisiera confirmar este pedido por favor.";
-
-      const linkWA = document.getElementById('btn-envio-wa');
-      linkWA.href = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
+      const numActual = obtenerSiguienteTicket();
+      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numActual).padStart(8, '0');
     }
 
     function cerrarTicket() {
       document.getElementById('modal-ticket').style.display = 'none';
     }
 
-    function limpiarDespuesDeEnviar() {
-      // Limpia el carrito automáticamente medio segundo después de abrir WhatsApp
-      setTimeout(() => {
-        carrito = {};
-        localStorage.removeItem('carrito_diprosa');
-        actualizarUIResumen();
-        renderizarCatalogo();
-        cerrarTicket();
-      }, 500);
+    function enviarWhatsAppYLimpiar() {
+      const keys = Object.keys(carrito);
+      if (keys.length === 0) {
+        alert("El carrito está vacío.");
+        return;
+      }
+
+      const receptor = document.getElementById('cliente-receptor').value.trim();
+      const referencia = document.getElementById('cliente-referencia').value.trim();
+
+      let numTicketNum = obtenerSiguienteTicket();
+      localStorage.setItem('correlativo_ticket', numTicketNum);
+      const numTicketStr = "Tiquete # " + String(numTicketNum).padStart(8, '0');
+
+      let subtotalGeneral = 0;
+      keys.forEach(k => {
+        subtotalGeneral += carrito[k].cantidad * carrito[k].precio;
+      });
+
+      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
+      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
+      const totalFinal = subtotalGeneral - montoDescuento;
+
+      let mensaje = "🏢 *DISTRIBUIDORA DIPROSITRIX*\n";
+      mensaje += "📄 *" + numTicketStr + "*\n";
+      mensaje += "📅 *Fecha de Emisión:* " + new Date().toLocaleString('es-GT') + "\n";
+      mensaje += "------------------------------------\n";
+      mensaje += "👤 *Receptor:* " + (receptor !== "" ? receptor : "No especificado") + "\n";
+      mensaje += "📍 *Referencias:* " + (referencia !== "" ? referencia : "Sin referencias") + "\n";
+      mensaje += "------------------------------------\n";
+      mensaje += "💳 *Forma de Pago:* Contado\n";
+      mensaje += "🏷️ *Tipo:* Pequeño Contribuyente\n";
+      mensaje += "------------------------------------\n\n";
+      mensaje += "📦 *Detalle de Venta:*\n";
+
+      let i = 1;
+      keys.forEach(k => {
+        const item = carrito[k];
+        const subtotal = item.cantidad * item.precio;
+        mensaje += i + ". *" + item.nombre + "*\n";
+        mensaje += "   Cant: " + item.cantidad + " | P.Unit: Q" + item.precio.toFixed(2) + " | Total: *Q" + subtotal.toFixed(2) + "*\n";
+        i++;
+      });
+
+      mensaje += "\n------------------------------------\n";
+      mensaje += "💵 *Precio (Subtotal):* Q" + subtotalGeneral.toFixed(2) + "\n";
+      if(pctDescuento > 0) {
+        mensaje += "🏷️ *Descuento (" + pctDescuento + "%):* -Q" + montoDescuento.toFixed(2) + "\n";
+      }
+      mensaje += "📊 *Monto IVA:* Q0.00\n";
+      mensaje += "🟢 *Total a Pagar:* Q" + totalFinal.toFixed(2) + "\n";
+      mensaje += "------------------------------------\n\n";
+      mensaje += "👋 *¡Hola! Quisiera confirmar este pedido por favor.*";
+
+      const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
+      
+      window.open(urlWA, '_blank');
+
+      carrito = {};
+      localStorage.removeItem('carrito_diprosa');
+      document.getElementById('cliente-receptor').value = "";
+      document.getElementById('cliente-referencia').value = "";
+      actualizarUIResumen();
+      renderizarCatalogo();
+      cerrarTicket();
     }
   </script>
 
