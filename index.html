@@ -62,6 +62,10 @@
       outline: none;
     }
 
+    .search-box::placeholder {
+      color: #64748b;
+    }
+
     .grid-productos {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -107,7 +111,7 @@
 
     .btn-agregar:active { background-color: #166534; }
 
-    /* PANELES MODALES LIMPIOS */
+    /* PANELES MODALES */
     .modal-panel {
       display: none;
       background-color: #121824;
@@ -167,7 +171,7 @@
   <!-- CABECERA -->
   <div class="header-bar">
     <div class="header-title">📦 Catálogo en Línea</div>
-    <button class="btn-mis-metas" onclick="togglePanel('panelMetas')">
+    <button class="btn-mis-metas" onclick="toggleMetas()">
       📋 Mis Metas <span class="badge-metas">82/312</span>
     </button>
   </div>
@@ -176,7 +180,7 @@
   <div id="panelMetas" class="modal-panel">
     <div class="modal-header">
       <span style="font-weight:bold; color:#38bdf8; font-size:0.9rem;">📊 Resumen de Avance Actual</span>
-      <button onclick="togglePanel('panelMetas')" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
+      <button onclick="toggleMetas()" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
     </div>
     <div class="item-meta">💰 <strong>Ventas:</strong> Meta Q3,000.00 | Acumulado: Q35,022.49 <div style="color: #4ade80; margin-top: 2px;">Diferencia: +Q32,022.49</div></div>
     <div class="item-meta">🎫 <strong>Tickets:</strong> Meta 312 | Real: 82 tickets <div style="color: #f87171; margin-top: 2px;">Faltante: -230 tickets</div></div>
@@ -187,7 +191,7 @@
   <div id="panelTicket" class="modal-panel" style="border-color: #16a34a;">
     <div class="modal-header">
       <span style="font-weight:bold; color:#4ade80; font-size:0.9rem;">🛒 Resumen del Ticket</span>
-      <button onclick="togglePanel('panelTicket')" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
+      <button onclick="abrirTicket()" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
     </div>
     <div id="listaTicketContainer"></div>
     <div id="totalTicketContainer" style="font-weight: bold; margin-top: 8px; color: #4ade80; font-size: 0.95rem;"></div>
@@ -209,6 +213,7 @@
   </div>
 
   <script>
+    // PEGA AQUÍ ABAJO TUS 1,327 PRODUCTOS (respetando el formato de ejemplo)
     const productos = [
       { id: 1, nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
       { id: 2, nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00 },
@@ -216,6 +221,8 @@
       { id: 4, nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
       { id: 5, nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
       { id: 6, nombre: "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50", precio: 67.00 }
+      // Puedes continuar agregando el resto de tus artículos aquí debajo separados por comas:
+      // { id: 7, nombre: "Nombre del producto", precio: 0.00 },
     ];
 
     let carrito = [];
@@ -253,7 +260,7 @@
     function abrirTicket() {
       let panelTicket = document.getElementById("panelTicket");
       let panelMetas = document.getElementById("panelMetas");
-      panelMetas.style.display = "none"; // Cerrar metas si está abierto
+      panelMetas.style.display = "none"; 
 
       const container = document.getElementById("listaTicketContainer");
       container.innerHTML = "";
@@ -276,15 +283,15 @@
       panelTicket.style.display = panelTicket.style.display === "block" ? "none" : "block";
     }
 
-    function togglePanel(id) {
-      // Cerrar el otro panel al abrir uno
-      if(id === 'panelMetas') {
-        document.getElementById("panelTicket").style.display = "none";
-        let p = document.getElementById("panelMetas");
-        p.style.display = p.style.display === "block" ? "none" : "block";
-      }
+    function toggleMetas() {
+      let panelTicket = document.getElementById("panelTicket");
+      panelTicket.style.display = "none"; 
+
+      let panelMetas = document.getElementById("panelMetas");
+      panelMetas.style.display = panelMetas.style.display === "block" ? "none" : "block";
     }
 
+    // Cargar todos los productos al iniciar la página
     renderizar(productos);
   </script>
 </body>
