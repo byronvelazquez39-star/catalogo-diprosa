@@ -11,7 +11,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
       padding: 12px;
-      padding-bottom: 90px;
+      padding-bottom: 80px;
     }
 
     .header-bar {
@@ -105,35 +105,25 @@
       cursor: pointer;
     }
 
-    /* PANEL DE METAS DESPLEGABLE (INTEGRADO SIN TUPAR PANTALLA) */
-    #panelMetas {
+    /* PANEL DESPLEGABLE DIRECTO ARRIBA */
+    #panelResumenMetas {
       display: none;
       background-color: #121824;
       border: 1px solid #0284c7;
       border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 15px;
+      padding: 12px;
+      margin-bottom: 12px;
     }
 
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #1e293b;
-      padding-bottom: 6px;
-    }
-
-    .tarjeta-paralelo {
+    .item-meta {
       background-color: #1e293b;
-      border-left: 4px solid #0284c7;
       padding: 8px 10px;
       border-radius: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      font-size: 0.82rem;
     }
 
-    .tarjeta-paralelo h4 { font-size: 0.85rem; color: #f8fafc; margin: 0 0 3px 0; }
-    .tarjeta-paralelo p { font-size: 0.78rem; color: #cbd5e1; margin: 2px 0; }
+    .item-meta strong { color: #38bdf8; }
 
     /* BARRA INFERIOR */
     .footer-bar {
@@ -168,34 +158,31 @@
   <!-- CABECERA -->
   <div class="header-bar">
     <div class="header-title">📦 Catálogo en Línea</div>
-    <button class="btn-mis-metas" onclick="toggleMetas()">
-      📋 Mis Metas <span class="badge-metas">82/324</span>
+    <button class="btn-mis-metas" onclick="toggleResumen()">
+      📋 Mis Metas <span class="badge-metas">82/312</span>
     </button>
   </div>
 
-  <!-- PANEL DE METAS (AHORA APARECE ARRIBA DE LOS PRODUCTOS Y SE PUEDE CERRAR FÁCIL) -->
-  <div id="panelMetas">
-    <div class="panel-header">
-      <h3 style="margin:0; color:#38bdf8; font-size:0.95rem;">📊 Control de Paralelos en Tiempo Real</h3>
-      <button onclick="toggleMetas()" style="background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer;">✕</button>
-    </div>
-    
-    <div class="tarjeta-paralelo">
-      <h4>💰 Paralelo 1: Venta Acumulada</h4>
-      <p>Meta: Q81,000.00 | Real: Q35,022.49</p>
-      <p style="color:#f87171; font-weight:bold;">⚠️ Déficit: -Q9,977.51 (3.3 días)</p>
+  <!-- PANEL DESPLEGABLE DE METAS Y DIFERENCIAS -->
+  <div id="panelResumenMetas">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 4px;">
+      <span style="font-weight:bold; color:#38bdf8; font-size:0.9rem;">📊 Resumen de Avance Actual</span>
+      <button onclick="toggleResumen()" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
     </div>
 
-    <div class="tarjeta-paralelo">
-      <h4>🎫 Paralelo 2: Emisión de Tickets</h4>
-      <p>Meta: 324 | Real: 82 tickets</p>
-      <p style="color:#f87171; font-weight:bold;">⚠️ Déficit: -98 tickets (8.2 días)</p>
+    <div class="item-meta">
+      💰 <strong>Ventas:</strong> Meta Q3,000.00 | Acumulado: Q35,022.49 
+      <div style="color: #4ade80; margin-top: 2px;">Diferencia a favor: +Q32,022.49</div>
     </div>
 
-    <div class="tarjeta-paralelo">
-      <h4>⏱️ Paralelo 3: Horas Trabajadas</h4>
-      <p>Meta: 189 hrs | Real: 46.3 hrs</p>
-      <p style="color:#f87171; font-weight:bold;">⚠️ Mayor Déficit (Aplica a fin de mes)</p>
+    <div class="item-meta">
+      🎫 <strong>Tickets:</strong> Meta 312 | Real: 82 tickets 
+      <div style="color: #f87171; margin-top: 2px;">Diferencia / Faltante: -230 tickets</div>
+    </div>
+
+    <div class="item-meta">
+      ⏱️ <strong>Horas Trabajadas:</strong> Meta 182 hrs | Real: 46.3 hrs 
+      <div style="color: #f87171; margin-top: 2px;">Diferencia / Faltante: -135.7 hrs</div>
     </div>
   </div>
 
@@ -260,17 +247,13 @@
       });
     }
 
-    function toggleMetas() {
-      let panel = document.getElementById("panelMetas");
-      if (panel.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
+    function toggleResumen() {
+      let panel = document.getElementById("panelResumenMetas");
+      panel.style.display = panel.style.display === "block" ? "none" : "block";
     }
 
     function verTicketCompra() {
-      alert("Aquí se abrirá el resumen del ticket de los productos seleccionados.");
+      alert("Resumen del ticket de productos seleccionados.");
     }
   </script>
 </body>
