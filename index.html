@@ -345,7 +345,7 @@
 
   <div class="header-bar">
     <h1>📦 Catálogo en Línea</h1>
-    <!-- Botón de consulta con contador de metas -->
+    <!-- Botón con contador dinámico en tiempo real -->
     <button class="btn-consultar-tickets" onclick="abrirModalMetas()">
       📋 Mis Metas <span id="contadorBoton" class="badge-tickets">0/12</span>
     </button>
@@ -416,12 +416,12 @@
     </div>
   </div>
 
-  <!-- Modal de Consulta de Metas y Tickets del Día (Ajustado a 7 horas) -->
+  <!-- Modal de Consulta de Metas y Jornada -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Resumen de Mi Jornada</h3>
-        <p style="font-size: 12px; color: #aaa;">Control diario de rendimiento</p>
+        <p style="font-size: 12px; color: #aaa;">Control diario de rendimiento (Meta: Q3,000 / 12 Tickets / 7h)</p>
       </div>
 
       <!-- 1. Meta de Venta (Q3,000) -->
@@ -476,7 +476,7 @@
     const NUMERO_WHATSAPP = "50248502382"; 
     const META_TICKETS = 12;
     const META_VENTA_Q = 3000.00;
-    const TURNO_HORAS = 7; // Ajustado a 7 horas diarias (182h / 26 días)
+    const TURNO_HORAS = 7;
     const MINUTOS_TURNO = TURNO_HORAS * 60;
 
     let productos = [];
@@ -764,7 +764,9 @@
       document.getElementById('textoVenta').innerText = `💰 Ventas: Q${totalVendidoHoy.toFixed(2)} / Q${META_VENTA_Q.toFixed(2)}`;
       document.getElementById('porcentajeVenta').innerText = `${pctVenta}%`;
       document.getElementById('barraVentaFill').style.width = `${pctVenta}%`;
-      document.getElementById('mensajeVenta').innerText = totalVendidoHoy >= META_VENTA_Q ? "🏆 ¡Meta de venta cumplida!" : `Faltan Q${(META_VENTA_Q - totalVendidoHoy).toFixed(2)}`;
+      
+      const faltaVenta = META_VENTA_Q - totalVendidoHoy;
+      document.getElementById('mensajeVenta').innerText = totalVendidoHoy >= META_VENTA_Q ? "🏆 ¡Meta de venta cumplida!" : `Faltan Q${faltaVenta.toFixed(2)}`;
 
       // Barra Tickets
       const cantTickets = ticketsHoy.length;
@@ -772,20 +774,26 @@
       document.getElementById('textoAvanceMeta').innerText = `📋 Tickets: ${cantTickets} / ${META_TICKETS}`;
       document.getElementById('porcentajeMeta').innerText = `${pctTickets}%`;
       document.getElementById('barraProgresoFill').style.width = `${pctTickets}%`;
-      document.getElementById('mensajeAnimo').innerText = cantTickets >= META_TICKETS ? "🎉 ¡12 tickets logrados!" : `Te faltan ${META_TICKETS - cantTickets} ticket(s)`;
+      
+      const faltanTickets = META_TICKETS - cantTickets;
+      document.getElementById('mensajeAnimo').innerText = cantTickets >= META_TICKETS ? "🎉 ¡12 tickets logrados!" : `Te faltan ${faltanTickets} ticket(s)`;
 
       // Jornada
       const datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
       if (datosTurno.horaInicio) calcularProgresoJornada(datosTurno.horaInicio);
 
       renderizarListaHistorial(ticketsHoy.reverse());
+      actualizarContadorBoton();
     }
 
     function actualizarContadorBoton() {
       const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
       const hoyStr = obtenerFechaHoy();
       const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
-      document.getElementById('contadorBoton').innerText = `${ticketsHoy.length}/${META_TICKETS}`;
+      const badge = document.getElementById('contadorBoton');
+      if (badge) {
+        badge.innerText = `${ticketsHoy.length}/${META_TICKETS}`;
+      }
     }
 
     function renderizarListaHistorial(lista) {
@@ -876,9 +884,7 @@
       let i = 1;
       keys.forEach(k => {
         const item = carrito[k];
-        if (!item || !isNaN(item.cantidad) || !isNaN(item.precio)) {
-          // Asegurando procesamiento correcto
-        }
+        if (!item || isNaN(item.cantidad) || isNaN(item.precio)) return;
         let cant = parseInt(item.cantidad);
         let prec = parseFloat(item.precio);
         mensaje += i + ". " + item.nombre + "\n";
