@@ -166,7 +166,7 @@
     </div>
   </div>
 
-  <!-- MODAL METAS CON EL RESUMEN EXACTO DE LA NOTA -->
+  <!-- MODAL METAS CON EL RESUMEN EXACTO -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
@@ -336,7 +336,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *ESTADO DE LOS 3 PARALELOS - ESTUARDO*\n📅 14 días hábiles transcurridos\n\n💰 *1. Ventas:*\n- Acumulado: Q35,022.49\n- Proyección: ~Q67,543.37 (Meta: Q81,000)\n- Déficit: Q13,456.63 (~4.49 días / Q598.07)\n\n📋 *2. Tiquetes:*\n- Acumulado: 109 tickets\n- Proyección: ~210 tickets (Meta: 324)\n- Déficit: 113.79 tks (~9.48 días / Q1,264.29)\n\n⏱️ *3. Horas:*\n- Acumulado: 98 hrs\n- Proyección: 189 hrs (0 déficit)\n\n¡Hola don Byron! Le envío el reporte oficial.`;
+      let msg = `📊 *ESTADO DE LOS 3 PARALELOS - ESTUARDO*\n📅 14 días hábiles transcurridos\n\n💰 *1. Ventas:*\n- Acumulado: Q35,022.49 (vs. Q42,000 esperados)\n- Proyección: ~Q67,543.37 (Meta: Q81,000)\n- Déficit: Q13,456.63 (~4.49 días / Q598.07)\n\n📋 *2. Tiquetes:*\n- Acumulado: 109 tickets (vs. 168 esperados)\n- Proyección: ~210 tickets (Meta: 324)\n- Déficit: 113.79 tks (~9.48 días / Q1,264.29)\n\n⏱️ *3. Horas:*\n- Acumulado: 98 hrs\n- Proyección: 189 hrs (0 déficit)\n\n¡Hola don Byron! Le envío el reporte oficial.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
