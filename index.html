@@ -3,40 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo en Línea y Metas - DIPROSA</title>
+  <title>Catálogo en Línea - DIPROSA</title>
   <style>
-    /* Estilos generales */
     body {
-      background-color: #121212;
+      background-color: #0b0e14;
       color: #ffffff;
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
-      padding: 15px;
+      padding: 12px;
+      padding-bottom: 80px; /* Espacio para el footer flotante */
     }
 
-    /* Cabecera y Botón Superior */
+    /* BARRA SUPERIOR CON BOTÓN DE MIS METAS */
     .header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #1e1e1e;
-      padding: 12px 15px;
+      background-color: #121824;
+      padding: 10px 14px;
       border-radius: 8px;
-      margin-bottom: 20px;
+      border: 1px solid #1e293b;
+      margin-bottom: 15px;
     }
 
     .header-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .btn-metas {
-      background-color: #0056b3;
+    .btn-mis-metas {
+      background-color: #0284c7;
       color: #ffffff;
       border: none;
-      padding: 8px 14px;
+      padding: 6px 12px;
       border-radius: 6px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: bold;
       cursor: pointer;
       display: flex;
@@ -44,18 +48,80 @@
       gap: 6px;
     }
 
-    .btn-metas:hover {
-      background-color: #004085;
-    }
-
-    .badge {
-      background-color: #000000;
+    .badge-metas {
+      background-color: #0f172a;
+      color: #38bdf8;
       padding: 2px 6px;
       border-radius: 10px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
-    /* Modal / Ventana Flotante */
+    /* BARRA DE BÚSQUEDA DE PRODUCTOS */
+    .search-box {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+      background-color: #121824;
+      color: #ffffff;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+
+    .search-box::placeholder {
+      color: #64748b;
+    }
+
+    /* GRILLA DE PRODUCTOS */
+    .grid-productos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .card-producto {
+      background-color: #121824;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: center;
+    }
+
+    .prod-nombre {
+      font-size: 0.85rem;
+      font-weight: bold;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      color: #f8fafc;
+    }
+
+    .prod-precio {
+      color: #22c55e;
+      font-weight: bold;
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .btn-agregar {
+      background-color: #15803d;
+      color: #ffffff;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .btn-agregar:active {
+      background-color: #166534;
+    }
+
+    /* MODAL FLOTANTE SUPERIOR (MIS METAS) */
     .modal-metas {
       display: none;
       position: fixed;
@@ -64,183 +130,214 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.85);
       overflow-y: auto;
     }
 
     .modal-contenido {
-      background-color: #1e1e1e;
-      margin: 5% auto;
-      padding: 20px;
+      background-color: #121824;
+      margin: 15px auto;
+      padding: 16px;
       border-radius: 12px;
-      width: 90%;
-      max-width: 500px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      width: 92%;
+      max-width: 480px;
+      border: 1px solid #1e293b;
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #333;
-      padding-bottom: 10px;
-      margin-bottom: 15px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     .modal-header h3 {
       margin: 0;
-      font-size: 1.1rem;
-      color: #28a745;
+      font-size: 1rem;
+      color: #38bdf8;
     }
 
     .cerrar {
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 1.4rem;
       cursor: pointer;
-      color: #aaa;
+      color: #94a3b8;
     }
 
-    .cerrar:hover {
-      color: #fff;
-    }
-
-    /* Tarjetas de los Paralelos */
     .tarjeta-paralelo {
-      background-color: #2a2a2a;
-      border-left: 4px solid #007bff;
-      padding: 12px;
+      background-color: #1e293b;
+      border-left: 4px solid #0284c7;
+      padding: 10px 12px;
       border-radius: 6px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .tarjeta-paralelo h4 {
-      margin: 0 0 8px 0;
-      font-size: 1rem;
-      color: #17a2b8;
+      margin: 0 0 6px 0;
+      font-size: 0.95rem;
+      color: #f8fafc;
     }
 
     .tarjeta-paralelo p {
-      margin: 4px 0;
-      font-size: 0.88rem;
-    }
-
-    .estado {
-      font-weight: bold;
-    }
-
-    .estado-deficit {
-      color: #ff4d4d;
-    }
-
-    .estado-favor {
-      color: #28a745;
-    }
-
-    .recomendacion {
-      color: #ffc107;
+      margin: 3px 0;
       font-size: 0.82rem;
-      margin-top: 6px !important;
+      color: #cbd5e1;
     }
 
-    /* Resumen Colchón */
+    .estado-deficit { color: #f87171 !important; font-weight: bold; }
+    .estado-favor { color: #4ade80 !important; font-weight: bold; }
+    .recomendacion { color: #fbbf24 !important; font-weight: 500; margin-top: 4px !important; }
+
     .tarjeta-resumen {
-      background-color: #332b00;
-      border: 1px solid #ffc107;
-      padding: 12px;
+      background-color: #2e1065;
+      border: 1px solid #7c3aed;
+      padding: 10px 12px;
       border-radius: 6px;
-      margin-top: 15px;
-      font-size: 0.85rem;
-      line-height: 1.4;
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: #ddd6fe;
+      line-height: 1.3;
     }
 
-    /* Botón Flotante Inferior */
-    .btn-ticket-flotante {
+    /* BARRA INFERIOR DE TICKET FLOTANTE */
+    .footer-bar {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #28a745;
-      color: #fff;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #0b0e14;
+      padding: 10px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      border-top: 1px solid #1e293b;
+      z-index: 500;
+    }
+
+    .btn-ver-ticket {
+      background-color: #16a34a;
+      color: #ffffff;
       border: none;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-size: 1rem;
+      padding: 8px 16px;
+      border-radius: 6px;
       font-weight: bold;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      font-size: 0.9rem;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- BARRA SUPERIOR CON BOTÓN -->
+  <!-- BARRA SUPERIOR CON BOTÓN AZUL MIS METAS -->
   <div class="header-bar">
     <div class="header-title">📦 Catálogo en Línea</div>
-    <button id="btnMisMetas" onclick="abrirModalMetas()" class="btn-metas">
-      📋 Mis Metas <span id="badgeTickets" class="badge">0/324</span>
+    <button class="btn-mis-metas" onclick="abrirModalMetas()">
+      📋 Mis Metas <span id="badgeTickets" class="badge-metas">82/324</span>
     </button>
   </div>
 
-  <!-- CONTENIDO DEL CATÁLOGO (EJEMPLO VISUAL) -->
-  <div style="text-align: center; color: #888; margin-top: 50px;">
-    <p>Navega y agrega productos al ticket.</p>
+  <!-- BUSCADOR -->
+  <input type="text" class="search-box" placeholder="Buscar producto..." onkeyup="filtrarProductos(this.value)">
+
+  <!-- CATÁLOGO DE PRODUCTOS (GRILLA CON SUS DIVERSAS CATEGORÍAS Y PRECIOS) -->
+  <div class="grid-productos" id="contenedorProductos">
+    <div class="card-producto">
+      <div class="prod-nombre">(almohadita) 4 onzas por docena para dar Q.3.00</div>
+      <div class="prod-precio">Q 29.50</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(almohadita) fardo 4 onzas para dar Q.3.00</div>
+      <div class="prod-precio">Q 110.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
   </div>
 
-  <!-- BOTÓN FLOTANTE INFERIOR -->
-  <button class="btn-ticket-flotante" onclick="abrirModalMetas()">
-    📋 Ver Ticket / Estado
-  </button>
+  <!-- BARRA FLOTANTE INFERIOR DE TICKET -->
+  <div class="footer-bar">
+    <div>
+      <div style="font-size: 0.85rem; color: #cbd5e1;">🛒 0 ítems (Ver Ticket)</div>
+      <div style="font-size: 1rem; font-weight: bold; color: #4ade80;">Total: Q 0.00</div>
+    </div>
+    <button class="btn-ver-ticket" onclick="abrirModalMetas()">📋 Ver Ticket / Estado</button>
+  </div>
 
-  <!-- MODAL / VENTANA FLOTANTE DE METAS Y PARALELOS -->
+  <!-- MODAL / VENTANA FLOTANTE DE METAS (AL PRESIONAR BOTOÓN ARRIBA) -->
   <div id="modalMetas" class="modal-metas">
     <div class="modal-contenido">
       <div class="modal-header">
-        <h3>📊 Rendimiento en Tiempo Real</h3>
+        <h3>📊 Control de Paralelos en Tiempo Real</h3>
         <span class="cerrar" onclick="cerrarModalMetas()">&times;</span>
       </div>
       
       <div class="modal-body">
-        <!-- Paralelo 1: Ventas -->
+        <!-- Paralelo 1 -->
         <div class="tarjeta-paralelo">
-          <h4>💰 Paralelo 1: Ventas</h4>
+          <h4>💰 Paralelo 1: Venta Acumulada</h4>
           <p>Meta del Mes: <strong>Q81,000.00</strong> (Q3,000/día)</p>
-          <p>Venta Acumulada: <strong id="valVentas">Q0.00</strong></p>
-          <p id="estVentas" class="estado"></p>
+          <p>Venta Real: <strong id="valVentas">Q0.00</strong></p>
+          <p id="estVentas"></p>
           <p id="recVentas" class="recomendacion"></p>
         </div>
 
-        <!-- Paralelo 2: Tickets -->
+        <!-- Paralelo 2 -->
         <div class="tarjeta-paralelo">
-          <h4>🎫 Paralelo 2: Tickets</h4>
+          <h4>🎫 Paralelo 2: Emisión de Tickets</h4>
           <p>Meta del Mes: <strong>324 Tickets</strong> (12/día)</p>
-          <p>Tickets Emitidos: <strong id="valTickets">0</strong></p>
-          <p id="estTickets" class="estado"></p>
+          <p>Tickets Reales: <strong id="valTickets">0</strong></p>
+          <p id="estTickets"></p>
           <p id="recTickets" class="recomendacion"></p>
         </div>
 
-        <!-- Paralelo 3: Horas Trabajadas -->
+        <!-- Paralelo 3 -->
         <div class="tarjeta-paralelo">
-          <h4>⏱️ Paralelo 3: Horario y Cobertura</h4>
-          <p>Meta del Mes: <strong>189 Horas</strong> (7h/día)</p>
-          <p>Horas Acumuladas: <strong id="valHoras">0 hrs</strong></p>
-          <p id="estHoras" class="estado"></p>
+          <h4>⏱️ Paralelo 3: Horas Trabajadas</h4>
+          <p>Meta del Mes: <strong>189 Horas</strong> (7h/día efectivas)</p>
+          <p>Horas Reales: <strong id="valHoras">0 hrs</strong></p>
+          <p id="estHoras"></p>
           <p id="recHoras" class="recomendacion"></p>
         </div>
 
-        <!-- Resumen de Colchón y Descuento -->
+        <!-- Colchón y Descuentos -->
         <div class="tarjeta-resumen">
-          🛡️ <strong>Estado de Colchón y Aplicación de Reglas:</strong>
-          <p id="txtResumenColchon" style="margin: 5px 0 0 0;"></p>
+          🛡️ <strong>Regla del Colchón y Evaluación a Fin de Mes:</strong>
+          <p id="txtResumenColchon" style="margin: 4px 0 0 0;"></p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- LÓGICA EN JAVASCRIPT -->
   <script>
-    // Variables acumuladas del vendedor (actualizadas a la fecha)
-    const vendedor = "ESTUARDO";
+    // Configuración acumulada del vendedor
     const diasHabilesMes = 27;
-    const diasTranscurridos = 15; // Días hábiles transcurridos
+    const diasTranscurridos = 15;
     const diasRestantes = diasHabilesMes - diasTranscurridos;
 
     const ventaReal = 35022.49;
@@ -257,7 +354,7 @@
     }
 
     function calcularParalelos() {
-      // 1. Cálculo de Ventas
+      // 1. Ventas
       const metaVentasTrans = diasTranscurridos * 3000;
       const defVentas = ventaReal - metaVentasTrans;
       const diasDefVentas = (Math.abs(defVentas) / 3000).toFixed(1);
@@ -265,16 +362,16 @@
 
       document.getElementById("valVentas").innerText = `Q${ventaReal.toLocaleString("es-GT", {minimumFractionDigits: 2})}`;
       if (defVentas >= 0) {
-        document.getElementById("estVentas").className = "estado estado-favor";
-        document.getElementById("estVentas").innerText = `✅ Colchón a favor: Q${defVentas.toFixed(2)}`;
+        document.getElementById("estVentas").className = "estado-favor";
+        document.getElementById("estVentas").innerText = `✅ Colchón a favor: +Q${defVentas.toFixed(2)}`;
         document.getElementById("recVentas").innerText = `🎉 ¡Vas sobre la cuota esperada!`;
       } else {
-        document.getElementById("estVentas").className = "estado estado-deficit";
-        document.getElementById("estVentas").innerText = `⚠️ Déficit: -Q${Math.abs(defVentas).toFixed(2)} (${diasDefVentas} días)`;
-        document.getElementById("recVentas").innerText = `👉 Para nivelarte: Vender Q${recVentaDiaria} diarios.`;
+        document.getElementById("estVentas").className = "estado-deficit";
+        document.getElementById("estVentas").innerText = `⚠️ Déficit: -Q${Math.abs(defVentas).toFixed(2)} (${diasDefVentas} días equivalentes)`;
+        document.getElementById("recVentas").innerText = `👉 Necesitas vender Q${recVentaDiaria} diarios.`;
       }
 
-      // 2. Cálculo de Tickets
+      // 2. Tickets
       const metaTicketsTrans = diasTranscurridos * 12;
       const defTickets = ticketsReales - metaTicketsTrans;
       const diasDefTickets = (Math.abs(defTickets) / 12).toFixed(1);
@@ -283,16 +380,16 @@
       document.getElementById("valTickets").innerText = `${ticketsReales} tickets`;
       document.getElementById("badgeTickets").innerText = `${ticketsReales}/324`;
       if (defTickets >= 0) {
-        document.getElementById("estTickets").className = "estado estado-favor";
+        document.getElementById("estTickets").className = "estado-favor";
         document.getElementById("estTickets").innerText = `✅ Colchón a favor: +${defTickets} tickets`;
         document.getElementById("recTickets").innerText = `🎉 ¡Buen ritmo de emisión!`;
       } else {
-        document.getElementById("estTickets").className = "estado estado-deficit";
-        document.getElementById("estTickets").innerText = `⚠️ Déficit: ${defTickets} tickets (${diasDefTickets} días)`;
-        document.getElementById("recTickets").innerText = `👉 Para nivelarte: Hacer ${recTicketsDiarios} tickets diarios.`;
+        document.getElementById("estTickets").className = "estado-deficit";
+        document.getElementById("estTickets").innerText = `⚠️ Déficit: -${Math.abs(defTickets)} tickets (${diasDefTickets} días equivalentes)`;
+        document.getElementById("recTickets").innerText = `👉 Necesitas emitir ${recTicketsDiarios} tickets diarios.`;
       }
 
-      // 3. Cálculo de Horas
+      // 3. Horas
       const metaHorasTrans = diasTranscurridos * 7;
       const defHoras = horasReales - metaHorasTrans;
       const diasDefHoras = (Math.abs(defHoras) / 7).toFixed(1);
@@ -300,25 +397,25 @@
 
       document.getElementById("valHoras").innerText = `${horasReales.toFixed(1)} hrs`;
       if (defHoras >= 0) {
-        document.getElementById("estHoras").className = "estado estado-favor";
+        document.getElementById("estHoras").className = "estado-favor";
         document.getElementById("estHoras").innerText = `✅ Colchón a favor: +${defHoras.toFixed(1)} hrs`;
-        document.getElementById("recHoras").innerText = `🎉 Cumpliendo cobertura diaria.`;
+        document.getElementById("recHoras").innerText = `🎉 Jornada diaria cumplida.`;
       } else {
-        document.getElementById("estHoras").className = "estado estado-deficit";
-        document.getElementById("estHoras").innerText = `⚠️ Déficit: -${Math.abs(defHoras).toFixed(1)} hrs (${diasDefHoras} días)`;
-        document.getElementById("recHoras").innerText = `👉 Para nivelarte: Registrar ${recHorasDiarias} hrs diarias.`;
+        document.getElementById("estHoras").className = "estado-deficit";
+        document.getElementById("estHoras").innerText = `⚠️ Déficit: -${Math.abs(defHoras).toFixed(1)} hrs (${diasDefHoras} días equivalentes)`;
+        document.getElementById("recHoras").innerText = `👉 Cobertura meta: ${recHorasDiarias} hrs efectivas/día.`;
       }
 
-      // 4. Identificación del Mayor Déficit y Aplicación de Colchón
+      // 4. Selección del mayor déficit
       let dV = defVentas < 0 ? parseFloat(diasDefVentas) : 0;
       let dT = defTickets < 0 ? parseFloat(diasDefTickets) : 0;
       let dH = defHoras < 0 ? parseFloat(diasDefHoras) : 0;
 
-      let mayorDef = "Horario / Cobertura";
+      let mayorDef = "Horas Trabajadas";
       let diasMayor = dH;
 
       if (dV > dT && dV > dH) {
-        mayorDef = "Ventas";
+        mayorDef = "Venta";
         diasMayor = dV;
       } else if (dT > dH) {
         mayorDef = "Tickets";
@@ -326,11 +423,24 @@
       }
 
       document.getElementById("txtResumenColchon").innerHTML = 
-        `Actualmente el mayor déficit está en <strong>${mayorDef}</strong> (${diasMayor} días).<br>` +
-        `Si no hay colchón positivo de otro paralelo para compensar, la penalización a fin de mes aplicará únicamente sobre este indicador.`;
+        `El paralelo con mayor déficit actual es <strong>${mayorDef}</strong> (${diasMayor} días).<br>` +
+        `De mantenerse así al cierre de mes, el descuento aplicará únicamente sobre este indicador.`;
     }
 
-    // Cerrar modal al hacer clic fuera del contenido
+    // Filtrar búsqueda
+    function filtrarProductos(texto) {
+      const query = texto.toLowerCase();
+      const tarjetas = document.querySelectorAll(".card-producto");
+      tarjetas.forEach(card => {
+        const nombre = card.querySelector(".prod-nombre").innerText.toLowerCase();
+        if (nombre.includes(query)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    }
+
     window.onclick = function(event) {
       const modal = document.getElementById("modalMetas");
       if (event.target == modal) {
@@ -340,4 +450,3 @@
   </script>
 </body>
 </html>
-
