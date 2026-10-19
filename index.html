@@ -91,15 +91,14 @@
     .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 12px 15px; border-radius: 6px; font-weight: bold; margin-top: 5px; font-size: 16px; cursor: pointer; }
 
-    .meta-box { background: #1a2e26; border: 1px solid #059669; border-radius: 8px; padding: 10px; margin-bottom: 10px; font-size: 13px; color: #a7f3d0; font-family: monospace; }
-    .meta-box h4 { margin: 0 0 6px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; font-family: Arial, sans-serif; }
-    .calc-line { display: block; margin-bottom: 2px; white-space: pre-wrap; }
+    .meta-resumen-box { background: #1a2e26; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
+    .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
 
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
     .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
     .sueldo-destacado { font-size: 14px; font-weight: bold; color: #10b981; border-top: 1px dashed #4b5563; padding-top: 6px; margin-top: 6px; }
     
-    .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: Arial, sans-serif; }
+    .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
 </head>
 <body>
@@ -167,44 +166,36 @@
     </div>
   </div>
 
-  <!-- MODAL METAS CON EL FORMATO SOLICITADO -->
+  <!-- MODAL METAS CON EL RESUMEN EXACTO DE LA NOTA -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Reporte de Metas (Al 16 de Octubre)</h3>
+        <h3>📊 Estado de los 3 Paralelos</h3>
       </div>
 
-      <!-- VENTA -->
-      <div class="meta-box">
-        <h4>💰 1. Control de Ventas</h4>
-        <span class="calc-line">  35,022.49</span>
-        <span class="calc-line">- 81,000.00</span>
-        <span class="calc-line" style="border-bottom: 1px solid #059669; padding-bottom: 2px;">= <strong>45,977.51</strong> (Faltante)</span>
-        <span class="calc-line" style="margin-top: 3px;">/ 12 días restantes del mes</span>
-        <span class="calc-line" style="color: #34d399; font-weight: bold; font-size: 14px; margin-top: 2px;">🎯 Vender Q 3,831.46 por día</span>
+      <div class="meta-resumen-box">
+        <h4>📋 ESTUARDO (Al 16 de Octubre)</h4>
+        <p style="margin: 4px 0;">📅 <strong>14 días hábiles transcurridos</strong></p>
+        
+        <p style="margin: 8px 0 2px 0;">💰 <strong>1. Paralelo de Ventas:</strong></p>
+        <p style="margin: 2px 0;">• Acumulado: Q35,022.49 (vs. Q42,000 esperados a la fecha).</p>
+        <p style="margin: 2px 0;">• Proyección de cierre: ~Q67,543.37 frente a la meta global de Q81,000.00.</p>
+        <p style="margin: 2px 0; color: #fca5a5;">• Déficit proyectado: Q13,456.63.</p>
+        <p style="margin: 2px 0;">• Impacto estimado: Equivalente a ~4.49 días de descuento (aprox. Q598.07 sobre el valor día de Q133.33).</p>
+
+        <p style="margin: 8px 0 2px 0;">📋 <strong>2. Paralelo de Tickets:</strong></p>
+        <p style="margin: 2px 0;">• Acumulado: 109 tickets (vs. 168 esperados a la fecha).</p>
+        <p style="margin: 2px 0;">• Proyección de cierre: ~210 tickets frente a la meta de 324.</p>
+        <p style="margin: 2px 0; color: #fca5a5;">• Déficit proyectado: 113.79 tickets faltantes.</p>
+        <p style="margin: 2px 0;">• Impacto estimado: Equivalente a ~9.48 días de descuento (aprox. Q1,264.29).</p>
+
+        <p style="margin: 8px 0 2px 0;">⏱️ <strong>3. Paralelo de Horas (Jornada de 7 horas):</strong></p>
+        <p style="margin: 2px 0; color: #34d399;">• Acumulado: 98 horas trabajadas en los 14 días transcurridos.</p>
+        <p style="margin: 2px 0;">• Proyección de cierre: 189 horas exactas (cumpliendo al 100% con su jornada y marcajes).</p>
+        <p style="margin: 2px 0; color: #34d399;">• Déficit: 0 horas (sin penalización en este apartado).</p>
       </div>
 
-      <!-- TIQUETES -->
-      <div class="meta-box" style="background: #082f49; border-color: #0284c7; color: #bae6fd;">
-        <h4 style="color: #38bdf8; border-color: #0284c7;">📋 2. Control de Tiquetes</h4>
-        <span class="calc-line">  109</span>
-        <span class="calc-line">- 324</span>
-        <span class="calc-line" style="border-bottom: 1px solid #0284c7; padding-bottom: 2px;">= <strong>215</strong> (Faltante Tks)</span>
-        <span class="calc-line" style="margin-top: 3px;">/ 12 días restantes del mes</span>
-        <span class="calc-line" style="color: #38bdf8; font-weight: bold; font-size: 14px; margin-top: 2px;">🎯 Tiquetes 18 por día</span>
-      </div>
-
-      <!-- HORAS TRABAJADAS -->
-      <div class="meta-box" style="background: #2e1065; border-color: #7c3aed; color: #ede9fe;">
-        <h4 style="color: #a78bfa; border-color: #7c3aed;">⏱️ 3. Control de Horas</h4>
-        <span class="calc-line">  98</span>
-        <span class="calc-line">- 189</span>
-        <span class="calc-line" style="border-bottom: 1px solid #7c3aed; padding-bottom: 2px;">= <strong>91</strong> (Faltante Hrs)</span>
-        <span class="calc-line" style="margin-top: 3px;">/ 12 días restantes del mes</span>
-        <span class="calc-line" style="color: #c084fc; font-weight: bold; font-size: 14px; margin-top: 2px;">🎯 Horas 7.58 por día</span>
-      </div>
-
-      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte del Día a don Byron</button>
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
     </div>
   </div>
@@ -218,7 +209,7 @@
       <div class="sueldo-card">
         <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,800.00</strong></div>
         <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,800.00</span></div>
-        <div class="sueldo-row" style="color: #fca5a5;"><span>Déficit Mayor (Tres Paralelos):</span><span>Evaluación cruzada activa</span></div>
+        <div class="sueldo-row" style="color: #fca5a5;"><span>Déficit Mayor (Tickets/Ventas):</span><span>Evaluación cruzada activa</span></div>
         <div class="sueldo-row" style="color: #38bdf8;">Valor del Día de Trabajo:</span><span>Q 133.33</span></div>
         <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span id="pagoQuincena2">Q 1,666.67</span></div>
         <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
@@ -345,7 +336,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - 16 OCT*\n👤 *Vendedor:* ESTUARDO\n--------------------------------\n💰 *Ventas:* 35,022.49 - 81,000 = Faltan 45,977.51 (/ 12 días = Q3,831.46 diarios)\n📋 *Tiquetes:* 109 - 324 = Faltan 215 Tks (/ 12 días = 18 Tks diarios)\n⏱️ *Horas:* 98 - 189 = Faltan 91 hrs (/ 12 días = 7.58 hrs diarios)\n--------------------------------\n¡Hola don Byron! Le envío el reporte oficial.`;
+      let msg = `📊 *ESTADO DE LOS 3 PARALELOS - ESTUARDO*\n📅 14 días hábiles transcurridos\n\n💰 *1. Ventas:*\n- Acumulado: Q35,022.49\n- Proyección: ~Q67,543.37 (Meta: Q81,000)\n- Déficit: Q13,456.63 (~4.49 días / Q598.07)\n\n📋 *2. Tiquetes:*\n- Acumulado: 109 tickets\n- Proyección: ~210 tickets (Meta: 324)\n- Déficit: 113.79 tks (~9.48 días / Q1,264.29)\n\n⏱️ *3. Horas:*\n- Acumulado: 98 hrs\n- Proyección: 189 hrs (0 déficit)\n\n¡Hola don Byron! Le envío el reporte oficial.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
