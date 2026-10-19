@@ -841,14 +841,12 @@
       renderizarListaHistorial(filtrados.reverse());
     }
 
-    // Función actualizada para forzar la transferencia del texto del ticket a WhatsApp
     function reenviarWhatsAppHistorial(ticketId) {
       const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
       const ticket = historial.find(t => t.id == ticketId);
       
       if (ticket && ticket.textoWhatsApp) {
-        const textoCodificado = encodeURIComponent(ticket.textoWhatsApp);
-        const urlWA = `https://api.whatsapp.com/send?text=${textoCodificado}`;
+        const urlWA = `https://api.whatsapp.com/send?phone=&text=${encodeURIComponent(ticket.textoWhatsApp)}`;
         window.open(urlWA, '_blank');
       } else {
         alert("No se encontró el contenido del ticket.");
