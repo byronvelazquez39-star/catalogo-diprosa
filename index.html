@@ -5,36 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo en Línea - DIPROSA</title>
   <style>
-    :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --accent-color: #0284c7;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --border-color: #334155;
-      --success-color: #22c55e;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      padding: 15px;
+      background-color: #0b0e14;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 12px;
       padding-bottom: 90px;
     }
 
-    /* BARRA SUPERIOR */
     .header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: var(--card-bg);
-      padding: 12px 16px;
+      background-color: #121824;
+      padding: 10px 14px;
       border-radius: 8px;
-      border: 1px solid var(--border-color);
-      margin-bottom: 15px;
+      border: 1px solid #1e293b;
+      margin-bottom: 12px;
     }
 
     .header-title {
@@ -43,17 +31,14 @@
     }
 
     .btn-mis-metas {
-      background-color: var(--accent-color);
+      background-color: #0284c7;
       color: #ffffff;
       border: none;
-      padding: 8px 12px;
+      padding: 6px 12px;
       border-radius: 6px;
       font-size: 0.85rem;
       font-weight: bold;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .badge-metas {
@@ -64,31 +49,30 @@
       font-size: 0.75rem;
     }
 
-    /* BARRA DE BÚSQUEDA */
     .search-box {
       width: 100%;
       padding: 12px;
       border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background-color: var(--card-bg);
-      color: var(--text-main);
-      font-size: 1rem;
-      outline: none;
+      border: 1px solid #1e293b;
+      background-color: #121824;
+      color: #ffffff;
+      font-size: 0.95rem;
+      box-sizing: border-box;
       margin-bottom: 15px;
+      outline: none;
     }
 
-    /* GRILLA DINÁMICA DE PRODUCTOS */
     .grid-productos {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
 
     .card-producto {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 12px;
+      background-color: #121824;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -96,336 +80,197 @@
     }
 
     .prod-nombre {
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      line-height: 1.25;
+      font-size: 0.8rem;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      color: #f8fafc;
     }
 
     .prod-precio {
-      font-size: 1.1rem;
-      color: var(--success-color);
+      color: #22c55e;
       font-weight: bold;
-      margin-bottom: 10px;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
     }
 
     .btn-agregar {
       background-color: #15803d;
-      color: white;
+      color: #ffffff;
       border: none;
-      padding: 8px;
+      padding: 7px;
       border-radius: 6px;
       font-weight: bold;
+      font-size: 0.8rem;
       cursor: pointer;
     }
 
-    .btn-agregar:active { background-color: #166534; }
+    /* PANEL DE METAS DESPLEGABLE (INTEGRADO SIN TUPAR PANTALLA) */
+    #panelMetas {
+      display: none;
+      background-color: #121824;
+      border: 1px solid #0284c7;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
 
-    /* FOOTER FLOTANTE */
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 6px;
+    }
+
+    .tarjeta-paralelo {
+      background-color: #1e293b;
+      border-left: 4px solid #0284c7;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tarjeta-paralelo h4 { font-size: 0.85rem; color: #f8fafc; margin: 0 0 3px 0; }
+    .tarjeta-paralelo p { font-size: 0.78rem; color: #cbd5e1; margin: 2px 0; }
+
+    /* BARRA INFERIOR */
     .footer-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
       background-color: #0b0e14;
-      padding: 12px 16px;
+      padding: 10px 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid var(--border-color);
+      box-sizing: border-box;
+      border-top: 1px solid #1e293b;
       z-index: 500;
     }
 
     .btn-ver-ticket {
-      background-color: var(--success-color);
-      color: white;
+      background-color: #16a34a;
+      color: #ffffff;
       border: none;
-      padding: 10px 16px;
+      padding: 8px 16px;
       border-radius: 6px;
       font-weight: bold;
+      font-size: 0.9rem;
       cursor: pointer;
-    }
-
-    /* MODAL METAS Y PARALELOS */
-    .modal-metas {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
-      overflow-y: auto;
-    }
-
-    .modal-contenido {
-      background-color: var(--card-bg);
-      margin: 15px auto;
-      padding: 16px;
-      border-radius: 12px;
-      width: 92%;
-      max-width: 480px;
-      border: 1px solid var(--border-color);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 8px;
-      margin-bottom: 12px;
-    }
-
-    .cerrar { font-size: 1.4rem; cursor: pointer; color: var(--text-muted); }
-
-    .tarjeta-paralelo {
-      background-color: #0f172a;
-      border-left: 4px solid var(--accent-color);
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
-
-    .tarjeta-paralelo h4 { font-size: 0.95rem; color: #f8fafc; margin-bottom: 4px; }
-    .tarjeta-paralelo p { font-size: 0.82rem; color: var(--text-muted); margin: 2px 0; }
-
-    .estado-deficit { color: #ef4444 !important; font-weight: bold; }
-    .estado-favor { color: #22c55e !important; font-weight: bold; }
-    .recomendacion { color: #f59e0b !important; font-weight: 500; margin-top: 4px !important; }
-
-    .tarjeta-resumen {
-      background-color: #2e1065;
-      border: 1px solid #7c3aed;
-      padding: 10px;
-      border-radius: 6px;
-      margin-top: 12px;
-      font-size: 0.8rem;
-      color: #ddd6fe;
     }
   </style>
 </head>
 <body>
 
-  <!-- BARRA SUPERIOR -->
+  <!-- CABECERA -->
   <div class="header-bar">
     <div class="header-title">📦 Catálogo en Línea</div>
-    <button class="btn-mis-metas" onclick="abrirModalMetas()">
-      📋 Mis Metas <span id="badgeTickets" class="badge-metas">82/324</span>
+    <button class="btn-mis-metas" onclick="toggleMetas()">
+      📋 Mis Metas <span class="badge-metas">82/324</span>
     </button>
   </div>
 
-  <!-- BUSCADOR -->
-  <input type="text" id="searchInput" class="search-box" placeholder="Buscar producto..." oninput="filtrarProductos()">
-
-  <!-- GRILLA DONDE SE RENDERIZAN LOS PRODUCTOS -->
-  <div class="grid-productos" id="gridProductos"></div>
-
-  <!-- BARRA FLOTANTE INFERIOR -->
-  <div class="footer-bar">
-    <div>
-      <div id="cartCount" style="font-size: 0.85rem; color: var(--text-muted);">🛒 0 ítems (Ver Ticket)</div>
-      <div id="cartTotal" style="font-size: 1rem; font-weight: bold; color: var(--success-color);">Total: Q 0.00</div>
+  <!-- PANEL DE METAS (AHORA APARECE ARRIBA DE LOS PRODUCTOS Y SE PUEDE CERRAR FÁCIL) -->
+  <div id="panelMetas">
+    <div class="panel-header">
+      <h3 style="margin:0; color:#38bdf8; font-size:0.95rem;">📊 Control de Paralelos en Tiempo Real</h3>
+      <button onclick="toggleMetas()" style="background:none; border:none; color:#fff; font-size:1.2rem; cursor:pointer;">✕</button>
     </div>
-    <button class="btn-ver-ticket" onclick="abrirModalMetas()">📋 Ver Ticket / Estado</button>
+    
+    <div class="tarjeta-paralelo">
+      <h4>💰 Paralelo 1: Venta Acumulada</h4>
+      <p>Meta: Q81,000.00 | Real: Q35,022.49</p>
+      <p style="color:#f87171; font-weight:bold;">⚠️ Déficit: -Q9,977.51 (3.3 días)</p>
+    </div>
+
+    <div class="tarjeta-paralelo">
+      <h4>🎫 Paralelo 2: Emisión de Tickets</h4>
+      <p>Meta: 324 | Real: 82 tickets</p>
+      <p style="color:#f87171; font-weight:bold;">⚠️ Déficit: -98 tickets (8.2 días)</p>
+    </div>
+
+    <div class="tarjeta-paralelo">
+      <h4>⏱️ Paralelo 3: Horas Trabajadas</h4>
+      <p>Meta: 189 hrs | Real: 46.3 hrs</p>
+      <p style="color:#f87171; font-weight:bold;">⚠️ Mayor Déficit (Aplica a fin de mes)</p>
+    </div>
   </div>
 
-  <!-- MODAL DE METAS Y PARALELOS -->
-  <div id="modalMetas" class="modal-metas">
-    <div class="modal-contenido">
-      <div class="modal-header">
-        <h3 style="color: #38bdf8;">📊 Control de Paralelos en Tiempo Real</h3>
-        <span class="cerrar" onclick="cerrarModalMetas()">&times;</span>
-      </div>
-      
-      <div class="modal-body">
-        <div class="tarjeta-paralelo">
-          <h4>💰 Paralelo 1: Venta Acumulada</h4>
-          <p>Meta del Mes: <strong>Q81,000.00</strong> (Q3,000/día)</p>
-          <p>Venta Real: <strong id="valVentas">Q0.00</strong></p>
-          <p id="estVentas"></p>
-          <p id="recVentas" class="recomendacion"></p>
-        </div>
+  <!-- BUSCADOR -->
+  <input type="text" class="search-box" placeholder="Buscar producto..." id="searchInput" oninput="filtrar()">
 
-        <div class="tarjeta-paralelo">
-          <h4>🎫 Paralelo 2: Emisión de Tickets</h4>
-          <p>Meta del Mes: <strong>324 Tickets</strong> (12/día)</p>
-          <p>Tickets Reales: <strong id="valTickets">0</strong></p>
-          <p id="estTickets"></p>
-          <p id="recTickets" class="recomendacion"></p>
-        </div>
-
-        <div class="tarjeta-paralelo">
-          <h4>⏱️ Paralelo 3: Horas Trabajadas</h4>
-          <p>Meta del Mes: <strong>189 Horas</strong> (7h/día)</p>
-          <p>Horas Reales: <strong id="valHoras">0 hrs</strong></p>
-          <p id="estHoras"></p>
-          <p id="recHoras" class="recomendacion"></p>
-        </div>
-
-        <div class="tarjeta-resumen">
-          🛡️ <strong>Regla del Colchón y Evaluación a Fin de Mes:</strong>
-          <p id="txtResumenColchon" style="margin-top: 4px;"></p>
-        </div>
-      </div>
+  <!-- PRODUCTOS -->
+  <div class="grid-productos" id="gridProd">
+    <div class="card-producto">
+      <div class="prod-nombre">(almohadita) 4 onzas por docena para dar Q.3.00</div>
+      <div class="prod-precio">Q 29.50</div>
+      <button class="btn-agregar">+ Agregar</button>
     </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(almohadita) fardo 4 onzas para dar Q.3.00</div>
+      <div class="prod-precio">Q 110.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+
+    <div class="card-producto">
+      <div class="prod-nombre">(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50</div>
+      <div class="prod-precio">Q 67.00</div>
+      <button class="btn-agregar">+ Agregar</button>
+    </div>
+  </div>
+
+  <!-- BARRA INFERIOR -->
+  <div class="footer-bar">
+    <div>
+      <div style="font-size: 0.85rem; color: #cbd5e1;">🛒 0 ítems (Ver Ticket)</div>
+      <div style="font-size: 1rem; font-weight: bold; color: #4ade80;">Total: Q 0.00</div>
+    </div>
+    <button class="btn-ver-ticket" onclick="verTicketCompra()">📋 Ver Ticket / Estado</button>
   </div>
 
   <script>
-    // MATRIZ DE PRODUCTOS DEL CATÁLOGO
-    const productos = [
-      { id: 1, nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
-      { id: 2, nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00 },
-      { id: 3, nombre: "(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50", precio: 67.00 },
-      { id: 4, nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
-      { id: 5, nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
-      { id: 6, nombre: "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50", precio: 67.00 }
-    ];
-
-    let carrito = [];
-
-    // Normalizador de búsqueda (Acepta mayúsculas/minúsculas y acentos)
-    function normalizar(texto) {
-      return texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-
-    // Renderizar lista de productos
-    function renderizarProductos(items) {
-      const grid = document.getElementById("gridProductos");
-      grid.innerHTML = "";
-      items.forEach(prod => {
-        const card = document.createElement("div");
-        card.className = "card-producto";
-        card.innerHTML = `
-          <div class="prod-nombre">${prod.nombre}</div>
-          <div class="prod-precio">Q ${prod.precio.toFixed(2)}</div>
-          <button class="btn-agregar" onclick="agregarAlCarrito(${prod.id})">+ Agregar</button>
-        `;
-        grid.appendChild(card);
+    function filtrar() {
+      let query = document.getElementById("searchInput").value.toLowerCase();
+      let cards = document.querySelectorAll(".card-producto");
+      cards.forEach(card => {
+        let texto = card.querySelector(".prod-nombre").innerText.toLowerCase();
+        card.style.display = texto.includes(query) ? "flex" : "none";
       });
     }
 
-    // Filtrar búsqueda
-    function filtrarProductos() {
-      const query = normalizar(document.getElementById("searchInput").value);
-      const filtrados = productos.filter(p => normalizar(p.nombre).includes(query));
-      renderizarProductos(filtrados);
-    }
-
-    // Funciones del Carrito
-    function agregarAlCarrito(id) {
-      const prod = productos.find(p => p.id === id);
-      carrito.push(prod);
-      actualizarCarritoUI();
-    }
-
-    function actualizarCarritoUI() {
-      const countEl = document.getElementById("cartCount");
-      const totalEl = document.getElementById("cartTotal");
-      let total = carrito.reduce((sum, item) => sum + item.precio, 0);
-      countEl.innerText = `🛒 ${carrito.length} ítems (Ver Ticket)`;
-      totalEl.innerText = `Total: Q ${total.toFixed(2)}`;
-    }
-
-    // Días y Metas del Vendedor (Octubre)
-    const diasHabilesMes = 27;
-    const diasTranscurridos = 15;
-    const diasRestantes = diasHabilesMes - diasTranscurridos;
-
-    const ventaReal = 35022.49;
-    const ticketsReales = 82;
-    const horasReales = 46.33;
-
-    function abrirModalMetas() {
-      document.getElementById("modalMetas").style.display = "block";
-      calcularParalelos();
-    }
-
-    function cerrarModalMetas() {
-      document.getElementById("modalMetas").style.display = "none";
-    }
-
-    function calcularParalelos() {
-      // 1. Ventas
-      const metaVentasTrans = diasTranscurridos * 3000;
-      const defVentas = ventaReal - metaVentasTrans;
-      const diasDefVentas = (Math.abs(defVentas) / 3000).toFixed(1);
-      const recVentaDiaria = ((81000 - ventaReal) / diasRestantes).toFixed(2);
-
-      document.getElementById("valVentas").innerText = `Q${ventaReal.toLocaleString("es-GT", {minimumFractionDigits: 2})}`;
-      if (defVentas >= 0) {
-        document.getElementById("estVentas").className = "estado-favor";
-        document.getElementById("estVentas").innerText = `✅ Colchón a favor: +Q${defVentas.toFixed(2)}`;
-        document.getElementById("recVentas").innerText = `🎉 ¡Vas sobre la cuota esperada!`;
+    function toggleMetas() {
+      let panel = document.getElementById("panelMetas");
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
       } else {
-        document.getElementById("estVentas").className = "estado-deficit";
-        document.getElementById("estVentas").innerText = `⚠️ Déficit: -Q${Math.abs(defVentas).toFixed(2)} (${diasDefVentas} días equivalentes)`;
-        document.getElementById("recVentas").innerText = `👉 Necesitas vender Q${recVentaDiaria} diarios.`;
+        panel.style.display = "block";
       }
-
-      // 2. Tickets
-      const metaTicketsTrans = diasTranscurridos * 12;
-      const defTickets = ticketsReales - metaTicketsTrans;
-      const diasDefTickets = (Math.abs(defTickets) / 12).toFixed(1);
-      const recTicketsDiarios = Math.ceil((324 - ticketsReales) / diasRestantes);
-
-      document.getElementById("valTickets").innerText = `${ticketsReales} tickets`;
-      document.getElementById("badgeTickets").innerText = `${ticketsReales}/324`;
-      if (defTickets >= 0) {
-        document.getElementById("estTickets").className = "estado-favor";
-        document.getElementById("estTickets").innerText = `✅ Colchón a favor: +${defTickets} tickets`;
-        document.getElementById("recTickets").innerText = `🎉 ¡Buen ritmo de emisión!`;
-      } else {
-        document.getElementById("estTickets").className = "estado-deficit";
-        document.getElementById("estTickets").innerText = `⚠️ Déficit: -${Math.abs(defTickets)} tickets (${diasDefTickets} días equivalentes)`;
-        document.getElementById("recTickets").innerText = `👉 Necesitas emitir ${recTicketsDiarios} tickets diarios.`;
-      }
-
-      // 3. Horas
-      const metaHorasTrans = diasTranscurridos * 7;
-      const defHoras = horasReales - metaHorasTrans;
-      const diasDefHoras = (Math.abs(defHoras) / 7).toFixed(1);
-      const recHorasDiarias = ((189 - horasReales) / diasRestantes).toFixed(1);
-
-      document.getElementById("valHoras").innerText = `${horasReales.toFixed(1)} hrs`;
-      if (defHoras >= 0) {
-        document.getElementById("estHoras").className = "estado-favor";
-        document.getElementById("estHoras").innerText = `✅ Colchón a favor: +${defHoras.toFixed(1)} hrs`;
-        document.getElementById("recHoras").innerText = `🎉 Jornada diaria cumplida.`;
-      } else {
-        document.getElementById("estHoras").className = "estado-deficit";
-        document.getElementById("estHoras").innerText = `⚠️ Déficit: -${Math.abs(defHoras).toFixed(1)} hrs (${diasDefHoras} días equivalentes)`;
-        document.getElementById("recHoras").innerText = `👉 Cobertura meta: ${recHorasDiarias} hrs efectivas/día.`;
-      }
-
-      // Mayor déficit
-      let dV = defVentas < 0 ? parseFloat(diasDefVentas) : 0;
-      let dT = defTickets < 0 ? parseFloat(diasDefTickets) : 0;
-      let dH = defHoras < 0 ? parseFloat(diasDefHoras) : 0;
-
-      let mayorDef = "Horas Trabajadas";
-      let diasMayor = dH;
-
-      if (dV > dT && dV > dH) {
-        mayorDef = "Venta";
-        diasMayor = dV;
-      } else if (dT > dH) {
-        mayorDef = "Tickets";
-        diasMayor = dT;
-      }
-
-      document.getElementById("txtResumenColchon").innerHTML = 
-        `El paralelo con mayor déficit actual es <strong>${mayorDef}</strong> (${diasMayor} días).<br>` +
-        `De mantenerse así al cierre de mes, el descuento aplicará únicamente sobre este indicador.`;
     }
 
-    // Cargar productos al iniciar
-    renderizarProductos(productos);
-
-    window.onclick = function(event) {
-      const modal = document.getElementById("modalMetas");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
+    function verTicketCompra() {
+      alert("Aquí se abrirá el resumen del ticket de los productos seleccionados.");
     }
   </script>
 </body>
