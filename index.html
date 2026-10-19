@@ -320,7 +320,7 @@
     let productosFiltrados = [];
     let limiteActual = 40;
     
-    // Variables para las horas del ticket
+    // Variables para capturar los tiempos del ticket
     let horaInicioTicket = null;
     let horaFinalTicket = null;
     
@@ -415,7 +415,7 @@
     }
 
     function cambiarCant(nombreB64, precio, delta) {
-      // Registrar la hora de inicio cuando se agrega el primer producto
+      // Registrar la hora de inicio al agregar el primer producto al carrito
       if (Object.keys(carrito).length === 0 && delta > 0 && !horaInicioTicket) {
         horaInicioTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       }
@@ -588,7 +588,7 @@
         return;
       }
 
-      // Capturar hora final al momento del envío
+      // Capturar la hora final al momento de presionar enviar
       horaFinalTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       if (!horaInicioTicket) {
         horaInicioTicket = horaFinalTicket;
