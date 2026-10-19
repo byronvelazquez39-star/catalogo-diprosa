@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo DIPROSA</title>
+  <title>Catálogo DIPROSA - ELEAZAR</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -79,7 +79,6 @@
     
     .ticket-actions { display: flex; align-items: center; gap: 4px; }
     .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 26px; height: 26px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-    .btn-delete { background: var(--danger-color); color: white; border: none; padding: 5px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
 
     .client-info-section { background: #252525; padding: 12px; border-radius: 8px; margin-top: 15px; margin-bottom: 15px; }
     .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
@@ -103,15 +102,14 @@
 </head>
 <body>
 
-  <!-- SECCIÓN OPERATIVA DIRECTA -->
   <div class="header-bar">
-    <h1 id="titulo-catalogo">📦 Catálogo DIPROSA</h1>
+    <h1>📦 Catálogo DIPROSA - ELEAZAR</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
-        📊 Metas <span id="contadorBoton" class="badge-header badge-metas">0 Tks</span>
+        📊 Metas <span class="badge-header badge-metas">112 Tks</span>
       </button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
-        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q0.00</span>
+        💰 Mi Sueldo <span class="badge-header badge-sueldo">Q427.78</span>
       </button>
     </div>
   </div>
@@ -120,7 +118,6 @@
   <div id="catalogo" class="grid">Cargando productos...</div>
   <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
 
-  <!-- Barra Flotante de Carrito -->
   <div class="cart-bar">
     <div class="cart-info" onclick="abrirTicket()">
       <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
@@ -166,138 +163,67 @@
     </div>
   </div>
 
-  <!-- MODAL METAS DINÁMICO -->
+  <!-- MODAL METAS -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de los 3 Paralelos</h3>
       </div>
-      <div id="contenido-metas-dinamico" class="meta-resumen-box"></div>
+      <div class="meta-resumen-box">
+        <h4>📋 RESUMEN DE LOS 3 PARALELOS — ELEAZAR (Al 17 de Octubre)</h4>
+        <p style="margin: 4px 0;">📅 <strong>15 días hábiles transcurridos</strong></p>
+        
+        <p style="margin: 8px 0 2px 0; color:#38bdf8;">💰 <strong>1. Paralelo de Ventas:</strong></p>
+        <p style="margin: 2px 0;">• Acumulado: Q32,085.00 en 112 tickets (vs. Q45,000 esperados a la fecha a razón de Q3,000 diarios).</p>
+        <p style="margin: 2px 0;">• Proyección de cierre: ~Q57,753.00 frente a la meta global de Q81,000.00.</p>
+        <p style="margin: 2px 0; color:#f87171;">⚠️ Déficit proyectado: Q23,247.00.</p>
+        <p style="margin: 2px 0; color:#f87171;">💵 Impacto estimado: Equivalente a ~7.75 días de descuento (aprox. Q1,004.50 sobre el valor día de Q129.63).</p>
+
+        <p style="margin: 8px 0 2px 0; color:#38bdf8;">🎫 <strong>2. Paralelo de Tickets:</strong></p>
+        <p style="margin: 2px 0;">• Acumulado: 112 tickets emitidos (vs. 180 esperados a la fecha a razón de 12 tickets diarios).</p>
+        <p style="margin: 2px 0;">• Proyección de cierre: ~202 tickets frente a la meta global de 324.</p>
+        <p style="margin: 2px 0; color:#f87171;">⚠️ Déficit proyectado: 122.40 tickets faltantes.</p>
+        <p style="margin: 2px 0; color:#f87171;">💵 Impacto estimado: Equivalente a ~10.20 días de descuento (aprox. Q1,322.22).</p>
+
+        <p style="margin: 8px 0 2px 0; color:#38bdf8;">⏱️ <strong>3. Paralelo de Horas (Jornada de 7 horas efectivas):</strong></p>
+        <p style="margin: 2px 0;">• Acumulado: 105 horas trabajadas en los 15 días hábiles transcurridos.</p>
+        <p style="margin: 2px 0;">• Proyección de cierre: 189 horas exactas cumpliendo con su jornada laboral.</p>
+        <p style="margin: 2px 0; color:#34d399;">✅ Déficit: 0 horas (sin penalización en este apartado).</p>
+      </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO DINÁMICO -->
+  <!-- MODAL SUELDO -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>💵 Nómina y Evaluación de Sueldo</h3>
       </div>
-      <div id="contenido-sueldo-dinamico"></div>
+      <div class="sueldo-card">
+        <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,750.00</strong></div>
+        <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,750.00</span></div>
+        <div class="sueldo-row" style="color: #f87171;"><span>Déficit Mayor (Tickets):</span><span>~10.20 días (Q1,322.22)</span></div>
+        <div class="sueldo-row" style="color: #38bdf8;"><span>Valor del Día de Trabajo:</span><span>Q 129.63</span></div>
+        <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span>Q 427.78</span></div>
+        <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
+          <span>Sueldo Total Mes Proyectado:</span><span>Q 2,177.78</span>
+        </div>
+      </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
   </div>
 
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let vendedorParam = (urlParams.get('vendedor') || 'estuardo').toLowerCase();
-
-    const datosVendedores = {
-      estuardo: {
-        nombre: "ESTUARDO",
-        ventas: "Q35,022.49",
-        tiquetes: "109 Tks",
-        horas: "98 hrs",
-        badgeSueldo: "Q1,666.67",
-        textoMetas: `<h4>📋 ESTUARDO (Al 16 de Octubre)</h4>
-          <p style="margin: 4px 0;">📅 <strong>14 días hábiles transcurridos</strong></p>
-          <p style="margin: 8px 0 2px 0; color:#38bdf8;">💰 <strong>1. Paralelo de Ventas:</strong></p>
-          <p style="margin: 2px 0;">• Acumulado: Q35,022.49 (vs. Q42,000 esperados)</p>
-          <p style="margin: 2px 0;">• Proyección de cierre: ~Q67,543.37 (Meta: Q81,000.00)</p>
-          <p style="margin: 2px 0; color:#f87171;">• Déficit proyectado: Q13,456.63</p>
-          <p style="margin: 2px 0; color:#f87171;">• Impacto estimado: ~4.49 días (aprox. Q598.07)</p>
-          <p style="margin: 8px 0 2px 0; color:#38bdf8;">📋 <strong>2. Paralelo de Tickets:</strong></p>
-          <p style="margin: 2px 0;">• Acumulado: 109 tickets (vs. 168 esperados)</p>
-          <p style="margin: 2px 0;">• Proyección de cierre: ~210 tickets (Meta: 324)</p>
-          <p style="margin: 2px 0; color:#f87171;">• Déficit proyectado: 113.79 tickets faltantes</p>
-          <p style="margin: 2px 0; color:#f87171;">• Impacto estimado: ~9.48 días (aprox. Q1,264.29)</p>
-          <p style="margin: 8px 0 2px 0; color:#38bdf8;">⏱️ <strong>3. Paralelo de Horas:</strong></p>
-          <p style="margin: 2px 0;">• Acumulado: 98 horas en 14 días</p>
-          <p style="margin: 2px 0;">• Proyección: 189 horas exactas (Cumplido 100%)</p>
-          <p style="margin: 2px 0; color:#34d399;">• Déficit: 0 horas</p>`,
-        textoSueldo: `<div class="sueldo-card">
-          <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,800.00</strong></div>
-          <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,800.00</span></div>
-          <div class="sueldo-row" style="color: #f87171;"><span>Déficit Mayor (Tickets):</span><span>~9.48 días de descuento</span></div>
-          <div class="sueldo-row" style="color: #38bdf8;"><span>Valor del Día de Trabajo:</span><span>Q 133.33</span></div>
-          <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span>Q 1,666.67</span></div>
-          <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
-            <span>Sueldo Total Mes Proyectado:</span><span>Q 3,466.67</span>
-          </div>
-        </div>`
-      },
-      eleazar: {
-        nombre: "ELEAZAR",
-        ventas: "Q32,085.00",
-        tiquetes: "112 Tks",
-        horas: "105 hrs",
-        badgeSueldo: "Q427.78",
-        textoMetas: `<h4>📋 RESUMEN DE LOS 3 PARALELOS — ELEAZAR (Al 17 de Octubre)</h4>
-          <p style="margin: 4px 0;">📅 <strong>15 días hábiles transcurridos</strong></p>
-          
-          <p style="margin: 8px 0 2px 0; color:#38bdf8;">💰 <strong>1. Paralelo de Ventas:</strong></p>
-          <p style="margin: 2px 0;">• Acumulado: Q32,085.00 en 112 tickets (vs. Q45,000 esperados a la fecha a razón de Q3,000 diarios).</p>
-          <p style="margin: 2px 0;">• Proyección de cierre: ~Q57,753.00 frente a la meta global de Q81,000.00.</p>
-          <p style="margin: 2px 0; color:#f87171;">⚠️ Déficit proyectado: Q23,247.00.</p>
-          <p style="margin: 2px 0; color:#f87171;">💵 Impacto estimado: Equivalente a ~7.75 días de descuento (aprox. Q1,004.50 sobre el valor día de Q129.63).</p>
-
-          <p style="margin: 8px 0 2px 0; color:#38bdf8;">🎫 <strong>2. Paralelo de Tickets:</strong></p>
-          <p style="margin: 2px 0;">• Acumulado: 112 tickets emitidos (vs. 180 esperados a la fecha a razón de 12 tickets diarios).</p>
-          <p style="margin: 2px 0;">• Proyección de cierre: ~202 tickets frente a la meta global de 324.</p>
-          <p style="margin: 2px 0; color:#f87171;">⚠️ Déficit proyectado: 122.40 tickets faltantes.</p>
-          <p style="margin: 2px 0; color:#f87171;">💵 Impacto estimado: Equivalente a ~10.20 días de descuento (aprox. Q1,322.22).</p>
-
-          <p style="margin: 8px 0 2px 0; color:#38bdf8;">⏱️ <strong>3. Paralelo de Horas (Jornada de 7 horas efectivas):</strong></p>
-          <p style="margin: 2px 0;">• Acumulado: 105 horas trabajadas en los 15 días hábiles transcurridos.</p>
-          <p style="margin: 2px 0;">• Proyección de cierre: 189 horas exactas cumpliendo con su jornada laboral.</p>
-          <p style="margin: 2px 0; color:#34d399;">✅ Déficit: 0 horas (sin penalización en este apartado).</p>`,
-        textoSueldo: `<div class="sueldo-card">
-          <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,750.00</strong></div>
-          <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,750.00</span></div>
-          <div class="sueldo-row" style="color: #f87171;"><span>Déficit Mayor (Tickets):</span><span>~10.20 días (Q1,322.22)</span></div>
-          <div class="sueldo-row" style="color: #38bdf8;"><span>Valor del Día de Trabajo:</span><span>Q 129.63</span></div>
-          <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span>Q 427.78</span></div>
-          <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
-            <span>Sueldo Total Mes Proyectado:</span><span>Q 2,177.78</span>
-          </div>
-        </div>`
-      },
-      jorge: {
-        nombre: "JORGE",
-        ventas: "En proceso",
-        tiquetes: "0 Tks",
-        horas: "0 hrs",
-        badgeSueldo: "Q1,800",
-        textoMetas: `<h4>📋 JORGE</h4><p>Sin datos cargados todavía.</p>`,
-        textoSueldo: `<div class="sueldo-card"><div class="sueldo-row"><span>Sueldo Base:</span><strong>Q 3,600.00</strong></div></div>`
-      },
-      christian: {
-        nombre: "CHRISTIAN",
-        ventas: "En proceso",
-        tiquetes: "0 Tks",
-        horas: "0 hrs",
-        badgeSueldo: "Q1,800",
-        textoMetas: `<h4>📋 CHRISTIAN</h4><p>Sin datos cargados todavía.</p>`,
-        textoSueldo: `<div class="sueldo-card"><div class="sueldo-row"><span>Sueldo Base:</span><strong>Q 3,600.00</strong></div></div>`
-      }
-    };
-
-    let vendedorActivo = datosVendedores[vendedorParam] || datosVendedores['estuardo'];
+    const vendedorNombre = "ELEAZAR";
+    const storageKey = "carrito_diprosa_eleazar";
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
-    let storageKey = 'carrito_diprosa_' + vendedorParam;
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('titulo-catalogo').innerText = "📦 Catálogo DIPROSA - " + vendedorActivo.nombre;
-      document.getElementById('contadorBoton').innerText = vendedorActivo.tiquetes;
-      document.getElementById('badgeSueldo').innerText = vendedorActivo.badgeSueldo;
-      document.getElementById('contenido-metas-dinamico').innerHTML = vendedorActivo.textoMetas;
-      document.getElementById('contenido-sueldo-dinamico').innerHTML = vendedorActivo.textoSueldo;
-      
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
@@ -394,7 +320,7 @@
       document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      let ticketNumKey = 'correlativo_ticket_' + vendedorParam;
+      let ticketNumKey = 'correlativo_ticket_eleazar';
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1).padStart(8, '0');
     }
 
@@ -404,7 +330,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - ${vendedorActivo.nombre}*\n💰 Ventas: ${vendedorActivo.ventas}\n📋 Tiquetes: ${vendedorActivo.tiquetes}\n⏱️ Horas: ${vendedorActivo.horas}\n¡Hola don Byron! Le envío mi reporte.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n💰 Ventas: Q32,085.00\n📋 Tiquetes: 112 Tks\n⏱️ Horas: 105 hrs\n¡Hola don Byron! Le envío mi reporte.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -412,11 +338,11 @@
       let receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
-      let ticketNumKey = 'correlativo_ticket_' + vendedorParam;
+      let ticketNumKey = 'correlativo_ticket_eleazar';
       let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
       localStorage.setItem(ticketNumKey, numT);
 
-      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ${vendedorActivo.nombre}\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
+      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ELEAZAR\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
       let i = 1;
       for (let k in carrito) {
         let item = carrito[k], sub = item.cantidad * item.precio;
