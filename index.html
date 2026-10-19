@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DIPROSA - Sistema Integral</title>
+  <title>Catálogo DIPROSA - Estuardo</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -93,63 +93,42 @@
 
     .meta-container { border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
     .meta-texto { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; }
-    .barra-progreso-bg { width: 100%; height: 8px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; }
-    .meta-venta { background-color: #064e3b; border: 1px solid #059669; }
-    .meta-venta .meta-texto { color: #a7f3d0; }
-    .barra-venta-fill { height: 100%; background-color: #10b981; width: 0%; transition: width 0.4s; }
-    
-    .meta-tickets { background-color: #0c4a6e; border: 1px solid #0284c7; }
-    .meta-tickets .meta-texto { color: #bae6fd; }
-    .barra-progreso-fill { height: 100%; background-color: #0284c7; width: 0%; transition: width 0.4s; }
+    .meta-venta { background-color: #064e3b; border: 1px solid #059669; color: #a7f3d0; }
+    .meta-tickets { background-color: #0c4a6e; border: 1px solid #0284c7; color: #bae6fd; }
 
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
     .sueldo-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
     .sueldo-destacado { font-size: 15px; font-weight: bold; color: #10b981; border-top: 1px dashed #4b5563; padding-top: 6px; margin-top: 6px; }
     
-    .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
 </head>
 <body>
 
-  <!-- SECCIÓN OPERATIVA (Catálogo y Ventas) -->
-  <div id="seccionOperativa">
-    <div class="header-bar">
-      <h1>📦 Catálogo DIPROSA</h1>
-      <div class="btn-group-header">
-        <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
-          📊 Metas <span id="contadorBoton" class="badge-header badge-metas">109 Tks</span>
-        </button>
-        <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
-          💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,800</span>
-        </button>
-      </div>
-    </div>
-
-    <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
-    <div id="catalogo" class="grid">Cargando productos...</div>
-    <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
-
-    <!-- Barra Flotante de Carrito -->
-    <div class="cart-bar">
-      <div class="cart-info" onclick="abrirTicket()">
-        <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
-        <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
-      </div>
-      <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  <!-- SECCIÓN OPERATIVA DIRECTA -->
+  <div class="header-bar">
+    <h1>📦 Catálogo DIPROSA</h1>
+    <div class="btn-group-header">
+      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
+        📊 Metas <span id="contadorBoton" class="badge-header badge-metas">109 Tks</span>
+      </button>
+      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
+        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,800</span>
+      </button>
     </div>
   </div>
 
-  <!-- SECCIÓN GERENCIAL (Aparece si entra Don Byron sin parámetros) -->
-  <div id="seccionGerencial" style="display: none;">
-    <div style="background: #1e1e1e; border: 1px solid #333; border-radius: 10px; padding: 20px; text-align: center; margin-top: 10px;">
-      <h3 style="color: #38bdf8; margin-top: 0;">👑 Panel de Dirección - DIPROSA</h3>
-      <p style="color: #aaa; font-size: 14px; line-height: 1.5;">Panel de administración general y supervisión de rutas.</p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Jorge: <code>?vendedor=jorge</code></p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Christian: <code>?vendedor=christian</code></p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Eleazar: <code>?vendedor=eleazar</code></p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Estuardo: <code>?vendedor=estuardo</code></p>
+  <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
+  <div id="catalogo" class="grid">Cargando productos...</div>
+  <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
+
+  <!-- Barra Flotante de Carrito -->
+  <div class="cart-bar">
+    <div class="cart-info" onclick="abrirTicket()">
+      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
+      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
     </div>
+    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
   </div>
 
   <!-- MODAL TICKET -->
@@ -196,10 +175,10 @@
         <h3>📊 Reporte de Metas (Al 16 de Octubre)</h3>
       </div>
       <div class="meta-container meta-venta">
-        <div class="meta-texto"><span id="textoVentaMes">💰 Venta Acumulada: Q35,022.49</span></div>
+        <div class="meta-texto"><span>💰 Venta Acumulada: Q35,022.49</span></div>
       </div>
       <div class="meta-container meta-tickets">
-        <div class="meta-texto"><span id="textoTicketsMes">📋 Tiquetes Registrados: 109 Tks</span></div>
+        <div class="meta-texto"><span>📋 Tiquetes Registrados: 109 Tks</span></div>
       </div>
       <div class="meta-container" style="background: #2e1065; border: 1px solid #7c3aed; color: #ede9fe; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 10px;">
         ⏱️ <b>Horas Trabajadas:</b> 98 horas al 16 de octubre
@@ -227,32 +206,15 @@
 
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
-    
-    const urlParams = new URLSearchParams(window.location.search);
-    let nombreVendedorParam = urlParams.get('vendedor');
-    
-    if (nombreVendedorParam) {
-      localStorage.setItem('vendedor_diprosa', nombreVendedorParam.toUpperCase());
-    }
-    
-    const VENDEDOR_ACTUAL = localStorage.getItem('vendedor_diprosa') || "DON BYRON";
-    
-    if (!nombreVendedorParam && VENDEDOR_ACTUAL === "DON BYRON") {
-      document.getElementById('seccionOperativa').style.display = 'none';
-      document.getElementById('seccionGerencial').style.display = 'block';
-    }
+    const VENDEDOR_ACTUAL = "ESTUARDO";
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     try { carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (nombreVendedorParam || VENDEDOR_ACTUAL !== "DON BYRON") {
-        document.getElementById('contadorBoton').innerText = "109 Tks";
-        document.getElementById('badgeSueldo').innerText = "Q1,800";
-      }
-    });
-
-    if (nombreVendedorParam || VENDEDOR_ACTUAL !== "DON BYRON") {
+      document.getElementById('contadorBoton').innerText = "109 Tks";
+      document.getElementById('badgeSueldo').innerText = "Q1,800";
+      
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
@@ -261,7 +223,7 @@
           renderizarCatalogo();
           actualizarUIResumen();
         });
-    }
+    });
 
     function renderizarCatalogo() {
       let contenedor = document.getElementById('catalogo');
