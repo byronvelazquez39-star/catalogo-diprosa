@@ -424,7 +424,7 @@
         <p style="font-size: 11px; color: #aaa;">Ciclo: 26 días (Mes: Q81,000 | 312 Tks | 182h)</p>
       </div>
 
-      <!-- 1. Meta de Venta (Mes: Q81,000 / Día: Q3,000) -->
+      <!-- 1. Meta de Venta -->
       <div class="meta-container meta-venta">
         <div class="meta-texto">
           <span id="textoVentaMes">💰 Mes: Q0.00 / Q81,000.00</span>
@@ -439,7 +439,7 @@
         <p id="mensajeVenta" class="mensaje-animo">Avanzando hacia la meta mensual</p>
       </div>
 
-      <!-- 2. Meta de Tickets (Mes: 312 / Día: 12) -->
+      <!-- 2. Meta de Tickets -->
       <div class="meta-container meta-tickets">
         <div class="meta-texto">
           <span id="textoTicketsMes">📋 Tks Mes: 0 / 312</span>
@@ -454,7 +454,7 @@
         <p id="mensajeAnimo" class="mensaje-animo">Constancia diaria de pedidos</p>
       </div>
 
-      <!-- 3. Control de Jornada (Mes: 182h / Día: 7h) -->
+      <!-- 3. Control de Jornada -->
       <div class="meta-container meta-jornada">
         <div class="meta-texto">
           <span id="textoJornadaMes">⏱️ Horas Mes: 0.0h / 182h</span>
@@ -484,7 +484,6 @@
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
     
-    // Metas Diarias y Mensuales (26 días)
     const META_TICKETS_DIA = 12;
     const META_TICKETS_MES = 312;
     const META_VENTA_DIA_Q = 3000.00;
@@ -720,7 +719,6 @@
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(obtenerSiguienteTicket()).padStart(8, '0');
     }
 
-    // Funciones del Modal de Metas Mes y Día
     function abrirModalMetas() {
       document.getElementById('modal-metas').style.display = 'flex';
       cargarDatosMetas();
@@ -753,10 +751,8 @@
       const horasHoy = Math.floor(minutosActuales / 60);
       const minsHoy = minutosActuales % 60;
 
-      // Cálculo aproximado para el mes (sumando horas de hoy)
       const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
-      // Estimación simple de horas acumuladas en el mes basadas en días con actividad o turno actual
-      const horasTotalesMes = (horasHoy + (historial.length > 0 ? 3 : 0)); // aproximado dinámico
+      const horasTotalesMes = (horasHoy + (historial.length > 0 ? 3 : 0));
       const pctMes = Math.min(Math.round((horasTotalesMes / TURNO_HORAS_MES) * 100), 100);
 
       document.getElementById('textoJornadaMes').innerText = `⏱️ Horas Mes: ${horasTotalesMes}h / ${TURNO_HORAS_MES}h`;
@@ -777,15 +773,12 @@
       const hoyStr = obtenerFechaHoy();
       const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
 
-      // Totales del Día
       const totalVendidoHoy = ticketsHoy.reduce((acc, t) => acc + parseFloat(t.total || 0), 0);
       const cantTicketsHoy = ticketsHoy.length;
 
-      // Totales del Mes (Todo el historial guardado)
       const totalVendidoMes = historial.reduce((acc, t) => acc + parseFloat(t.total || 0), 0);
       const cantTicketsMes = historial.length;
 
-      // 1. Barra de Ventas (Mes vs Día)
       const pctVentaMes = Math.min(Math.round((totalVendidoMes / META_VENTA_MES_Q) * 100), 100);
       document.getElementById('textoVentaMes').innerText = `💰 Mes: Q${totalVendidoMes.toFixed(2)} / Q${META_VENTA_MES_Q.toLocaleString('es-GT', {minimumFractionDigits: 2})}`;
       document.getElementById('porcentajeVentaMes').innerText = `${pctVentaMes}%`;
@@ -793,7 +786,6 @@
       document.getElementById('barraVentaFill').style.width = `${pctVentaMes}%`;
       document.getElementById('mensajeVenta').innerText = `Venta hoy: Q${totalVendidoHoy.toFixed(2)} (Meta diaria: Q${META_VENTA_DIA_Q.toFixed(2)})`;
 
-      // 2. Barra de Tickets (Mes vs Día)
       const pctTicketsMes = Math.min(Math.round((cantTicketsMes / META_TICKETS_MES) * 100), 100);
       document.getElementById('textoTicketsMes').innerText = `📋 Tks Mes: ${cantTicketsMes} / ${META_TICKETS_MES}`;
       document.getElementById('porcentajeTicketsMes').innerText = `${pctTicketsMes}%`;
@@ -801,7 +793,6 @@
       document.getElementById('barraProgresoFill').style.width = `${pctTicketsMes}%`;
       document.getElementById('mensajeAnimo').innerText = `Tickets hoy: ${cantTicketsHoy} / ${META_TICKETS_DIA} requeridos`;
 
-      // 3. Jornada
       const datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
       if (datosTurno.horaInicio) calcularProgresoJornada(datosTurno.horaInicio);
 
@@ -817,7 +808,6 @@
       
       const badge = document.getElementById('contadorBoton');
       if (badge) {
-        // Refleja tickets del día / total de tickets del mes contra la meta de 312
         badge.innerText = `${ticketsHoy.length} hoy (${totalMes}/312)`;
       }
     }
@@ -851,11 +841,15 @@
       renderizarListaHistorial(filtrados.reverse());
     }
 
+    // Función actualizada para forzar la transferencia del texto del ticket a WhatsApp
     function reenviarWhatsAppHistorial(ticketId) {
       const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
       const ticket = historial.find(t => t.id == ticketId);
+      
       if (ticket && ticket.textoWhatsApp) {
-        window.open(`https://wa.me/?text=${encodeURIComponent(ticket.textoWhatsApp)}`, '_blank');
+        const textoCodificado = encodeURIComponent(ticket.textoWhatsApp);
+        const urlWA = `https://api.whatsapp.com/send?text=${textoCodificado}`;
+        window.open(urlWA, '_blank');
       } else {
         alert("No se encontró el contenido del ticket.");
       }
@@ -925,7 +919,6 @@
       mensaje += "--------------------------------\n";
       mensaje += "¡Hola! Confirmo este pedido por favor.";
 
-      // Guardar en el historial local acumulativo mensual
       let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
       const ahora = new Date();
       historial.push({
@@ -940,7 +933,6 @@
 
       const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
 
-      // Limpieza total
       carrito = {};
       horaInicioTicket = null;
       horaFinalTicket = null;
