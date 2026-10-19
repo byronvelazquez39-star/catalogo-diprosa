@@ -324,7 +324,6 @@
     let horaInicioTicket = null;
     let horaFinalTicket = null;
     
-    // REINICIO TOTAL: Borra cualquier carrito corrupto previo y arranca limpio
     let carrito = {};
     try {
       let guardado = JSON.parse(localStorage.getItem('carrito_diprosa'));
@@ -644,18 +643,21 @@
       mensaje += "¡Hola! Confirmo este pedido por favor.";
 
       const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
-      
-      window.open(urlWA, '_blank');
 
+      // Vaciar completamente el carrito antes de redirigir a WhatsApp
       carrito = {};
       horaInicioTicket = null;
       horaFinalTicket = null;
       localStorage.removeItem('carrito_diprosa');
       document.getElementById('cliente-receptor').value = "";
       document.getElementById('cliente-referencia').value = "";
+      
       actualizarUIResumen();
       renderizarCatalogo();
       cerrarTicket();
+
+      // Abrir WhatsApp después de forzar la limpieza visual del catálogo
+      window.open(urlWA, '_blank');
     }
   </script>
 
