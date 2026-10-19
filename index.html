@@ -33,40 +33,51 @@
     .welcome-banner h2 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
     .welcome-banner p { margin: 0; font-size: 13px; color: #e0f2f1; }
 
-    /* Cabecera y Botón */
+    /* Cabecera y Botones Paralelos */
     .header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
-    h1 { text-align: center; margin: 0; font-size: 20px; }
+    h1 { text-align: center; margin: 0; font-size: 18px; }
 
-    .btn-consultar-tickets {
-      background-color: #0284c7;
-      color: #ffffff;
+    .btn-group-header {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action-header {
       border: none;
-      padding: 8px 12px;
+      padding: 8px 10px;
       border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 12px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      color: #ffffff;
     }
-    .btn-consultar-tickets:hover { background-color: #0369a1; }
-    .badge-tickets {
+    .btn-metas { background-color: #0284c7; }
+    .btn-metas:hover { background-color: #0369a1; }
+    
+    .btn-sueldo { background-color: #059669; }
+    .btn-sueldo:hover { background-color: #047857; }
+
+    .badge-header {
       background-color: #ffffff;
-      color: #0284c7;
       padding: 2px 6px;
       border-radius: 10px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
     }
+    .badge-metas { color: #0284c7; }
+    .badge-sueldo { color: #059669; }
 
     .search-box {
       width: 100%;
@@ -182,14 +193,14 @@
     .modal-content {
       background: #1e1e1e;
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
       width: 100%;
-      max-width: 450px;
+      max-width: 440px;
       max-height: 88vh;
       overflow-y: auto;
       border: 1px solid #444;
     }
-    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 10px; margin-bottom: 15px; }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 8px; margin-bottom: 12px; }
     .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
     .ticket-item-info { flex-grow: 1; margin-right: 10px; }
     .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
@@ -272,7 +283,7 @@
       box-sizing: border-box;
     }
 
-    /* Estilos del Panel de Metas Mensuales y Diarias */
+    /* Estilos del Panel de Metas */
     .meta-container {
       border-radius: 8px;
       padding: 10px 12px;
@@ -314,6 +325,37 @@
     .barra-jornada-fill { height: 100%; background-color: #a78bfa; width: 0%; transition: width 0.4s; }
     .meta-jornada .mensaje-animo { color: #c4b5fd; }
 
+    /* Estilos del Resumen Financiero de Nómina (Compacto) */
+    .sueldo-card {
+      background: #111827;
+      border: 1px solid #374151;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .sueldo-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .sueldo-destacado {
+      font-size: 15px;
+      font-weight: bold;
+      color: #10b981;
+      border-top: 1px dashed #4b5563;
+      padding-top: 6px;
+      margin-top: 6px;
+    }
+    .tag-compensacion {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .tag-ok { background: #064e3b; color: #6ee7b7; }
+    .tag-penal { background: #7f1d1d; color: #fca5a5; }
+
     .ticket-historial-card {
       background: #252525;
       border: 1px solid #444;
@@ -344,11 +386,16 @@
   </div>
 
   <div class="header-bar">
-    <h1>📦 Catálogo en Línea</h1>
-    <!-- Botón superior reflejando Estado del Mes y Día -->
-    <button class="btn-consultar-tickets" onclick="abrirModalMetas()">
-      📊 Mis Metas <span id="contadorBoton" class="badge-tickets">0/312</span>
-    </button>
+    <h1>📦 Catálogo DIPROSA</h1>
+    <!-- Par de Botones Superiores Compactos -->
+    <div class="btn-group-header">
+      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
+        📊 Metas <span id="contadorBoton" class="badge-header badge-metas">0/0</span>
+      </button>
+      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
+        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,800</span>
+      </button>
+    </div>
   </div>
 
   <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
@@ -416,18 +463,18 @@
     </div>
   </div>
 
-  <!-- Modal de Consulta de Metas (Mensual y Diario) -->
+  <!-- Modal 1: Consulta de Metas (Operativas) -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Reporte de Metas (Mes y Día)</h3>
-        <p style="font-size: 11px; color: #aaa;">Ciclo: 26 días (Mes: Q81,000 | 312 Tks | 182h)</p>
+        <p style="font-size: 11px; color: #aaa;" id="subtituloMetasInfo">Cargando ciclo...</p>
       </div>
 
       <!-- 1. Meta de Venta -->
       <div class="meta-container meta-venta">
         <div class="meta-texto">
-          <span id="textoVentaMes">💰 Mes: Q0.00 / Q81,000.00</span>
+          <span id="textoVentaMes">💰 Mes: Q0.00 / Q0.00</span>
           <strong id="porcentajeVentaMes">0%</strong>
         </div>
         <div class="meta-texto" style="font-size: 10px; color: #d1fae5; margin-bottom: 4px;">
@@ -442,7 +489,7 @@
       <!-- 2. Meta de Tickets -->
       <div class="meta-container meta-tickets">
         <div class="meta-texto">
-          <span id="textoTicketsMes">📋 Tks Mes: 0 / 312</span>
+          <span id="textoTicketsMes">📋 Tks Mes: 0 / 0</span>
           <strong id="porcentajeTicketsMes">0%</strong>
         </div>
         <div class="meta-texto" style="font-size: 10px; color: #e0f2fe; margin-bottom: 4px;">
@@ -457,7 +504,7 @@
       <!-- 3. Control de Jornada -->
       <div class="meta-container meta-jornada">
         <div class="meta-texto">
-          <span id="textoJornadaMes">⏱️ Horas Mes: 0.0h / 182h</span>
+          <span id="textoJornadaMes">⏱️ Horas Mes: 0.0h / 0h</span>
           <strong id="porcentajeJornadaMes">0%</strong>
         </div>
         <div class="meta-texto" style="font-size: 10px; color: #ede9fe; margin-bottom: 4px;">
@@ -469,11 +516,11 @@
         <p id="mensajeJornada" class="mensaje-animo">Control de tiempo de trabajo</p>
       </div>
 
-      <h4 style="margin: 15px 0 8px 0; font-size: 14px; border-bottom: 1px solid #444; padding-bottom: 4px;">Tus Tickets Generados Hoy:</h4>
+      <h4 style="margin: 12px 0 6px 0; font-size: 13px; border-bottom: 1px solid #444; padding-bottom: 4px;">Tickets Generados Hoy:</h4>
       
-      <input type="text" id="buscarTicketInput" class="client-input" placeholder="🔍 Buscar ticket por cliente..." onkeyup="filtrarTicketsHistorial()" style="margin-bottom: 10px;">
+      <input type="text" id="buscarTicketInput" class="client-input" placeholder="🔍 Buscar ticket por cliente..." onkeyup="filtrarTicketsHistorial()" style="margin-bottom: 8px;">
       
-      <div id="listaTicketsContainer" style="max-height: 180px; overflow-y: auto;">
+      <div id="listaTicketsContainer" style="max-height: 160px; overflow-y: auto;">
         <!-- Se cargan dinámicamente -->
       </div>
 
@@ -481,16 +528,105 @@
     </div>
   </div>
 
+  <!-- Modal 2: Proyección de Sueldo y Liquidación (Financiero) -->
+  <div id="modal-sueldo" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>💵 Estado de Sueldo y Comisiones</h3>
+        <p style="font-size: 11px; color: #aaa;" id="subtituloSueldoInfo">Sueldo Base: Q3,600.00 (Q1,800 / Quincena)</p>
+      </div>
+
+      <div class="sueldo-card">
+        <div class="sueldo-row">
+          <span>1.ª Quincena (Pagada Integramente):</span>
+          <strong>Q 1,800.00</strong>
+        </div>
+        <div class="sueldo-row">
+          <span>2.ª Quincena (Base Fin de Mes):</span>
+          <span>Q 1,800.00</span>
+        </div>
+      </div>
+
+      <!-- Resumen de Balance de los 3 Paralelos -->
+      <div class="sueldo-card">
+        <div style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #374151; padding-bottom: 4px; margin-bottom: 6px; color: #38bdf8;">
+          ⚖️ Balance de Ejes Paralelos:
+        </div>
+        <div class="sueldo-row">
+          <span>• Venta Mes:</span>
+          <span id="sueldoVentaEstado">Q 0.00</span>
+        </div>
+        <div class="sueldo-row">
+          <span>• Tickets Mes:</span>
+          <span id="sueldoTicketsEstado">0 Tks</span>
+        </div>
+        <div class="sueldo-row">
+          <span>• Horas Mes:</span>
+          <span id="sueldoHorasEstado">0h</span>
+        </div>
+      </div>
+
+      <!-- Ajustes y Compensación Cruzada -->
+      <div class="sueldo-card">
+        <div style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #374151; padding-bottom: 4px; margin-bottom: 6px; color: #f59e0b;">
+          ⚙️ Ajuste de Nómina y Compensación:
+        </div>
+        <div class="sueldo-row">
+          <span>Comisión Venta (2.5% Excedente):</span>
+          <span id="sueldoMontoComision" style="color: #10b981;">+ Q 0.00</span>
+        </div>
+        <div class="sueldo-row">
+          <span>Aplicación Pena Máxima / Descuento:</span>
+          <span id="sueldoMontoDescuento" style="color: #f87171;">- Q 0.00</span>
+        </div>
+        <div style="font-size: 10px; color: #9ca3af; margin-top: 4px; text-align: justify;">
+          *Regla: Se compensan días a favor con déficit. Si persisten faltantes, solo se descuenta la pena máxima (el déficit más alto).
+        </div>
+
+        <div class="sueldo-row sueldo-destacado">
+          <span>Pago Final Proyectado (2.ª Quincena):</span>
+          <span id="sueldoFinalProyectado">Q 1,800.00</span>
+        </div>
+      </div>
+
+      <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
+    </div>
+  </div>
+
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
     
+    // FUNCIÓN AUTOMÁTICA DE DÍAS HÁBILES DEL MES ACTUAL (Lunes a Sábado)
+    function obtenerDiasHabilesMesActual() {
+      const ahora = new Date();
+      const año = ahora.getFullYear();
+      const mes = ahora.getMonth();
+      const ultimoDia = new Date(año, mes + 1, 0).getDate();
+      let diasHabiles = 0;
+
+      for (let d = 1; d <= ultimoDia; d++) {
+        const diaSemana = new Date(año, mes, d).getDay();
+        if (diaSemana !== 0) { // 0 = Domingo (Excluido)
+          diasHabiles++;
+        }
+      }
+      return diasHabiles;
+    }
+
+    // Configuración Automática de Metas Mensuales
+    const DIAS_CICLO = obtenerDiasHabilesMesActual(); // Calculado automáticamente cada mes
     const META_TICKETS_DIA = 12;
-    const META_TICKETS_MES = 312;
     const META_VENTA_DIA_Q = 3000.00;
-    const META_VENTA_MES_Q = 81000.00;
     const TURNO_HORAS_DIA = 7;
-    const TURNO_HORAS_MES = 182;
+
+    const META_TICKETS_MES = DIAS_CICLO * META_TICKETS_DIA;
+    const META_VENTA_MES_Q = DIAS_CICLO * META_VENTA_DIA_Q;
+    const TURNO_HORAS_MES = DIAS_CICLO * TURNO_HORAS_DIA;
     const MINUTOS_TURNO_DIA = TURNO_HORAS_DIA * 60;
+
+    const SUELDO_BASE_MES = 3600.00;
+    const SUELDO_QUINCENA = 1800.00;
+    const VALOR_DIA_TRABAJO = SUELDO_BASE_MES / DIAS_CICLO; // Valor ajustado según los días del mes
 
     let productos = [];
     let productosFiltrados = [];
@@ -519,8 +655,13 @@
     let debounceTimer;
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Actualizar subtítulos dinámicos con los datos calculados del mes
+      document.getElementById('subtituloMetasInfo').innerText = `Ciclo Automático: ${DIAS_CICLO} días hábiles (Mes: Q${META_VENTA_MES_Q.toLocaleString()} | ${META_TICKETS_MES} Tks | ${TURNO_HORAS_MES}h)`;
+      document.getElementById('subtituloSueldoInfo').innerText = `Sueldo Base: Q3,600.00 (${DIAS_CICLO} días hábiles | Q${VALOR_DIA_TRABAJO.toFixed(2)}/Día)`;
+      
       actualizarContadorBoton();
       verificarOIniciarJornada();
+      calcularProyeccionSueldo();
     });
 
     fetch('productos.json?v=' + new Date().getTime())
@@ -728,6 +869,15 @@
       document.getElementById('modal-metas').style.display = 'none';
     }
 
+    function abrirModalSueldo() {
+      document.getElementById('modal-sueldo').style.display = 'flex';
+      calcularProyeccionSueldo();
+    }
+
+    function cerrarModalSueldo() {
+      document.getElementById('modal-sueldo').style.display = 'none';
+    }
+
     function obtenerFechaHoy() {
       return new Date().toLocaleDateString();
     }
@@ -800,6 +950,92 @@
       actualizarContadorBoton();
     }
 
+    function calcularProyeccionSueldo() {
+      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
+      const totalVendidoMes = historial.reduce((acc, t) => acc + parseFloat(t.total || 0), 0);
+      const cantTicketsMes = historial.length;
+
+      const datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
+      const ahoraMs = new Date().getTime();
+      const minsHoy = datosTurno.horaInicio ? Math.floor((ahoraMs - datosTurno.horaInicio) / (1000 * 60)) : 0;
+      const horasHoy = Math.min(Math.floor(minsHoy / 60), TURNO_HORAS_DIA);
+      const horasMes = horasHoy + (historial.length > 0 ? 3 : 0);
+
+      // Eje A: Ventas
+      let comisionVenta = 0;
+      let deficitVentaQ = 0;
+      if (totalVendidoMes > META_VENTA_MES_Q) {
+        comisionVenta = (totalVendidoMes - META_VENTA_MES_Q) * 0.025;
+      } else {
+        deficitVentaQ = META_VENTA_MES_Q - totalVendidoMes;
+      }
+      let diasDeficitVenta = deficitVentaQ / META_VENTA_DIA_Q;
+      let montoDeficitVenta = diasDeficitVenta * VALOR_DIA_TRABAJO;
+
+      // Eje B: Tickets
+      let difTickets = cantTicketsMes - META_TICKETS_MES;
+      let diasBalanceTickets = difTickets / META_TICKETS_DIA;
+      let montoDeficitTickets = diasBalanceTickets < 0 ? Math.abs(diasBalanceTickets) * VALOR_DIA_TRABAJO : 0;
+
+      // Eje C: Horas
+      let difHoras = horasMes - TURNO_HORAS_MES;
+      let diasBalanceHoras = difHoras / TURNO_HORAS_DIA;
+      let montoDeficitHoras = diasBalanceHoras < 0 ? Math.abs(diasBalanceHoras) * VALOR_DIA_TRABAJO : 0;
+
+      // COMPENSACIÓN OPERATIVA
+      let diasColchonTotal = (diasBalanceTickets > 0 ? diasBalanceTickets : 0) + (diasBalanceHoras > 0 ? diasBalanceHoras : 0);
+      
+      if (diasColchonTotal > 0) {
+        if (diasBalanceTickets < 0) {
+          let absorbe = Math.min(diasColchonTotal, Math.abs(diasBalanceTickets));
+          montoDeficitTickets -= (absorbe * VALOR_DIA_TRABAJO);
+          diasColchonTotal -= absorbe;
+        }
+        if (diasBalanceHoras < 0 && diasColchonTotal > 0) {
+          let absorbe = Math.min(diasColchonTotal, Math.abs(diasBalanceHoras));
+          montoDeficitHoras -= (absorbe * VALOR_DIA_TRABAJO);
+        }
+      }
+
+      // REGLA DE LA PENA MÁXIMA
+      let penaltyMayor = Math.max(montoDeficitVenta, montoDeficitTickets, montoDeficitHoras);
+
+      // AMORTIZACIÓN CON COMISIÓN
+      let descuentoFinal = 0;
+      if (penaltyMayor > 0) {
+        if (comisionVenta >= penaltyMayor) {
+          comisionVenta -= penaltyMayor;
+          descuentoFinal = 0;
+        } else {
+          descuentoFinal = penaltyMayor - comisionVenta;
+          comisionVenta = 0;
+        }
+      }
+
+      let pagoProyectadoQuincena2 = SUELDO_QUINCENA + comisionVenta - descuentoFinal;
+
+      document.getElementById('sueldoVentaEstado').innerHTML = totalVendidoMes >= META_VENTA_MES_Q 
+        ? `<span class="tag-compensacion tag-ok">Q${totalVendidoMes.toFixed(2)} (+Q${(totalVendidoMes - META_VENTA_MES_Q).toFixed(2)})</span>`
+        : `<span class="tag-compensacion tag-penal">Q${totalVendidoMes.toFixed(2)} (-Q${deficitVentaQ.toFixed(2)})</span>`;
+
+      document.getElementById('sueldoTicketsEstado').innerHTML = cantTicketsMes >= META_TICKETS_MES
+        ? `<span class="tag-compensacion tag-ok">${cantTicketsMes} Tks (+${difTickets})</span>`
+        : `<span class="tag-compensacion tag-penal">${cantTicketsMes} Tks (${difTickets})</span>`;
+
+      document.getElementById('sueldoHorasEstado').innerHTML = horasMes >= TURNO_HORAS_MES
+        ? `<span class="tag-compensacion tag-ok">${horasMes}h (+${difHoras}h)</span>`
+        : `<span class="tag-compensacion tag-penal">${horasMes}h (${difHoras}h)</span>`;
+
+      document.getElementById('sueldoMontoComision').innerText = `+ Q ${comisionVenta.toFixed(2)}`;
+      document.getElementById('sueldoMontoDescuento').innerText = `- Q ${descuentoFinal.toFixed(2)}`;
+      document.getElementById('sueldoFinalProyectado').innerText = `Q ${Math.max(pagoProyectadoQuincena2, 0).toFixed(2)}`;
+      
+      const badgeSueldo = document.getElementById('badgeSueldo');
+      if (badgeSueldo) {
+        badgeSueldo.innerText = `Q${Math.max(pagoProyectadoQuincena2, 0).toFixed(0)}`;
+      }
+    }
+
     function actualizarContadorBoton() {
       const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
       const hoyStr = obtenerFechaHoy();
@@ -808,14 +1044,14 @@
       
       const badge = document.getElementById('contadorBoton');
       if (badge) {
-        badge.innerText = `${ticketsHoy.length} hoy (${totalMes}/312)`;
+        badge.innerText = `${ticketsHoy.length} hoy (${totalMes}/${META_TICKETS_MES})`;
       }
     }
 
     function renderizarListaHistorial(lista) {
       const container = document.getElementById('listaTicketsContainer');
       if (lista.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#888; font-size:12px; padding: 10px;">No hay tickets registrados hoy.</p>`;
+        container.innerHTML = `<p style="text-align:center; color:#888; font-size:12px; padding: 8px;">No hay tickets registrados hoy.</p>`;
         return;
       }
 
@@ -846,8 +1082,13 @@
       const ticket = historial.find(t => t.id == ticketId);
       
       if (ticket && ticket.textoWhatsApp) {
-        const urlWA = `https://api.whatsapp.com/send?phone=&text=${encodeURIComponent(ticket.textoWhatsApp)}`;
-        window.open(urlWA, '_blank');
+        navigator.clipboard.writeText(ticket.textoWhatsApp).then(() => {
+          const urlWA = `https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(ticket.textoWhatsApp)}`;
+          window.open(urlWA, '_blank');
+        }).catch(() => {
+          const urlWA = `https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(ticket.textoWhatsApp)}`;
+          window.open(urlWA, '_blank');
+        });
       } else {
         alert("No se encontró el contenido del ticket.");
       }
@@ -944,6 +1185,7 @@
       actualizarUIResumen();
       renderizarCatalogo();
       actualizarContadorBoton();
+      calcularProyeccionSueldo();
 
       window.open(urlWA, '_blank');
     }
