@@ -11,7 +11,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
       padding: 12px;
-      padding-bottom: 80px;
+      padding-bottom: 90px;
     }
 
     .header-bar {
@@ -62,6 +62,10 @@
       outline: none;
     }
 
+    .search-box::placeholder {
+      color: #64748b;
+    }
+
     .grid-productos {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -105,25 +109,9 @@
       cursor: pointer;
     }
 
-    /* PANEL DE METAS */
-    #panelResumenMetas {
-      display: none;
-      background-color: #121824;
-      border: 1px solid #0284c7;
-      border-radius: 10px;
-      padding: 12px;
-      margin-bottom: 12px;
+    .btn-agregar:active {
+      background-color: #166534;
     }
-
-    .item-meta {
-      background-color: #1e293b;
-      padding: 8px 10px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-      font-size: 0.82rem;
-    }
-
-    .item-meta strong { color: #38bdf8; }
 
     .footer-bar {
       position: fixed;
@@ -157,108 +145,102 @@
   <!-- CABECERA -->
   <div class="header-bar">
     <div class="header-title">📦 Catálogo en Línea</div>
-    <button class="btn-mis-metas" onclick="toggleResumen()">
+    <button class="btn-mis-metas">
       📋 Mis Metas <span class="badge-metas">82/312</span>
     </button>
-  </div>
-
-  <!-- PANEL DE METAS Y DIFERENCIAS -->
-  <div id="panelResumenMetas">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 4px;">
-      <span style="font-weight:bold; color:#38bdf8; font-size:0.9rem;">📊 Resumen de Avance Actual</span>
-      <button onclick="toggleResumen()" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
-    </div>
-
-    <div class="item-meta">
-      💰 <strong>Ventas:</strong> Meta Q3,000.00 | Acumulado: Q35,022.49 
-      <div style="color: #4ade80; margin-top: 2px;">Diferencia a favor: +Q32,022.49</div>
-    </div>
-
-    <div class="item-meta">
-      🎫 <strong>Tickets:</strong> Meta 312 | Real: 82 tickets 
-      <div style="color: #f87171; margin-top: 2px;">Diferencia / Faltante: -230 tickets</div>
-    </div>
-
-    <div class="item-meta">
-      ⏱️ <strong>Horas Trabajadas:</strong> Meta 182 hrs | Real: 46.3 hrs 
-      <div style="color: #f87171; margin-top: 2px;">Diferencia / Faltante: -135.7 hrs</div>
-    </div>
   </div>
 
   <!-- BUSCADOR -->
   <input type="text" class="search-box" placeholder="Buscar producto..." id="searchInput" oninput="filtrar()">
 
-  <!-- CATÁLOGO COMPLETO DE PRODUCTOS -->
+  <!-- LISTADO COMPLETO DE PRODUCTOS -->
   <div class="grid-productos" id="gridProd">
-    <!-- REEMPLAZA O PEGA AQUÍ TODO EL LISTADO COMPLETO DE TUS PRODUCTOS -->
-    <div class="card-producto">
+    <div class="card-producto" data-nombre="almohadita 4 onzas docena q.3.00">
       <div class="prod-nombre">(almohadita) 4 onzas por docena para dar Q.3.00</div>
       <div class="prod-precio">Q 29.50</div>
-      <button class="btn-agregar">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(almohadita) 4 onzas por docena para dar Q.3.00', 29.50)">+ Agregar</button>
     </div>
 
-    <div class="card-producto">
+    <div class="card-producto" data-nombre="almohadita fardo 4 onzas q.3.00">
       <div class="prod-nombre">(almohadita) fardo 4 onzas para dar Q.3.00</div>
       <div class="prod-precio">Q 110.00</div>
-      <button class="btn-agregar">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(almohadita) fardo 4 onzas para dar Q.3.00', 110.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto">
+    <div class="card-producto" data-nombre="carnaval lata soda naranjada q.3.50">
       <div class="prod-nombre">(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades', 67.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto">
+    <div class="card-producto" data-nombre="salvavidas lata limonada q.3.50">
       <div class="prod-nombre">(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(Salvavidas) en lata LIMONADA Caja de 24 unidades', 67.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto">
+    <div class="card-producto" data-nombre="salvavidas lata roja q.3.50">
       <div class="prod-nombre">(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(Salvavidas) en lata ROJA Caja de 24 unidades', 67.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto">
+    <div class="card-producto" data-nombre="salvavidas lata uva q.3.50">
       <div class="prod-nombre">(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(Salvavidas) en lata UVA Caja de 24 unidades', 67.00)">+ Agregar</button>
     </div>
-    <!-- (Puedes pegar aquí el resto de tus códigos y tarjetas de productos que tenías originalmente en tu repositorio) -->
   </div>
 
-  <!-- BARRA INFERIOR -->
+  <!-- BARRA INFERIOR DE TICKET -->
   <div class="footer-bar">
     <div>
-      <div style="font-size: 0.85rem; color: #cbd5e1;">🛒 0 ítems (Ver Ticket)</div>
-      <div style="font-size: 1rem; font-weight: bold; color: #4ade80;">Total: Q 0.00</div>
+      <div id="txtItems" style="font-size: 0.85rem; color: #cbd5e1;">🛒 0 ítems (Ver Ticket)</div>
+      <div id="txtTotal" style="font-size: 1rem; font-weight: bold; color: #4ade80;">Total: Q 0.00</div>
     </div>
-    <button class="btn-ver-ticket" onclick="verTicketCompra()">📋 Ver Ticket / Estado</button>
+    <button class="btn-ver-ticket" onclick="verTicket()">📋 Ver Ticket / Estado</button>
   </div>
 
   <script>
+    let carrito = [];
+
+    function agregar(nombre, precio) {
+      carrito.push({ nombre, precio });
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      let total = carrito.reduce((sum, item) => sum + item.precio, 0);
+      document.getElementById("txtItems").innerText = `🛒 ${carrito.length} ítems (Ver Ticket)`;
+      document.getElementById("txtTotal").innerText = `Total: Q ${total.toFixed(2)}`;
+    }
+
+    function verTicket() {
+      if (carrito.length === 0) {
+        alert("El ticket está vacío. Agrega productos al catálogo.");
+        return;
+      }
+      let detalle = "--- RESUMEN DEL TICKET ---\n";
+      let total = 0;
+      carrito.forEach((item, index) => {
+        detalle += `${index + 1}. ${item.nombre} - Q ${item.precio.toFixed(2)}\n`;
+        total += item.precio;
+      });
+      detalle += `\nTOTAL A PAGAR: Q ${total.toFixed(2)}`;
+      alert(detalle);
+    }
+
     function filtrar() {
       let query = document.getElementById("searchInput").value.toLowerCase();
       let cards = document.querySelectorAll(".card-producto");
       cards.forEach(card => {
-        let texto = card.querySelector(".prod-nombre").innerText.toLowerCase();
+        let texto = card.getAttribute("data-nombre").toLowerCase();
         if (query === "" || texto.includes(query)) {
           card.style.display = "flex";
         } else {
           card.style.display = "none";
         }
       });
-    }
-
-    function toggleResumen() {
-      let panel = document.getElementById("panelResumenMetas");
-      panel.style.display = panel.style.display === "block" ? "none" : "block";
-    }
-
-    function verTicketCompra() {
-      alert("Resumen del ticket de productos seleccionados.");
     }
   </script>
 </body>
