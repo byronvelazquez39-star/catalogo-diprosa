@@ -33,7 +33,41 @@
     .welcome-banner h2 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
     .welcome-banner p { margin: 0; font-size: 13px; color: #e0f2f1; }
 
-    h1 { text-align: center; margin-bottom: 15px; font-size: 22px; }
+    /* Contenedor de Cabecera con Botón de Metas */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    h1 { text-align: center; margin: 0; font-size: 20px; }
+
+    .btn-consultar-tickets {
+      background-color: #0284c7;
+      color: #ffffff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .btn-consultar-tickets:hover { background-color: #0369a1; }
+    .badge-tickets {
+      background-color: #ffffff;
+      color: #0284c7;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
     .search-box {
       width: 100%;
       padding: 12px;
@@ -134,7 +168,7 @@
       cursor: pointer;
     }
 
-    /* Modal Ticket */
+    /* Modales Generales */
     .modal {
       display: none;
       position: fixed;
@@ -150,8 +184,8 @@
       border-radius: 12px;
       padding: 20px;
       width: 100%;
-      max-width: 420px;
-      max-height: 85vh;
+      max-width: 450px;
+      max-height: 88vh;
       overflow-y: auto;
       border: 1px solid #444;
     }
@@ -237,6 +271,68 @@
       cursor: pointer;
       box-sizing: border-box;
     }
+
+    /* Estilos del Panel de Metas Diarias (Modal Historial) */
+    .meta-container {
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .meta-texto {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .barra-progreso-bg {
+      width: 100%;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .mensaje-animo {
+      margin: 4px 0 0 0;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .meta-venta { background-color: #064e3b; border: 1px solid #059669; }
+    .meta-venta .meta-texto { color: #a7f3d0; }
+    .barra-venta-fill { height: 100%; background-color: #10b981; width: 0%; transition: width 0.4s; }
+    .meta-venta .mensaje-animo { color: #6ee7b7; }
+
+    .meta-tickets { background-color: #0c4a6e; border: 1px solid #0284c7; }
+    .meta-tickets .meta-texto { color: #bae6fd; }
+    .barra-progreso-fill { height: 100%; background-color: #0284c7; width: 0%; transition: width 0.4s; }
+    .meta-tickets .mensaje-animo { color: #7dd3fc; }
+
+    .meta-jornada { background-color: #3b0764; border: 1px solid #8b5cf6; }
+    .meta-jornada .meta-texto { color: #ddd6fe; }
+    .barra-jornada-fill { height: 100%; background-color: #a78bfa; width: 0%; transition: width 0.4s; }
+    .meta-jornada .mensaje-animo { color: #c4b5fd; }
+
+    .ticket-historial-card {
+      background: #252525;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+    .btn-reenviar-wa {
+      background-color: var(--wa-color);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 6px;
+      width: 100%;
+    }
   </style>
 </head>
 <body>
@@ -247,7 +343,14 @@
     <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
   </div>
 
-  <h1>📦 Catálogo en Línea</h1>
+  <div class="header-bar">
+    <h1>📦 Catálogo en Línea</h1>
+    <!-- Botón de consulta con contador de metas -->
+    <button class="btn-consultar-tickets" onclick="abrirModalMetas()">
+      📋 Mis Metas <span id="contadorBoton" class="badge-tickets">0/12</span>
+    </button>
+  </div>
+
   <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
 
   <div id="catalogo" class="grid">Cargando productos...</div>
@@ -262,7 +365,7 @@
     <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
   </div>
 
-  <!-- Modal Ticket -->
+  <!-- Modal Ticket Actual (Carrito) -->
   <div id="modal-ticket" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
@@ -313,14 +416,73 @@
     </div>
   </div>
 
+  <!-- Modal de Consulta de Metas y Tickets del Día -->
+  <div id="modal-metas" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>📊 Resumen de Mi Jornada</h3>
+        <p style="font-size: 12px; color: #aaa;">Control diario de rendimiento</p>
+      </div>
+
+      <!-- 1. Meta de Venta (Q3,000) -->
+      <div class="meta-container meta-venta">
+        <div class="meta-texto">
+          <span id="textoVenta">💰 Ventas: Q0.00 / Q3,000.00</span>
+          <strong id="porcentajeVenta">0%</strong>
+        </div>
+        <div class="barra-progreso-bg">
+          <div id="barraVentaFill" class="barra-venta-fill" style="width: 0%;"></div>
+        </div>
+        <p id="mensajeVenta" class="mensaje-animo">Faltan Q3,000.00 para la meta</p>
+      </div>
+
+      <!-- 2. Meta de Tickets (12 Unidades) -->
+      <div class="meta-container meta-tickets">
+        <div class="meta-texto">
+          <span id="textoAvanceMeta">📋 Tickets: 0 / 12</span>
+          <strong id="porcentajeMeta">0%</strong>
+        </div>
+        <div class="barra-progreso-bg">
+          <div id="barraProgresoFill" class="barra-progreso-fill" style="width: 0%;"></div>
+        </div>
+        <p id="mensajeAnimo" class="mensaje-animo">¡Vamos por el primer ticket!</p>
+      </div>
+
+      <!-- 3. Control de Jornada (8 Horas) -->
+      <div class="meta-container meta-jornada">
+        <div class="meta-texto">
+          <span id="textoJornada">⏱️ Turno: 0h 0m / 8h</span>
+          <strong id="porcentajeJornada">0%</strong>
+        </div>
+        <div class="barra-progreso-bg">
+          <div id="barraJornadaFill" class="barra-jornada-fill" style="width: 0%;"></div>
+        </div>
+        <p id="mensajeJornada" class="mensaje-animo">Iniciando jornada laboral</p>
+      </div>
+
+      <h4 style="margin: 15px 0 8px 0; font-size: 14px; border-bottom: 1px solid #444; padding-bottom: 4px;">Tus Tickets Generados Hoy:</h4>
+      
+      <input type="text" id="buscarTicketInput" class="client-input" placeholder="🔍 Buscar ticket por cliente..." onkeyup="filtrarTicketsHistorial()" style="margin-bottom: 10px;">
+      
+      <div id="listaTicketsContainer" style="max-height: 200px; overflow-y: auto;">
+        <!-- Se cargan dinámicamente -->
+      </div>
+
+      <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
+    </div>
+  </div>
+
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
+    const META_TICKETS = 12;
+    const META_VENTA_Q = 3000.00;
+    const TURNO_HORAS = 8;
+    const MINUTOS_TURNO = TURNO_HORAS * 60;
 
     let productos = [];
     let productosFiltrados = [];
     let limiteActual = 40;
     
-    // Variables para capturar los tiempos del ticket
     let horaInicioTicket = null;
     let horaFinalTicket = null;
     
@@ -342,6 +504,11 @@
     }
 
     let debounceTimer;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      actualizarContadorBoton();
+      verificarOIniciarJornada();
+    });
 
     fetch('productos.json?v=' + new Date().getTime())
       .then(res => res.json())
@@ -400,12 +567,7 @@
       });
       
       contenedor.innerHTML = html;
-
-      if (productosFiltrados.length > limiteActual) {
-        document.getElementById('btn-mas').style.display = 'block';
-      } else {
-        document.getElementById('btn-mas').style.display = 'none';
-      }
+      document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
     }
 
     function cargarMasProductos() {
@@ -427,14 +589,8 @@
       }
       
       carrito[pKey].cantidad += parseInt(delta);
-
-      if (carrito[pKey].cantidad <= 0) {
-        delete carrito[pKey];
-      }
-
-      if (Object.keys(carrito).length === 0) {
-        horaInicioTicket = null;
-      }
+      if (carrito[pKey].cantidad <= 0) delete carrito[pKey];
+      if (Object.keys(carrito).length === 0) horaInicioTicket = null;
 
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
       actualizarUIResumen();
@@ -444,12 +600,8 @@
     function eliminarDelTicketDirecto(nombreB64, precio) {
       const nombre = decodeURIComponent(escape(atob(nombreB64)));
       const pKey = obtenerKey(nombre, precio);
-      
       delete carrito[pKey];
-
-      if (Object.keys(carrito).length === 0) {
-        horaInicioTicket = null;
-      }
+      if (Object.keys(carrito).length === 0) horaInicioTicket = null;
 
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
       actualizarUIResumen();
@@ -462,10 +614,8 @@
       for (let k in carrito) {
         let item = carrito[k];
         if (item && !isNaN(item.cantidad) && !isNaN(item.precio)) {
-          let cant = parseInt(item.cantidad);
-          let prec = parseFloat(item.precio);
-          totalCant += cant;
-          totalMonto += cant * prec;
+          totalCant += parseInt(item.cantidad);
+          totalMonto += parseInt(item.cantidad) * parseFloat(item.precio);
         }
       }
       document.getElementById('cant-items').innerText = totalCant;
@@ -481,13 +631,7 @@
       debounceTimer = setTimeout(() => {
         const q = document.getElementById('buscar').value.toLowerCase().trim();
         limiteActual = 40;
-        if (q === "") {
-          productosFiltrados = productos;
-        } else {
-          productosFiltrados = productos.filter(p => 
-            (p.nombre && p.nombre.toLowerCase().includes(q))
-          );
-        }
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre && p.nombre.toLowerCase().includes(q));
         renderizarCatalogo();
       }, 200);
     }
@@ -498,13 +642,16 @@
     }
 
     function abrirTicket() {
-      const keys = Object.keys(carrito);
-      if(keys.length === 0) {
+      if(Object.keys(carrito).length === 0) {
         alert("El carrito está vacío. Agrega productos primero.");
         return;
       }
       actualizarContenidoTicket();
       document.getElementById('modal-ticket').style.display = 'flex';
+    }
+
+    function cerrarTicket() {
+      document.getElementById('modal-ticket').style.display = 'none';
     }
 
     function actualizarContenidoTicket() {
@@ -526,7 +673,6 @@
         let prec = parseFloat(item.precio);
         const subtotal = cant * prec;
         subtotalGeneral += subtotal;
-        
         const nombreB64 = btoa(unescape(encodeURIComponent(item.nombre)));
 
         contenedor.innerHTML += `
@@ -554,20 +700,130 @@
       document.getElementById('txt-pct').innerText = pctDescuento;
       document.getElementById('ticket-descuento-monto').innerText = montoDescuento.toFixed(2);
       document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
-      
-      if(pctDescuento > 0) {
-        document.getElementById('fila-rebaja').style.display = 'flex';
-      } else {
-        document.getElementById('fila-rebaja').style.display = 'none';
-      }
+      document.getElementById('fila-rebaja').style.display = pctDescuento > 0 ? 'flex' : 'none';
 
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      const numActual = obtenerSiguienteTicket();
-      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numActual).padStart(8, '0');
+      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(obtenerSiguienteTicket()).padStart(8, '0');
     }
 
-    function cerrarTicket() {
-      document.getElementById('modal-ticket').style.display = 'none';
+    // Funciones del Modal de Metas y Jornada
+    function abrirModalMetas() {
+      document.getElementById('modal-metas').style.display = 'flex';
+      cargarDatosMetas();
+    }
+
+    function cerrarModalMetas() {
+      document.getElementById('modal-metas').style.display = 'none';
+    }
+
+    function obtenerFechaHoy() {
+      return new Date().toLocaleDateString();
+    }
+
+    function verificarOIniciarJornada() {
+      const hoyStr = obtenerFechaHoy();
+      let datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
+      if (!datosTurno.fecha || datosTurno.fecha !== hoyStr) {
+        datosTurno = { fecha: hoyStr, horaInicio: new Date().getTime() };
+        localStorage.setItem('turno_trabajo', JSON.stringify(datosTurno));
+      }
+      calcularProgresoJornada(datosTurno.horaInicio);
+    }
+
+    function calcularProgresoJornada(horaInicioMs) {
+      const ahoraMs = new Date().getTime();
+      const minutosTranscurridos = Math.floor((ahoraMs - horaInicioMs) / (1000 * 60));
+      const minutosActuales = Math.min(minutosTranscurridos, MINUTOS_TURNO);
+      const porcentaje = Math.min(Math.round((minutosActuales / MINUTOS_TURNO) * 100), 100);
+      
+      const horas = Math.floor(minutosActuales / 60);
+      const mins = minutosActuales % 60;
+
+      document.getElementById('textoJornada').innerText = `⏱️ Turno: ${horas}h ${mins}m / ${TURNO_HORAS}h`;
+      document.getElementById('porcentajeJornada').innerText = `${porcentaje}%`;
+      document.getElementById('barraJornadaFill').style.width = `${porcentaje}%`;
+
+      const msg = document.getElementById('mensajeJornada');
+      if (minutosActuales >= MINUTOS_TURNO) {
+        msg.innerText = "🏁 Jornada completada con éxito.";
+      } else {
+        msg.innerText = `Restan aprox. ${TURNO_HORAS - horas}h de turno.`;
+      }
+    }
+
+    function cargarDatosMetas() {
+      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
+      const hoyStr = obtenerFechaHoy();
+      const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
+
+      const totalVendidoHoy = ticketsHoy.reduce((acc, t) => acc + parseFloat(t.total || 0), 0);
+
+      // Barra Ventas
+      const pctVenta = Math.min(Math.round((totalVendidoHoy / META_VENTA_Q) * 100), 100);
+      document.getElementById('textoVenta').innerText = `💰 Ventas: Q${totalVendidoHoy.toFixed(2)} / Q${META_VENTA_Q.toFixed(2)}`;
+      document.getElementById('porcentajeVenta').innerText = `${pctVenta}%`;
+      document.getElementById('barraVentaFill').style.width = `${pctVenta}%`;
+      document.getElementById('mensajeVenta').innerText = totalVendidoHoy >= META_VENTA_Q ? "🏆 ¡Meta de venta cumplida!" : `Faltan Q${(META_VENTA_Q - totalVendidoHoy).toFixed(2)}`;
+
+      // Barra Tickets
+      const cantTickets = ticketsHoy.length;
+      const pctTickets = Math.min(Math.round((cantTickets / META_TICKETS) * 100), 100);
+      document.getElementById('textoAvanceMeta').innerText = `📋 Tickets: ${cantTickets} / ${META_TICKETS}`;
+      document.getElementById('porcentajeMeta').innerText = `${pctTickets}%`;
+      document.getElementById('barraProgresoFill').style.width = `${pctTickets}%`;
+      document.getElementById('mensajeAnimo').innerText = cantTickets >= META_TICKETS ? "🎉 ¡12 tickets logrados!" : `Te faltan ${META_TICKETS - cantTickets} ticket(s)`;
+
+      // Jornada
+      const datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
+      if (datosTurno.horaInicio) calcularProgresoJornada(datosTurno.horaInicio);
+
+      renderizarListaHistorial(ticketsHoy.reverse());
+    }
+
+    function actualizarContadorBoton() {
+      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
+      const hoyStr = obtenerFechaHoy();
+      const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
+      document.getElementById('contadorBoton').innerText = `${ticketsHoy.length}/${META_TICKETS}`;
+    }
+
+    function renderizarListaHistorial(lista) {
+      const container = document.getElementById('listaTicketsContainer');
+      if (lista.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:#888; font-size:12px; padding: 10px;">No hay tickets registrados hoy.</p>`;
+        return;
+      }
+
+      container.innerHTML = lista.map(t => `
+        <div class="ticket-historial-card">
+          <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 12px;">
+            <span>#${t.id} - ${t.cliente}</span>
+            <span style="color: #10b981;">Q${parseFloat(t.total || 0).toFixed(2)}</span>
+          </div>
+          <div style="font-size: 11px; color: #aaa; margin-top: 2px;">Hora: ${t.hora}</div>
+          <button class="btn-reenviar-wa" onclick="reenviarWhatsAppHistorial('${t.id}')">📲 Reenviar por WhatsApp</button>
+        </div>
+      `).join('');
+    }
+
+    function filtrarTicketsHistorial() {
+      const busqueda = document.getElementById('buscarTicketInput').value.toLowerCase();
+      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
+      const hoyStr = obtenerFechaHoy();
+
+      const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
+      const filtrados = ticketsHoy.filter(t => t.cliente && t.cliente.toLowerCase().includes(busqueda));
+      renderizarListaHistorial(filtrados.reverse());
+    }
+
+    function reenviarWhatsAppHistorial(ticketId) {
+      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
+      const ticket = historial.find(t => t.id == ticketId);
+      if (ticket && ticket.textoWhatsApp) {
+        window.open(`https://wa.me/?text=${encodeURIComponent(ticket.textoWhatsApp)}`, '_blank');
+      } else {
+        alert("No se encontró el contenido del ticket.");
+      }
     }
 
     function enviarWhatsAppYLimpiar() {
@@ -587,9 +843,7 @@
       }
 
       horaFinalTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      if (!horaInicioTicket) {
-        horaInicioTicket = horaFinalTicket;
-      }
+      if (!horaInicioTicket) horaInicioTicket = horaFinalTicket;
 
       let numTicketNum = obtenerSiguienteTicket();
       localStorage.setItem('correlativo_ticket', numTicketNum);
@@ -622,27 +876,36 @@
       keys.forEach(k => {
         const item = carrito[k];
         if (!item || isNaN(item.cantidad) || isNaN(item.precio)) return;
-
         let cant = parseInt(item.cantidad);
         let prec = parseFloat(item.precio);
-        const subtotal = cant * prec;
         mensaje += i + ". " + item.nombre + "\n";
-        mensaje += "   Cant: " + cant + " x Q" + prec.toFixed(2) + " = Q" + subtotal.toFixed(2) + "\n";
+        mensaje += "   Cant: " + cant + " x Q" + prec.toFixed(2) + " = Q" + (cant * prec).toFixed(2) + "\n";
         i++;
       });
 
       mensaje += "--------------------------------\n";
       mensaje += "Subtotal: Q" + subtotalGeneral.toFixed(2) + "\n";
-      if(pctDescuento > 0) {
-        mensaje += "Descuento (" + pctDescuento + "%): -Q" + montoDescuento.toFixed(2) + "\n";
-      }
+      if(pctDescuento > 0) mensaje += "Descuento (" + pctDescuento + "%): -Q" + montoDescuento.toFixed(2) + "\n";
       mensaje += "TOTAL A PAGAR: Q" + totalFinal.toFixed(2) + "\n";
       mensaje += "--------------------------------\n";
       mensaje += "¡Hola! Confirmo este pedido por favor.";
 
+      // Guardar en el historial de tickets del día
+      let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
+      const ahora = new Date();
+      historial.push({
+        id: String(numTicketNum).padStart(8, '0'),
+        cliente: receptor,
+        fechaCorta: ahora.toLocaleDateString(),
+        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        total: totalFinal,
+        textoWhatsApp: mensaje
+      });
+      localStorage.setItem('historial_tickets', JSON.stringify(historial));
+
       const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
 
-      // Limpieza total y forzada del carrito, horas y inputs PRIMERO
+      // Limpieza total
       carrito = {};
       horaInicioTicket = null;
       horaFinalTicket = null;
@@ -652,12 +915,11 @@
       document.getElementById('cliente-referencia').value = "";
       document.getElementById('descuento-pct').value = "0";
 
-      // Cierra el modal y actualiza la pantalla del catálogo a 0
       cerrarTicket();
       actualizarUIResumen();
       renderizarCatalogo();
+      actualizarContadorBoton();
 
-      // Abre WhatsApp al final
       window.open(urlWA, '_blank');
     }
   </script>
