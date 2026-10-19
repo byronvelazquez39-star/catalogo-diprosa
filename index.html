@@ -91,15 +91,13 @@
     .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 12px 15px; border-radius: 6px; font-weight: bold; margin-top: 5px; font-size: 16px; cursor: pointer; }
 
-    .meta-container { border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
-    .meta-texto { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
-    .meta-venta { background-color: #064e3b; border: 1px solid #059669; color: #a7f3d0; }
-    .meta-tickets { background-color: #0c4a6e; border: 1px solid #0284c7; color: #bae6fd; }
-    .meta-colchon { background-color: #78350f; border: 1px solid #d97706; color: #fde68a; }
+    .meta-box { background: #1a2e26; border: 1px solid #059669; border-radius: 8px; padding: 10px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; }
+    .meta-box h4 { margin: 0 0 6px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
+    .meta-line { display: flex; justify-content: space-between; margin-bottom: 3px; }
 
-    .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
-    .sueldo-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
-    .sueldo-destacado { font-size: 15px; font-weight: bold; color: #10b981; border-top: 1px dashed #4b5563; padding-top: 6px; margin-top: 6px; }
+    .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
+    .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .sueldo-destacado { font-size: 14px; font-weight: bold; color: #10b981; border-top: 1px dashed #4b5563; padding-top: 6px; margin-top: 6px; }
     
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
@@ -114,7 +112,7 @@
         📊 Metas <span id="contadorBoton" class="badge-header badge-metas">109 Tks</span>
       </button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
-        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,800</span>
+        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,666.67</span>
       </button>
     </div>
   </div>
@@ -169,43 +167,58 @@
     </div>
   </div>
 
-  <!-- MODAL METAS CON COLCHÓN -->
+  <!-- MODAL METAS Y DESGLOSE DE TRES PARALELOS -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Reporte de Metas (Al 16 de Octubre)</h3>
+        <h3>📊 Control de Metas (Al 16 de Octubre)</h3>
       </div>
-      <div class="meta-container meta-venta">
-        <div class="meta-texto"><span>💰 Venta Acumulada:</span><strong>Q35,022.49</strong></div>
-        <div class="meta-texto" style="font-size: 11px; margin-top: 2px; color: #6ee7b7;"><span>Meta Mensual Base: Q81,000.00</span></div>
+
+      <!-- VENTA -->
+      <div class="meta-box">
+        <h4>💰 1. Paralelo de Ventas</h4>
+        <div class="meta-line"><span>Venta Acumulada:</span> <strong>Q 35,022.49</strong></div>
+        <div class="meta-line"><span>Meta Mensual:</span> <span>- Q 81,000.00</span></div>
+        <div class="meta-line" style="border-top: 1px solid #059669; padding-top: 3px; font-weight: bold;"><span>Faltante:</span> <span style="color: #fca5a5;">Q 45,977.51</span></div>
+        <div class="meta-line" style="margin-top: 4px; color: #93c5fd;"><span>📅 Días restantes (12):</span> <strong>Vender Q 3,831.46 / día</strong></div>
       </div>
-      <div class="meta-container meta-tickets">
-        <div class="meta-texto"><span>📋 Tiquetes Registrados:</span><strong>109 Tks</strong></div>
-        <div class="meta-texto" style="font-size: 11px; margin-top: 2px; color: #7dd3fc;"><span>Meta Tiquetes Mes: 324 Tks</span></div>
+
+      <!-- TIQUETES -->
+      <div class="meta-box" style="background: #082f49; border-color: #0284c7; color: #bae6fd;">
+        <h4 style="color: #38bdf8; border-color: #0284c7;">📋 2. Paralelo de Tiquetes</h4>
+        <div class="meta-line"><span>Tiquetes Acumulados:</span> <strong>109 Tks</strong></div>
+        <div class="meta-line"><span>Meta Tiquetes Mes:</span> <span>- 324 Tks</span></div>
+        <div class="meta-line" style="border-top: 1px solid #0284c7; padding-top: 3px; font-weight: bold;"><span>Déficit / Faltante:</span> <span style="color: #fca5a5;">215 Tks (~18 Tks/día)</span></div>
       </div>
-      <div class="meta-container meta-colchon">
-        <div class="meta-texto"><span>🧮 Colchón de Venta (Restante):</span><strong id="colchonVenta">Calculando...</strong></div>
-        <div class="meta-texto" style="font-size: 11px; margin-top: 2px; color: #fef08a;"><span>Colchón Tiquetes: <strong id="colchonTickets">Calculando...</strong></span></div>
+
+      <!-- HORAS TRABAJADAS -->
+      <div class="meta-box" style="background: #2e1065; border-color: #7c3aed; color: #ede9fe;">
+        <h4 style="color: #a78bfa; border-color: #7c3aed;">⏱️ 3. Paralelo de Horas</h4>
+        <div class="meta-line"><span>Horas Acumuladas:</span> <strong>98 horas</strong></div>
+        <div class="meta-line"><span>Meta Horas (189h):</span> <span>- 189 horas</span></div>
+        <div class="meta-line" style="border-top: 1px solid #7c3aed; padding-top: 3px; font-weight: bold;"><span>Déficit de Horas:</span> <span style="color: #fca5a5;">91 horas pendientes</span></div>
       </div>
-      <div class="meta-container" style="background: #2e1065; border: 1px solid #7c3aed; color: #ede9fe; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 10px;">
-        ⏱️ <b>Horas Trabajadas:</b> 98 horas al 16 de octubre
-      </div>
+
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte del Día a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO -->
+  <!-- MODAL SUELDO Y REGLA DE TRES PARALELOS -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Estado de Sueldo y Comisiones</h3>
+        <h3>💵 Nómina y Evaluación de Sueldo</h3>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Sueldo Base Quincenal:</span><strong>Q 1,800.00</strong></div>
-        <div class="sueldo-row"><span>Venta Acumulada (16 Oct):</span><strong style="color: #38bdf8;">Q 35,022.49</strong></div>
-        <div class="sueldo-row"><span>Tiquetes / Horas:</span><span>109 Tks | 98h</span></div>
-        <div class="sueldo-row sueldo-destacado"><span>Base Quincenal Actual:</span><span>Q 1,800.00</span></div>
+        <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,800.00</strong></div>
+        <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,800.00</span></div>
+        <div class="sueldo-row" style="color: #fca5a5;"><span>Déficit Mayor (Horas / Tiquetes):</span><span>Evaluación cruzada activa</span></div>
+        <div class="sueldo-row" style="color: #38bdf8;">Valor del Día de Trabajo:</span><span>Q 133.33</span></div>
+        <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span id="pagoQuincena2">Q 1,666.67</span></div>
+        <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
+          <span>Sueldo Total Mes Proyectado:</span><span id="sueldoTotalMes">Q 3,466.67</span>
+        </div>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
@@ -214,25 +227,14 @@
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
     const VENDEDOR_ACTUAL = "ESTUARDO";
-    const META_VENTA_MES = 81000.00;
-    const META_TICKETS_MES = 324;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     try { carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('contadorBoton').innerText = "109 Tks";
-      document.getElementById('badgeSueldo').innerText = "Q1,800";
+      document.getElementById('badgeSueldo').innerText = "Q1,666.67";
       
-      // Calcular colchones
-      let ventaActual = 35022.49;
-      let tiquetesActuales = 109;
-      let colchonV = META_VENTA_MES - ventaActual;
-      let colchonT = META_TICKETS_MES - tiquetesActuales;
-
-      document.getElementById('colchonVenta').innerText = colchonV > 0 ? `Faltan Q${colchonV.toFixed(2)}` : `¡Meta superada por Q${Math.abs(colchonV).toFixed(2)}!`;
-      document.getElementById('colchonTickets').innerText = colchonT > 0 ? `Faltan ${colchonT} tks` : `¡Meta de tks superada!`;
-
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
@@ -338,8 +340,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let colchonV = META_VENTA_MES - 35022.49;
-      let msg = `📊 *REPORTE OFICIAL AL 16 DE OCTUBRE*\n👤 *Vendedor:* ESTUARDO\n--------------------------------\n💰 *Venta:* Q35,022.49\n📋 *Tiquetes:* 109 Tks\n⏱️ *Horas:* 98h\n🧮 *Faltante para Meta:* Q${colchonV.toFixed(2)}\n--------------------------------\n¡Hola don Byron! Le envío el acumulado oficial.`;
+      let msg = `📊 *REPORTE OFICIAL TRES PARALELOS - 16 OCT*\n👤 *Vendedor:* ESTUARDO\n--------------------------------\n💰 *Venta:* Q35,022.49 / Q81,000 (Faltan Q45,977.51 | Cuota diaria: Q3,831.46)\n📋 *Tiquetes:* 109 / 324 Tks (Faltan 215 Tks)\n⏱️ *Horas:* 98 / 189 hrs (Faltan 91 hrs)\n--------------------------------\n¡Hola don Byron! Le envío el acumulado oficial de ruta.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
