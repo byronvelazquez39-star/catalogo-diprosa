@@ -33,7 +33,7 @@
     .welcome-banner h2 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
     .welcome-banner p { margin: 0; font-size: 13px; color: #e0f2f1; }
 
-    /* Cabecera y Botones Paralelos */
+    /* Cabecera y Botones */
     .header-bar {
       display: flex;
       justify-content: space-between;
@@ -325,7 +325,7 @@
     .barra-jornada-fill { height: 100%; background-color: #a78bfa; width: 0%; transition: width 0.4s; }
     .meta-jornada .mensaje-animo { color: #c4b5fd; }
 
-    /* Estilos del Resumen Financiero de Nómina */
+    /* Estilos del Resumen Financiero */
     .sueldo-card {
       background: #111827;
       border: 1px solid #374151;
@@ -389,13 +389,29 @@
       font-weight: bold;
       cursor: pointer;
     }
+    .btn-corte-diario {
+      background-color: #059669;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Saludo de bienvenida -->
+  <!-- Saludo de bienvenida personalizado -->
   <div class="welcome-banner">
-    <h2>👋 ¡Bienvenido a DIPROSA!</h2>
+    <h2 id="saludoVendedor">👋 ¡Bienvenido a DIPROSA!</h2>
     <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
   </div>
 
@@ -524,11 +540,16 @@
         <p id="mensajeJornada" class="mensaje-animo">Control de tiempo de trabajo</p>
       </div>
 
+      <!-- Botón para reportar el avance del día directamente a don Byron -->
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">
+        📲 Enviar Reporte del Día a don Byron
+      </button>
+
       <h4 style="margin: 12px 0 6px 0; font-size: 13px; border-bottom: 1px solid #444; padding-bottom: 4px;">Tickets Generados Hoy:</h4>
       
       <input type="text" id="buscarTicketInput" class="client-input" placeholder="🔍 Buscar ticket por cliente..." onkeyup="filtrarTicketsHistorial()" style="margin-bottom: 8px;">
       
-      <div id="listaTicketsContainer" style="max-height: 180px; overflow-y: auto;">
+      <div id="listaTicketsContainer" style="max-height: 160px; overflow-y: auto;">
         <!-- Se cargan dinámicamente -->
       </div>
 
@@ -602,6 +623,14 @@
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
     
+    // DETECCION DE VENDEDOR SEGUN SU ENLACE URL
+    const urlParams = new URLSearchParams(window.location.search);
+    let nombreVendedorParam = urlParams.get('vendedor');
+    if (nombreVendedorParam) {
+      localStorage.setItem('vendedor_diprosa', nombreVendedorParam.toUpperCase());
+    }
+    const VENDEDOR_ACTUAL = localStorage.getItem('vendedor_diprosa') || "GENERAL";
+
     function obtenerDiasHabilesMesActual() {
       const ahora = new Date();
       const año = ahora.getFullYear();
@@ -659,7 +688,10 @@
     let debounceTimer;
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('subtituloMetasInfo').innerText = `Ciclo Automático: ${DIAS_CICLO} días hábiles (Mes: Q${META_VENTA_MES_Q.toLocaleString()} | ${META_TICKETS_MES} Tks | ${TURNO_HORAS_MES}h)`;
+      if (VENDEDOR_ACTUAL !== "GENERAL") {
+        document.getElementById('saludoVendedor').innerText = `👋 ¡Bienvenido ${VENDEDOR_ACTUAL}!`;
+      }
+      document.getElementById('subtituloMetasInfo').innerText = `Ciclo: ${DIAS_CICLO} días hábiles (Mes: Q${META_VENTA_MES_Q.toLocaleString()} | ${META_TICKETS_MES} Tks | ${TURNO_HORAS_MES}h)`;
       document.getElementById('subtituloSueldoInfo').innerText = `Sueldo Base: Q3,600.00 (${DIAS_CICLO} días hábiles | Q${VALOR_DIA_TRABAJO.toFixed(2)}/Día)`;
       
       actualizarContadorBoton();
@@ -964,7 +996,6 @@
       const horasHoy = Math.min(Math.floor(minsHoy / 60), TURNO_HORAS_DIA);
       const horasMes = horasHoy + (historial.length > 0 ? 3 : 0);
 
-      // Eje A: Ventas
       let comisionVenta = 0;
       let deficitVentaQ = 0;
       if (totalVendidoMes > META_VENTA_MES_Q) {
@@ -975,17 +1006,14 @@
       let diasDeficitVenta = deficitVentaQ / META_VENTA_DIA_Q;
       let montoDeficitVenta = diasDeficitVenta * VALOR_DIA_TRABAJO;
 
-      // Eje B: Tickets
       let difTickets = cantTicketsMes - META_TICKETS_MES;
       let diasBalanceTickets = difTickets / META_TICKETS_DIA;
       let montoDeficitTickets = diasBalanceTickets < 0 ? Math.abs(diasBalanceTickets) * VALOR_DIA_TRABAJO : 0;
 
-      // Eje C: Horas
       let difHoras = horasMes - TURNO_HORAS_MES;
       let diasBalanceHoras = difHoras / TURNO_HORAS_DIA;
       let montoDeficitHoras = diasBalanceHoras < 0 ? Math.abs(diasBalanceHoras) * VALOR_DIA_TRABAJO : 0;
 
-      // COMPENSACIÓN OPERATIVA
       let diasColchonTotal = (diasBalanceTickets > 0 ? diasBalanceTickets : 0) + (diasBalanceHoras > 0 ? diasBalanceHoras : 0);
       
       if (diasColchonTotal > 0) {
@@ -1000,10 +1028,8 @@
         }
       }
 
-      // REGLA DE LA PENA MÁXIMA
       let penaltyMayor = Math.max(montoDeficitVenta, montoDeficitTickets, montoDeficitHoras);
 
-      // AMORTIZACIÓN CON COMISIÓN
       let descuentoFinal = 0;
       if (penaltyMayor > 0) {
         if (comisionVenta >= penaltyMayor) {
@@ -1083,29 +1109,57 @@
       renderizarListaHistorial(filtrados.reverse());
     }
 
-    // NUEVA FUNCIÓN: ELIMINAR / CANCELAR TICKET GENERADO
     function eliminarTicketHistorial(ticketId) {
       let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
       const ticketIndex = historial.findIndex(t => t.id == ticketId);
       
       if (ticketIndex !== -1) {
         const ticket = historial[ticketIndex];
-        const confirmar = confirm(`¿Estás seguro de cancelar/eliminar el Ticket #${ticket.id} de "${ticket.cliente}" por Q${parseFloat(ticket.total).toFixed(2)}?\n\nEsto restará la venta y el ticket del reporte.`);
+        const confirmar = confirm(`¿Estás seguro de cancelar el Ticket #${ticket.id} de "${ticket.cliente}" por Q${parseFloat(ticket.total).toFixed(2)}?`);
         
         if (confirmar) {
           historial.splice(ticketIndex, 1);
           localStorage.setItem('historial_tickets', JSON.stringify(historial));
           
-          // Recalcular métricas en vivo
           cargarDatosMetas();
           calcularProyeccionSueldo();
           actualizarContadorBoton();
           
-          alert("El ticket ha sido eliminado correctamente del reporte.");
+          alert("Ticket eliminado correctamente.");
         }
-      } else {
-        alert("No se encontró el ticket especificado.");
       }
+    }
+
+    // FUNCIÓN PARA ENVIAR CORTE DEL DÍA A DON BYRON
+    function enviarCorteDiarioWA() {
+      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
+      const hoyStr = obtenerFechaHoy();
+      const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
+
+      const totalVendidoHoy = ticketsHoy.reduce((acc, t) => acc + parseFloat(t.total || 0), 0);
+      const totalVendidoMes = historial.reduce((acc, t) => acc + parseFloat(t.total || 0), 0);
+
+      const datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
+      const ahoraMs = new Date().getTime();
+      const minsHoy = datosTurno.horaInicio ? Math.floor((ahoraMs - datosTurno.horaInicio) / (1000 * 60)) : 0;
+      const horasHoy = Math.floor(minsHoy / 60);
+      const minsRestantes = minsHoy % 60;
+
+      let reporte = `📊 *CORTE DIARIO DE VENTA - DIPROSA*\n`;
+      reporte += `👤 *Vendedor:* ${VENDEDOR_ACTUAL}\n`;
+      reporte += `📅 *Fecha:* ${hoyStr}\n`;
+      reporte += `--------------------------------\n`;
+      reporte += `💰 *Venta Hoy:* Q${totalVendidoHoy.toFixed(2)} / Q${META_VENTA_DIA_Q.toFixed(2)}\n`;
+      reporte += `📋 *Tickets Hoy:* ${ticketsHoy.length} / ${META_TICKETS_DIA}\n`;
+      reporte += `⏱️ *Horas Hoy:* ${horasHoy}h ${minsRestantes}m / 7h\n`;
+      reporte += `--------------------------------\n`;
+      reporte += `📈 *Acumulado Venta Mes:* Q${totalVendidoMes.toFixed(2)}\n`;
+      reporte += `🧾 *Acumulado Tickets Mes:* ${historial.length} Tks\n`;
+      reporte += `--------------------------------\n`;
+      reporte += `¡Hola don Byron! Le envío mi corte de hoy.`;
+
+      const urlWA = `https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(reporte)}`;
+      window.open(urlWA, '_blank');
     }
 
     function reenviarWhatsAppHistorial(ticketId) {
@@ -1160,7 +1214,8 @@
       const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
       const totalFinal = subtotalGeneral - montoDescuento;
 
-      let mensaje = "*DISTRIBUIDORA DIPROSITRIX*\n";
+      let mensaje = "*DISTRIBUIDORA DIPROSA*\n";
+      mensaje += "👤 *Vendedor:* " + VENDEDOR_ACTUAL + "\n";
       mensaje += "*" + numTicketStr + "*\n";
       mensaje += "Fecha: " + new Date().toLocaleDateString('es-GT') + "\n";
       mensaje += "⏱️ Hora Inicio: " + horaInicioTicket + "\n";
