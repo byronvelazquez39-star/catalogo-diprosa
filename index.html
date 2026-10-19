@@ -153,42 +153,42 @@
   <!-- BUSCADOR -->
   <input type="text" class="search-box" placeholder="Buscar producto..." id="searchInput" oninput="filtrar()">
 
-  <!-- LISTADO COMPLETO DE PRODUCTOS -->
+  <!-- LISTADO DE PRODUCTOS -->
   <div class="grid-productos" id="gridProd">
-    <div class="card-producto" data-nombre="almohadita 4 onzas docena q.3.00">
+    <div class="card-producto" data-search="almohadita 4 onzas docena q.3.00">
       <div class="prod-nombre">(almohadita) 4 onzas por docena para dar Q.3.00</div>
       <div class="prod-precio">Q 29.50</div>
-      <button class="btn-agregar" onclick="agregar('(almohadita) 4 onzas por docena para dar Q.3.00', 29.50)">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(almohadita) 4 onzas por docena', 29.50)">+ Agregar</button>
     </div>
 
-    <div class="card-producto" data-nombre="almohadita fardo 4 onzas q.3.00">
+    <div class="card-producto" data-search="almohadita fardo 4 onzas q.3.00">
       <div class="prod-nombre">(almohadita) fardo 4 onzas para dar Q.3.00</div>
       <div class="prod-precio">Q 110.00</div>
-      <button class="btn-agregar" onclick="agregar('(almohadita) fardo 4 onzas para dar Q.3.00', 110.00)">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(almohadita) fardo 4 onzas', 110.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto" data-nombre="carnaval lata soda naranjada q.3.50">
+    <div class="card-producto" data-search="carnaval lata soda naranjada q.3.50">
       <div class="prod-nombre">(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades', 67.00)">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(CARNAVAL) en lata SODA', 67.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto" data-nombre="salvavidas lata limonada q.3.50">
+    <div class="card-producto" data-search="salvavidas lata limonada q.3.50">
       <div class="prod-nombre">(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(Salvavidas) en lata LIMONADA Caja de 24 unidades', 67.00)">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(Salvavidas) LIMONADA', 67.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto" data-nombre="salvavidas lata roja q.3.50">
+    <div class="card-producto" data-search="salvavidas lata roja q.3.50">
       <div class="prod-nombre">(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(Salvavidas) en lata ROJA Caja de 24 unidades', 67.00)">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(Salvavidas) ROJA', 67.00)">+ Agregar</button>
     </div>
 
-    <div class="card-producto" data-nombre="salvavidas lata uva q.3.50">
+    <div class="card-producto" data-search="salvavidas lata uva q.3.50">
       <div class="prod-nombre">(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50</div>
       <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(Salvavidas) en lata UVA Caja de 24 unidades', 67.00)">+ Agregar</button>
+      <button class="btn-agregar" onclick="agregar('(Salvavidas) UVA', 67.00)">+ Agregar</button>
     </div>
   </div>
 
@@ -234,7 +234,7 @@
       let query = document.getElementById("searchInput").value.toLowerCase();
       let cards = document.querySelectorAll(".card-producto");
       cards.forEach(card => {
-        let texto = card.getAttribute("data-nombre").toLowerCase();
+        let texto = card.getAttribute("data-search").toLowerCase();
         if (query === "" || texto.includes(query)) {
           card.style.display = "flex";
         } else {
