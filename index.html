@@ -92,9 +92,10 @@
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 12px 15px; border-radius: 6px; font-weight: bold; margin-top: 5px; font-size: 16px; cursor: pointer; }
 
     .meta-container { border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
-    .meta-texto { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; }
+    .meta-texto { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
     .meta-venta { background-color: #064e3b; border: 1px solid #059669; color: #a7f3d0; }
     .meta-tickets { background-color: #0c4a6e; border: 1px solid #0284c7; color: #bae6fd; }
+    .meta-colchon { background-color: #78350f; border: 1px solid #d97706; color: #fde68a; }
 
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
     .sueldo-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
@@ -168,17 +169,23 @@
     </div>
   </div>
 
-  <!-- MODAL METAS -->
+  <!-- MODAL METAS CON COLCHÓN -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Reporte de Metas (Al 16 de Octubre)</h3>
       </div>
       <div class="meta-container meta-venta">
-        <div class="meta-texto"><span>💰 Venta Acumulada: Q35,022.49</span></div>
+        <div class="meta-texto"><span>💰 Venta Acumulada:</span><strong>Q35,022.49</strong></div>
+        <div class="meta-texto" style="font-size: 11px; margin-top: 2px; color: #6ee7b7;"><span>Meta Mensual Base: Q81,000.00</span></div>
       </div>
       <div class="meta-container meta-tickets">
-        <div class="meta-texto"><span>📋 Tiquetes Registrados: 109 Tks</span></div>
+        <div class="meta-texto"><span>📋 Tiquetes Registrados:</span><strong>109 Tks</strong></div>
+        <div class="meta-texto" style="font-size: 11px; margin-top: 2px; color: #7dd3fc;"><span>Meta Tiquetes Mes: 324 Tks</span></div>
+      </div>
+      <div class="meta-container meta-colchon">
+        <div class="meta-texto"><span>🧮 Colchón de Venta (Restante):</span><strong id="colchonVenta">Calculando...</strong></div>
+        <div class="meta-texto" style="font-size: 11px; margin-top: 2px; color: #fef08a;"><span>Colchón Tiquetes: <strong id="colchonTickets">Calculando...</strong></span></div>
       </div>
       <div class="meta-container" style="background: #2e1065; border: 1px solid #7c3aed; color: #ede9fe; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 10px;">
         ⏱️ <b>Horas Trabajadas:</b> 98 horas al 16 de octubre
@@ -207,6 +214,8 @@
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
     const VENDEDOR_ACTUAL = "ESTUARDO";
+    const META_VENTA_MES = 81000.00;
+    const META_TICKETS_MES = 324;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     try { carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {}; } catch(e) { carrito = {}; }
@@ -215,6 +224,15 @@
       document.getElementById('contadorBoton').innerText = "109 Tks";
       document.getElementById('badgeSueldo').innerText = "Q1,800";
       
+      // Calcular colchones
+      let ventaActual = 35022.49;
+      let tiquetesActuales = 109;
+      let colchonV = META_VENTA_MES - ventaActual;
+      let colchonT = META_TICKETS_MES - tiquetesActuales;
+
+      document.getElementById('colchonVenta').innerText = colchonV > 0 ? `Faltan Q${colchonV.toFixed(2)}` : `¡Meta superada por Q${Math.abs(colchonV).toFixed(2)}!`;
+      document.getElementById('colchonTickets').innerText = colchonT > 0 ? `Faltan ${colchonT} tks` : `¡Meta de tks superada!`;
+
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
@@ -320,7 +338,8 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE OFICIAL AL 16 DE OCTUBRE*\n👤 *Vendedor:* ESTUARDO\n--------------------------------\n💰 *Venta:* Q35,022.49\n📋 *Tiquetes:* 109 Tks\n⏱️ *Horas Trabajadas:* 98h\n--------------------------------\n¡Hola don Byron! Le envío el acumulado oficial.`;
+      let colchonV = META_VENTA_MES - 35022.49;
+      let msg = `📊 *REPORTE OFICIAL AL 16 DE OCTUBRE*\n👤 *Vendedor:* ESTUARDO\n--------------------------------\n💰 *Venta:* Q35,022.49\n📋 *Tiquetes:* 109 Tks\n⏱️ *Horas:* 98h\n🧮 *Faltante para Meta:* Q${colchonV.toFixed(2)}\n--------------------------------\n¡Hola don Byron! Le envío el acumulado oficial.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
