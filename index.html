@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DIPROSA - Sistema Integral</title>
+  <title>Catálogo DIPROSA</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -21,6 +21,18 @@
       padding: 15px;
       padding-bottom: 120px;
     }
+    .welcome-banner {
+      background: linear-gradient(135deg, #1f4037, #99f2c8);
+      color: #121212;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .welcome-banner h2 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
+    .welcome-banner p { margin: 0; font-size: 13px; color: #e0f2f1; }
+
     .header-bar {
       display: flex;
       justify-content: space-between;
@@ -31,45 +43,156 @@
     }
     h1 { text-align: center; margin: 0; font-size: 18px; }
 
-    .btn-group-header { display: flex; gap: 6px; flex-wrap: wrap; }
+    .btn-group-header {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
     .btn-action-header {
-      border: none; padding: 8px 10px; border-radius: 8px; font-weight: bold; cursor: pointer;
-      font-size: 12px; display: inline-flex; align-items: center; gap: 5px; color: #ffffff;
+      border: none;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      color: #ffffff;
     }
     .btn-metas { background-color: #0284c7; }
     .btn-sueldo { background-color: #059669; }
-    .badge-header { background-color: #ffffff; padding: 2px 6px; border-radius: 10px; font-size: 10px; font-weight: 800; }
+
+    .badge-header {
+      background-color: #ffffff;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 800;
+    }
     .badge-metas { color: #0284c7; }
     .badge-sueldo { color: #059669; }
 
     .search-box {
-      width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px;
-      border: 1px solid #333; border-radius: 8px; background: #222; color: #fff; box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+      box-sizing: border-box;
     }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+    }
     .card {
-      background: var(--card-bg); padding: 15px; border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3); text-align: center; display: flex; flex-direction: column; justify-content: space-between;
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .nombre { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
     .precio { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 10px; }
     
-    .qty-controls { display: flex; align-items: center; justify-content: center; gap: 8px; }
-    .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 32px; height: 32px; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-qty {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
     .qty-num { font-size: 16px; font-weight: bold; min-width: 20px; }
-    .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
-    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 12px; border-radius: 8px; width: 100%; margin-top: 20px; font-weight: bold; cursor: pointer; }
+
+    .btn-add {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-cargar-mas {
+      background-color: #333;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 12px;
+      border-radius: 8px;
+      width: 100%;
+      margin-top: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
     .cart-bar {
-      position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333;
-      padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #1f1f1f;
+      border-top: 2px solid #333;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      z-index: 1000;
     }
     .cart-info { font-size: 15px; cursor: pointer; }
     .cart-total { font-size: 18px; color: var(--accent-color); font-weight: bold; }
-    .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 10px 16px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer; }
+    .btn-wa {
+      background-color: var(--wa-color);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
 
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
-    .modal-content { background: #1e1e1e; border-radius: 12px; padding: 18px; width: 100%; max-width: 440px; max-height: 88vh; overflow-y: auto; border: 1px solid #444; }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+    .modal-content {
+      background: #1e1e1e;
+      border-radius: 12px;
+      padding: 18px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 88vh;
+      overflow-y: auto;
+      border: 1px solid #444;
+    }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 8px; margin-bottom: 12px; }
     .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
     .ticket-item-info { flex-grow: 1; margin-right: 10px; }
@@ -78,81 +201,144 @@
     .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
     
     .ticket-actions { display: flex; align-items: center; gap: 4px; }
-    .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 26px; height: 26px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-    .btn-delete { background: var(--danger-color); color: white; border: none; padding: 5px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+    .btn-ticket-qty {
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      width: 26px; height: 26px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-delete {
+      background: var(--danger-color);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
 
-    .client-info-section { background: #252525; padding: 12px; border-radius: 8px; margin-top: 15px; margin-bottom: 15px; }
+    .client-info-section {
+      background: #252525;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
     .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
-    .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 8px; border-radius: 6px; font-size: 14px; box-sizing: border-box; margin-bottom: 10px; }
+    .client-input {
+      width: 100%;
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
 
-    .discount-section { background: #252525; padding: 10px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-    .discount-select { background: #333; color: white; border: 1px solid #555; padding: 6px 10px; border-radius: 6px; font-size: 14px; }
+    .discount-section {
+      background: #252525;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .discount-select {
+      background: #333;
+      color: white;
+      border: 1px solid #555;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
 
     .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
-    .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 12px 15px; border-radius: 6px; font-weight: bold; margin-top: 5px; font-size: 16px; cursor: pointer; }
+    .btn-modal-wa { 
+      background: var(--wa-color); 
+      color: white; 
+      border: none;
+      width: 100%;
+      text-align: center;
+      padding: 12px 15px; 
+      border-radius: 6px; 
+      font-weight: bold; 
+      margin-top: 5px; 
+      font-size: 16px; 
+      cursor: pointer;
+    }
 
     .meta-container { border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
     .meta-texto { display: flex; justify-content: space-between; font-size: 11px; font-weight: bold; margin-bottom: 4px; }
     .barra-progreso-bg { width: 100%; height: 8px; background-color: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; }
+    .mensaje-animo { margin: 4px 0 0 0; font-size: 10px; font-weight: 600; text-align: right; }
+
     .meta-venta { background-color: #064e3b; border: 1px solid #059669; }
     .meta-venta .meta-texto { color: #a7f3d0; }
     .barra-venta-fill { height: 100%; background-color: #10b981; width: 0%; transition: width 0.4s; }
-    
+    .meta-venta .mensaje-animo { color: #6ee7b7; }
+
     .meta-tickets { background-color: #0c4a6e; border: 1px solid #0284c7; }
     .meta-tickets .meta-texto { color: #bae6fd; }
     .barra-progreso-fill { height: 100%; background-color: #0284c7; width: 0%; transition: width 0.4s; }
+    .meta-tickets .mensaje-animo { color: #7dd3fc; }
+
+    .meta-jornada { background-color: #3b0764; border: 1px solid #8b5cf6; }
+    .meta-jornada .meta-texto { color: #ddd6fe; }
+    .barra-jornada-fill { height: 100%; background-color: #a78bfa; width: 0%; transition: width 0.4s; }
+    .meta-jornada .mensaje-animo { color: #c4b5fd; }
 
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
     .sueldo-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
     .sueldo-destacado { font-size: 15px; font-weight: bold; color: #10b981; border-top: 1px dashed #4b5563; padding-top: 6px; margin-top: 6px; }
-    
+    .tag-compensacion { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    .tag-ok { background: #064e3b; color: #6ee7b7; }
+    .tag-penal { background: #7f1d1d; color: #fca5a5; }
+
     .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+    .btn-historial-group { display: flex; gap: 6px; margin-top: 6px; }
+    .btn-reenviar-wa { background-color: var(--wa-color); color: white; border: none; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; flex: 1; }
+    .btn-eliminar-historial { background-color: var(--danger-color); color: white; border: none; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer; }
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
 </head>
 <body>
 
-  <!-- SECCIÓN OPERATIVA (Catálogo y Ventas) -->
-  <div id="seccionOperativa">
-    <div class="header-bar">
-      <h1>📦 Catálogo DIPROSA</h1>
-      <div class="btn-group-header">
-        <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
-          📊 Metas <span id="contadorBoton" class="badge-header badge-metas">0/0</span>
-        </button>
-        <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
-          💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,800</span>
-        </button>
-      </div>
-    </div>
+  <div class="welcome-banner">
+    <h2 id="saludoVendedor">👋 ¡Bienvenido a DIPROSA!</h2>
+    <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
+  </div>
 
-    <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
-    <div id="catalogo" class="grid">Cargando productos...</div>
-    <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
-
-    <!-- Barra Flotante de Carrito -->
-    <div class="cart-bar">
-      <div class="cart-info" onclick="abrirTicket()">
-        <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
-        <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
-      </div>
-      <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  <div class="header-bar">
+    <h1>📦 Catálogo DIPROSA</h1>
+    <div class="btn-group-header">
+      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
+        📊 Metas <span id="contadorBoton" class="badge-header badge-metas">0/0</span>
+      </button>
+      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
+        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,800</span>
+      </button>
     </div>
   </div>
 
-  <!-- SECCIÓN GERENCIAL (Aparece si entra Don Byron sin parámetros) -->
-  <div id="seccionGerencial" style="display: none;">
-    <div style="background: #1e1e1e; border: 1px solid #333; border-radius: 10px; padding: 20px; text-align: center; margin-top: 10px;">
-      <h3 style="color: #38bdf8; margin-top: 0;">👑 Panel de Dirección - DIPROSA</h3>
-      <p style="color: #aaa; font-size: 14px; line-height: 1.5;">Panel de administración general y supervisión de rutas.</p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Jorge: <code>?vendedor=jorge</code></p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Christian: <code>?vendedor=christian</code></p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Eleazar: <code>?vendedor=eleazar</code></p>
-      <p style="color: #38bdf8; font-size: 13px; margin: 8px 0;">• Estuardo: <code>?vendedor=estuardo</code></p>
+  <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
+
+  <div id="catalogo" class="grid">Cargando productos...</div>
+  <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
+
+  <div class="cart-bar">
+    <div class="cart-info" onclick="abrirTicket()">
+      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
+      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
     </div>
+    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
   </div>
 
-  <!-- MODAL TICKET -->
   <div id="modal-ticket" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
@@ -160,13 +346,17 @@
         <p style="font-size: 12px; color: #888;" id="ticket-fecha"></p>
         <p style="font-size: 14px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
       </div>
+      
       <div id="ticket-items"></div>
+
       <div class="client-info-section">
         <label for="cliente-receptor">👤 Receptor / Nombre del Cliente:</label>
         <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda Mi Barrio">
+
         <label for="cliente-referencia">📍 Referencias para el Repartidor:</label>
-        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Frente a la gasolinera..."></textarea>
+        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Esquina color celeste..."></textarea>
       </div>
+
       <div class="discount-section">
         <label for="descuento-pct">Descuento aplicado:</label>
         <select id="descuento-pct" class="discount-select" onchange="actualizarContenidoTicket()">
@@ -176,51 +366,114 @@
           <option value="3">3 %</option>
         </select>
       </div>
+
       <div id="resumen-totales" style="border-top: 1px dashed #555; padding-top: 10px;">
         <div style="display: flex; justify-content: space-between; font-size: 14px; color: #aaa; margin-bottom: 5px;">
-          <span>Subtotal:</span><span>Q <span id="ticket-subtotal">0.00</span></span>
+          <span>Subtotal:</span>
+          <span>Q <span id="ticket-subtotal">0.00</span></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #e67e22; margin-bottom: 5px;" id="fila-rebaja">
+          <span>Descuento (<span id="txt-pct">0</span>%):</span>
+          <span>- Q <span id="ticket-descuento-monto">0.00</span></span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: var(--accent-color);">
-          <span>Total Final:</span><span>Q <span id="ticket-total">0.00</span></span>
+          <span>Total Final:</span>
+          <span>Q <span id="ticket-total">0.00</span></span>
         </div>
       </div>
+
       <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido a WhatsApp</button>
       <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
     </div>
   </div>
 
-  <!-- MODAL METAS -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Reporte de Metas (Mes y Día)</h3>
+        <p style="font-size: 11px; color: #aaa;" id="subtituloMetasInfo">Cargando ciclo...</p>
       </div>
+
       <div class="meta-container meta-venta">
-        <div class="meta-texto"><span id="textoVentaMes">💰 Mes: Q0.00</span><strong id="porcentajeVentaMes">0%</strong></div>
-        <div class="barra-progreso-bg"><div id="barraVentaFill" class="barra-venta-fill" style="width: 0%;"></div></div>
+        <div class="meta-texto">
+          <span id="textoVentaMes">💰 Mes: Q0.00 / Q0.00</span>
+          <strong id="porcentajeVentaMes">0%</strong>
+        </div>
+        <div class="meta-texto" style="font-size: 10px; color: #d1fae5; margin-bottom: 4px;">
+          <span id="textoVentaHoy">Día: Q0.00 / Q3,000.00</span>
+        </div>
+        <div class="barra-progreso-bg">
+          <div id="barraVentaFill" class="barra-venta-fill" style="width: 0%;"></div>
+        </div>
+        <p id="mensajeVenta" class="mensaje-animo">Avanzando hacia la meta mensual</p>
       </div>
+
       <div class="meta-container meta-tickets">
-        <div class="meta-texto"><span id="textoTicketsMes">📋 Tks Mes: 0</span><strong id="porcentajeTicketsMes">0%</strong></div>
-        <div class="barra-progreso-bg"><div id="barraProgresoFill" class="barra-progreso-fill" style="width: 0%;"></div></div>
+        <div class="meta-texto">
+          <span id="textoTicketsMes">📋 Tks Mes: 0 / 0</span>
+          <strong id="porcentajeTicketsMes">0%</strong>
+        </div>
+        <div class="meta-texto" style="font-size: 10px; color: #e0f2fe; margin-bottom: 4px;">
+          <span id="textoTicketsHoy">Tks Día: 0 / 12</span>
+        </div>
+        <div class="barra-progreso-bg">
+          <div id="barraProgresoFill" class="barra-progreso-fill" style="width: 0%;"></div>
+        </div>
+        <p id="mensajeAnimo" class="mensaje-animo">Constancia diaria de pedidos</p>
       </div>
-      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte del Día a don Byron</button>
-      <h4 style="margin: 12px 0 6px 0; font-size: 13px; border-bottom: 1px solid #444;">Tickets Generados Hoy:</h4>
-      <div id="listaTicketsContainer" style="max-height: 140px; overflow-y: auto;"></div>
+
+      <div class="meta-container meta-jornada">
+        <div class="meta-texto">
+          <span id="textoJornadaMes">⏱️ Horas Mes: 0.0h / 0h</span>
+          <strong id="porcentajeJornadaMes">0%</strong>
+        </div>
+        <div class="meta-texto" style="font-size: 10px; color: #ede9fe; margin-bottom: 4px;">
+          <span id="textoJornadaHoy">Turno Hoy: 0h 0m / 7h</span>
+        </div>
+        <div class="barra-progreso-bg">
+          <div id="barraJornadaFill" class="barra-jornada-fill" style="width: 0%;"></div>
+        </div>
+        <p id="mensajeJornada" class="mensaje-animo">Control de tiempo de trabajo</p>
+      </div>
+
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">
+        📲 Enviar Reporte del Día a don Byron
+      </button>
+
+      <h4 style="margin: 12px 0 6px 0; font-size: 13px; border-bottom: 1px solid #444; padding-bottom: 4px;">Tickets Generados Hoy:</h4>
+      <input type="text" id="buscarTicketInput" class="client-input" placeholder="🔍 Buscar ticket..." onkeyup="filtrarTicketsHistorial()" style="margin-bottom: 8px;">
+      <div id="listaTicketsContainer" style="max-height: 160px; overflow-y: auto;"></div>
+
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>💵 Estado de Sueldo y Comisiones</h3>
+        <p style="font-size: 11px; color: #aaa;" id="subtituloSueldoInfo">Sueldo Base: Q3,600.00</p>
       </div>
+
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Sueldo Base Quincenal:</span><strong>Q 1,800.00</strong></div>
-        <div class="sueldo-row"><span>Comisión Proyectada:</span><span id="sueldoMontoComision" style="color: #10b981;">+ Q 0.00</span></div>
+        <div class="sueldo-row"><span>1.ª Quincena:</span><strong>Q 1,800.00</strong></div>
+        <div class="sueldo-row"><span>2.ª Quincena (Base):</span><span>Q 1,800.00</span></div>
+      </div>
+
+      <div class="sueldo-card">
+        <div style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #374151; padding-bottom: 4px; margin-bottom: 6px; color: #38bdf8;">⚖️ Balance de Ejes:</div>
+        <div class="sueldo-row"><span>• Venta Mes:</span><span id="sueldoVentaEstado">Q 0.00</span></div>
+        <div class="sueldo-row"><span>• Tickets Mes:</span><span id="sueldoTicketsEstado">0 Tks</span></div>
+        <div class="sueldo-row"><span>• Horas Mes:</span><span id="sueldoHorasEstado">0h</span></div>
+      </div>
+
+      <div class="sueldo-card">
+        <div style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #374151; padding-bottom: 4px; margin-bottom: 6px; color: #f59e0b;">⚙️ Compensación:</div>
+        <div class="sueldo-row"><span>Comisión Venta (2.5%):</span><span id="sueldoMontoComision" style="color: #10b981;">+ Q 0.00</span></div>
+        <div class="sueldo-row"><span>Pena Máxima:</span><span id="sueldoMontoDescuento" style="color: #f87171;">- Q 0.00</span></div>
         <div class="sueldo-row sueldo-destacado"><span>Pago Final Proyectado:</span><span id="sueldoFinalProyectado">Q 1,800.00</span></div>
       </div>
+
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
   </div>
@@ -230,50 +483,77 @@
     
     const urlParams = new URLSearchParams(window.location.search);
     let nombreVendedorParam = urlParams.get('vendedor');
-    
     if (nombreVendedorParam) {
       localStorage.setItem('vendedor_diprosa', nombreVendedorParam.toUpperCase());
     }
-    
-    const VENDEDOR_ACTUAL = localStorage.getItem('vendedor_diprosa') || "DON BYRON";
-    
-    if (!nombreVendedorParam && VENDEDOR_ACTUAL === "DON BYRON") {
-      document.getElementById('seccionOperativa').style.display = 'none';
-      document.getElementById('seccionGerencial').style.display = 'block';
+    const VENDEDOR_ACTUAL = localStorage.getItem('vendedor_diprosa') || "GENERAL";
+
+    function obtenerDiasHabilesMesActual() {
+      const ahora = new Date();
+      const año = ahora.getFullYear();
+      const mes = ahora.getMonth();
+      const ultimoDia = new Date(año, mes + 1, 0).getDate();
+      let diasHabiles = 0;
+      for (let d = 1; d <= ultimoDia; d++) {
+        if (new Date(año, mes, d).getDay() !== 0) diasHabiles++;
+      }
+      return diasHabiles;
     }
 
-    const DIAS_CICLO = 22;
-    const META_TICKETS_MES = DIAS_CICLO * 12;
-    const META_VENTA_MES_Q = DIAS_CICLO * 3000.00;
+    const DIAS_CICLO = obtenerDiasHabilesMesActual();
+    const META_TICKETS_DIA = 12;
+    const META_VENTA_DIA_Q = 3000.00;
+    const TURNO_HORAS_DIA = 7;
+    const META_TICKETS_MES = DIAS_CICLO * META_TICKETS_DIA;
+    const META_VENTA_MES_Q = DIAS_CICLO * META_VENTA_DIA_Q;
+    const TURNO_HORAS_MES = DIAS_CICLO * TURNO_HORAS_DIA;
+    const MINUTOS_TURNO_DIA = TURNO_HORAS_DIA * 60;
+    const SUELDO_QUINCENA = 1800.00;
+    const VALOR_DIA_TRABAJO = 3600.00 / DIAS_CICLO;
 
-    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
-    try { carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {}; } catch(e) { carrito = {}; }
+    let productos = [];
+    let productosFiltrados = [];
+    let limiteActual = 40;
+    let horaInicioTicket = null;
+    let horaFinalTicket = null;
+    let carrito = {};
+
+    try {
+      let guardado = JSON.parse(localStorage.getItem('carrito_diprosa'));
+      if (guardado) carrito = guardado;
+    } catch(e) { carrito = {}; }
+
+    let debounceTimer;
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (nombreVendedorParam || VENDEDOR_ACTUAL !== "DON BYRON") {
-        actualizarContadorBoton();
-        calcularProyeccionSueldo();
+      if (VENDEDOR_ACTUAL !== "GENERAL") {
+        document.getElementById('saludoVendedor').innerText = `👋 ¡Bienvenido ${VENDEDOR_ACTUAL}!`;
       }
+      actualizarContadorBoton();
+      verificarOIniciarJornada();
+      calcularProyeccionSueldo();
     });
 
-    if (nombreVendedorParam || VENDEDOR_ACTUAL !== "DON BYRON") {
-      fetch('productos.json?v=' + new Date().getTime())
-        .then(res => res.json())
-        .then(data => {
-          productos = data;
-          productosFiltrados = data;
-          renderizarCatalogo();
-          actualizarUIResumen();
-        });
+    fetch('productos.json?v=' + new Date().getTime())
+      .then(res => res.json())
+      .then(data => {
+        productos = data;
+        productosFiltrados = data;
+        renderizarCatalogo();
+        actualizarUIResumen();
+      });
+
+    function obtenerKey(nombre, precio) {
+      return nombre.trim() + '_' + parseFloat(precio);
     }
 
     function renderizarCatalogo() {
-      let contenedor = document.getElementById('catalogo');
+      const contenedor = document.getElementById('catalogo');
       if (!productosFiltrados.length) { contenedor.innerHTML = '<p>No se encontraron productos.</p>'; return; }
       
       contenedor.innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
-        let key = p.nombre + '_' + p.precio;
-        let cant = carrito[key] ? carrito[key].cantidad : 0;
+        let pKey = obtenerKey(p.nombre, p.precio);
+        let cant = carrito[pKey] ? carrito[pKey].cantidad : 0;
         let b64 = btoa(unescape(encodeURIComponent(p.nombre)));
         return `
           <div class="card">
@@ -295,10 +575,24 @@
     function cargarMasProductos() { limiteActual += 40; renderizarCatalogo(); }
 
     function cambiarCant(b64, precio, delta) {
-      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
+      if (!Object.keys(carrito).length && delta > 0 && !horaInicioTicket) {
+        horaInicioTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' });
+      }
+      let nombre = decodeURIComponent(escape(atob(b64)));
+      let key = obtenerKey(nombre, precio);
       if (!carrito[key]) carrito[key] = { nombre, precio: parseFloat(precio), cantidad: 0 };
       carrito[key].cantidad += delta;
       if (carrito[key].cantidad <= 0) delete carrito[key];
+      if (!Object.keys(carrito).length) horaInicioTicket = null;
+
+      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function eliminarDelTicketDirecto(b64, precio) {
+      delete carrito[obtenerKey(decodeURIComponent(escape(atob(b64))), precio)];
+      if (!Object.keys(carrito).length) horaInicioTicket = null;
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
       actualizarUIResumen();
       renderizarCatalogo();
@@ -312,13 +606,17 @@
       }
       document.getElementById('cant-items').innerText = totalCant;
       document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
+      if (document.getElementById('modal-ticket').style.display === 'flex') actualizarContenidoTicket();
     }
 
     function filtrarDebounce() {
-      let q = document.getElementById('buscar').value.toLowerCase().trim();
-      limiteActual = 40;
-      productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
-      renderizarCatalogo();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+        renderizarCatalogo();
+      }, 200);
     }
 
     function abrirTicket() {
@@ -330,6 +628,8 @@
 
     function actualizarContenidoTicket() {
       let keys = Object.keys(carrito), contenedor = document.getElementById('ticket-items'), subtotal = 0;
+      if (!keys.length) { cerrarTicket(); return; }
+      
       contenedor.innerHTML = keys.map(k => {
         let item = carrito[k], sub = item.cantidad * item.precio, b64 = btoa(unescape(encodeURIComponent(item.nombre)));
         subtotal += sub;
@@ -342,16 +642,22 @@
             </div>
             <div class="ticket-actions">
               <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
-              <span>${item.cantidad}</span>
+              <span style="font-weight:bold; min-width:15px; text-align:center;">${item.cantidad}</span>
               <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
+              <button class="btn-delete" onclick="eliminarDelTicketDirecto('${b64}',${item.precio})">🗑️</button>
             </div>
           </div>`;
       }).join('');
 
       let pctDesc = parseInt(document.getElementById('descuento-pct').value) || 0;
-      let totalFinal = subtotal - (subtotal * pctDesc / 100);
+      let montoDesc = (subtotal * pctDesc) / 100;
+      let totalFinal = subtotal - montoDesc;
+
       document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
+      document.getElementById('txt-pct').innerText = pctDesc;
+      document.getElementById('ticket-descuento-monto').innerText = montoDesc.toFixed(2);
       document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
+      document.getElementById('fila-rebaja').style.display = pctDesc > 0 ? 'flex' : 'none';
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem('correlativo_ticket')) || 0) + 1).padStart(8, '0');
     }
@@ -361,42 +667,69 @@
     function abrirModalSueldo() { document.getElementById('modal-sueldo').style.display = 'flex'; calcularProyeccionSueldo(); }
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
+    function verificarOIniciarJornada() {
+      let hoy = new Date().toLocaleDateString(), turno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
+      if (!turno.fecha || turno.fecha !== hoy) {
+        turno = { fecha: hoy, horaInicio: new Date().getTime() };
+        localStorage.setItem('turno_trabajo', JSON.stringify(turno));
+      }
+    }
+
     function cargarDatosMetas() {
-      let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]'), vMes = historial.reduce((a,b)=>a+b.total,0);
+      let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]'), hoy = new Date().toLocaleDateString();
+      let tHoy = historial.filter(t => t.fechaCorta === hoy);
+      let vHoy = tHoy.reduce((a, b) => a + b.total, 0), vMes = historial.reduce((a, b) => a + b.total, 0);
+
       document.getElementById('textoVentaMes').innerText = `💰 Mes: Q${vMes.toFixed(2)} / Q${META_VENTA_MES_Q.toLocaleString()}`;
       document.getElementById('porcentajeVentaMes').innerText = `${Math.min(Math.round((vMes/META_VENTA_MES_Q)*100), 100)}%`;
+      document.getElementById('textoVentaHoy').innerText = `Día: Q${vHoy.toFixed(2)} / Q${META_VENTA_DIA_Q.toFixed(2)}`;
       document.getElementById('barraVentaFill').style.width = `${Math.min(Math.round((vMes/META_VENTA_MES_Q)*100), 100)}%`;
+
       document.getElementById('textoTicketsMes').innerText = `📋 Tks Mes: ${historial.length} / ${META_TICKETS_MES}`;
       document.getElementById('porcentajeTicketsMes').innerText = `${Math.min(Math.round((historial.length/META_TICKETS_MES)*100), 100)}%`;
+      document.getElementById('textoTicketsHoy').innerText = `Tks Día: ${tHoy.length} / ${META_TICKETS_DIA}`;
       document.getElementById('barraProgresoFill').style.width = `${Math.min(Math.round((historial.length/META_TICKETS_MES)*100), 100)}%`;
-      
-      let hoy = new Date().toLocaleDateString(), tHoy = historial.filter(t => t.fechaCorta === hoy);
-      document.getElementById('listaTicketsContainer').innerHTML = tHoy.map(t => `<div class="ticket-historial-card"><b>#${t.id} - ${t.cliente}</b>: Q${t.total.toFixed(2)}</div>`).join('') || '<p style="font-size:12px; color:#888;">No hay tickets hoy.</p>';
+
+      renderizarListaHistorial(tHoy.reverse());
     }
 
     function calcularProyeccionSueldo() {
       let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]'), vMes = historial.reduce((a,b)=>a+b.total,0);
       let comision = vMes > META_VENTA_MES_Q ? (vMes - META_VENTA_MES_Q) * 0.025 : 0;
-      let pago = 1800 + comision;
-      document.getElementById('sueldoFinalProyectado').innerText = `Q ${pago.toFixed(2)}`;
-      document.getElementById('sueldoMontoComision').innerText = `+ Q ${comision.toFixed(2)}`;
-      document.getElementById('badgeSueldo').innerText = `Q${pago.toFixed(0)}`;
+      let pago = SUELDO_QUINCENA + comision;
+      document.getElementById('sueldoFinalProyectado').innerText = `Q ${Math.max(pago, 0).toFixed(2)}`;
+      document.getElementById('badgeSueldo').innerText = `Q${Math.max(pago, 0).toFixed(0)}`;
     }
 
     function actualizarContadorBoton() {
       let h = JSON.parse(localStorage.getItem('historial_tickets') || '[]'), hoy = new Date().toLocaleDateString();
-      document.getElementById('contadorBoton').innerText = `${h.filter(t=>t.fechaCorta===hoy).length} hoy`;
+      document.getElementById('contadorBoton').innerText = `${h.filter(t=>t.fechaCorta===hoy).length} hoy (${h.length}/${META_TICKETS_MES})`;
+    }
+
+    function renderizarListaHistorial(lista) {
+      let c = document.getElementById('listaTicketsContainer');
+      if (!lista.length) { c.innerHTML = `<p style="text-align:center; color:#888; font-size:12px;">No hay tickets hoy.</p>`; return; }
+      c.innerHTML = lista.map(t => `
+        <div class="ticket-historial-card">
+          <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:12px;">
+            <span>#${t.id} - ${t.cliente}</span><span style="color:#10b981;">Q${t.total.toFixed(2)}</span>
+          </div>
+          <div class="btn-historial-group">
+            <button class="btn-reenviar-wa" onclick="window.open('https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(t.textoWhatsApp)}')">📲 Reenviar</button>
+          </div>
+        </div>`).join('');
     }
 
     function enviarCorteDiarioWA() {
       let h = JSON.parse(localStorage.getItem('historial_tickets') || '[]'), hoy = new Date().toLocaleDateString();
-      let vMes = h.reduce((a,b)=>a+b.total,0);
-      let msg = `📊 *CORTE DIARIO - DIPROSA*\n👤 *Vendedor:* ${VENDEDOR_ACTUAL}\n📅 *Fecha:* ${hoy}\n--------------------------------\n📈 *Venta Acumulada Mes:* Q${vMes.toFixed(2)}`;
+      let tHoy = h.filter(t => t.fechaCorta === hoy);
+      let vHoy = tHoy.reduce((a,b)=>a+b.total,0), vMes = h.reduce((a,b)=>a+b.total,0);
+      let msg = `📊 *CORTE DIARIO - DIPROSA*\n👤 *Vendedor:* ${VENDEDOR_ACTUAL}\n📅 *Fecha:* ${hoy}\n--------------------------------\n💰 *Venta Hoy:* Q${vHoy.toFixed(2)}\n📋 *Tickets Hoy:* ${tHoy.length}\n--------------------------------\n📈 *Venta Mes:* Q${vMes.toFixed(2)}`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     function enviarWhatsAppYLimpiar() {
-      let receptor = document.getElementById('cliente-receptor').value.trim();
+      let keys = Object.keys(carrito), receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
       let numT = (parseInt(localStorage.getItem('correlativo_ticket')) || 0) + 1;
@@ -416,7 +749,7 @@
       msg += `--------------------------------\nTOTAL: Q${totalFinal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
       let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
-      historial.push({ id: String(numT).padStart(8,'0'), cliente: receptor, fechaCorta: new Date().toLocaleDateString(), total: totalFinal });
+      historial.push({ id: String(numT).padStart(8,'0'), cliente: receptor, fechaCorta: new Date().toLocaleDateString(), total: totalFinal, textoWhatsApp: msg });
       localStorage.setItem('historial_tickets', JSON.stringify(historial));
 
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
