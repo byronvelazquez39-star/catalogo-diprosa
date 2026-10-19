@@ -176,27 +176,32 @@
 
       <!-- VENTA -->
       <div class="meta-box">
-        <h4>💰 1. Paralelo de Ventas</h4>
+        <h4>💰 1. Control de Ventas</h4>
         <div class="meta-line"><span>Venta Acumulada:</span> <strong>Q 35,022.49</strong></div>
         <div class="meta-line"><span>Meta Mensual:</span> <span>- Q 81,000.00</span></div>
-        <div class="meta-line" style="border-top: 1px solid #059669; padding-top: 3px; font-weight: bold;"><span>Faltante:</span> <span style="color: #fca5a5;">Q 45,977.51</span></div>
-        <div class="meta-line" style="margin-top: 4px; color: #93c5fd;"><span>📅 Días restantes (12):</span> <strong>Vender Q 3,831.46 / día</strong></div>
+        <div class="meta-line" style="border-top: 1px solid #059669; padding-top: 3px; font-weight: bold;"><span>Faltante:</span> <span style="color: #fca5a5;">= Q 45,977.51</span></div>
+        <div class="meta-line" style="margin-top: 4px; color: #93c5fd;"><span>📅 Días restantes (12):</span> <strong>/ 12 días</strong></div>
+        <div class="meta-line" style="font-weight: bold; color: #34d399; font-size: 13px; margin-top: 2px;"><span>🎯 Vender por día:</span> <span>Q 3,831.46 / día</span></div>
       </div>
 
       <!-- TIQUETES -->
       <div class="meta-box" style="background: #082f49; border-color: #0284c7; color: #bae6fd;">
-        <h4 style="color: #38bdf8; border-color: #0284c7;">📋 2. Paralelo de Tiquetes</h4>
+        <h4 style="color: #38bdf8; border-color: #0284c7;">📋 2. Control de Tiquetes</h4>
         <div class="meta-line"><span>Tiquetes Acumulados:</span> <strong>109 Tks</strong></div>
         <div class="meta-line"><span>Meta Tiquetes Mes:</span> <span>- 324 Tks</span></div>
-        <div class="meta-line" style="border-top: 1px solid #0284c7; padding-top: 3px; font-weight: bold;"><span>Déficit / Faltante:</span> <span style="color: #fca5a5;">215 Tks (~18 Tks/día)</span></div>
+        <div class="meta-line" style="border-top: 1px solid #0284c7; padding-top: 3px; font-weight: bold;"><span>Faltante:</span> <span style="color: #fca5a5;">= 215 Tks</span></div>
+        <div class="meta-line" style="margin-top: 4px; color: #93c5fd;"><span>📅 Días restantes (12):</span> <strong>/ 12 días</strong></div>
+        <div class="meta-line" style="font-weight: bold; color: #38bdf8; font-size: 13px; margin-top: 2px;"><span>🎯 Tiquetes por día:</span> <span>18 Tks / día</span></div>
       </div>
 
       <!-- HORAS TRABAJADAS -->
       <div class="meta-box" style="background: #2e1065; border-color: #7c3aed; color: #ede9fe;">
-        <h4 style="color: #a78bfa; border-color: #7c3aed;">⏱️ 3. Paralelo de Horas</h4>
+        <h4 style="color: #a78bfa; border-color: #7c3aed;">⏱️ 3. Control de Horas</h4>
         <div class="meta-line"><span>Horas Acumuladas:</span> <strong>98 horas</strong></div>
-        <div class="meta-line"><span>Meta Horas (189h):</span> <span>- 189 horas</span></div>
-        <div class="meta-line" style="border-top: 1px solid #7c3aed; padding-top: 3px; font-weight: bold;"><span>Déficit de Horas:</span> <span style="color: #fca5a5;">91 horas pendientes</span></div>
+        <div class="meta-line"><span>Meta Horas Mes:</span> <span>- 189 horas</span></div>
+        <div class="meta-line" style="border-top: 1px solid #7c3aed; padding-top: 3px; font-weight: bold;"><span>Faltante:</span> <span style="color: #fca5a5;">= 91 horas</span></div>
+        <div class="meta-line" style="margin-top: 4px; color: #d8b4fe;"><span>📅 Días restantes (12):</span> <strong>/ 12 días</strong></div>
+        <div class="meta-line" style="font-weight: bold; color: #c084fc; font-size: 13px; margin-top: 2px;"><span>🎯 Horas por día:</span> <span>7.58 hrs / día</span></div>
       </div>
 
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte del Día a don Byron</button>
@@ -204,7 +209,7 @@
     </div>
   </div>
 
-  <!-- MODAL SUELDO Y REGLA DE TRES PARALELOS -->
+  <!-- MODAL SUELDO -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
@@ -213,7 +218,7 @@
       <div class="sueldo-card">
         <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,800.00</strong></div>
         <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,800.00</span></div>
-        <div class="sueldo-row" style="color: #fca5a5;"><span>Déficit Mayor (Horas / Tiquetes):</span><span>Evaluación cruzada activa</span></div>
+        <div class="sueldo-row" style="color: #fca5a5;"><span>Déficit Mayor (Tres Paralelos):</span><span>Evaluación cruzada activa</span></div>
         <div class="sueldo-row" style="color: #38bdf8;">Valor del Día de Trabajo:</span><span>Q 133.33</span></div>
         <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span id="pagoQuincena2">Q 1,666.67</span></div>
         <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
@@ -340,7 +345,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE OFICIAL TRES PARALELOS - 16 OCT*\n👤 *Vendedor:* ESTUARDO\n--------------------------------\n💰 *Venta:* Q35,022.49 / Q81,000 (Faltan Q45,977.51 | Cuota diaria: Q3,831.46)\n📋 *Tiquetes:* 109 / 324 Tks (Faltan 215 Tks)\n⏱️ *Horas:* 98 / 189 hrs (Faltan 91 hrs)\n--------------------------------\n¡Hola don Byron! Le envío el acumulado oficial de ruta.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - 16 OCT*\n👤 *Vendedor:* ESTUARDO\n--------------------------------\n💰 *Ventas:* Q35,022.49 - Q81,000 = Faltan Q45,977.51 (/ 12 días = Q3,831.46 diarios)\n📋 *Tiquetes:* 109 - 324 = Faltan 215 Tks (/ 12 días = 18 Tks diarios)\n⏱️ *Horas:* 98 - 189 = Faltan 91 hrs (/ 12 días = 7.58 hrs diarios)\n--------------------------------\n¡Hola don Byron! Le envío el reporte oficial.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
