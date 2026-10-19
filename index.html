@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo DIPROSA - Estuardo</title>
+  <title id="titulo-pagina">Catálogo DIPROSA - Eleazar</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -105,13 +105,13 @@
 
   <!-- SECCIÓN OPERATIVA DIRECTA -->
   <div class="header-bar">
-    <h1>📦 Catálogo DIPROSA</h1>
+    <h1 id="titulo-catalogo">📦 Catálogo DIPROSA - Eleazar</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
-        📊 Metas <span id="contadorBoton" class="badge-header badge-metas">109 Tks</span>
+        📊 Metas <span id="contadorBoton" class="badge-header badge-metas">112 Tks</span>
       </button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
-        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,666.67</span>
+        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,800</span>
       </button>
     </div>
   </div>
@@ -166,7 +166,7 @@
     </div>
   </div>
 
-  <!-- MODAL METAS CON EL RESUMEN EXACTO -->
+  <!-- MODAL METAS DE ELEAZAR (AL 17 DE OCTUBRE) -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
@@ -174,25 +174,20 @@
       </div>
 
       <div class="meta-resumen-box">
-        <h4>📋 ESTUARDO (Al 16 de Octubre)</h4>
-        <p style="margin: 4px 0;">📅 <strong>14 días hábiles transcurridos</strong></p>
+        <h4>📋 ELEAZAR (Al 17 de Octubre)</h4>
+        <p style="margin: 4px 0;">📅 <strong>Datos actualizados al 17 de octubre</strong></p>
         
         <p style="margin: 8px 0 2px 0;">💰 <strong>1. Paralelo de Ventas:</strong></p>
-        <p style="margin: 2px 0;">• Acumulado: Q35,022.49 (vs. Q42,000 esperados a la fecha).</p>
-        <p style="margin: 2px 0;">• Proyección de cierre: ~Q67,543.37 frente a la meta global de Q81,000.00.</p>
-        <p style="margin: 2px 0; color: #fca5a5;">• Déficit proyectado: Q13,456.63.</p>
-        <p style="margin: 2px 0;">• Impacto estimado: Equivalente a ~4.49 días de descuento (aprox. Q598.07 sobre el valor día de Q133.33).</p>
+        <p style="margin: 2px 0;">• Acumulado: Q32,085.00</p>
+        <p style="margin: 2px 0;">• Meta Global Mes: Q81,000.00 (Faltan Q48,915.00)</p>
 
         <p style="margin: 8px 0 2px 0;">📋 <strong>2. Paralelo de Tickets:</strong></p>
-        <p style="margin: 2px 0;">• Acumulado: 109 tickets (vs. 168 esperados a la fecha).</p>
-        <p style="margin: 2px 0;">• Proyección de cierre: ~210 tickets frente a la meta de 324.</p>
-        <p style="margin: 2px 0; color: #fca5a5;">• Déficit proyectado: 113.79 tickets faltantes.</p>
-        <p style="margin: 2px 0;">• Impacto estimado: Equivalente a ~9.48 días de descuento (aprox. Q1,264.29).</p>
+        <p style="margin: 2px 0;">• Acumulado: 112 tickets</p>
+        <p style="margin: 2px 0;">• Meta Tiquetes Mes: 324 Tks (Faltan 212 Tks)</p>
 
-        <p style="margin: 8px 0 2px 0;">⏱️ <strong>3. Paralelo de Horas (Jornada de 7 horas):</strong></p>
-        <p style="margin: 2px 0; color: #34d399;">• Acumulado: 98 horas trabajadas en los 14 días transcurridos.</p>
-        <p style="margin: 2px 0;">• Proyección de cierre: 189 horas exactas (cumpliendo al 100% con su jornada y marcajes).</p>
-        <p style="margin: 2px 0; color: #34d399;">• Déficit: 0 horas (sin penalización en este apartado).</p>
+        <p style="margin: 8px 0 2px 0;">⏱️ <strong>3. Paralelo de Horas:</strong></p>
+        <p style="margin: 2px 0; color: #34d399;">• Acumulado: 105 horas trabajadas</p>
+        <p style="margin: 2px 0;">• Meta Horas Mes: 189 horas</p>
       </div>
 
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
@@ -209,11 +204,10 @@
       <div class="sueldo-card">
         <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,800.00</strong></div>
         <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,800.00</span></div>
-        <div class="sueldo-row" style="color: #fca5a5;"><span>Déficit Mayor (Tickets/Ventas):</span><span>Evaluación cruzada activa</span></div>
-        <div class="sueldo-row" style="color: #38bdf8;">Valor del Día de Trabajo:</span><span>Q 133.33</span></div>
-        <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span id="pagoQuincena2">Q 1,666.67</span></div>
+        <div class="sueldo-row" style="color: #38bdf8;"><span>Valor del Día de Trabajo:</span><span>Q 133.33</span></div>
+        <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span>Q 1,800.00</span></div>
         <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
-          <span>Sueldo Total Mes Proyectado:</span><span id="sueldoTotalMes">Q 3,466.67</span>
+          <span>Sueldo Total Mes Proyectado:</span><span>Q 3,600.00</span>
         </div>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
@@ -222,14 +216,14 @@
 
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
-    const VENDEDOR_ACTUAL = "ESTUARDO";
+    let VENDEDOR_ACTUAL = "ELEAZAR";
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
-    try { carrito = JSON.parse(localStorage.getItem('carrito_diprosa')) || {}; } catch(e) { carrito = {}; }
+    try { carrito = JSON.parse(localStorage.getItem('carrito_diprosa_eleazar')) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('contadorBoton').innerText = "109 Tks";
-      document.getElementById('badgeSueldo').innerText = "Q1,666.67";
+      document.getElementById('contadorBoton').innerText = "112 Tks";
+      document.getElementById('badgeSueldo').innerText = "Q1,800";
       
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
@@ -273,7 +267,7 @@
       if (!carrito[key]) carrito[key] = { nombre, precio: parseFloat(precio), cantidad: 0 };
       carrito[key].cantidad += delta;
       if (carrito[key].cantidad <= 0) delete carrito[key];
-      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
+      localStorage.setItem('carrito_diprosa_eleazar', JSON.stringify(carrito));
       actualizarUIResumen();
       renderizarCatalogo();
     }
@@ -327,7 +321,7 @@
       document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem('correlativo_ticket')) || 0) + 1).padStart(8, '0');
+      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem('correlativo_ticket_eleazar')) || 0) + 1).padStart(8, '0');
     }
 
     function abrirModalMetas() { document.getElementById('modal-metas').style.display = 'flex'; }
@@ -336,7 +330,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *ESTADO DE LOS 3 PARALELOS - ESTUARDO*\n📅 14 días hábiles transcurridos\n\n💰 *1. Ventas:*\n- Acumulado: Q35,022.49 (vs. Q42,000 esperados)\n- Proyección: ~Q67,543.37 (Meta: Q81,000)\n- Déficit: Q13,456.63 (~4.49 días / Q598.07)\n\n📋 *2. Tiquetes:*\n- Acumulado: 109 tickets (vs. 168 esperados)\n- Proyección: ~210 tickets (Meta: 324)\n- Déficit: 113.79 tks (~9.48 días / Q1,264.29)\n\n⏱️ *3. Horas:*\n- Acumulado: 98 hrs\n- Proyección: 189 hrs (0 déficit)\n\n¡Hola don Byron! Le envío el reporte oficial.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n📅 Al 17 de Octubre\n\n💰 *Ventas:* Q32,085.00 / Q81,000.00\n📋 *Tiquetes:* 112 / 324 Tks\n⏱️ *Horas:* 105 / 189 hrs\n\n¡Hola don Byron! Le envío el reporte oficial de Eleazar.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -344,8 +338,8 @@
       let receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
-      let numT = (parseInt(localStorage.getItem('correlativo_ticket')) || 0) + 1;
-      localStorage.setItem('correlativo_ticket', numT);
+      let numT = (parseInt(localStorage.getItem('correlativo_ticket_eleazar')) || 0) + 1;
+      localStorage.setItem('correlativo_ticket_eleazar', numT);
 
       let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ${VENDEDOR_ACTUAL}\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
       let i = 1;
@@ -363,7 +357,7 @@
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
 
       carrito = {};
-      localStorage.removeItem('carrito_diprosa');
+      localStorage.removeItem('carrito_diprosa_eleazar');
       cerrarTicket();
       actualizarUIResumen();
       renderizarCatalogo();
