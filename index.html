@@ -62,10 +62,6 @@
       outline: none;
     }
 
-    .search-box::placeholder {
-      color: #64748b;
-    }
-
     .grid-productos {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -113,6 +109,27 @@
       background-color: #166534;
     }
 
+    /* PANEL DESPLEGABLE DE METAS */
+    #panelResumenMetas {
+      display: none;
+      background-color: #121824;
+      border: 1px solid #0284c7;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .item-meta {
+      background-color: #1e293b;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-size: 0.82rem;
+    }
+
+    .item-meta strong { color: #38bdf8; }
+
+    /* BARRA INFERIOR */
     .footer-bar {
       position: fixed;
       bottom: 0;
@@ -142,55 +159,42 @@
 </head>
 <body>
 
-  <!-- CABECERA -->
+  <!-- CABECERA CON BOTÓN DE METAS FUNCIONAL -->
   <div class="header-bar">
     <div class="header-title">📦 Catálogo en Línea</div>
-    <button class="btn-mis-metas">
+    <button class="btn-mis-metas" onclick="toggleResumen()">
       📋 Mis Metas <span class="badge-metas">82/312</span>
     </button>
   </div>
 
-  <!-- BUSCADOR -->
-  <input type="text" class="search-box" placeholder="Buscar producto..." id="searchInput" oninput="filtrar()">
-
-  <!-- LISTADO DE PRODUCTOS -->
-  <div class="grid-productos" id="gridProd">
-    <div class="card-producto" data-search="almohadita 4 onzas docena q.3.00">
-      <div class="prod-nombre">(almohadita) 4 onzas por docena para dar Q.3.00</div>
-      <div class="prod-precio">Q 29.50</div>
-      <button class="btn-agregar" onclick="agregar('(almohadita) 4 onzas por docena', 29.50)">+ Agregar</button>
+  <!-- PANEL DESPLEGABLE DE METAS Y DIFERENCIAS -->
+  <div id="panelResumenMetas">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 4px;">
+      <span style="font-weight:bold; color:#38bdf8; font-size:0.9rem;">📊 Resumen de Avance Actual</span>
+      <button onclick="toggleResumen()" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
     </div>
 
-    <div class="card-producto" data-search="almohadita fardo 4 onzas q.3.00">
-      <div class="prod-nombre">(almohadita) fardo 4 onzas para dar Q.3.00</div>
-      <div class="prod-precio">Q 110.00</div>
-      <button class="btn-agregar" onclick="agregar('(almohadita) fardo 4 onzas', 110.00)">+ Agregar</button>
+    <div class="item-meta">
+      💰 <strong>Ventas:</strong> Meta Q3,000.00 | Acumulado: Q35,022.49 
+      <div style="color: #4ade80; margin-top: 2px;">Diferencia a favor: +Q32,022.49</div>
     </div>
 
-    <div class="card-producto" data-search="carnaval lata soda naranjada q.3.50">
-      <div class="prod-nombre">(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50</div>
-      <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(CARNAVAL) en lata SODA', 67.00)">+ Agregar</button>
+    <div class="item-meta">
+      🎫 <strong>Tickets:</strong> Meta 312 | Real: 82 tickets 
+      <div style="color: #f87171; margin-top: 2px;">Diferencia / Faltante: -230 tickets</div>
     </div>
 
-    <div class="card-producto" data-search="salvavidas lata limonada q.3.50">
-      <div class="prod-nombre">(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50</div>
-      <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(Salvavidas) LIMONADA', 67.00)">+ Agregar</button>
-    </div>
-
-    <div class="card-producto" data-search="salvavidas lata roja q.3.50">
-      <div class="prod-nombre">(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50</div>
-      <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(Salvavidas) ROJA', 67.00)">+ Agregar</button>
-    </div>
-
-    <div class="card-producto" data-search="salvavidas lata uva q.3.50">
-      <div class="prod-nombre">(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50</div>
-      <div class="prod-precio">Q 67.00</div>
-      <button class="btn-agregar" onclick="agregar('(Salvavidas) UVA', 67.00)">+ Agregar</button>
+    <div class="item-meta">
+      ⏱️ <strong>Horas Trabajadas:</strong> Meta 182 hrs | Real: 46.3 hrs 
+      <div style="color: #f87171; margin-top: 2px;">Diferencia / Faltante: -135.7 hrs</div>
     </div>
   </div>
+
+  <!-- BUSCADOR -->
+  <input type="text" class="search-box" placeholder="Buscar producto..." id="searchInput" oninput="filtrarProductos()">
+
+  <!-- GRILLA DINÁMICA DE PRODUCTOS -->
+  <div class="grid-productos" id="gridProd"></div>
 
   <!-- BARRA INFERIOR DE TICKET -->
   <div class="footer-bar">
@@ -202,14 +206,47 @@
   </div>
 
   <script>
+    // LISTA COMPLETA DE TUS 1,327 PRODUCTOS (Puedes agregar o tenerlos aquí ordenados)
+    const productos = [
+      { id: 1, nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
+      { id: 2, nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00 },
+      { id: 3, nombre: "(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
+      { id: 4, nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
+      { id: 5, nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
+      { id: 6, nombre: "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50", precio: 67.00 }
+      // Aquí puedes incorporar todos tus demás productos de forma masiva sin que la página se sature
+    ];
+
     let carrito = [];
 
-    function agregar(nombre, precio) {
-      carrito.push({ nombre, precio });
-      actualizarCarrito();
+    // Renderizar productos en pantalla
+    function renderizar(lista) {
+      const grid = document.getElementById("gridProd");
+      grid.innerHTML = "";
+      lista.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card-producto";
+        card.innerHTML = `
+          <div class="prod-nombre">${p.nombre}</div>
+          <div class="prod-precio">Q ${p.precio.toFixed(2)}</div>
+          <button class="btn-agregar" onclick="agregarItem('${p.nombre.replace(/'/g, "")}', ${p.precio})">+ Agregar</button>
+        `;
+        grid.appendChild(card);
+      });
     }
 
-    function actualizarCarrito() {
+    // Filtrar con el buscador
+    function filtrarProductos() {
+      const query = document.getElementById("searchInput").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const filtrados = productos.filter(p => 
+        p.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(query)
+      );
+      renderizar(filtrados);
+    }
+
+    // Carrito de compras
+    function agregarItem(nombre, precio) {
+      carrito.push({ nombre, precio });
       let total = carrito.reduce((sum, item) => sum + item.precio, 0);
       document.getElementById("txtItems").innerText = `🛒 ${carrito.length} ítems (Ver Ticket)`;
       document.getElementById("txtTotal").innerText = `Total: Q ${total.toFixed(2)}`;
@@ -230,18 +267,14 @@
       alert(detalle);
     }
 
-    function filtrar() {
-      let query = document.getElementById("searchInput").value.toLowerCase();
-      let cards = document.querySelectorAll(".card-producto");
-      cards.forEach(card => {
-        let texto = card.getAttribute("data-search").toLowerCase();
-        if (query === "" || texto.includes(query)) {
-          card.style.display = "flex";
-        } else {
-          card.style.display = "none";
-        }
-      });
+    // Mostrar panel de metas
+    function toggleResumen() {
+      let panel = document.getElementById("panelResumenMetas");
+      panel.style.display = panel.style.display === "block" ? "none" : "block";
     }
+
+    // Cargar catálogo inicial al abrir la página
+    renderizar(productos);
   </script>
 </body>
 </html>
