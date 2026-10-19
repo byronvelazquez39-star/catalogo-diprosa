@@ -414,7 +414,6 @@
     }
 
     function cambiarCant(nombreB64, precio, delta) {
-      // Registrar la hora de inicio al agregar el primer producto al carrito
       if (Object.keys(carrito).length === 0 && delta > 0 && !horaInicioTicket) {
         horaInicioTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       }
@@ -587,7 +586,6 @@
         return;
       }
 
-      // Capturar la hora final al momento de presionar enviar
       horaFinalTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       if (!horaInicioTicket) {
         horaInicioTicket = horaFinalTicket;
@@ -644,19 +642,22 @@
 
       const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
 
-      // Vaciar completamente el carrito antes de redirigir a WhatsApp
+      // Limpieza total y forzada del carrito, horas y inputs PRIMERO
       carrito = {};
       horaInicioTicket = null;
       horaFinalTicket = null;
       localStorage.removeItem('carrito_diprosa');
+      
       document.getElementById('cliente-receptor').value = "";
       document.getElementById('cliente-referencia').value = "";
-      
+      document.getElementById('descuento-pct').value = "0";
+
+      // Cierra el modal y actualiza la pantalla del catálogo a 0
+      cerrarTicket();
       actualizarUIResumen();
       renderizarCatalogo();
-      cerrarTicket();
 
-      // Abrir WhatsApp después de forzar la limpieza visual del catálogo
+      // Abre WhatsApp al final
       window.open(urlWA, '_blank');
     }
   </script>
