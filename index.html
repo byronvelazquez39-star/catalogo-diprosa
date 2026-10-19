@@ -105,7 +105,7 @@
       cursor: pointer;
     }
 
-    /* PANEL DESPLEGABLE DIRECTO ARRIBA */
+    /* PANEL DE METAS */
     #panelResumenMetas {
       display: none;
       background-color: #121824;
@@ -125,7 +125,6 @@
 
     .item-meta strong { color: #38bdf8; }
 
-    /* BARRA INFERIOR */
     .footer-bar {
       position: fixed;
       bottom: 0;
@@ -163,7 +162,7 @@
     </button>
   </div>
 
-  <!-- PANEL DESPLEGABLE DE METAS Y DIFERENCIAS -->
+  <!-- PANEL DE METAS Y DIFERENCIAS -->
   <div id="panelResumenMetas">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px solid #1e293b; padding-bottom: 4px;">
       <span style="font-weight:bold; color:#38bdf8; font-size:0.9rem;">📊 Resumen de Avance Actual</span>
@@ -189,8 +188,9 @@
   <!-- BUSCADOR -->
   <input type="text" class="search-box" placeholder="Buscar producto..." id="searchInput" oninput="filtrar()">
 
-  <!-- PRODUCTOS -->
+  <!-- CATÁLOGO COMPLETO DE PRODUCTOS -->
   <div class="grid-productos" id="gridProd">
+    <!-- REEMPLAZA O PEGA AQUÍ TODO EL LISTADO COMPLETO DE TUS PRODUCTOS -->
     <div class="card-producto">
       <div class="prod-nombre">(almohadita) 4 onzas por docena para dar Q.3.00</div>
       <div class="prod-precio">Q 29.50</div>
@@ -226,6 +226,7 @@
       <div class="prod-precio">Q 67.00</div>
       <button class="btn-agregar">+ Agregar</button>
     </div>
+    <!-- (Puedes pegar aquí el resto de tus códigos y tarjetas de productos que tenías originalmente en tu repositorio) -->
   </div>
 
   <!-- BARRA INFERIOR -->
@@ -243,7 +244,11 @@
       let cards = document.querySelectorAll(".card-producto");
       cards.forEach(card => {
         let texto = card.querySelector(".prod-nombre").innerText.toLowerCase();
-        card.style.display = texto.includes(query) ? "flex" : "none";
+        if (query === "" || texto.includes(query)) {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
       });
     }
 
