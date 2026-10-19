@@ -320,6 +320,10 @@
     let productosFiltrados = [];
     let limiteActual = 40;
     
+    // Variables para las horas del ticket
+    let horaInicioTicket = null;
+    let horaFinalTicket = null;
+    
     // REINICIO TOTAL: Borra cualquier carrito corrupto previo y arranca limpio
     let carrito = {};
     try {
@@ -411,6 +415,11 @@
     }
 
     function cambiarCant(nombreB64, precio, delta) {
+      // Registrar la hora de inicio cuando se agrega el primer producto
+      if (Object.keys(carrito).length === 0 && delta > 0 && !horaInicioTicket) {
+        horaInicioTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      }
+
       const nombre = decodeURIComponent(escape(atob(nombreB64)));
       const pKey = obtenerKey(nombre, precio);
       const precioNum = parseFloat(precio);
@@ -425,6 +434,10 @@
         delete carrito[pKey];
       }
 
+      if (Object.keys(carrito).length === 0) {
+        horaInicioTicket = null;
+      }
+
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
       actualizarUIResumen();
       renderizarCatalogo();
@@ -435,6 +448,11 @@
       const pKey = obtenerKey(nombre, precio);
       
       delete carrito[pKey];
+
+      if (Object.keys(carrito).length === 0) {
+        horaInicioTicket = null;
+      }
+
       localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
       actualizarUIResumen();
       renderizarCatalogo();
@@ -570,6 +588,12 @@
         return;
       }
 
+      // Capturar hora final al momento del envío
+      horaFinalTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      if (!horaInicioTicket) {
+        horaInicioTicket = horaFinalTicket;
+      }
+
       let numTicketNum = obtenerSiguienteTicket();
       localStorage.setItem('correlativo_ticket', numTicketNum);
       const numTicketStr = "Tiquete # " + String(numTicketNum).padStart(8, '0');
@@ -588,7 +612,9 @@
 
       let mensaje = "*DISTRIBUIDORA DIPROSITRIX*\n";
       mensaje += "*" + numTicketStr + "*\n";
-      mensaje += "Fecha: " + new Date().toLocaleString('es-GT') + "\n\n";
+      mensaje += "Fecha: " + new Date().toLocaleDateString('es-GT') + "\n";
+      mensaje += "⏱️ Hora Inicio: " + horaInicioTicket + "\n";
+      mensaje += "🏁 Hora Final: " + horaFinalTicket + "\n\n";
       mensaje += "Receptor: " + receptor + "\n";
       mensaje += "Referencias: " + (referencia !== "" ? referencia : "Ninguna") + "\n";
       mensaje += "Forma de Pago: Contado\n";
@@ -622,6 +648,8 @@
       window.open(urlWA, '_blank');
 
       carrito = {};
+      horaInicioTicket = null;
+      horaFinalTicket = null;
       localStorage.removeItem('carrito_diprosa');
       document.getElementById('cliente-receptor').value = "";
       document.getElementById('cliente-referencia').value = "";
