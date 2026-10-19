@@ -3,926 +3,341 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo DIPROSA</title>
+  <title>Catálogo en Línea y Metas - DIPROSA</title>
   <style>
-    :root {
-      --bg-color: #121212;
-      --card-bg: #1e1e1e;
-      --text-color: #ffffff;
-      --accent-color: #27ae60;
-      --wa-color: #25d366;
-      --danger-color: #e74c3c;
-    }
+    /* Estilos generales */
     body {
+      background-color: #121212;
+      color: #ffffff;
       font-family: Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
       margin: 0;
       padding: 15px;
-      padding-bottom: 120px;
     }
-    .welcome-banner {
-      background: linear-gradient(135deg, #1f4037, #99f2c8);
-      color: #121212;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }
-    .welcome-banner h2 { margin: 0 0 5px 0; font-size: 18px; color: #fff; }
-    .welcome-banner p { margin: 0; font-size: 13px; color: #e0f2f1; }
 
-    /* Contenedor de Cabecera con Botón de Metas */
+    /* Cabecera y Botón Superior */
     .header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
+      background-color: #1e1e1e;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
-    h1 { text-align: center; margin: 0; font-size: 20px; }
 
-    .btn-consultar-tickets {
-      background-color: #0284c7;
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    .btn-metas {
+      background-color: #0056b3;
       color: #ffffff;
       border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.9rem;
       font-weight: bold;
       cursor: pointer;
-      font-size: 13px;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    .btn-consultar-tickets:hover { background-color: #0369a1; }
-    .badge-tickets {
-      background-color: #ffffff;
-      color: #0284c7;
+
+    .btn-metas:hover {
+      background-color: #004085;
+    }
+
+    .badge {
+      background-color: #000000;
       padding: 2px 6px;
       border-radius: 10px;
-      font-size: 11px;
-      font-weight: 800;
+      font-size: 0.8rem;
     }
 
-    .search-box {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      border: 1px solid #333;
-      border-radius: 8px;
-      background: #222;
-      color: #fff;
-      box-sizing: border-box;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 15px;
-    }
-    .card {
-      background: var(--card-bg);
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .nombre { font-size: 14px; font-weight: bold; margin-bottom: 8px; }
-    .precio { font-size: 16px; color: var(--accent-color); font-weight: bold; margin-bottom: 10px; }
-    
-    .qty-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .btn-qty {
-      background-color: #333;
-      color: #fff;
-      border: 1px solid #555;
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .btn-qty:active { background-color: #555; }
-    .qty-num { font-size: 16px; font-weight: bold; min-width: 20px; }
-
-    .btn-add {
-      background-color: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-    }
-
-    .btn-cargar-mas {
-      background-color: #333;
-      color: #fff;
-      border: 1px solid #555;
-      padding: 12px;
-      border-radius: 8px;
-      width: 100%;
-      margin-top: 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* Barra Flotante */
-    .cart-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #1f1f1f;
-      border-top: 2px solid #333;
-      padding: 12px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
-      z-index: 1000;
-    }
-    .cart-info { font-size: 15px; cursor: pointer; }
-    .cart-total { font-size: 18px; color: var(--accent-color); font-weight: bold; }
-    .btn-wa {
-      background-color: var(--wa-color);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 15px;
-      cursor: pointer;
-    }
-
-    /* Modales Generales */
-    .modal {
+    /* Modal / Ventana Flotante */
+    .modal-metas {
       display: none;
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-    }
-    .modal-content {
-      background: #1e1e1e;
-      border-radius: 12px;
-      padding: 20px;
+      z-index: 1000;
+      left: 0;
+      top: 0;
       width: 100%;
-      max-width: 450px;
-      max-height: 88vh;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
       overflow-y: auto;
-      border: 1px solid #444;
-    }
-    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 10px; margin-bottom: 15px; }
-    .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
-    .ticket-item-info { flex-grow: 1; margin-right: 10px; }
-    .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
-    .ticket-item-sub { font-size: 12px; color: #aaa; }
-    .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
-    
-    .ticket-actions { display: flex; align-items: center; gap: 4px; }
-    .btn-ticket-qty {
-      background: #333;
-      color: white;
-      border: 1px solid #555;
-      width: 26px; height: 26px;
-      border-radius: 4px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .btn-delete {
-      background: var(--danger-color);
-      color: white;
-      border: none;
-      padding: 5px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      cursor: pointer;
     }
 
-    .client-info-section {
-      background: #252525;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 15px;
-      margin-bottom: 15px;
-    }
-    .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
-    .client-input {
-      width: 100%;
-      background: #333;
-      color: white;
-      border: 1px solid #555;
-      padding: 8px;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-      margin-bottom: 10px;
+    .modal-contenido {
+      background-color: #1e1e1e;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
-    .discount-section {
-      background: #252525;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 15px;
+    .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    .discount-section label { font-size: 14px; font-weight: bold; }
-    .discount-select {
-      background: #333;
-      color: white;
-      border: 1px solid #555;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 14px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
     }
 
-    .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
-    
-    .btn-modal-wa { 
-      background: var(--wa-color); 
-      color: white; 
-      border: none;
-      width: 100%;
-      text-align: center;
-      padding: 12px 15px; 
-      border-radius: 6px; 
-      font-weight: bold; 
-      margin-top: 5px; 
-      font-size: 16px; 
-      cursor: pointer;
-      box-sizing: border-box;
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #28a745;
     }
 
-    /* Estilos del Panel de Metas Diarias (Modal Historial) */
-    .meta-container {
-      border-radius: 8px;
-      padding: 10px 12px;
-      margin-bottom: 10px;
-    }
-    .meta-texto {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-    .barra-progreso-bg {
-      width: 100%;
-      height: 8px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-    .mensaje-animo {
-      margin: 4px 0 0 0;
-      font-size: 11px;
-      font-weight: 600;
-      text-align: right;
-    }
-
-    .meta-venta { background-color: #064e3b; border: 1px solid #059669; }
-    .meta-venta .meta-texto { color: #a7f3d0; }
-    .barra-venta-fill { height: 100%; background-color: #10b981; width: 0%; transition: width 0.4s; }
-    .meta-venta .mensaje-animo { color: #6ee7b7; }
-
-    .meta-tickets { background-color: #0c4a6e; border: 1px solid #0284c7; }
-    .meta-tickets .meta-texto { color: #bae6fd; }
-    .barra-progreso-fill { height: 100%; background-color: #0284c7; width: 0%; transition: width 0.4s; }
-    .meta-tickets .mensaje-animo { color: #7dd3fc; }
-
-    .meta-jornada { background-color: #3b0764; border: 1px solid #8b5cf6; }
-    .meta-jornada .meta-texto { color: #ddd6fe; }
-    .barra-jornada-fill { height: 100%; background-color: #a78bfa; width: 0%; transition: width 0.4s; }
-    .meta-jornada .mensaje-animo { color: #c4b5fd; }
-
-    .ticket-historial-card {
-      background: #252525;
-      border: 1px solid #444;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 8px;
-    }
-    .btn-reenviar-wa {
-      background-color: var(--wa-color);
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 11px;
+    .cerrar {
+      font-size: 1.5rem;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 6px;
-      width: 100%;
+      color: #aaa;
+    }
+
+    .cerrar:hover {
+      color: #fff;
+    }
+
+    /* Tarjetas de los Paralelos */
+    .tarjeta-paralelo {
+      background-color: #2a2a2a;
+      border-left: 4px solid #007bff;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .tarjeta-paralelo h4 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+      color: #17a2b8;
+    }
+
+    .tarjeta-paralelo p {
+      margin: 4px 0;
+      font-size: 0.88rem;
+    }
+
+    .estado {
+      font-weight: bold;
+    }
+
+    .estado-deficit {
+      color: #ff4d4d;
+    }
+
+    .estado-favor {
+      color: #28a745;
+    }
+
+    .recomendacion {
+      color: #ffc107;
+      font-size: 0.82rem;
+      margin-top: 6px !important;
+    }
+
+    /* Resumen Colchón */
+    .tarjeta-resumen {
+      background-color: #332b00;
+      border: 1px solid #ffc107;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    /* Botón Flotante Inferior */
+    .btn-ticket-flotante {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- Saludo de bienvenida -->
-  <div class="welcome-banner">
-    <h2>👋 ¡Bienvenido a DIPROSA!</h2>
-    <p>Selecciona tus productos, arma tu ticket y envíanos tu pedido directamente por WhatsApp.</p>
-  </div>
-
+  <!-- BARRA SUPERIOR CON BOTÓN -->
   <div class="header-bar">
-    <h1>📦 Catálogo en Línea</h1>
-    <!-- Botón de consulta con contador de metas -->
-    <button class="btn-consultar-tickets" onclick="abrirModalMetas()">
-      📋 Mis Metas <span id="contadorBoton" class="badge-tickets">0/12</span>
+    <div class="header-title">📦 Catálogo en Línea</div>
+    <button id="btnMisMetas" onclick="abrirModalMetas()" class="btn-metas">
+      📋 Mis Metas <span id="badgeTickets" class="badge">0/324</span>
     </button>
   </div>
 
-  <input type="text" id="buscar" class="search-box" placeholder="Buscar producto..." oninput="filtrarDebounce()">
-
-  <div id="catalogo" class="grid">Cargando productos...</div>
-  <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
-
-  <!-- Barra Flotante -->
-  <div class="cart-bar">
-    <div class="cart-info" onclick="abrirTicket()">
-      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
-      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
-    </div>
-    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  <!-- CONTENIDO DEL CATÁLOGO (EJEMPLO VISUAL) -->
+  <div style="text-align: center; color: #888; margin-top: 50px;">
+    <p>Navega y agrega productos al ticket.</p>
   </div>
 
-  <!-- Modal Ticket Actual (Carrito) -->
-  <div id="modal-ticket" class="modal">
-    <div class="modal-content">
-      <div class="ticket-header">
-        <h3>🧾 TICKET DE COMPRA</h3>
-        <p style="font-size: 12px; color: #888;" id="ticket-fecha"></p>
-        <p style="font-size: 14px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
+  <!-- BOTÓN FLOTANTE INFERIOR -->
+  <button class="btn-ticket-flotante" onclick="abrirModalMetas()">
+    📋 Ver Ticket / Estado
+  </button>
+
+  <!-- MODAL / VENTANA FLOTANTE DE METAS Y PARALELOS -->
+  <div id="modalMetas" class="modal-metas">
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <h3>📊 Rendimiento en Tiempo Real</h3>
+        <span class="cerrar" onclick="cerrarModalMetas()">&times;</span>
       </div>
       
-      <div id="ticket-items"></div>
-
-      <!-- Datos del Cliente y Ubicación -->
-      <div class="client-info-section">
-        <label for="cliente-receptor">👤 Receptor / Nombre del Cliente:</label>
-        <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda Mi Barrio">
-
-        <label for="cliente-referencia">📍 Referencias para el Repartidor:</label>
-        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Esquina color celeste, frente a la gasolinera..."></textarea>
-      </div>
-
-      <!-- Selector de Descuento -->
-      <div class="discount-section">
-        <label for="descuento-pct">Descuento aplicado:</label>
-        <select id="descuento-pct" class="discount-select" onchange="actualizarContenidoTicket()">
-          <option value="0">Sin descuento (0%)</option>
-          <option value="1">1 %</option>
-          <option value="2">2 %</option>
-          <option value="3">3 %</option>
-        </select>
-      </div>
-
-      <div id="resumen-totales" style="border-top: 1px dashed #555; padding-top: 10px;">
-        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #aaa; margin-bottom: 5px;">
-          <span>Subtotal:</span>
-          <span>Q <span id="ticket-subtotal">0.00</span></span>
+      <div class="modal-body">
+        <!-- Paralelo 1: Ventas -->
+        <div class="tarjeta-paralelo">
+          <h4>💰 Paralelo 1: Ventas</h4>
+          <p>Meta del Mes: <strong>Q81,000.00</strong> (Q3,000/día)</p>
+          <p>Venta Acumulada: <strong id="valVentas">Q0.00</strong></p>
+          <p id="estVentas" class="estado"></p>
+          <p id="recVentas" class="recomendacion"></p>
         </div>
-        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #e67e22; margin-bottom: 5px;" id="fila-rebaja">
-          <span>Descuento (<span id="txt-pct">0</span>%):</span>
-          <span>- Q <span id="ticket-descuento-monto">0.00</span></span>
+
+        <!-- Paralelo 2: Tickets -->
+        <div class="tarjeta-paralelo">
+          <h4>🎫 Paralelo 2: Tickets</h4>
+          <p>Meta del Mes: <strong>324 Tickets</strong> (12/día)</p>
+          <p>Tickets Emitidos: <strong id="valTickets">0</strong></p>
+          <p id="estTickets" class="estado"></p>
+          <p id="recTickets" class="recomendacion"></p>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 18px; font-weight: bold; color: var(--accent-color);">
-          <span>Total Final:</span>
-          <span>Q <span id="ticket-total">0.00</span></span>
+
+        <!-- Paralelo 3: Horas Trabajadas -->
+        <div class="tarjeta-paralelo">
+          <h4>⏱️ Paralelo 3: Horario y Cobertura</h4>
+          <p>Meta del Mes: <strong>189 Horas</strong> (7h/día)</p>
+          <p>Horas Acumuladas: <strong id="valHoras">0 hrs</strong></p>
+          <p id="estHoras" class="estado"></p>
+          <p id="recHoras" class="recomendacion"></p>
+        </div>
+
+        <!-- Resumen de Colchón y Descuento -->
+        <div class="tarjeta-resumen">
+          🛡️ <strong>Estado de Colchón y Aplicación de Reglas:</strong>
+          <p id="txtResumenColchon" style="margin: 5px 0 0 0;"></p>
         </div>
       </div>
-
-      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido a WhatsApp</button>
-      <button class="btn-close" onclick="cerrarTicket()">Seguir Comprando</button>
     </div>
   </div>
 
-  <!-- Modal de Consulta de Metas y Tickets del Día -->
-  <div id="modal-metas" class="modal">
-    <div class="modal-content">
-      <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Resumen de Mi Jornada</h3>
-        <p style="font-size: 12px; color: #aaa;">Control diario de rendimiento</p>
-      </div>
-
-      <!-- 1. Meta de Venta (Q3,000) -->
-      <div class="meta-container meta-venta">
-        <div class="meta-texto">
-          <span id="textoVenta">💰 Ventas: Q0.00 / Q3,000.00</span>
-          <strong id="porcentajeVenta">0%</strong>
-        </div>
-        <div class="barra-progreso-bg">
-          <div id="barraVentaFill" class="barra-venta-fill" style="width: 0%;"></div>
-        </div>
-        <p id="mensajeVenta" class="mensaje-animo">Faltan Q3,000.00 para la meta</p>
-      </div>
-
-      <!-- 2. Meta de Tickets (12 Unidades) -->
-      <div class="meta-container meta-tickets">
-        <div class="meta-texto">
-          <span id="textoAvanceMeta">📋 Tickets: 0 / 12</span>
-          <strong id="porcentajeMeta">0%</strong>
-        </div>
-        <div class="barra-progreso-bg">
-          <div id="barraProgresoFill" class="barra-progreso-fill" style="width: 0%;"></div>
-        </div>
-        <p id="mensajeAnimo" class="mensaje-animo">¡Vamos por el primer ticket!</p>
-      </div>
-
-      <!-- 3. Control de Jornada (8 Horas) -->
-      <div class="meta-container meta-jornada">
-        <div class="meta-texto">
-          <span id="textoJornada">⏱️ Turno: 0h 0m / 8h</span>
-          <strong id="porcentajeJornada">0%</strong>
-        </div>
-        <div class="barra-progreso-bg">
-          <div id="barraJornadaFill" class="barra-jornada-fill" style="width: 0%;"></div>
-        </div>
-        <p id="mensajeJornada" class="mensaje-animo">Iniciando jornada laboral</p>
-      </div>
-
-      <h4 style="margin: 15px 0 8px 0; font-size: 14px; border-bottom: 1px solid #444; padding-bottom: 4px;">Tus Tickets Generados Hoy:</h4>
-      
-      <input type="text" id="buscarTicketInput" class="client-input" placeholder="🔍 Buscar ticket por cliente..." onkeyup="filtrarTicketsHistorial()" style="margin-bottom: 10px;">
-      
-      <div id="listaTicketsContainer" style="max-height: 200px; overflow-y: auto;">
-        <!-- Se cargan dinámicamente -->
-      </div>
-
-      <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
-    </div>
-  </div>
-
+  <!-- LÓGICA EN JAVASCRIPT -->
   <script>
-    const NUMERO_WHATSAPP = "50248502382"; 
-    const META_TICKETS = 12;
-    const META_VENTA_Q = 3000.00;
-    const TURNO_HORAS = 8;
-    const MINUTOS_TURNO = TURNO_HORAS * 60;
+    // Variables acumuladas del vendedor (actualizadas a la fecha)
+    const vendedor = "ESTUARDO";
+    const diasHabilesMes = 27;
+    const diasTranscurridos = 15; // Días hábiles transcurridos
+    const diasRestantes = diasHabilesMes - diasTranscurridos;
 
-    let productos = [];
-    let productosFiltrados = [];
-    let limiteActual = 40;
-    
-    let horaInicioTicket = null;
-    let horaFinalTicket = null;
-    
-    let carrito = {};
-    try {
-      let guardado = JSON.parse(localStorage.getItem('carrito_diprosa'));
-      if (guardado && typeof guardado === 'object') {
-        for (let k in guardado) {
-          let item = guardado[k];
-          let cant = parseInt(item && item.cantidad);
-          let prec = parseFloat(item && item.precio);
-          if (item && item.nombre && !isNaN(prec) && !isNaN(cant) && cant > 0) {
-            carrito[k] = { nombre: item.nombre, precio: prec, cantidad: cant };
-          }
-        }
-      }
-    } catch(e) {
-      carrito = {};
-    }
+    const ventaReal = 35022.49;
+    const ticketsReales = 82;
+    const horasReales = 46.33;
 
-    let debounceTimer;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      actualizarContadorBoton();
-      verificarOIniciarJornada();
-    });
-
-    fetch('productos.json?v=' + new Date().getTime())
-      .then(res => res.json())
-      .then(data => {
-        productos = data;
-        productosFiltrados = data;
-        renderizarCatalogo();
-        actualizarUIResumen();
-      })
-      .catch(() => {
-        document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">Error al cargar los productos.</p>';
-      });
-
-    function obtenerKey(nombre, precio) {
-      return nombre.trim() + '_' + parseFloat(precio);
-    }
-
-    function renderizarCatalogo() {
-      const contenedor = document.getElementById('catalogo');
-      if (!productosFiltrados || productosFiltrados.length === 0) {
-        contenedor.innerHTML = '<p>No se encontraron productos.</p>';
-        document.getElementById('btn-mas').style.display = 'none';
-        return;
-      }
-
-      const listaCorte = productosFiltrados.slice(0, limiteActual);
-      let html = '';
-      
-      listaCorte.forEach((p) => {
-        const pKey = obtenerKey(p.nombre, p.precio);
-        let cant = 0;
-        if (carrito[pKey] && !isNaN(carrito[pKey].cantidad)) {
-          cant = parseInt(carrito[pKey].cantidad);
-        }
-        const nombreB64 = btoa(unescape(encodeURIComponent(p.nombre)));
-
-        html += `
-          <div class="card">
-            <div>
-              <div class="nombre">${p.nombre}</div>
-            </div>
-            <div>
-              <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
-              ${cant === 0 ? `
-                <button class="btn-add" onclick="cambiarCant('${nombreB64}',${p.precio}, 1)">+ Agregar</button>
-              ` : `
-                <div class="qty-controls">
-                  <button class="btn-qty" onclick="cambiarCant('${nombreB64}',${p.precio}, -1)">-</button>
-                  <span class="qty-num">${cant}</span>
-                  <button class="btn-qty" onclick="cambiarCant('${nombreB64}',${p.precio}, 1)">+</button>
-                </div>
-              `}
-            </div>
-          </div>
-        `;
-      });
-      
-      contenedor.innerHTML = html;
-      document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
-    }
-
-    function cargarMasProductos() {
-      limiteActual += 40;
-      renderizarCatalogo();
-    }
-
-    function cambiarCant(nombreB64, precio, delta) {
-      if (Object.keys(carrito).length === 0 && delta > 0 && !horaInicioTicket) {
-        horaInicioTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      }
-
-      const nombre = decodeURIComponent(escape(atob(nombreB64)));
-      const pKey = obtenerKey(nombre, precio);
-      const precioNum = parseFloat(precio);
-
-      if (!carrito[pKey] || isNaN(carrito[pKey].cantidad)) {
-        carrito[pKey] = { nombre: nombre, precio: precioNum, cantidad: 0 };
-      }
-      
-      carrito[pKey].cantidad += parseInt(delta);
-      if (carrito[pKey].cantidad <= 0) delete carrito[pKey];
-      if (Object.keys(carrito).length === 0) horaInicioTicket = null;
-
-      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
-      actualizarUIResumen();
-      renderizarCatalogo();
-    }
-
-    function eliminarDelTicketDirecto(nombreB64, precio) {
-      const nombre = decodeURIComponent(escape(atob(nombreB64)));
-      const pKey = obtenerKey(nombre, precio);
-      delete carrito[pKey];
-      if (Object.keys(carrito).length === 0) horaInicioTicket = null;
-
-      localStorage.setItem('carrito_diprosa', JSON.stringify(carrito));
-      actualizarUIResumen();
-      renderizarCatalogo();
-    }
-
-    function actualizarUIResumen() {
-      let totalCant = 0;
-      let totalMonto = 0;
-      for (let k in carrito) {
-        let item = carrito[k];
-        if (item && !isNaN(item.cantidad) && !isNaN(item.precio)) {
-          totalCant += parseInt(item.cantidad);
-          totalMonto += parseInt(item.cantidad) * parseFloat(item.precio);
-        }
-      }
-      document.getElementById('cant-items').innerText = totalCant;
-      document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
-      
-      if(document.getElementById('modal-ticket').style.display === 'flex') {
-        actualizarContenidoTicket();
-      }
-    }
-
-    function filtrarDebounce() {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        const q = document.getElementById('buscar').value.toLowerCase().trim();
-        limiteActual = 40;
-        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre && p.nombre.toLowerCase().includes(q));
-        renderizarCatalogo();
-      }, 200);
-    }
-
-    function obtenerSiguienteTicket() {
-      let ultimoNum = parseInt(localStorage.getItem('correlativo_ticket')) || 0;
-      return ultimoNum + 1;
-    }
-
-    function abrirTicket() {
-      if(Object.keys(carrito).length === 0) {
-        alert("El carrito está vacío. Agrega productos primero.");
-        return;
-      }
-      actualizarContenidoTicket();
-      document.getElementById('modal-ticket').style.display = 'flex';
-    }
-
-    function cerrarTicket() {
-      document.getElementById('modal-ticket').style.display = 'none';
-    }
-
-    function actualizarContenidoTicket() {
-      const keys = Object.keys(carrito);
-      const contenedor = document.getElementById('ticket-items');
-      contenedor.innerHTML = '';
-      let subtotalGeneral = 0;
-
-      if(keys.length === 0) {
-        cerrarTicket();
-        return;
-      }
-
-      keys.forEach(k => {
-        const item = carrito[k];
-        if (!item || isNaN(item.cantidad) || isNaN(item.precio)) return;
-
-        let cant = parseInt(item.cantidad);
-        let prec = parseFloat(item.precio);
-        const subtotal = cant * prec;
-        subtotalGeneral += subtotal;
-        const nombreB64 = btoa(unescape(encodeURIComponent(item.nombre)));
-
-        contenedor.innerHTML += `
-          <div class="ticket-item">
-            <div class="ticket-item-info">
-              <div class="ticket-item-title">${item.nombre}</div>
-              <div class="ticket-item-sub">Precio unitario: Q ${prec.toFixed(2)} c/u</div>
-              <div class="ticket-item-subtotal">Subtotal (${cant}): Q ${subtotal.toFixed(2)}</div>
-            </div>
-            <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${prec}, -1)">-</button>
-              <span style="font-weight:bold; min-width:15px; text-align:center;">${cant}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCant('${nombreB64}', ${prec}, 1)">+</button>
-              <button class="btn-delete" onclick="eliminarDelTicketDirecto('${nombreB64}', ${prec})">🗑️</button>
-            </div>
-          </div>
-        `;
-      });
-
-      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
-      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
-      const totalFinal = subtotalGeneral - montoDescuento;
-
-      document.getElementById('ticket-subtotal').innerText = subtotalGeneral.toFixed(2);
-      document.getElementById('txt-pct').innerText = pctDescuento;
-      document.getElementById('ticket-descuento-monto').innerText = montoDescuento.toFixed(2);
-      document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
-      document.getElementById('fila-rebaja').style.display = pctDescuento > 0 ? 'flex' : 'none';
-
-      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(obtenerSiguienteTicket()).padStart(8, '0');
-    }
-
-    // Funciones del Modal de Metas y Jornada
     function abrirModalMetas() {
-      document.getElementById('modal-metas').style.display = 'flex';
-      cargarDatosMetas();
+      document.getElementById("modalMetas").style.display = "block";
+      calcularParalelos();
     }
 
     function cerrarModalMetas() {
-      document.getElementById('modal-metas').style.display = 'none';
+      document.getElementById("modalMetas").style.display = "none";
     }
 
-    function obtenerFechaHoy() {
-      return new Date().toLocaleDateString();
-    }
+    function calcularParalelos() {
+      // 1. Cálculo de Ventas
+      const metaVentasTrans = diasTranscurridos * 3000;
+      const defVentas = ventaReal - metaVentasTrans;
+      const diasDefVentas = (Math.abs(defVentas) / 3000).toFixed(1);
+      const recVentaDiaria = ((81000 - ventaReal) / diasRestantes).toFixed(2);
 
-    function verificarOIniciarJornada() {
-      const hoyStr = obtenerFechaHoy();
-      let datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
-      if (!datosTurno.fecha || datosTurno.fecha !== hoyStr) {
-        datosTurno = { fecha: hoyStr, horaInicio: new Date().getTime() };
-        localStorage.setItem('turno_trabajo', JSON.stringify(datosTurno));
-      }
-      calcularProgresoJornada(datosTurno.horaInicio);
-    }
-
-    function calcularProgresoJornada(horaInicioMs) {
-      const ahoraMs = new Date().getTime();
-      const minutosTranscurridos = Math.floor((ahoraMs - horaInicioMs) / (1000 * 60));
-      const minutosActuales = Math.min(minutosTranscurridos, MINUTOS_TURNO);
-      const porcentaje = Math.min(Math.round((minutosActuales / MINUTOS_TURNO) * 100), 100);
-      
-      const horas = Math.floor(minutosActuales / 60);
-      const mins = minutosActuales % 60;
-
-      document.getElementById('textoJornada').innerText = `⏱️ Turno: ${horas}h ${mins}m / ${TURNO_HORAS}h`;
-      document.getElementById('porcentajeJornada').innerText = `${porcentaje}%`;
-      document.getElementById('barraJornadaFill').style.width = `${porcentaje}%`;
-
-      const msg = document.getElementById('mensajeJornada');
-      if (minutosActuales >= MINUTOS_TURNO) {
-        msg.innerText = "🏁 Jornada completada con éxito.";
+      document.getElementById("valVentas").innerText = `Q${ventaReal.toLocaleString("es-GT", {minimumFractionDigits: 2})}`;
+      if (defVentas >= 0) {
+        document.getElementById("estVentas").className = "estado estado-favor";
+        document.getElementById("estVentas").innerText = `✅ Colchón a favor: Q${defVentas.toFixed(2)}`;
+        document.getElementById("recVentas").innerText = `🎉 ¡Vas sobre la cuota esperada!`;
       } else {
-        msg.innerText = `Restan aprox. ${TURNO_HORAS - horas}h de turno.`;
-      }
-    }
-
-    function cargarDatosMetas() {
-      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
-      const hoyStr = obtenerFechaHoy();
-      const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
-
-      const totalVendidoHoy = ticketsHoy.reduce((acc, t) => acc + parseFloat(t.total || 0), 0);
-
-      // Barra Ventas
-      const pctVenta = Math.min(Math.round((totalVendidoHoy / META_VENTA_Q) * 100), 100);
-      document.getElementById('textoVenta').innerText = `💰 Ventas: Q${totalVendidoHoy.toFixed(2)} / Q${META_VENTA_Q.toFixed(2)}`;
-      document.getElementById('porcentajeVenta').innerText = `${pctVenta}%`;
-      document.getElementById('barraVentaFill').style.width = `${pctVenta}%`;
-      document.getElementById('mensajeVenta').innerText = totalVendidoHoy >= META_VENTA_Q ? "🏆 ¡Meta de venta cumplida!" : `Faltan Q${(META_VENTA_Q - totalVendidoHoy).toFixed(2)}`;
-
-      // Barra Tickets
-      const cantTickets = ticketsHoy.length;
-      const pctTickets = Math.min(Math.round((cantTickets / META_TICKETS) * 100), 100);
-      document.getElementById('textoAvanceMeta').innerText = `📋 Tickets: ${cantTickets} / ${META_TICKETS}`;
-      document.getElementById('porcentajeMeta').innerText = `${pctTickets}%`;
-      document.getElementById('barraProgresoFill').style.width = `${pctTickets}%`;
-      document.getElementById('mensajeAnimo').innerText = cantTickets >= META_TICKETS ? "🎉 ¡12 tickets logrados!" : `Te faltan ${META_TICKETS - cantTickets} ticket(s)`;
-
-      // Jornada
-      const datosTurno = JSON.parse(localStorage.getItem('turno_trabajo') || '{}');
-      if (datosTurno.horaInicio) calcularProgresoJornada(datosTurno.horaInicio);
-
-      renderizarListaHistorial(ticketsHoy.reverse());
-    }
-
-    function actualizarContadorBoton() {
-      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
-      const hoyStr = obtenerFechaHoy();
-      const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
-      document.getElementById('contadorBoton').innerText = `${ticketsHoy.length}/${META_TICKETS}`;
-    }
-
-    function renderizarListaHistorial(lista) {
-      const container = document.getElementById('listaTicketsContainer');
-      if (lista.length === 0) {
-        container.innerHTML = `<p style="text-align:center; color:#888; font-size:12px; padding: 10px;">No hay tickets registrados hoy.</p>`;
-        return;
+        document.getElementById("estVentas").className = "estado estado-deficit";
+        document.getElementById("estVentas").innerText = `⚠️ Déficit: -Q${Math.abs(defVentas).toFixed(2)} (${diasDefVentas} días)`;
+        document.getElementById("recVentas").innerText = `👉 Para nivelarte: Vender Q${recVentaDiaria} diarios.`;
       }
 
-      container.innerHTML = lista.map(t => `
-        <div class="ticket-historial-card">
-          <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 12px;">
-            <span>#${t.id} - ${t.cliente}</span>
-            <span style="color: #10b981;">Q${parseFloat(t.total || 0).toFixed(2)}</span>
-          </div>
-          <div style="font-size: 11px; color: #aaa; margin-top: 2px;">Hora: ${t.hora}</div>
-          <button class="btn-reenviar-wa" onclick="reenviarWhatsAppHistorial('${t.id}')">📲 Reenviar por WhatsApp</button>
-        </div>
-      `).join('');
-    }
+      // 2. Cálculo de Tickets
+      const metaTicketsTrans = diasTranscurridos * 12;
+      const defTickets = ticketsReales - metaTicketsTrans;
+      const diasDefTickets = (Math.abs(defTickets) / 12).toFixed(1);
+      const recTicketsDiarios = Math.ceil((324 - ticketsReales) / diasRestantes);
 
-    function filtrarTicketsHistorial() {
-      const busqueda = document.getElementById('buscarTicketInput').value.toLowerCase();
-      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
-      const hoyStr = obtenerFechaHoy();
-
-      const ticketsHoy = historial.filter(t => t.fechaCorta === hoyStr);
-      const filtrados = ticketsHoy.filter(t => t.cliente && t.cliente.toLowerCase().includes(busqueda));
-      renderizarListaHistorial(filtrados.reverse());
-    }
-
-    function reenviarWhatsAppHistorial(ticketId) {
-      const historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
-      const ticket = historial.find(t => t.id == ticketId);
-      if (ticket && ticket.textoWhatsApp) {
-        window.open(`https://wa.me/?text=${encodeURIComponent(ticket.textoWhatsApp)}`, '_blank');
+      document.getElementById("valTickets").innerText = `${ticketsReales} tickets`;
+      document.getElementById("badgeTickets").innerText = `${ticketsReales}/324`;
+      if (defTickets >= 0) {
+        document.getElementById("estTickets").className = "estado estado-favor";
+        document.getElementById("estTickets").innerText = `✅ Colchón a favor: +${defTickets} tickets`;
+        document.getElementById("recTickets").innerText = `🎉 ¡Buen ritmo de emisión!`;
       } else {
-        alert("No se encontró el contenido del ticket.");
+        document.getElementById("estTickets").className = "estado estado-deficit";
+        document.getElementById("estTickets").innerText = `⚠️ Déficit: ${defTickets} tickets (${diasDefTickets} días)`;
+        document.getElementById("recTickets").innerText = `👉 Para nivelarte: Hacer ${recTicketsDiarios} tickets diarios.`;
       }
+
+      // 3. Cálculo de Horas
+      const metaHorasTrans = diasTranscurridos * 7;
+      const defHoras = horasReales - metaHorasTrans;
+      const diasDefHoras = (Math.abs(defHoras) / 7).toFixed(1);
+      const recHorasDiarias = ((189 - horasReales) / diasRestantes).toFixed(1);
+
+      document.getElementById("valHoras").innerText = `${horasReales.toFixed(1)} hrs`;
+      if (defHoras >= 0) {
+        document.getElementById("estHoras").className = "estado estado-favor";
+        document.getElementById("estHoras").innerText = `✅ Colchón a favor: +${defHoras.toFixed(1)} hrs`;
+        document.getElementById("recHoras").innerText = `🎉 Cumpliendo cobertura diaria.`;
+      } else {
+        document.getElementById("estHoras").className = "estado estado-deficit";
+        document.getElementById("estHoras").innerText = `⚠️ Déficit: -${Math.abs(defHoras).toFixed(1)} hrs (${diasDefHoras} días)`;
+        document.getElementById("recHoras").innerText = `👉 Para nivelarte: Registrar ${recHorasDiarias} hrs diarias.`;
+      }
+
+      // 4. Identificación del Mayor Déficit y Aplicación de Colchón
+      let dV = defVentas < 0 ? parseFloat(diasDefVentas) : 0;
+      let dT = defTickets < 0 ? parseFloat(diasDefTickets) : 0;
+      let dH = defHoras < 0 ? parseFloat(diasDefHoras) : 0;
+
+      let mayorDef = "Horario / Cobertura";
+      let diasMayor = dH;
+
+      if (dV > dT && dV > dH) {
+        mayorDef = "Ventas";
+        diasMayor = dV;
+      } else if (dT > dH) {
+        mayorDef = "Tickets";
+        diasMayor = dT;
+      }
+
+      document.getElementById("txtResumenColchon").innerHTML = 
+        `Actualmente el mayor déficit está en <strong>${mayorDef}</strong> (${diasMayor} días).<br>` +
+        `Si no hay colchón positivo de otro paralelo para compensar, la penalización a fin de mes aplicará únicamente sobre este indicador.`;
     }
 
-    function enviarWhatsAppYLimpiar() {
-      const keys = Object.keys(carrito);
-      if (keys.length === 0) {
-        alert("El carrito está vacío.");
-        return;
+    // Cerrar modal al hacer clic fuera del contenido
+    window.onclick = function(event) {
+      const modal = document.getElementById("modalMetas");
+      if (event.target == modal) {
+        modal.style.display = "none";
       }
-
-      const receptor = document.getElementById('cliente-receptor').value.trim();
-      const referencia = document.getElementById('cliente-referencia').value.trim();
-
-      if (receptor === "") {
-        alert("Por favor ingresa el nombre del Receptor / Cliente.");
-        document.getElementById('cliente-receptor').focus();
-        return;
-      }
-
-      horaFinalTicket = new Date().toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-      if (!horaInicioTicket) horaInicioTicket = horaFinalTicket;
-
-      let numTicketNum = obtenerSiguienteTicket();
-      localStorage.setItem('correlativo_ticket', numTicketNum);
-      const numTicketStr = "Tiquete # " + String(numTicketNum).padStart(8, '0');
-
-      let subtotalGeneral = 0;
-      keys.forEach(k => {
-        let item = carrito[k];
-        if (item && !isNaN(item.cantidad) && !isNaN(item.precio)) {
-          subtotalGeneral += parseInt(item.cantidad) * parseFloat(item.precio);
-        }
-      });
-
-      const pctDescuento = parseInt(document.getElementById('descuento-pct').value) || 0;
-      const montoDescuento = (subtotalGeneral * pctDescuento) / 100;
-      const totalFinal = subtotalGeneral - montoDescuento;
-
-      let mensaje = "*DISTRIBUIDORA DIPROSITRIX*\n";
-      mensaje += "*" + numTicketStr + "*\n";
-      mensaje += "Fecha: " + new Date().toLocaleDateString('es-GT') + "\n";
-      mensaje += "⏱️ Hora Inicio: " + horaInicioTicket + "\n";
-      mensaje += "🏁 Hora Final: " + horaFinalTicket + "\n\n";
-      mensaje += "Receptor: " + receptor + "\n";
-      mensaje += "Referencias: " + (referencia !== "" ? referencia : "Ninguna") + "\n";
-      mensaje += "Forma de Pago: Contado\n";
-      mensaje += "--------------------------------\n";
-      mensaje += "DETALLE DE PRODUCTOS:\n";
-
-      let i = 1;
-      keys.forEach(k => {
-        const item = carrito[k];
-        if (!item || isNaN(item.cantidad) || isNaN(item.precio)) return;
-        let cant = parseInt(item.cantidad);
-        let prec = parseFloat(item.precio);
-        mensaje += i + ". " + item.nombre + "\n";
-        mensaje += "   Cant: " + cant + " x Q" + prec.toFixed(2) + " = Q" + (cant * prec).toFixed(2) + "\n";
-        i++;
-      });
-
-      mensaje += "--------------------------------\n";
-      mensaje += "Subtotal: Q" + subtotalGeneral.toFixed(2) + "\n";
-      if(pctDescuento > 0) mensaje += "Descuento (" + pctDescuento + "%): -Q" + montoDescuento.toFixed(2) + "\n";
-      mensaje += "TOTAL A PAGAR: Q" + totalFinal.toFixed(2) + "\n";
-      mensaje += "--------------------------------\n";
-      mensaje += "¡Hola! Confirmo este pedido por favor.";
-
-      // Guardar en el historial de tickets del día
-      let historial = JSON.parse(localStorage.getItem('historial_tickets') || '[]');
-      const ahora = new Date();
-      historial.push({
-        id: String(numTicketNum).padStart(8, '0'),
-        cliente: receptor,
-        fechaCorta: ahora.toLocaleDateString(),
-        hora: ahora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        total: totalFinal,
-        textoWhatsApp: mensaje
-      });
-      localStorage.setItem('historial_tickets', JSON.stringify(historial));
-
-      const urlWA = "https://api.whatsapp.com/send?phone=" + NUMERO_WHATSAPP + "&text=" + encodeURIComponent(mensaje);
-
-      // Limpieza total
-      carrito = {};
-      horaInicioTicket = null;
-      horaFinalTicket = null;
-      localStorage.removeItem('carrito_diprosa');
-      
-      document.getElementById('cliente-receptor').value = "";
-      document.getElementById('cliente-referencia').value = "";
-      document.getElementById('descuento-pct').value = "0";
-
-      cerrarTicket();
-      actualizarUIResumen();
-      renderizarCatalogo();
-      actualizarContadorBoton();
-
-      window.open(urlWA, '_blank');
     }
   </script>
-
 </body>
 </html>
+
