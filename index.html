@@ -3,296 +3,340 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo en Línea - DIPROSA</title>
+  <title>Catálogo en Línea y Metas - DIPROSA</title>
   <style>
+    /* Estilos generales */
     body {
-      background-color: #0b0e14;
+      background-color: #121212;
       color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 12px;
-      padding-bottom: 90px;
+      padding: 15px;
     }
 
+    /* Cabecera y Botón Superior */
     .header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #121824;
-      padding: 10px 14px;
+      background-color: #1e1e1e;
+      padding: 12px 15px;
       border-radius: 8px;
-      border: 1px solid #1e293b;
-      margin-bottom: 12px;
+      margin-bottom: 20px;
     }
 
     .header-title {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       font-weight: bold;
     }
 
-    .btn-mis-metas {
-      background-color: #0284c7;
+    .btn-metas {
+      background-color: #0056b3;
       color: #ffffff;
       border: none;
-      padding: 6px 12px;
+      padding: 8px 14px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: bold;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .badge-metas {
-      background-color: #0f172a;
-      color: #38bdf8;
+    .btn-metas:hover {
+      background-color: #004085;
+    }
+
+    .badge {
+      background-color: #000000;
       padding: 2px 6px;
       border-radius: 10px;
-      font-size: 0.75rem;
-    }
-
-    .search-box {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #1e293b;
-      background-color: #121824;
-      color: #ffffff;
-      font-size: 0.95rem;
-      box-sizing: border-box;
-      margin-bottom: 15px;
-      outline: none;
-    }
-
-    .search-box::placeholder {
-      color: #64748b;
-    }
-
-    .grid-productos {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
-    .card-producto {
-      background-color: #121824;
-      border: 1px solid #1e293b;
-      border-radius: 10px;
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      text-align: center;
-    }
-
-    .prod-nombre {
       font-size: 0.8rem;
-      font-weight: bold;
-      line-height: 1.2;
-      margin-bottom: 6px;
-      color: #f8fafc;
     }
 
-    .prod-precio {
-      color: #22c55e;
-      font-weight: bold;
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-    }
-
-    .btn-agregar {
-      background-color: #15803d;
-      color: #ffffff;
-      border: none;
-      padding: 7px;
-      border-radius: 6px;
-      font-weight: bold;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    .btn-agregar:active { background-color: #166534; }
-
-    /* PANELES MODALES */
-    .modal-panel {
+    /* Modal / Ventana Flotante */
+    .modal-metas {
       display: none;
-      background-color: #121824;
-      border: 1px solid #0284c7;
-      border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 15px;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      overflow-y: auto;
+    }
+
+    .modal-contenido {
+      background-color: #1e1e1e;
+      margin: 5% auto;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #1e293b;
-      padding-bottom: 6px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
     }
 
-    .item-meta, .item-ticket {
-      background-color: #1e293b;
-      padding: 8px 10px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-      font-size: 0.82rem;
+    .modal-header h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #28a745;
     }
 
-    /* BARRA INFERIOR */
-    .footer-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #0b0e14;
-      padding: 10px 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-sizing: border-box;
-      border-top: 1px solid #1e293b;
-      z-index: 500;
-    }
-
-    .btn-ver-ticket {
-      background-color: #16a34a;
-      color: #ffffff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
+    .cerrar {
+      font-size: 1.5rem;
       font-weight: bold;
-      font-size: 0.9rem;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .cerrar:hover {
+      color: #fff;
+    }
+
+    /* Tarjetas de los Paralelos */
+    .tarjeta-paralelo {
+      background-color: #2a2a2a;
+      border-left: 4px solid #007bff;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .tarjeta-paralelo h4 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+      color: #17a2b8;
+    }
+
+    .tarjeta-paralelo p {
+      margin: 4px 0;
+      font-size: 0.88rem;
+    }
+
+    .estado {
+      font-weight: bold;
+    }
+
+    .estado-deficit {
+      color: #ff4d4d;
+    }
+
+    .estado-favor {
+      color: #28a745;
+    }
+
+    .recomendacion {
+      color: #ffc107;
+      font-size: 0.82rem;
+      margin-top: 6px !important;
+    }
+
+    /* Resumen Colchón */
+    .tarjeta-resumen {
+      background-color: #332b00;
+      border: 1px solid #ffc107;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    /* Botón Flotante Inferior */
+    .btn-ticket-flotante {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
       cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <!-- CABECERA -->
+  <!-- BARRA SUPERIOR CON BOTÓN -->
   <div class="header-bar">
     <div class="header-title">📦 Catálogo en Línea</div>
-    <button class="btn-mis-metas" onclick="toggleMetas()">
-      📋 Mis Metas <span class="badge-metas">82/312</span>
+    <button id="btnMisMetas" onclick="abrirModalMetas()" class="btn-metas">
+      📋 Mis Metas <span id="badgeTickets" class="badge">0/324</span>
     </button>
   </div>
 
-  <!-- PANEL DE METAS -->
-  <div id="panelMetas" class="modal-panel">
-    <div class="modal-header">
-      <span style="font-weight:bold; color:#38bdf8; font-size:0.9rem;">📊 Resumen de Avance Actual</span>
-      <button onclick="toggleMetas()" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
-    </div>
-    <div class="item-meta">💰 <strong>Ventas:</strong> Meta Q3,000.00 | Acumulado: Q35,022.49 <div style="color: #4ade80; margin-top: 2px;">Diferencia: +Q32,022.49</div></div>
-    <div class="item-meta">🎫 <strong>Tickets:</strong> Meta 312 | Real: 82 tickets <div style="color: #f87171; margin-top: 2px;">Faltante: -230 tickets</div></div>
-    <div class="item-meta">⏱️ <strong>Horas:</strong> Meta 182 hrs | Real: 46.3 hrs <div style="color: #f87171; margin-top: 2px;">Faltante: -135.7 hrs</div></div>
+  <!-- CONTENIDO DEL CATÁLOGO (EJEMPLO VISUAL) -->
+  <div style="text-align: center; color: #888; margin-top: 50px;">
+    <p>Navega y agrega productos al ticket.</p>
   </div>
 
-  <!-- PANEL DE TICKET DE COMPRA -->
-  <div id="panelTicket" class="modal-panel" style="border-color: #16a34a;">
-    <div class="modal-header">
-      <span style="font-weight:bold; color:#4ade80; font-size:0.9rem;">🛒 Resumen del Ticket</span>
-      <button onclick="abrirTicket()" style="background:none; border:none; color:#fff; font-size:1rem; cursor:pointer;">✕</button>
+  <!-- BOTÓN FLOTANTE INFERIOR -->
+  <button class="btn-ticket-flotante" onclick="abrirModalMetas()">
+    📋 Ver Ticket / Estado
+  </button>
+
+  <!-- MODAL / VENTANA FLOTANTE DE METAS Y PARALELOS -->
+  <div id="modalMetas" class="modal-metas">
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <h3>📊 Rendimiento en Tiempo Real</h3>
+        <span class="cerrar" onclick="cerrarModalMetas()">&times;</span>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Paralelo 1: Ventas -->
+        <div class="tarjeta-paralelo">
+          <h4>💰 Paralelo 1: Ventas</h4>
+          <p>Meta del Mes: <strong>Q81,000.00</strong> (Q3,000/día)</p>
+          <p>Venta Acumulada: <strong id="valVentas">Q0.00</strong></p>
+          <p id="estVentas" class="estado"></p>
+          <p id="recVentas" class="recomendacion"></p>
+        </div>
+
+        <!-- Paralelo 2: Tickets -->
+        <div class="tarjeta-paralelo">
+          <h4>🎫 Paralelo 2: Tickets</h4>
+          <p>Meta del Mes: <strong>324 Tickets</strong> (12/día)</p>
+          <p>Tickets Emitidos: <strong id="valTickets">0</strong></p>
+          <p id="estTickets" class="estado"></p>
+          <p id="recTickets" class="recomendacion"></p>
+        </div>
+
+        <!-- Paralelo 3: Horas Trabajadas -->
+        <div class="tarjeta-paralelo">
+          <h4>⏱️ Paralelo 3: Horario y Cobertura</h4>
+          <p>Meta del Mes: <strong>189 Horas</strong> (7h/día)</p>
+          <p>Horas Acumuladas: <strong id="valHoras">0 hrs</strong></p>
+          <p id="estHoras" class="estado"></p>
+          <p id="recHoras" class="recomendacion"></p>
+        </div>
+
+        <!-- Resumen de Colchón y Descuento -->
+        <div class="tarjeta-resumen">
+          🛡️ <strong>Estado de Colchón y Aplicación de Reglas:</strong>
+          <p id="txtResumenColchon" style="margin: 5px 0 0 0;"></p>
+        </div>
+      </div>
     </div>
-    <div id="listaTicketContainer"></div>
-    <div id="totalTicketContainer" style="font-weight: bold; margin-top: 8px; color: #4ade80; font-size: 0.95rem;"></div>
   </div>
 
-  <!-- BUSCADOR -->
-  <input type="text" class="search-box" placeholder="Buscar producto..." id="searchInput" oninput="filtrarProductos()">
-
-  <!-- GRILLA DE PRODUCTOS -->
-  <div class="grid-productos" id="gridProd"></div>
-
-  <!-- BARRA INFERIOR -->
-  <div class="footer-bar">
-    <div>
-      <div id="txtItems" style="font-size: 0.85rem; color: #cbd5e1;">🛒 0 ítems</div>
-      <div id="txtTotal" style="font-size: 1rem; font-weight: bold; color: #4ade80;">Total: Q 0.00</div>
-    </div>
-    <button class="btn-ver-ticket" onclick="abrirTicket()">📋 Ver Ticket / Estado</button>
-  </div>
-
+  <!-- LÓGICA EN JAVASCRIPT -->
   <script>
-    // PEGA AQUÍ ABAJO TUS 1,327 PRODUCTOS (respetando el formato de ejemplo)
-    const productos = [
-      { id: 1, nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
-      { id: 2, nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00 },
-      { id: 3, nombre: "(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
-      { id: 4, nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
-      { id: 5, nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
-      { id: 6, nombre: "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50", precio: 67.00 }
-      // Puedes continuar agregando el resto de tus artículos aquí debajo separados por comas:
-      // { id: 7, nombre: "Nombre del producto", precio: 0.00 },
-    ];
+    // Variables acumuladas del vendedor (actualizadas a la fecha)
+    const vendedor = "ESTUARDO";
+    const diasHabilesMes = 27;
+    const diasTranscurridos = 15; // Días hábiles transcurridos
+    const diasRestantes = diasHabilesMes - diasTranscurridos;
 
-    let carrito = [];
+    const ventaReal = 35022.49;
+    const ticketsReales = 82;
+    const horasReales = 46.33;
 
-    function renderizar(lista) {
-      const grid = document.getElementById("gridProd");
-      grid.innerHTML = "";
-      lista.forEach(p => {
-        const card = document.createElement("div");
-        card.className = "card-producto";
-        card.innerHTML = `
-          <div class="prod-nombre">${p.nombre}</div>
-          <div class="prod-precio">Q ${p.precio.toFixed(2)}</div>
-          <button class="btn-agregar" onclick="agregarItem('${p.nombre.replace(/'/g, "")}', ${p.precio})">+ Agregar</button>
-        `;
-        grid.appendChild(card);
-      });
+    function abrirModalMetas() {
+      document.getElementById("modalMetas").style.display = "block";
+      calcularParalelos();
     }
 
-    function filtrarProductos() {
-      const query = document.getElementById("searchInput").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      const filtrados = productos.filter(p => 
-        p.nombre.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(query)
-      );
-      renderizar(filtrados);
+    function cerrarModalMetas() {
+      document.getElementById("modalMetas").style.display = "none";
     }
 
-    function agregarItem(nombre, precio) {
-      carrito.push({ nombre, precio });
-      let total = carrito.reduce((sum, item) => sum + item.precio, 0);
-      document.getElementById("txtItems").innerText = `🛒 ${carrito.length} ítems`;
-      document.getElementById("txtTotal").innerText = `Total: Q ${total.toFixed(2)}`;
-    }
+    function calcularParalelos() {
+      // 1. Cálculo de Ventas
+      const metaVentasTrans = diasTranscurridos * 3000;
+      const defVentas = ventaReal - metaVentasTrans;
+      const diasDefVentas = (Math.abs(defVentas) / 3000).toFixed(1);
+      const recVentaDiaria = ((81000 - ventaReal) / diasRestantes).toFixed(2);
 
-    function abrirTicket() {
-      let panelTicket = document.getElementById("panelTicket");
-      let panelMetas = document.getElementById("panelMetas");
-      panelMetas.style.display = "none"; 
-
-      const container = document.getElementById("listaTicketContainer");
-      container.innerHTML = "";
-
-      if (carrito.length === 0) {
-        container.innerHTML = `<div style="color:#94a3b8; text-align:center; padding: 6px;">El ticket está vacío.</div>`;
-        document.getElementById("totalTicketContainer").innerText = "Total a Pagar: Q 0.00";
+      document.getElementById("valVentas").innerText = `Q${ventaReal.toLocaleString("es-GT", {minimumFractionDigits: 2})}`;
+      if (defVentas >= 0) {
+        document.getElementById("estVentas").className = "estado estado-favor";
+        document.getElementById("estVentas").innerText = `✅ Colchón a favor: Q${defVentas.toFixed(2)}`;
+        document.getElementById("recVentas").innerText = `🎉 ¡Vas sobre la cuota esperada!`;
       } else {
-        let total = 0;
-        carrito.forEach((item, index) => {
-          total += item.precio;
-          const div = document.createElement("div");
-          div.className = "item-ticket";
-          div.innerHTML = `${index + 1}. ${item.nombre} <br><strong style="color:#4ade80;">Q ${item.precio.toFixed(2)}</strong>`;
-          container.appendChild(div);
-        });
-        document.getElementById("totalTicketContainer").innerText = `TOTAL A PAGAR: Q ${total.toFixed(2)}`;
+        document.getElementById("estVentas").className = "estado estado-deficit";
+        document.getElementById("estVentas").innerText = `⚠️ Déficit: -Q${Math.abs(defVentas).toFixed(2)} (${diasDefVentas} días)`;
+        document.getElementById("recVentas").innerText = `👉 Para nivelarte: Vender Q${recVentaDiaria} diarios.`;
       }
 
-      panelTicket.style.display = panelTicket.style.display === "block" ? "none" : "block";
+      // 2. Cálculo de Tickets
+      const metaTicketsTrans = diasTranscurridos * 12;
+      const defTickets = ticketsReales - metaTicketsTrans;
+      const diasDefTickets = (Math.abs(defTickets) / 12).toFixed(1);
+      const recTicketsDiarios = Math.ceil((324 - ticketsReales) / diasRestantes);
+
+      document.getElementById("valTickets").innerText = `${ticketsReales} tickets`;
+      document.getElementById("badgeTickets").innerText = `${ticketsReales}/324`;
+      if (defTickets >= 0) {
+        document.getElementById("estTickets").className = "estado estado-favor";
+        document.getElementById("estTickets").innerText = `✅ Colchón a favor: +${defTickets} tickets`;
+        document.getElementById("recTickets").innerText = `🎉 ¡Buen ritmo de emisión!`;
+      } else {
+        document.getElementById("estTickets").className = "estado estado-deficit";
+        document.getElementById("estTickets").innerText = `⚠️ Déficit: ${defTickets} tickets (${diasDefTickets} días)`;
+        document.getElementById("recTickets").innerText = `👉 Para nivelarte: Hacer ${recTicketsDiarios} tickets diarios.`;
+      }
+
+      // 3. Cálculo de Horas
+      const metaHorasTrans = diasTranscurridos * 7;
+      const defHoras = horasReales - metaHorasTrans;
+      const diasDefHoras = (Math.abs(defHoras) / 7).toFixed(1);
+      const recHorasDiarias = ((189 - horasReales) / diasRestantes).toFixed(1);
+
+      document.getElementById("valHoras").innerText = `${horasReales.toFixed(1)} hrs`;
+      if (defHoras >= 0) {
+        document.getElementById("estHoras").className = "estado estado-favor";
+        document.getElementById("estHoras").innerText = `✅ Colchón a favor: +${defHoras.toFixed(1)} hrs`;
+        document.getElementById("recHoras").innerText = `🎉 Cumpliendo cobertura diaria.`;
+      } else {
+        document.getElementById("estHoras").className = "estado estado-deficit";
+        document.getElementById("estHoras").innerText = `⚠️ Déficit: -${Math.abs(defHoras).toFixed(1)} hrs (${diasDefHoras} días)`;
+        document.getElementById("recHoras").innerText = `👉 Para nivelarte: Registrar ${recHorasDiarias} hrs diarias.`;
+      }
+
+      // 4. Identificación del Mayor Déficit y Aplicación de Colchón
+      let dV = defVentas < 0 ? parseFloat(diasDefVentas) : 0;
+      let dT = defTickets < 0 ? parseFloat(diasDefTickets) : 0;
+      let dH = defHoras < 0 ? parseFloat(diasDefHoras) : 0;
+
+      let mayorDef = "Horario / Cobertura";
+      let diasMayor = dH;
+
+      if (dV > dT && dV > dH) {
+        mayorDef = "Ventas";
+        diasMayor = dV;
+      } else if (dT > dH) {
+        mayorDef = "Tickets";
+        diasMayor = dT;
+      }
+
+      document.getElementById("txtResumenColchon").innerHTML = 
+        `Actualmente el mayor déficit está en <strong>${mayorDef}</strong> (${diasMayor} días).<br>` +
+        `Si no hay colchón positivo de otro paralelo para compensar, la penalización a fin de mes aplicará únicamente sobre este indicador.`;
     }
 
-    function toggleMetas() {
-      let panelTicket = document.getElementById("panelTicket");
-      panelTicket.style.display = "none"; 
-
-      let panelMetas = document.getElementById("panelMetas");
-      panelMetas.style.display = panelMetas.style.display === "block" ? "none" : "block";
+    // Cerrar modal al hacer clic fuera del contenido
+    window.onclick = function(event) {
+      const modal = document.getElementById("modalMetas");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
     }
-
-    // Cargar todos los productos al iniciar la página
-    renderizar(productos);
   </script>
 </body>
 </html>
