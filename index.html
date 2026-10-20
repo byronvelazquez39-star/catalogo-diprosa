@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo DIPROSA</title>
+  <title>Catálogo DIPROSA - GENERAL</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -71,16 +71,7 @@
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
     .modal-content { background: #1e1e1e; border-radius: 12px; padding: 18px; width: 100%; max-width: 440px; max-height: 88vh; overflow-y: auto; border: 1px solid #444; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 8px; margin-bottom: 12px; }
-    .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
-    .ticket-item-info { flex-grow: 1; margin-right: 10px; }
-    .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
-    .ticket-item-sub { font-size: 12px; color: #aaa; }
-    .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
     
-    .ticket-actions { display: flex; align-items: center; gap: 4px; }
-    .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 26px; height: 26px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-    .btn-delete { background: var(--danger-color); color: white; border: none; padding: 5px 8px; border-radius: 4px; font-size: 12px; cursor: pointer; }
-
     .client-info-section { background: #252525; padding: 12px; border-radius: 8px; margin-top: 15px; margin-bottom: 15px; }
     .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 8px; border-radius: 6px; font-size: 14px; box-sizing: border-box; margin-bottom: 10px; }
@@ -91,27 +82,25 @@
     .btn-close { background: #555; color: white; border: none; padding: 10px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 12px 15px; border-radius: 6px; font-weight: bold; margin-top: 5px; font-size: 16px; cursor: pointer; }
 
-    .meta-resumen-box { background: #1a2e26; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
+    .meta-resumen-box { background: #122118; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
     .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
 
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
     .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
-    .sueldo-destacado { font-size: 14px; font-weight: bold; color: #10b981; border-top: 1px dashed #4b5563; padding-top: 6px; margin-top: 6px; }
     
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
 </head>
 <body>
 
-  <!-- SECCIÓN OPERATIVA DIRECTA -->
   <div class="header-bar">
-    <h1 id="titulo-catalogo">📦 Catálogo DIPROSA</h1>
+    <h1 id="titulo-vendedor">📦 Catálogo DIPROSA</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
-        📊 Metas <span id="contadorBoton" class="badge-header badge-metas">0 Tks</span>
+        📊 Metas <span class="badge-header badge-metas">Control</span>
       </button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">
-        💰 Mi Sueldo <span id="badgeSueldo" class="badge-header badge-sueldo">Q1,750</span>
+        💰 Mi Sueldo <span class="badge-header badge-sueldo">Base</span>
       </button>
     </div>
   </div>
@@ -120,7 +109,6 @@
   <div id="catalogo" class="grid">Cargando productos...</div>
   <button id="btn-mas" class="btn-cargar-mas" style="display:none;" onclick="cargarMasProductos()">Cargar más productos...</button>
 
-  <!-- Barra Flotante de Carrito -->
   <div class="cart-bar">
     <div class="cart-info" onclick="abrirTicket()">
       <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
@@ -166,107 +154,54 @@
     </div>
   </div>
 
-  <!-- MODAL METAS DINÁMICO -->
+  <!-- MODAL METAS GENERAL -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Estado de los 3 Paralelos</h3>
+        <h3>📊 Estado General de Paralelos</h3>
       </div>
-      <div id="contenido-metas-dinamico" class="meta-resumen-box"></div>
+      <div class="meta-resumen-box">
+        <h4>📋 RESUMEN DE PARALELOS</h4>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q26,521.28 / Q81,000.00<br>
+        • Proyección: Q47,738.30<br>
+        • Meta Diaria (Faltante): Q4,539.89 diarios</p>
+        
+        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> 100 / 324<br>
+        • Proyección: 180 tickets<br>
+        • Meta Diaria (Faltante): 19 tickets diarios</p>
+
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 105 hrs / 189 hrs<br>
+        • Cumplimiento: 100% de horas acumuladas</p>
+      </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO DINÁMICO -->
+  <!-- MODAL SUELDO GENERAL -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina y Evaluación de Sueldo</h3>
+        <h3>💵 Nómina General</h3>
       </div>
-      <div id="contenido-sueldo-dinamico"></div>
+      <div class="sueldo-card">
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral:</span><span>Q120.37</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
+      </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
   </div>
 
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let vendedorParam = (urlParams.get('vendedor') || 'estuardo').toLowerCase();
-
-    const datosVendedores = {
-      estuardo: {
-        nombre: "ESTUARDO",
-        ventas: "Q35,022.49",
-        tiquetes: "109 Tks",
-        horas: "98 hrs",
-        badgeSueldo: "Q1,800",
-        textoMetas: `<h4>📋 ESTUARDO (Al 16 de Octubre)</h4>
-          <p style="margin: 4px 0;">📅 <strong>14 días hábiles transcurridos</strong></p>
-          <p style="margin: 8px 0 2px 0;">💰 <strong>1. Paralelo de Ventas:</strong> Acumulado: Q35,022.49 (Meta: Q81,000)</p>
-          <p style="margin: 2px 0;">📋 <strong>2. Paralelo de Tickets:</strong> Acumulado: 109 tickets (Meta: 324)</p>
-          <p style="margin: 2px 0;">⏱️ <strong>3. Paralelo de Horas:</strong> Acumulado: 98 horas (Meta: 189)</p>`,
-        textoSueldo: `<div class="sueldo-card">
-          <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,800.00</strong></div>
-          <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,800.00</span></div>
-          <div class="sueldo-row sueldo-destacado"><span>Sueldo Total Mes Proyectado:</span><span>Q 3,466.67</span></div>
-        </div>`
-      },
-      eleazar: {
-        nombre: "ELEAZAR",
-        ventas: "Q32,085.00",
-        tiquetes: "112 Tks",
-        horas: "105 hrs",
-        badgeSueldo: "Q1,750",
-        textoMetas: `<h4>📋 ELEAZAR (Al 17 de Octubre)</h4>
-          <p style="margin: 4px 0;">📅 <strong>Datos actualizados al 17 de octubre</strong></p>
-          <p style="margin: 8px 0 2px 0;">💰 <strong>1. Paralelo de Ventas:</strong> Acumulado: Q32,085.00 (Meta: Q81,000)</p>
-          <p style="margin: 2px 0;">📋 <strong>2. Paralelo de Tickets:</strong> Acumulado: 112 tickets (Meta: 324)</p>
-          <p style="margin: 2px 0;">⏱️ <strong>3. Paralelo de Horas:</strong> Acumulado: 105 horas (Meta: 189)</p>`,
-        textoSueldo: `<div class="sueldo-card">
-          <div class="sueldo-row"><span>1.ª Quincena (Sin descuentos):</span><strong>Q 1,750.00</strong></div>
-          <div class="sueldo-row"><span>2.ª Quincena Base:</span><span>Q 1,750.00</span></div>
-          <div class="sueldo-row" style="color: #38bdf8;"><span>Valor del Día de Trabajo:</span><span>Q 129.63</span></div>
-          <div class="sueldo-row sueldo-destacado"><span>Pago 2.ª Quincena Proyectado:</span><span>Q 1,750.00</span></div>
-          <div class="sueldo-row" style="font-size: 13px; font-weight: bold; color: #10b981; margin-top: 4px; border-top: 1px solid #374151; padding-top: 4px;">
-            <span>Sueldo Total Mes Proyectado:</span><span>Q 3,500.00</span>
-          </div>
-        </div>`
-      },
-      jorge: {
-        nombre: "JORGE",
-        ventas: "En proceso",
-        tiquetes: "0 Tks",
-        horas: "0 hrs",
-        badgeSueldo: "Q1,800",
-        textoMetas: `<h4>📋 JORGE</h4><p>Sin datos cargados todavía.</p>`,
-        textoSueldo: `<div class="sueldo-card"><div class="sueldo-row"><span>Sueldo Base:</span><strong>Q 3,600.00</strong></div></div>`
-      },
-      christian: {
-        nombre: "CHRISTIAN",
-        ventas: "En proceso",
-        tiquetes: "0 Tks",
-        horas: "0 hrs",
-        badgeSueldo: "Q1,800",
-        textoMetas: `<h4>📋 CHRISTIAN</h4><p>Sin datos cargados todavía.</p>`,
-        textoSueldo: `<div class="sueldo-card"><div class="sueldo-row"><span>Sueldo Base:</span><strong>Q 3,600.00</strong></div></div>`
-      }
-    };
-
-    let vendedorActivo = datosVendedores[vendedorParam] || datosVendedores['estuardo'];
+    const vendedorNombre = "GENERAL";
+    const storageKey = "carrito_diprosa_general";
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
-    let storageKey = 'carrito_diprosa_' + vendedorParam;
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('titulo-catalogo').innerText = "📦 Catálogo DIPROSA - " + vendedorActivo.nombre;
-      document.getElementById('contadorBoton').innerText = vendedorActivo.tiquetes;
-      document.getElementById('badgeSueldo').innerText = vendedorActivo.badgeSueldo;
-      document.getElementById('contenido-metas-dinamico').innerHTML = vendedorActivo.textoMetas;
-      document.getElementById('contenido-sueldo-dinamico').innerHTML = vendedorActivo.textoSueldo;
-      
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
@@ -314,6 +249,21 @@
       renderizarCatalogo();
     }
 
+    function borrarProductoCompletamente(b64, precio) {
+      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
+      if (carrito[key]) {
+        delete carrito[key];
+        localStorage.setItem(storageKey, JSON.stringify(carrito));
+        actualizarUIResumen();
+        renderizarCatalogo();
+        if (Object.keys(carrito).length === 0) {
+          cerrarTicket();
+        } else {
+          actualizarContenidoTicket();
+        }
+      }
+    }
+
     function actualizarUIResumen() {
       let totalCant = 0, totalMonto = 0;
       for (let k in carrito) {
@@ -344,16 +294,19 @@
         let item = carrito[k], sub = item.cantidad * item.precio, b64 = btoa(unescape(encodeURIComponent(item.nombre)));
         subtotal += sub;
         return `
-          <div class="ticket-item">
-            <div class="ticket-item-info">
-              <div class="ticket-item-title">${item.nombre}</div>
-              <div class="ticket-item-sub">Q ${item.precio.toFixed(2)} c/u</div>
-              <div class="ticket-item-subtotal">Subtotal: Q ${sub.toFixed(2)}</div>
-            </div>
-            <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
-              <span>${item.cantidad}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
+          <div style="background:#252525; border-radius:8px; padding:10px; margin-bottom:10px; border:1px solid #333;">
+            <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:6px;">${item.nombre}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <span style="font-size:11px; color:#aaa;">Q ${item.precio.toFixed(2)} c/u</span><br>
+                <span style="font-size:12px; font-weight:bold; color:var(--accent-color);">Subtotal: Q ${sub.toFixed(2)}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:5px;">
+                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
+                <span style="font-size:14px; font-weight:bold; color:#fff; min-width:20px; text-align:center;">${item.cantidad}</span>
+                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
+                <button style="background:#e74c3c; color:#fff; border:none; width:34px; height:30px; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; margin-left:4px;" onclick="borrarProductoCompletamente('${b64}',${item.precio})">🗑️</button>
+              </div>
             </div>
           </div>`;
       }).join('');
@@ -363,7 +316,7 @@
       document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      let ticketNumKey = 'correlativo_ticket_' + vendedorParam;
+      let ticketNumKey = 'correlativo_ticket_general';
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1).padStart(8, '0');
     }
 
@@ -373,19 +326,30 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - ${vendedorActivo.nombre}*\n💰 Ventas: ${vendedorActivo.ventas}\n📋 Tiquetes: ${vendedorActivo.tiquetes}\n⏱️ Horas: ${vendedorActivo.horas}\n¡Hola don Byron! Le envío mi reporte.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - GENERAL*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     function enviarWhatsAppYLimpiar() {
       let receptor = document.getElementById('cliente-receptor').value.trim();
+      let referencia = document.getElementById('cliente-referencia').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
-      let ticketNumKey = 'correlativo_ticket_' + vendedorParam;
+      let ticketNumKey = 'correlativo_ticket_general';
       let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
       localStorage.setItem(ticketNumKey, numT);
 
-      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ${vendedorActivo.nombre}\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
+      let ahora = new Date().toLocaleString('es-GT', { dateStyle: 'short', timeStyle: 'short' });
+
+      let subtotal = 0;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n*Tiquete # ${String(numT).padStart(8,'0')}*\n📅 *Fecha/Hora:* ${ahora}\n👤 *Cliente:* ${receptor}\n`;
+      
+      if (referencia) {
+        msg += `📍 *Ref:* ${referencia}\n`;
+      }
+      
+      msg += `--------------------------------\n`;
+
       let i = 1;
       for (let k in carrito) {
         let item = carrito[k], sub = item.cantidad * item.precio;
