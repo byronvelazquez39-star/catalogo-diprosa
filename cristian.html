@@ -130,7 +130,7 @@
         <label for="cliente-receptor">👤 Receptor / Nombre del Cliente:</label>
         <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda Mi Barrio">
         <label for="cliente-referencia">📍 Referencias para el Repartidor:</label>
-        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Frente a la gasolinera..."></textarea>
+        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Frente a la iglesia..."></textarea>
       </div>
       <div class="discount-section">
         <label for="descuento-pct">Descuento aplicado:</label>
@@ -159,19 +159,19 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Paralelos - CRISTIAN</h3>
+        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre (17 días operados)</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 RESUMEN DE PARALELOS</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q26,521.28 / Q81,000.00<br>
-        • Proyección: Q47,738.30<br>
-        • Meta Diaria (Faltante): Q4,539.89 diarios</p>
+        <h4>📋 TRES PARALELOS DIPROSA</h4>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q28,246.78 / Q81,000.00<br>
+        • Proyección al 31 de Oct: Q44,862.53<br>
+        • Estado: 🔴 Déficit de ventas</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> 100 / 324<br>
-        • Proyección: 180 tickets<br>
-        • Meta Diaria (Faltante): 19 tickets diarios</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 104 / 324 Tiquetes<br>
+        • Proyección al 31 de Oct: ~165 Tiquetes<br>
+        • Estado: 🔴 Déficit de tiquetes</p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 105 hrs / 189 hrs<br>
-        • Cumplimiento: 100% de horas acumuladas</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> Cumplida (7 hrs netas/día)</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -182,12 +182,18 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina - CRISTIAN</h3>
+        <h3>💵 Nómina y Proyección - CRISTIAN</h3>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
-        <div class="sueldo-row"><span>Valor Día Laboral:</span><span>Q120.37</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
+        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q120.37</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (15 del mes):</span><span style="color:#34d399;">Q1,625.00 (Sin Descuentos)</span></div>
+        <hr style="border:0; border-top:1px dashed #374151; margin:8px 0;">
+        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,625.00</span></div>
+        <div class="sueldo-row"><span>Estado Actual:</span><span style="color:#e74c3c;">Sujeto a ajuste por déficit</span></div>
+        <hr style="border:0; border-top:1px solid #059669; margin:8px 0;">
+        <div class="sueldo-row"><span style="font-size:13px; font-weight:bold;">Sueldo Base Quincenal:</span><strong style="color:#34d399; font-size:14px;">Q1,625.00</strong></div>
+        <p style="font-size:10px; color:#aaa; margin-top:6px; margin-bottom:0; font-style:italic;">* Acelerando tiquetes y ventas en los días restantes se protegen las deducciones de fin de mes.</p>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
@@ -198,7 +204,7 @@
     const vendedorNombre = "CRISTIAN";
     const storageKey = "carrito_diprosa_cristian";
 
-    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -209,6 +215,9 @@
           productosFiltrados = data;
           renderizarCatalogo();
           actualizarUIResumen();
+        })
+        .catch(() => {
+          document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">No se pudo cargar productos.json</p>';
         });
     });
 
@@ -275,10 +284,13 @@
     }
 
     function filtrarDebounce() {
-      let q = document.getElementById('buscar').value.toLowerCase().trim();
-      limiteActual = 40;
-      productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
-      renderizarCatalogo();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+        renderizarCatalogo();
+      }, 150);
     }
 
     function abrirTicket() {
@@ -326,7 +338,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Le envío mi reporte de catálogo:\n\n💰 Ventas: Q28,246.78 / Q81,000.00\n🧾 Tiquetes: 104 / 324`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
