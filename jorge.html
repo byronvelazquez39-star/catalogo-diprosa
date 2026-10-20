@@ -163,18 +163,19 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Paralelos - JORGE</h3>
-        <p style="font-size: 11px; color: #888;">Control de Avance de Mes</p>
+        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre (17 días operados)</p>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 TRES PARALELOS DIPROSA</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Cuota Q81,000.00<br>
-        • Avance diario en seguimiento<br>
-        • Excedentes forman colchón a favor</p>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q48,250.00 / Q81,000.00<br>
+        • Proyección actual: Q76,632.35<br>
+        • Estado: 🔴 Déficit leve (~3.28 días / -Q437.32)</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> Meta: 324 Tiquetes (12/día)<br>
-        • Mantén tu promedio diario alto</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 152 / 324 Tiquetes<br>
+        • Proyección actual: ~241 Tiquetes<br>
+        • Estado: 🔴 Déficit mayor (~6.92 días / -Q922.65)</p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 7 hrs netas de ruta</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día (7 hrs netas de ruta)</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -185,25 +186,42 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina y Recuperación - JORGE</h3>
+        <h3>💵 Nómina y Proyección - JORGE</h3>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
         <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q133.33</span></div>
         <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,800.00 (Pagada limpia)</span></div>
         <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,800.00</span></div>
+        
+        <div class="sueldo-row" style="background:#2a1a1a; padding:6px; border-radius:6px; border:1px solid #e74c3c; margin-top:4px;">
+          <span style="color:#f87171;">Ritmo actual (Sin cambio):</span>
+          <strong style="color:#f87171;">Recibes en 2ª Q: Q877.35</strong>
+        </div>
 
         <hr style="border:0; border-top:1px dashed #374151; margin:10px 0;">
-        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 PAGO DE 2ª QUINCENA SEGÚN TU ESFUERZO:</span>
+        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 PAGO EN 2ª QUINCENA SI MEJORAS EN LOS 10 DÍAS RESTANTES:</span>
+
+        <div class="proyeccion-opcion">
+          <div style="font-weight:bold; color:#38bdf8;">1. Ritmo Moderado (12 tiquetes/día):</div>
+          <div>• Cobro Neto 2ª Quincena: <strong style="color:#38bdf8; font-size:13px;">Q1,278.52</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q3,078.52)</div>
+        </div>
+
+        <div class="proyeccion-opcion verde">
+          <div style="font-weight:bold; color:#25d366;">2. Gran Esfuerzo (17 tiquetes/día):</div>
+          <div>• Cobro Neto 2ª Quincena: <strong style="color:#25d366; font-size:13px;">Q1,778.00</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q3,578.00)</div>
+        </div>
 
         <div class="proyeccion-opcion meta">
-          <div style="font-weight:bold; color:#f59e0b;">🎯 SI CUMPLES TU OBJETIVO (100% Metas):</div>
+          <div style="font-weight:bold; color:#f59e0b;">🎯 3. CUMPLIMIENTO / COMISIONES (+Q81k ventas):</div>
           <div>• Cobro Neto 2ª Quincena: <strong style="color:#f59e0b; font-size:14px;">Q1,800.00 ÍNTEGROS</strong></div>
-          <div style="font-size:11px; color:#fcd34d;">(Sueldo Total Mes: Q3,600.00 sin ningún descuento)</div>
+          <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente vendido</div>
         </div>
 
         <p style="font-size:10px; color:#aaa; margin-top:8px; margin-bottom:0; font-style:italic; line-height:1.3;">
-          💪 <strong>¡Tu sueldo está en tus manos!</strong> Mantén tus cierres en la ruta para asegurar tu cobro completo.
+          💪 <strong>¡Sube tus tiquetes Jorge!</strong> Si pasas a 17 cierres diarios recuperas casi todo tu sueldo base de Q1,800.00.
         </p>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
@@ -362,7 +380,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte de catálogo.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte de catálogo:\n\n💰 Ventas: Q48,250.00 / Q81,000.00\n🧾 Tiquetes: 152 / 324`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
