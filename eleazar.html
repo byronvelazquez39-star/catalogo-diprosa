@@ -332,13 +332,24 @@
 
     function enviarWhatsAppYLimpiar() {
       let receptor = document.getElementById('cliente-receptor').value.trim();
+      let referencia = document.getElementById('cliente-referencia').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
       let ticketNumKey = 'correlativo_ticket_eleazar';
       let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
       localStorage.setItem(ticketNumKey, numT);
 
-      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ELEAZAR\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
+      let ahora = new Date().toLocaleString('es-GT', { dateStyle: 'short', timeStyle: 'short' });
+
+      let subtotal = 0;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ELEAZAR\n*Tiquete # ${String(numT).padStart(8,'0')}*\n📅 *Fecha/Hora:* ${ahora}\n👤 *Cliente:* ${receptor}\n`;
+      
+      if (referencia) {
+        msg += `📍 *Ref:* ${referencia}\n`;
+      }
+      
+      msg += `--------------------------------\n`;
+
       let i = 1;
       for (let k in carrito) {
         let item = carrito[k], sub = item.cantidad * item.precio;
