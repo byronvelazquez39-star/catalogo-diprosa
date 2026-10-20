@@ -85,8 +85,12 @@
     .meta-resumen-box { background: #122118; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
     .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
 
-    .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
-    .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
+    .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
+    .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+
+    .proyeccion-opcion { background: #1e293b; border-left: 3px solid #0284c7; padding: 8px; margin-top: 6px; border-radius: 4px; }
+    .proyeccion-opcion.verde { border-left-color: #25d366; background: #0f291e; }
+    .proyeccion-opcion.premio { border-left-color: #f59e0b; background: #27200e; }
     
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
@@ -130,7 +134,7 @@
         <label for="cliente-receptor">👤 Receptor / Nombre del Cliente:</label>
         <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda Mi Barrio">
         <label for="cliente-referencia">📍 Referencias para el Repartidor:</label>
-        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Frente a la gasolinera..."></textarea>
+        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Frente a la iglesia..."></textarea>
       </div>
       <div class="discount-section">
         <label for="descuento-pct">Descuento aplicado:</label>
@@ -159,21 +163,19 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Paralelos - ELEAZAR</h3>
-        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre</p>
+        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre (17 días operados)</p>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 TRES PARALELOS DIPROSA</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q35,663.00 / Q81,000.00<br>
-        • Proyección al 31 de Oct: Q74,069.31<br>
-        • Meta Diaria (Restan 14d): Q3,238.36 diarios<br>
-        • Déficit Proyectado: -Q6,930.69 (-2.31 días / -Q299.47)</p>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q35,000.00 / Q81,000.00<br>
+        • Proyección actual: Q55,588.24<br>
+        • Estado: 🔴 Déficit (~8.47 días / -Q1,098.04)</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> 121 / 324 Tickets<br>
-        • Proyección al 31 de Oct: 251 Tickets<br>
-        • Meta Diaria (Restan 14d): ~14.5 tickets diarios<br>
-        • Déficit Proyectado: -73 tickets (-6.06 días / -Q785.26) ⚠️ <em>Mayor Déficit</em></p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 120 / 324 Tiquetes<br>
+        • Proyección actual: ~190.5 Tiquetes<br>
+        • Estado: 🔴 Déficit mayor (~11.13 días / -Q1,441.18)</p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> ~68.8 hrs / 189 hrs acumuladas</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día (7 hrs netas de ruta)</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -189,14 +191,43 @@
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
         <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q129.63</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,750.00 (Sin Descuentos)</span></div>
-        <hr style="border:0; border-top:1px dashed #374151; margin:8px 0;">
+        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,750.00 (Pagada limpia)</span></div>
         <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,750.00</span></div>
-        <div class="sueldo-row"><span>Depreciación de Moto:</span><span style="color:#34d399;">+Q500.00</span></div>
-        <div class="sueldo-row"><span>Aplica Mayor Déficit (Tickets):</span><span style="color:#e74c3c;">-Q785.26</span></div>
-        <div class="sueldo-row"><span>2ª Quincena a Recibir:</span><strong style="color:#34d399;">Q1,464.74</strong></div>
-        <hr style="border:0; border-top:1px solid #059669; margin:8px 0;">
-        <div class="sueldo-row"><span style="font-size:13px; font-weight:bold;">Total Neto Mensual Proyectado:</span><strong style="color:#34d399; font-size:14px;">Q3,214.74</strong></div>
+        
+        <div class="sueldo-row" style="background:#2a1a1a; padding:6px; border-radius:6px; border:1px solid #e74c3c; margin-top:4px;">
+          <span style="color:#f87171;">Ritmo actual (Sin cambio):</span>
+          <strong style="color:#f87171;">Recibes en 2ª Q: Q308.82</strong>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #374151; margin:10px 0;">
+        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 PAGO DE 2ª QUINCENA SEGÚN TU ESFUERZO:</span>
+
+        <div class="proyeccion-opcion">
+          <div style="font-weight:bold; color:#38bdf8;">1. Esfuerzo Medio (10 tiquetes/día):</div>
+          <div>• Cobro Neto 2ª Quincena: <strong style="color:#38bdf8; font-size:13px;">Q626.54</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,376.54)</div>
+        </div>
+
+        <div class="proyeccion-opcion verde">
+          <div style="font-weight:bold; color:#25d366;">2. Gran Esfuerzo (15 tiquetes/día):</div>
+          <div>• Cobro Neto 2ª Quincena: <strong style="color:#25d366; font-size:13px;">Q1,166.67</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,916.67)</div>
+        </div>
+
+        <div class="proyeccion-opcion premio">
+          <div style="font-weight:bold; color:#f59e0b;">🎁 3. SUPERAR META (+Q81,000.00 Ventas):</div>
+          <div>• 2ª Quincena Completa: <strong>Q1,750.00</strong></div>
+          <div>• <strong>¡PREMIO BONO EN EFECTIVO: + Q500.00!</strong></div>
+          <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente</div>
+          <div style="font-size:11px; color:#aaa; margin-top:2px;">(Sueldo Total Mes: Q4,000.00 | 1ª Q: Q1,750)</div>
+          <div style="font-size:13px; font-weight:bold; color:#25d366; margin-top:4px; border-top:1px dashed #f59e0b; padding-top:3px;">
+            💰 RECIBES EN MANO (2ª Q): Q2,250.00 + COMISIONES
+          </div>
+        </div>
+
+        <p style="font-size:10px; color:#aaa; margin-top:8px; margin-bottom:0; font-style:italic; line-height:1.3;">
+          🏆 <strong>¡Pásate de los Q81,000.00 Eleazar!</strong> Te llevas tu quincena completa + los Q500 de premio en mano + tus comisiones.
+        </p>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
@@ -207,15 +238,31 @@
     const vendedorNombre = "ELEAZAR";
     const storageKey = "carrito_diprosa_eleazar";
 
-    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
+    const productosFallback = [
+      { nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades", precio: 84.00 },
+      { nombre: "(Salvavidas) en lata UVA Caja de 24 unidades", precio: 84.00 },
+      { nombre: "Agua Pura Salvavidas 600ml Pack x12", precio: 36.00 },
+      { nombre: "Jugo Del Valle Manzana 354ml Ctl x24", precio: 96.00 }
+    ];
+
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
       fetch('productos.json?v=' + new Date().getTime())
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error("No encontrado");
+          return res.json();
+        })
         .then(data => {
           productos = data;
           productosFiltrados = data;
+          renderizarCatalogo();
+          actualizarUIResumen();
+        })
+        .catch(() => {
+          productos = productosFallback;
+          productosFiltrados = productosFallback;
           renderizarCatalogo();
           actualizarUIResumen();
         });
@@ -284,10 +331,13 @@
     }
 
     function filtrarDebounce() {
-      let q = document.getElementById('buscar').value.toLowerCase().trim();
-      limiteActual = 40;
-      productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
-      renderizarCatalogo();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+        renderizarCatalogo();
+      }, 150);
     }
 
     function abrirTicket() {
@@ -335,7 +385,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.\n\n💰 Ventas: Q35,663.00 / Q81,000.00\n🧾 Tickets: 121 / 324`;
+      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Le envío mi reporte de catálogo:\n\n💰 Ventas: Q35,000.00 / Q81,000.00\n🧾 Tiquetes: 120 / 324`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
