@@ -173,7 +173,8 @@
         • Meta Diaria (Restan 10d): 14 tiquetes diarios ⚠️<br>
         • Estado: 🔴 Déficit de 20 tiquetes (-Q352.94)</p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> Cumplida (7 hrs netas/día)</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> Cumplida<br>
+        • <em>Nota: Incluye 3 horas extra de apoyo como auxiliar en la panel de reparto, cubriendo cualquier desfase.</em></p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -194,6 +195,7 @@
         <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,800.00</span></div>
         <div class="sueldo-row"><span>Comisión Proyectada (Ventas 2.5%):</span><span style="color:#34d399;">+Q327.81</span></div>
         <div class="sueldo-row"><span>Déficit Tiquetes Proyectado:</span><span style="color:#e74c3c;">-Q352.94</span></div>
+        <div class="sueldo-row"><span>Horarios / Panel Reparto:</span><span style="color:#34d399;">Q0.00 (3h extra cubiertas)</span></div>
         <div class="sueldo-row"><span>Cruce de Saldos (Neto):</span><strong style="color:#e74c3c;">-Q25.13</strong></div>
         <hr style="border:0; border-top:1px solid #059669; margin:8px 0;">
         <div class="sueldo-row"><span style="font-size:13px; font-weight:bold;">Total Neto Mensual Proyectado:</span><strong style="color:#34d399; font-size:14px;">Q3,574.87</strong></div>
@@ -342,7 +344,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte de catálogo al día 17:\n\n💰 Ventas: Q59,255.83 / Q81,000.00\n🧾 Tiquetes: 184 / 324`;
+      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte de catálogo al día 17:\n\n💰 Ventas: Q59,255.83 / Q81,000.00\n🧾 Tiquetes: 184 / 324\n⏰ Jornada: Al día (con 3h extra en panel)`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
