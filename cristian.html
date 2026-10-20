@@ -78,7 +78,8 @@
     .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
     
     .ticket-actions { display: flex; align-items: center; gap: 4px; }
-    .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 26px; height: 26px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-ticket-del { background: var(--danger-color); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; margin-left: 4px; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
 
     .client-info-section { background: #252525; padding: 12px; border-radius: 8px; margin-top: 15px; margin-bottom: 15px; }
     .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
@@ -264,6 +265,21 @@
       renderizarCatalogo();
     }
 
+    function eliminarDelCarrito(b64, precio) {
+      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
+      if (carrito[key]) {
+        delete carrito[key];
+        localStorage.setItem(storageKey, JSON.stringify(carrito));
+        actualizarUIResumen();
+        renderizarCatalogo();
+        if (Object.keys(carrito).length === 0) {
+          cerrarTicket();
+        } else {
+          actualizarContenidoTicket();
+        }
+      }
+    }
+
     function actualizarUIResumen() {
       let totalCant = 0, totalMonto = 0;
       for (let k in carrito) {
@@ -302,8 +318,9 @@
             </div>
             <div class="ticket-actions">
               <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
-              <span>${item.cantidad}</span>
+              <span style="font-size:13px; font-weight:bold; min-width:16px; text-align:center;">${item.cantidad}</span>
               <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
+              <button class="btn-ticket-del" onclick="eliminarDelCarrito('${b64}',${item.precio})">🗑️</button>
             </div>
           </div>`;
       }).join('');
