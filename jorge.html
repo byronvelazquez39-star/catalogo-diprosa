@@ -130,7 +130,7 @@
         <label for="cliente-receptor">👤 Receptor / Nombre del Cliente:</label>
         <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda Mi Barrio">
         <label for="cliente-referencia">📍 Referencias para el Repartidor:</label>
-        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Frente a la gasolinera..."></textarea>
+        <textarea id="cliente-referencia" class="client-input" rows="2" placeholder="Ej. Frente a la iglesia..."></textarea>
       </div>
       <div class="discount-section">
         <label for="descuento-pct">Descuento aplicado:</label>
@@ -159,19 +159,19 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Paralelos - JORGE</h3>
+        <p style="font-size: 11px; color: #888;">Control de Mes (27 Días Laborables)</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 RESUMEN DE PARALELOS</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q26,521.28 / Q81,000.00<br>
-        • Proyección: Q47,738.30<br>
-        • Meta Diaria (Faltante): Q4,539.89 diarios</p>
+        <h4>📋 TRES PARALELOS DIPROSA</h4>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Cuota: Q81,000.00<br>
+        • Meta Diaria: Q3,000.00 / día<br>
+        • Comisión: 2.5% sobre excedentes pasados de Q81,000</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> 100 / 324<br>
-        • Proyección: 180 tickets<br>
-        • Meta Diaria (Faltante): 19 tickets diarios</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> Cuota: 324 Tickets<br>
+        • Meta Diaria: 12 tickets / día</p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 105 hrs / 189 hrs<br>
-        • Cumplimiento: 100% de horas acumuladas</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> Meta: 189 Horas Totales<br>
+        • Jornada Diaria: 7 Horas Netas (Entrada 1er Ticket - Salida Último Ticket)</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -182,12 +182,17 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina - JORGE</h3>
+        <h3>💵 Esquema de Nómina - JORGE</h3>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
-        <div class="sueldo-row"><span>Valor Día Laboral:</span><span>Q120.37</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q129.63</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (15 del mes):</span><span style="color:#34d399;">Q1,750.00 (Sin Descuentos)</span></div>
+        <hr style="border:0; border-top:1px dashed #374151; margin:8px 0;">
+        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,750.00</span></div>
+        <div class="sueldo-row"><span>Depreciación de Moto:</span><span style="color:#34d399;">+Q500.00 (Fin de Mes)</span></div>
+        <div class="sueldo-row"><span>Base 2º Pago Total:</span><strong>Q2,250.00</strong></div>
+        <p style="font-size:11px; color:#aaa; margin-top:8px; margin-bottom:0; font-style:italic;">* Los descuentos por mayor déficit de paralelos o acreditación de comisiones se aplican exclusivamente en el pago de fin de mes.</p>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
@@ -326,7 +331,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte de catálogo al momento.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
