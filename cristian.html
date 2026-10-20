@@ -71,16 +71,7 @@
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
     .modal-content { background: #1e1e1e; border-radius: 12px; padding: 18px; width: 100%; max-width: 440px; max-height: 88vh; overflow-y: auto; border: 1px solid #444; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 8px; margin-bottom: 12px; }
-    .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
-    .ticket-item-info { flex-grow: 1; margin-right: 10px; }
-    .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
-    .ticket-item-sub { font-size: 12px; color: #aaa; }
-    .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
     
-    .ticket-actions { display: flex; align-items: center; gap: 4px; }
-    .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-    .btn-ticket-del { background: var(--danger-color); color: white; border: none; width: 28px; height: 28px; border-radius: 4px; cursor: pointer; margin-left: 4px; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
-
     .client-info-section { background: #252525; padding: 12px; border-radius: 8px; margin-top: 15px; margin-bottom: 15px; }
     .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 8px; border-radius: 6px; font-size: 14px; box-sizing: border-box; margin-bottom: 10px; }
@@ -96,7 +87,6 @@
 
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
     .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 4px; }
-    .sueldo-destacado { font-size: 14px; font-weight: bold; color: #10b981; border-top: 1px dashed #4b5563; padding-top: 6px; margin-top: 6px; }
     
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
@@ -104,7 +94,7 @@
 <body>
 
   <div class="header-bar">
-    <h1>📦 Catálogo DIPROSA - CRISTIAN</h1>
+    <h1 id="titulo-vendedor">📦 Catálogo DIPROSA - CRISTIAN</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
         📊 Metas <span class="badge-header badge-metas">Control</span>
@@ -164,47 +154,41 @@
     </div>
   </div>
 
-  <!-- MODAL METAS -->
+  <!-- MODAL METAS DE CRISTIAN -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Estado de los 3 Paralelos</h3>
+        <h3>📊 Estado de Paralelos - CRISTIAN</h3>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 RESUMEN DE LOS 3 PARALELOS — CRISTIAN</h4>
+        <h4>📋 RESUMEN DE PARALELOS</h4>
         <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q26,521.28 / Q81,000.00<br>
-        • Proyección: Q47,738.30 (Déficit: -11.09 días)<br>
+        • Proyección: Q47,738.30<br>
         • Meta Diaria (Faltante): Q4,539.89 diarios</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS (PUNTO CRÍTICO ⚠️):</strong> 100 / 324<br>
-        • Proyección: 180 tickets (Déficit: -12.00 días)<br>
+        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> 100 / 324<br>
+        • Proyección: 180 tickets<br>
         • Meta Diaria (Faltante): 19 tickets diarios</p>
 
         <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 105 hrs / 189 hrs<br>
-        • Cumplimiento: 100% de horas acumuladas (0 déficit)</p>
-        
-        <p style="margin: 6px 0; font-size: 11px; color: #fca5a5;">⚖️ <strong>Sanción Aplicada:</strong> Se descontará el paralelo de mayor déficit (Tickets: -12 días).</p>
+        • Cumplimiento: 100% de horas acumuladas</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO -->
+  <!-- MODAL SUELDO DE CRISTIAN -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina y Evaluación de Sueldo</h3>
+        <h3>💵 Nómina - CRISTIAN</h3>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
         <div class="sueldo-row"><span>Valor Día Laboral:</span><span>Q120.37</span></div>
         <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
-        <div class="sueldo-row"><span>Sanción Uniforme (0.5 día):</span><span style="color:#ef4444;">-Q60.19</span></div>
-        <div class="sueldo-row"><span>Descuento Tickets (-12 días):</span><span style="color:#ef4444;">-Q1,444.44</span></div>
-        <div class="sueldo-row sueldo-destacado"><span>Cobro Proyectado 2ª Q:</span><span>Q120.37</span></div>
       </div>
-      <p style="font-size: 11px; color: #aaa; text-align: center; margin-top: 6px;">💡 Emitiendo 19 tickets diarios reduces el déficit y rescatas tu liquidación.</p>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
   </div>
@@ -265,7 +249,7 @@
       renderizarCatalogo();
     }
 
-    function eliminarDelCarrito(b64, precio) {
+    function borrarProductoCompletamente(b64, precio) {
       let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
       if (carrito[key]) {
         delete carrito[key];
@@ -310,17 +294,19 @@
         let item = carrito[k], sub = item.cantidad * item.precio, b64 = btoa(unescape(encodeURIComponent(item.nombre)));
         subtotal += sub;
         return `
-          <div class="ticket-item">
-            <div class="ticket-item-info">
-              <div class="ticket-item-title">${item.nombre}</div>
-              <div class="ticket-item-sub">Q ${item.precio.toFixed(2)} c/u</div>
-              <div class="ticket-item-subtotal">Subtotal: Q ${sub.toFixed(2)}</div>
-            </div>
-            <div class="ticket-actions">
-              <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
-              <span style="font-size:13px; font-weight:bold; min-width:16px; text-align:center;">${item.cantidad}</span>
-              <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
-              <button class="btn-ticket-del" onclick="eliminarDelCarrito('${b64}',${item.precio})">🗑️</button>
+          <div style="background:#252525; border-radius:8px; padding:10px; margin-bottom:10px; border:1px solid #333;">
+            <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:6px;">${item.nombre}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <span style="font-size:11px; color:#aaa;">Q ${item.precio.toFixed(2)} c/u</span><br>
+                <span style="font-size:12px; font-weight:bold; color:var(--accent-color);">Subtotal: Q ${sub.toFixed(2)}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:5px;">
+                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
+                <span style="font-size:14px; font-weight:bold; color:#fff; min-width:20px; text-align:center;">${item.cantidad}</span>
+                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
+                <button style="background:#e74c3c; color:#fff; border:none; width:34px; height:30px; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; margin-left:4px;" onclick="borrarProductoCompletamente('${b64}',${item.precio})">🗑️</button>
+              </div>
             </div>
           </div>`;
       }).join('');
@@ -346,13 +332,24 @@
 
     function enviarWhatsAppYLimpiar() {
       let receptor = document.getElementById('cliente-receptor').value.trim();
+      let referencia = document.getElementById('cliente-referencia').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
       let ticketNumKey = 'correlativo_ticket_cristian';
       let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
       localStorage.setItem(ticketNumKey, numT);
 
-      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
+      let ahora = new Date().toLocaleString('es-GT', { dateStyle: 'short', timeStyle: 'short' });
+
+      let subtotal = 0;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\n📅 *Fecha/Hora:* ${ahora}\n👤 *Cliente:* ${receptor}\n`;
+      
+      if (referencia) {
+        msg += `📍 *Ref:* ${referencia}\n`;
+      }
+      
+      msg += `--------------------------------\n`;
+
       let i = 1;
       for (let k in carrito) {
         let item = carrito[k], sub = item.cantidad * item.precio;
