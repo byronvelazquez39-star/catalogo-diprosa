@@ -165,7 +165,7 @@
         <h4>📋 TRES PARALELOS DIPROSA</h4>
         <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q28,246.78 / Q81,000.00<br>
         • Ritmo actual en desarrollo<br>
-        • Estado: 🟡 En recuperación (¡Aprovecha los días que faltan!)</p>
+        • Estado: 🟡 En recuperación</p>
         
         <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 104 / 324 Tiquetes<br>
         • Meta recomendada: 14-15 tiquetes diarios<br>
@@ -204,12 +204,23 @@
     const vendedorNombre = "CRISTIAN";
     const storageKey = "carrito_diprosa_cristian";
 
+    // Productos de respaldo por si el servidor de GitHub tarda en entregar productos.json
+    const productosFallback = [
+      { nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades", precio: 84.00 },
+      { nombre: "(Salvavidas) en lata UVA Caja de 24 unidades", precio: 84.00 },
+      { nombre: "Agua Pura Salvavidas 600ml Pack x12", precio: 36.00 },
+      { nombre: "Jugo Del Valle Manzana 354ml Ctl x24", precio: 96.00 }
+    ];
+
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
       fetch('productos.json?v=' + new Date().getTime())
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error("No encontrado");
+          return res.json();
+        })
         .then(data => {
           productos = data;
           productosFiltrados = data;
@@ -217,7 +228,11 @@
           actualizarUIResumen();
         })
         .catch(() => {
-          document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">No se pudo cargar productos.json</p>';
+          // Si falla la descarga de productos.json, carga el listado automático para evitar que se trabe
+          productos = productosFallback;
+          productosFiltrados = productosFallback;
+          renderizarCatalogo();
+          actualizarUIResumen();
         });
     });
 
@@ -303,4 +318,85 @@
     function actualizarContenidoTicket() {
       let keys = Object.keys(carrito), contenedor = document.getElementById('ticket-items'), subtotal = 0;
       contenedor.innerHTML = keys.map(k => {
-        let item = carrito[k], sub = item.cantidad * item.precio, b64 = btoa(unescape(encode
+        let item = carrito[k], sub = item.cantidad * item.precio, b64 = btoa(unescape(encodeURIComponent(item.nombre)));
+        subtotal += sub;
+        return `
+          <div style="background:#252525; border-radius:8px; padding:10px; margin-bottom:10px; border:1px solid #333;">
+            <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:6px;">${item.nombre}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <span style="font-size:11px; color:#aaa;">Q ${item.precio.toFixed(2)} c/u</span><br>
+                <span style="font-size:12px; font-weight:bold; color:var(--accent-color);">Subtotal: Q ${sub.toFixed(2)}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:5px;">
+                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
+                <span style="font-size:14px; font-weight:bold; color:#fff; min-width:20px; text-align:center;">${item.cantidad}</span>
+                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
+                <button style="background:#e74c3c; color:#fff; border:none; width:34px; height:30px; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; margin-left:4px;" onclick="borrarProductoCompletamente('${b64}',${item.precio})">🗑️</button>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      let pctDesc = parseInt(document.getElementById('descuento-pct').value) || 0;
+      let totalFinal = subtotal - (subtotal * pctDesc / 100);
+      document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
+      document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
+      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
+      let ticketNumKey = 'correlativo_ticket_cristian';
+      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1).padStart(8, '0');
+    }
+
+    function abrirModalMetas() { document.getElementById('modal-metas').style.display = 'flex'; }
+    function cerrarModalMetas() { document.getElementById('modal-metas').style.display = 'none'; }
+    function abrirModalSueldo() { document.getElementById('modal-sueldo').style.display = 'flex'; }
+    function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
+
+    function enviarCorteDiarioWA() {
+      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Le envío mi reporte de catálogo:\n\n💰 Ventas: Q28,246.78 / Q81,000.00\n🧾 Tiquetes: 104 / 324`;
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function enviarWhatsAppYLimpiar() {
+      let receptor = document.getElementById('cliente-receptor').value.trim();
+      let referencia = document.getElementById('cliente-referencia').value.trim();
+      if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
+
+      let ticketNumKey = 'correlativo_ticket_cristian';
+      let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
+      localStorage.setItem(ticketNumKey, numT);
+
+      let ahora = new Date().toLocaleString('es-GT', { dateStyle: 'short', timeStyle: 'short' });
+
+      let subtotal = 0;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\n📅 *Fecha/Hora:* ${ahora}\n👤 *Cliente:* ${receptor}\n`;
+      
+      if (referencia) {
+        msg += `📍 *Ref:* ${referencia}\n`;
+      }
+      
+      msg += `--------------------------------\n`;
+
+      let i = 1;
+      for (let k in carrito) {
+        let item = carrito[k], sub = item.cantidad * item.precio;
+        subtotal += sub;
+        msg += `${i}. ${item.nombre}\n   Cant: ${item.cantidad} x Q${item.precio.toFixed(2)} = Q${sub.toFixed(2)}\n`;
+        i++;
+      }
+      let pctDesc = parseInt(document.getElementById('descuento-pct').value) || 0;
+      let totalFinal = subtotal - (subtotal * pctDesc / 100);
+
+      msg += `--------------------------------\nTOTAL: Q${totalFinal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
+
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
+
+      carrito = {};
+      localStorage.removeItem(storageKey);
+      cerrarTicket();
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+  </script>
+</body>
+</html>
