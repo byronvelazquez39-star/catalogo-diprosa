@@ -159,17 +159,17 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Paralelos - CRISTIAN</h3>
-        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre (17 días operados)</p>
+        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre (Faltan días por laborar)</p>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 TRES PARALELOS DIPROSA</h4>
         <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q28,246.78 / Q81,000.00<br>
-        • Proyección al 31 de Oct: Q44,862.53<br>
-        • Estado: 🔴 Déficit (~12.05 días equiv.)</p>
+        • Ritmo actual en desarrollo<br>
+        • Estado: 🟡 En recuperación (¡Aprovecha los días que faltan!)</p>
         
         <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 104 / 324 Tiquetes<br>
-        • Proyección al 31 de Oct: ~165 Tiquetes<br>
-        • Estado: 🔴 Déficit mayor (~13.24 días equiv.)</p>
+        • Meta recomendada: 14-15 tiquetes diarios<br>
+        • Estado: 🔴 Alerta de tiquetes</p>
 
         <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día (7 hrs netas)</p>
       </div>
@@ -187,13 +187,13 @@
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
         <div class="sueldo-row"><span>Valor Día (27d):</span><span>Q120.37</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,625.00 (Sin Descuentos)</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,625.00 (Entregada sin descuentos)</span></div>
         <hr style="border:0; border-top:1px dashed #374151; margin:8px 0;">
         <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,625.00</span></div>
-        <div class="sueldo-row"><span>Descuento Mayor Proyectado:</span><span style="color:#e74c3c;">-Q1,593.14 (Tiquetes)</span></div>
+        <div class="sueldo-row"><span>Margen de Días Restantes:</span><span style="color:#34d399;">Activo para recuperar</span></div>
         <hr style="border:0; border-top:1px solid #059669; margin:8px 0;">
-        <div class="sueldo-row"><span style="font-size:13px; font-weight:bold;">Sueldo Final Proyectado:</span><strong style="color:#34d399; font-size:14px;">Q1,656.86</strong></div>
-        <p style="font-size:10px; color:#aaa; margin-top:6px; margin-bottom:0; font-style:italic;">* Sube a 14-15 tiquetes diarios y empuja ventas para usar el colchón y evitar descuentos.</p>
+        <div class="sueldo-row"><span style="font-size:13px; font-weight:bold;">Meta en tus manos:</span><strong style="color:#34d399; font-size:13px;">¡Sube tiquetes y protege tu pago!</strong></div>
+        <p style="font-size:10px; color:#aaa; margin-top:6px; margin-bottom:0; font-style:italic;">* Todavía tienes los días restantes del mes para acelerar el ritmo y asegurar tu segunda quincena completa.</p>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
@@ -303,85 +303,4 @@
     function actualizarContenidoTicket() {
       let keys = Object.keys(carrito), contenedor = document.getElementById('ticket-items'), subtotal = 0;
       contenedor.innerHTML = keys.map(k => {
-        let item = carrito[k], sub = item.cantidad * item.precio, b64 = btoa(unescape(encodeURIComponent(item.nombre)));
-        subtotal += sub;
-        return `
-          <div style="background:#252525; border-radius:8px; padding:10px; margin-bottom:10px; border:1px solid #333;">
-            <div style="font-size:13px; font-weight:bold; color:#fff; margin-bottom:6px;">${item.nombre}</div>
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <span style="font-size:11px; color:#aaa;">Q ${item.precio.toFixed(2)} c/u</span><br>
-                <span style="font-size:12px; font-weight:bold; color:var(--accent-color);">Subtotal: Q ${sub.toFixed(2)}</span>
-              </div>
-              <div style="display:flex; align-items:center; gap:5px;">
-                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
-                <span style="font-size:14px; font-weight:bold; color:#fff; min-width:20px; text-align:center;">${item.cantidad}</span>
-                <button style="background:#333; color:#fff; border:1px solid #555; width:30px; height:30px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
-                <button style="background:#e74c3c; color:#fff; border:none; width:34px; height:30px; border-radius:6px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; margin-left:4px;" onclick="borrarProductoCompletamente('${b64}',${item.precio})">🗑️</button>
-              </div>
-            </div>
-          </div>`;
-      }).join('');
-
-      let pctDesc = parseInt(document.getElementById('descuento-pct').value) || 0;
-      let totalFinal = subtotal - (subtotal * pctDesc / 100);
-      document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
-      document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
-      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      let ticketNumKey = 'correlativo_ticket_cristian';
-      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1).padStart(8, '0');
-    }
-
-    function abrirModalMetas() { document.getElementById('modal-metas').style.display = 'flex'; }
-    function cerrarModalMetas() { document.getElementById('modal-metas').style.display = 'none'; }
-    function abrirModalSueldo() { document.getElementById('modal-sueldo').style.display = 'flex'; }
-    function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
-
-    function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Le envío mi reporte de catálogo:\n\n💰 Ventas: Q28,246.78 / Q81,000.00\n🧾 Tiquetes: 104 / 324`;
-      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    function enviarWhatsAppYLimpiar() {
-      let receptor = document.getElementById('cliente-receptor').value.trim();
-      let referencia = document.getElementById('cliente-referencia').value.trim();
-      if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
-
-      let ticketNumKey = 'correlativo_ticket_cristian';
-      let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
-      localStorage.setItem(ticketNumKey, numT);
-
-      let ahora = new Date().toLocaleString('es-GT', { dateStyle: 'short', timeStyle: 'short' });
-
-      let subtotal = 0;
-      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\n📅 *Fecha/Hora:* ${ahora}\n👤 *Cliente:* ${receptor}\n`;
-      
-      if (referencia) {
-        msg += `📍 *Ref:* ${referencia}\n`;
-      }
-      
-      msg += `--------------------------------\n`;
-
-      let i = 1;
-      for (let k in carrito) {
-        let item = carrito[k], sub = item.cantidad * item.precio;
-        subtotal += sub;
-        msg += `${i}. ${item.nombre}\n   Cant: ${item.cantidad} x Q${item.precio.toFixed(2)} = Q${sub.toFixed(2)}\n`;
-        i++;
-      }
-      let pctDesc = parseInt(document.getElementById('descuento-pct').value) || 0;
-      let totalFinal = subtotal - (subtotal * pctDesc / 100);
-
-      msg += `--------------------------------\nTOTAL: Q${totalFinal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
-
-      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
-
-      carrito = {};
-      localStorage.removeItem(storageKey);
-      cerrarTicket();
-      actualizarUIResumen();
-      renderizarCatalogo();
-    }
-  </script>
-</body>
-</html>
+        let item = carrito[k], sub = item.cantidad * item.precio, b64 = btoa(unescape(encode
