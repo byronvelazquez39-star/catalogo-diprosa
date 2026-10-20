@@ -159,19 +159,21 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Paralelos - ELEAZAR</h3>
+        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 RESUMEN DE PARALELOS</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q26,521.28 / Q81,000.00<br>
-        • Proyección: Q47,738.30<br>
-        • Meta Diaria (Faltante): Q4,539.89 diarios</p>
+        <h4>📋 TRES PARALELOS DIPROSA</h4>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q35,663.00 / Q81,000.00<br>
+        • Proyección al 31 de Oct: Q74,069.31<br>
+        • Meta Diaria (Restan 14d): Q3,238.36 diarios<br>
+        • Déficit Proyectado: -Q6,930.69 (-2.31 días / -Q299.47)</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> 112 / 324<br>
-        • Proyección: 201 tickets<br>
-        • Meta Diaria (Faltante): 18 tickets diarios</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> 121 / 324 Tickets<br>
+        • Proyección al 31 de Oct: 251 Tickets<br>
+        • Meta Diaria (Restan 14d): ~14.5 tickets diarios<br>
+        • Déficit Proyectado: -73 tickets (-6.06 días / -Q785.26) ⚠️ <em>Mayor Déficit</em></p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 105 hrs / 189 hrs<br>
-        • Cumplimiento: 100% de horas acumuladas</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> ~68.8 hrs / 189 hrs acumuladas</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -182,12 +184,19 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina - ELEAZAR</h3>
+        <h3>💵 Nómina y Proyección - ELEAZAR</h3>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
-        <div class="sueldo-row"><span>Valor Día Laboral:</span><span>Q120.37</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q129.63</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,750.00 (Sin Descuentos)</span></div>
+        <hr style="border:0; border-top:1px dashed #374151; margin:8px 0;">
+        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,750.00</span></div>
+        <div class="sueldo-row"><span>Depreciación de Moto:</span><span style="color:#34d399;">+Q500.00</span></div>
+        <div class="sueldo-row"><span>Aplica Mayor Déficit (Tickets):</span><span style="color:#e74c3c;">-Q785.26</span></div>
+        <div class="sueldo-row"><span>2ª Quincena a Recibir:</span><strong style="color:#34d399;">Q1,464.74</strong></div>
+        <hr style="border:0; border-top:1px solid #059669; margin:8px 0;">
+        <div class="sueldo-row"><span style="font-size:13px; font-weight:bold;">Total Neto Mensual Proyectado:</span><strong style="color:#34d399; font-size:14px;">Q3,214.74</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
@@ -326,7 +335,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.\n\n💰 Ventas: Q35,663.00 / Q81,000.00\n🧾 Tickets: 121 / 324`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
