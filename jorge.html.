@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo DIPROSA - V2</title>
+  <title>Catálogo DIPROSA</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -71,16 +71,16 @@
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 15px; }
     .modal-content { background: #1e1e1e; border-radius: 12px; padding: 18px; width: 100%; max-width: 440px; max-height: 88vh; overflow-y: auto; border: 1px solid #444; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 8px; margin-bottom: 12px; }
-    .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; }
-    .ticket-item-info { flex-grow: 1; margin-right: 8px; }
-    .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+    .ticket-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; gap: 6px; }
+    .ticket-item-info { flex: 1; min-width: 0; }
+    .ticket-item-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; word-wrap: break-word; }
     .ticket-item-sub { font-size: 12px; color: #aaa; }
     .ticket-item-subtotal { font-size: 13px; font-weight: bold; color: var(--accent-color); margin-top: 2px; }
     
-    /* BOTONES DE ACCIÓN EN EL TICKET CON EL BOTÓN DE BORRAR */
-    .ticket-actions { display: flex; align-items: center; gap: 4px; }
-    .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
-    .btn-ticket-del { background: #e74c3c !important; color: white !important; border: none !important; width: 30px; height: 28px; border-radius: 4px; cursor: pointer; margin-left: 4px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+    /* ACCIONES DEL TICKET AJUSTADAS PARA QUE QUEPA TODO EN CELULAR */
+    .ticket-actions { display: flex; align-items: center; gap: 3px; shrink: 0; }
+    .btn-ticket-qty { background: #333; color: white; border: 1px solid #555; width: 26px; height: 26px; border-radius: 4px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .btn-borrar-item { background: #e74c3c !important; color: #ffffff !important; border: none !important; width: 30px !important; height: 26px !important; border-radius: 4px !important; cursor: pointer !important; font-size: 14px !important; display: flex !important; align-items: center !important; justify-content: center !important; margin-left: 2px !important; }
 
     .client-info-section { background: #252525; padding: 12px; border-radius: 8px; margin-top: 15px; margin-bottom: 15px; }
     .client-info-section label { font-size: 13px; font-weight: bold; display: block; margin-bottom: 4px; color: #bbb; }
@@ -221,7 +221,6 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // SE AGREGA TIMER 'v=9999' PARA EVITAR PROBLEMAS DE CACHÉ
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
         .then(data => {
@@ -269,8 +268,7 @@
       renderizarCatalogo();
     }
 
-    // FUNCIÓN EXPLICITA DE ELIMINADO CON BASURERO EN ROJO
-    function eliminarDelCarrito(b64, precio) {
+    function borrarProductoCompletamente(b64, precio) {
       let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
       if (carrito[key]) {
         delete carrito[key];
@@ -323,9 +321,9 @@
             </div>
             <div class="ticket-actions">
               <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},-1)">-</button>
-              <span style="font-size:13px; font-weight:bold; min-width:16px; text-align:center;">${item.cantidad}</span>
+              <span style="font-size:12px; font-weight:bold; min-width:14px; text-align:center; color:#fff;">${item.cantidad}</span>
               <button class="btn-ticket-qty" onclick="cambiarCant('${b64}',${item.precio},1)">+</button>
-              <button class="btn-ticket-del" onclick="eliminarDelCarrito('${b64}',${item.precio})">🗑️</button>
+              <button class="btn-borrar-item" onclick="borrarProductoCompletamente('${b64}',${item.precio})">🗑️</button>
             </div>
           </div>`;
       }).join('');
