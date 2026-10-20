@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo DIPROSA - JORGE</title>
+  <title>Catálogo DIPROSA - CRISTIAN</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -94,7 +94,7 @@
 <body>
 
   <div class="header-bar">
-    <h1 id="titulo-vendedor">📦 Catálogo DIPROSA - JORGE</h1>
+    <h1 id="titulo-vendedor">📦 Catálogo DIPROSA - CRISTIAN</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
         📊 Metas <span class="badge-header badge-metas">Control</span>
@@ -154,11 +154,11 @@
     </div>
   </div>
 
-  <!-- MODAL METAS DE JORGE -->
+  <!-- MODAL METAS DE CRISTIAN -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Estado de Paralelos - JORGE</h3>
+        <h3>📊 Estado de Paralelos - CRISTIAN</h3>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 RESUMEN DE PARALELOS</h4>
@@ -178,11 +178,11 @@
     </div>
   </div>
 
-  <!-- MODAL SUELDO DE JORGE -->
+  <!-- MODAL SUELDO DE CRISTIAN -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina - JORGE</h3>
+        <h3>💵 Nómina - CRISTIAN</h3>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
@@ -195,8 +195,8 @@
 
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
-    const vendedorNombre = "JORGE";
-    const storageKey = "carrito_diprosa_jorge";
+    const vendedorNombre = "CRISTIAN";
+    const storageKey = "carrito_diprosa_cristian";
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
@@ -316,7 +316,7 @@
       document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      let ticketNumKey = 'correlativo_ticket_jorge';
+      let ticketNumKey = 'correlativo_ticket_cristian';
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1).padStart(8, '0');
     }
 
@@ -326,7 +326,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -335,14 +335,14 @@
       let referencia = document.getElementById('cliente-referencia').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
-      let ticketNumKey = 'correlativo_ticket_jorge';
+      let ticketNumKey = 'correlativo_ticket_cristian';
       let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
       localStorage.setItem(ticketNumKey, numT);
 
       let ahora = new Date().toLocaleString('es-GT', { dateStyle: 'short', timeStyle: 'short' });
 
       let subtotal = 0;
-      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* JORGE\n*Tiquete # ${String(numT).padStart(8,'0')}*\n📅 *Fecha/Hora:* ${ahora}\n👤 *Cliente:* ${receptor}\n`;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\n📅 *Fecha/Hora:* ${ahora}\n👤 *Cliente:* ${receptor}\n`;
       
       if (referencia) {
         msg += `📍 *Ref:* ${referencia}\n`;
