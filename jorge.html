@@ -159,19 +159,21 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Paralelos - JORGE</h3>
-        <p style="font-size: 11px; color: #888;">Control de Mes (27 Días Laborables)</p>
+        <p style="font-size: 11px; color: #888;">Corte al 19 de Octubre (17 días operados)</p>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 TRES PARALELOS DIPROSA</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Cuota: Q81,000.00<br>
-        • Meta Diaria: Q3,000.00 / día<br>
-        • Comisión: 2.5% sobre excedentes pasados de Q81,000</p>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q59,255.83 / Q81,000.00<br>
+        • Proyección al 31 de Oct: Q94,112.20<br>
+        • Meta Diaria (Restan 10d): Q2,174.42 diarios<br>
+        • Estado: 🟢 Superado (+Q8,255.83 arriba)</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS:</strong> Cuota: 324 Tickets<br>
-        • Meta Diaria: 12 tickets / día</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 184 / 324 Tiquetes<br>
+        • Proyección al 31 de Oct: 292 Tiquetes<br>
+        • Meta Diaria (Restan 10d): 14 tiquetes diarios ⚠️<br>
+        • Estado: 🔴 Déficit de 20 tiquetes (-Q352.94)</p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> Meta: 189 Horas Totales<br>
-        • Jornada Diaria: 7 Horas Netas (Entrada 1er Ticket - Salida Último Ticket)</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> Cumplida (7 hrs netas/día)</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -182,17 +184,20 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Esquema de Nómina - JORGE</h3>
+        <h3>💵 Nómina y Proyección - JORGE</h3>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
-        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q129.63</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (15 del mes):</span><span style="color:#34d399;">Q1,750.00 (Sin Descuentos)</span></div>
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q133.33</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (15 del mes):</span><span style="color:#34d399;">Q1,800.00 (Sin Descuentos)</span></div>
         <hr style="border:0; border-top:1px dashed #374151; margin:8px 0;">
-        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,750.00</span></div>
-        <div class="sueldo-row"><span>Depreciación de Moto:</span><span style="color:#34d399;">+Q500.00 (Fin de Mes)</span></div>
-        <div class="sueldo-row"><span>Base 2º Pago Total:</span><strong>Q2,250.00</strong></div>
-        <p style="font-size:11px; color:#aaa; margin-top:8px; margin-bottom:0; font-style:italic;">* Los descuentos por mayor déficit de paralelos o acreditación de comisiones se aplican exclusivamente en el pago de fin de mes.</p>
+        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,800.00</span></div>
+        <div class="sueldo-row"><span>Comisión Proyectada (Ventas 2.5%):</span><span style="color:#34d399;">+Q327.81</span></div>
+        <div class="sueldo-row"><span>Déficit Tiquetes Proyectado:</span><span style="color:#e74c3c;">-Q352.94</span></div>
+        <div class="sueldo-row"><span>Cruce de Saldos (Neto):</span><strong style="color:#e74c3c;">-Q25.13</strong></div>
+        <hr style="border:0; border-top:1px solid #059669; margin:8px 0;">
+        <div class="sueldo-row"><span style="font-size:13px; font-weight:bold;">Total Neto Mensual Proyectado:</span><strong style="color:#34d399; font-size:14px;">Q3,574.87</strong></div>
+        <p style="font-size:10px; color:#aaa; margin-top:6px; margin-bottom:0; font-style:italic;">* Si corrige a 14 tiquetes diarios desde hoy, cobra sus Q327.81 de comisión íntegros y su sueldo sube a Q3,927.81.</p>
       </div>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
@@ -203,7 +208,7 @@
     const vendedorNombre = "JORGE";
     const storageKey = "carrito_diprosa_jorge";
 
-    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -214,6 +219,9 @@
           productosFiltrados = data;
           renderizarCatalogo();
           actualizarUIResumen();
+        })
+        .catch(() => {
+          document.getElementById('catalogo').innerHTML = '<p style="color:#e74c3c;">No se pudo cargar productos.json</p>';
         });
     });
 
@@ -280,10 +288,13 @@
     }
 
     function filtrarDebounce() {
-      let q = document.getElementById('buscar').value.toLowerCase().trim();
-      limiteActual = 40;
-      productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
-      renderizarCatalogo();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+        renderizarCatalogo();
+      }, 150);
     }
 
     function abrirTicket() {
@@ -331,7 +342,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte de catálogo al momento.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - JORGE*\n¡Hola don Byron! Le envío mi reporte de catálogo al día 17:\n\n💰 Ventas: Q59,255.83 / Q81,000.00\n🧾 Tiquetes: 184 / 324`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
