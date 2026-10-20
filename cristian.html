@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo DIPROSA - CHRISTIAN</title>
+  <title>Catálogo DIPROSA - CRISTIAN</title>
   <style>
     :root {
       --bg-color: #121212;
@@ -103,7 +103,7 @@
 <body>
 
   <div class="header-bar">
-    <h1>📦 Catálogo DIPROSA - CHRISTIAN</h1>
+    <h1>📦 Catálogo DIPROSA - CRISTIAN</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">
         📊 Metas <span class="badge-header badge-metas">Control</span>
@@ -170,10 +170,19 @@
         <h3>📊 Estado de los 3 Paralelos</h3>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 RESUMEN DE LOS 3 PARALELOS — CHRISTIAN</h4>
-        <p style="margin: 4px 0;">📅 <strong>Estado actual</strong></p>
-        <p style="margin: 2px 0;">• Monitoreo activo de rutas y tiempos.</p>
-        <p style="margin: 2px 0;">• Control quincenal de métricas.</p>
+        <h4>📋 RESUMEN DE LOS 3 PARALELOS — CRISTIAN</h4>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q26,521.28 / Q81,000.00<br>
+        • Proyección: Q47,738.30 (Déficit: -11.09 días)<br>
+        • Meta Diaria (Faltante): Q4,539.89 diarios</p>
+        
+        <p style="margin: 6px 0;">🧾 <strong>2. TICKETS (PUNTO CRÍTICO ⚠️):</strong> 100 / 324<br>
+        • Proyección: 180 tickets (Déficit: -12.00 días)<br>
+        • Meta Diaria (Faltante): 19 tickets diarios</p>
+
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 105 hrs / 189 hrs<br>
+        • Cumplimiento: 100% de horas acumuladas (0 déficit)</p>
+        
+        <p style="margin: 6px 0; font-size: 11px; color: #fca5a5;">⚖️ <strong>Sanción Aplicada:</strong> Se descontará el paralelo de mayor déficit (Tickets: -12 días).</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModalMetas()">Cerrar Ventana</button>
@@ -187,17 +196,22 @@
         <h3>💵 Nómina y Evaluación de Sueldo</h3>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Esquema Base:</span><strong>Estructura DIPROSA</strong></div>
-        <div class="sueldo-row sueldo-destacado"><span>Estado:</span><span>Al día</span></div>
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral:</span><span>Q120.37</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (15 Oct):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
+        <div class="sueldo-row"><span>Sanción Uniforme (0.5 día):</span><span style="color:#ef4444;">-Q60.19</span></div>
+        <div class="sueldo-row"><span>Descuento Tickets (-12 días):</span><span style="color:#ef4444;">-Q1,444.44</span></div>
+        <div class="sueldo-row sueldo-destacado"><span>Cobro Proyectado 2ª Q:</span><span>Q120.37</span></div>
       </div>
+      <p style="font-size: 11px; color: #aaa; text-align: center; margin-top: 6px;">💡 Emitiendo 19 tickets diarios reduces el déficit y rescatas tu liquidación.</p>
       <button class="btn-close" onclick="cerrarModalSueldo()">Cerrar Ventana</button>
     </div>
   </div>
 
   <script>
     const NUMERO_WHATSAPP = "50248502382"; 
-    const vendedorNombre = "CHRISTIAN";
-    const storageKey = "carrito_diprosa_christian";
+    const vendedorNombre = "CRISTIAN";
+    const storageKey = "carrito_diprosa_cristian";
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
@@ -299,7 +313,7 @@
       document.getElementById('ticket-subtotal').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-total').innerText = totalFinal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      let ticketNumKey = 'correlativo_ticket_christian';
+      let ticketNumKey = 'correlativo_ticket_cristian';
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String((parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1).padStart(8, '0');
     }
 
@@ -309,7 +323,7 @@
     function cerrarModalSueldo() { document.getElementById('modal-sueldo').style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - CHRISTIAN*\n¡Hola don Byron! Le envío mi reporte.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Le envío mi reporte acumulado al momento.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -317,11 +331,11 @@
       let receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
 
-      let ticketNumKey = 'correlativo_ticket_christian';
+      let ticketNumKey = 'correlativo_ticket_cristian';
       let numT = (parseInt(localStorage.getItem(ticketNumKey)) || 0) + 1;
       localStorage.setItem(ticketNumKey, numT);
 
-      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CHRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
+      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\nCliente: ${receptor}\n--------------------------------\n`;
       let i = 1;
       for (let k in carrito) {
         let item = carrito[k], sub = item.cantidad * item.precio;
