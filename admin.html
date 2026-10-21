@@ -68,7 +68,6 @@
             margin-bottom: 8px;
             border-radius: 4px;
             font-size: 13px;
-            position: relative;
         }
         .ticket-header {
             display: flex;
@@ -86,17 +85,20 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 5px;
+            margin-top: 8px;
             font-weight: bold;
+            border-top: 1px solid #333;
+            padding-top: 5px;
         }
         .btn-delete {
             background-color: #d32f2f;
             color: white;
             border: none;
-            padding: 4px 8px;
+            padding: 5px 10px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 11px;
+            font-size: 12px;
+            font-weight: bold;
         }
         .no-tickets {
             color: #777;
@@ -115,9 +117,7 @@
         <p id="globalTotal">Q 0.00</p>
     </div>
 
-    <div id="sellersContainer">
-        <!-- Las secciones de los vendedores se cargan automáticamente -->
-    </div>
+    <div id="sellersContainer"></div>
 
     <script>
         const sellers = ['Cristian', 'Jorge', 'Eleazar', 'Estuardo'];
@@ -149,7 +149,8 @@
                         ticketsHTML += `
                             <div class="ticket-item">
                                 <div class="ticket-header">
-                                    <span>Tiquete #${index + 1} - ${ticket.fecha || 'Reciente'}</span>
+                                    <span>Tiquete #${index + 1} (${ticket.cliente || 'Cliente'})</span>
+                                    <span>${ticket.fecha || ''}</span>
                                 </div>
                                 <div class="ticket-products">${itemsText}</div>
                                 <div class="ticket-footer">
@@ -189,7 +190,6 @@
             }
         }
 
-        // Cargar al abrir la página
         loadAdminData();
     </script>
 </body>
