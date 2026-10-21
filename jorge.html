@@ -49,6 +49,10 @@
     .meta-resumen-box { background: #122118; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
     .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
 
+    .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 11px; }
+    .ticket-historial-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 3px; align-items: center; }
+    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
+
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
     .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
 
@@ -104,12 +108,12 @@
     </div>
   </div>
 
-  <!-- MODAL METAS DE JORGE (CON LECTURA DINÁMICA) -->
+  <!-- MODAL METAS Y TIQUETES DE JORGE (CON OPCIÓN DE ELIMINAR TIKETS) -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Estado de Paralelos - JORGE</h3>
-        <p style="font-size: 11px; color: #888;">Corte de Control de Ruta</p>
+        <h3>📊 Estado de Metas - JORGE</h3>
+        <p style="font-size: 11px; color: #888;">Control y Tiquetes Emitidos</p>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 TRES PARALELOS DIPROSA</h4>
@@ -117,12 +121,20 @@
         <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES EMITIDOS:</strong> <span id="meta-tiquetes-real">0</span> / 324 Tiquetes</p>
         <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día (7 hrs netas de ruta)</p>
       </div>
+
+      <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
+        📝 Tiquetes emitidos hoy (Si un cliente cancela, puede eliminarlo):
+      </div>
+      <div id="lista-tiquetes-jorge" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;">
+        <!-- Se cargan dinámicamente -->
+      </div>
+
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO DE JORGE -->
+  <!-- MODAL SUELDO DE JORGE (CORREGIDO SIN MOTO) -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
@@ -130,7 +142,6 @@
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
-        <div class="sueldo-row"><span>Depreciación de Moto:</span><strong style="color:#34d399;">Q500.00 (Fin de Mes)</strong></div>
         <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q133.33</span></div>
         <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,800.00 (Ya Pagada)</span></div>
         <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,800.00</span></div>
@@ -145,24 +156,23 @@
 
         <div class="proyeccion-opcion">
           <div style="font-weight:bold; color:#38bdf8;">1. Esfuerzo Medio (10 tiquetes/día):</div>
-          <div>• Neto a Recibir Fin de Mes: <strong style="color:#38bdf8; font-size:13px;">Q533.32</strong></div>
-          <div style="font-size:11px; color:#aaa;">(Incluye 2ª Q + Dep. Moto Q500 + Ajuste)</div>
+          <div>• Neto a Recibir 2ª Quincena: <strong style="color:#38bdf8; font-size:13px;">Q533.32</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,333.32)</div>
         </div>
 
         <div class="proyeccion-opcion verde">
           <div style="font-weight:bold; color:#25d366;">2. Gran Esfuerzo (15 tiquetes/día):</div>
-          <div>• Neto a Recibir Fin de Mes: <strong style="color:#25d366; font-size:13px;">Q1,088.90</strong></div>
-          <div style="font-size:11px; color:#aaa;">(Incluye 2ª Q + Dep. Moto Q500 + Ajuste)</div>
+          <div>• Neto a Recibir 2ª Quincena: <strong style="color:#25d366; font-size:13px;">Q1,088.90</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,888.90)</div>
         </div>
 
         <div class="proyeccion-opcion premio">
           <div style="font-weight:bold; color:#f59e0b;">🎁 3. SUPERAR META (+Q81,000.00 Ventas):</div>
           <div>• 2ª Quincena Completa: <strong>Q1,800.00</strong></div>
           <div>• <strong>¡PREMIO BONO EN EFECTIVO: + Q500.00!</strong></div>
-          <div>• <strong>Depreciación de Moto: Q500.00</strong></div>
           <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente de ventas</div>
           <div style="font-size:13px; font-weight:bold; color:#25d366; margin-top:4px; border-top:1px dashed #f59e0b; padding-top:3px;">
-            💰 TOTAL EN MANO (FIN DE MES): Q2,300.00 + COMISIONES
+            💰 RECIBES EN MANO (2ª Q): Q2,300.00 + COMISIONES
           </div>
         </div>
       </div>
@@ -254,6 +264,11 @@
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function abrirModalMetas() {
+      actualizarVistaMetas();
+      abrirModal('modal-metas');
+    }
+
+    function actualizarVistaMetas() {
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
       
@@ -264,7 +279,40 @@
 
       document.getElementById('meta-tiquetes-real').innerText = tiquetesGuardados.length;
       document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
-      abrirModal('modal-metas');
+
+      let contenedorLista = document.getElementById('lista-tiquetes-jorge');
+      if (tiquetesGuardados.length === 0) {
+        contenedorLista.innerHTML = '<p style="color:#888; font-style:italic; font-size:11px;">No hay tiquetes emitidos hoy.</p>';
+        return;
+      }
+
+      let htmlTiquetes = "";
+      tiquetesGuardados.forEach((t, idx) => {
+        let totalT = t.total ? t.total.toFixed(2) : "0.00";
+        htmlTiquetes += `
+          <div class="ticket-historial-card">
+            <div class="ticket-historial-head">
+              <span>Tiquete #${idx + 1} - 👤 ${t.cliente || 'Cliente'}</span>
+              <button class="btn-eliminar-uno" onclick="eliminarUnTiqueteJorge(${idx})">❌ Eliminar</button>
+            </div>
+            <div style="color:#aaa;">Hora: ${t.fecha || 'N/A'} | Total: Q${totalT}</div>
+          </div>
+        `;
+      });
+      contenedorLista.innerHTML = htmlTiquetes;
+    }
+
+    function eliminarUnTiqueteJorge(index) {
+      if (confirm(`¿Desea eliminar este tiquete del historial de Jorge?`)) {
+        let tiquetesGuardados = [];
+        try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+        
+        tiquetesGuardados.splice(index, 1);
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        
+        // Actualiza la vista del modal al instante
+        actualizarVistaMetas();
+      }
     }
 
     function abrirModalSueldo() {
