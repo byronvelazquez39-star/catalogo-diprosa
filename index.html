@@ -15,9 +15,9 @@
         .product-info span { font-size: 13px; color: #4CAF50; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 8px 12px; font-weight: bold; border-radius: 5px; cursor: pointer; }
 
-        /* Botón Flotante (Oculto por defecto) */
+        /* Botón Flotante Oculto por Defecto */
         .cart-float-btn {
-            display: none; /* Inicia oculto */
+            display: none !important;
             position: fixed;
             bottom: 15px;
             left: 5%;
@@ -36,7 +36,7 @@
             align-items: center;
         }
 
-        /* Ventana Flotante (Modal) */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -63,7 +63,7 @@
         .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 12px; font-size: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
-<body>
+<body onload="renderCart()">
 
     <h1>🛒 Catálogo DIPROSA - Vendedor: ESTUARDO</h1>
 
@@ -104,7 +104,7 @@
         </div>
     </div>
 
-    <!-- Botón Flotante Verde (Oculto por defecto) -->
+    <!-- Botón Flotante Verde -->
     <button class="cart-float-btn" id="floatBtn" onclick="toggleModal(true)">
         <span>🛒 Ver Pedido (<span id="cartCount">0</span>)</span>
         <span>Q <span id="floatTotal">0.00</span></span>
@@ -148,12 +148,11 @@
                 totalEl.innerText = "0.00";
                 floatTotalEl.innerText = "0.00";
                 countEl.innerText = "0";
-                floatBtn.style.display = "none"; // Se oculta totalmente
+                floatBtn.setAttribute("style", "display: none !important");
                 return;
             }
 
-            // Muestra el botón verde sólo si hay al menos 1 producto
-            floatBtn.style.display = "flex";
+            floatBtn.setAttribute("style", "display: flex !important");
 
             let html = "";
             let total = 0;
@@ -185,7 +184,6 @@
             const cliente = document.getElementById("clienteNombre").value || "Cliente General";
             const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-            // Guardar tiquete para el panel de administración
             const nuevoTiquete = {
                 fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 cliente: cliente,
@@ -197,14 +195,12 @@
             tiquetesGuardados.push(nuevoTiquete);
             localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
 
-            // Armar mensaje para WhatsApp
             let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
             cart.forEach(item => {
                 mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
-            // Limpiar todo y ocultar botón
             cart = [];
             renderCart();
             document.getElementById("clienteNombre").value = "";
