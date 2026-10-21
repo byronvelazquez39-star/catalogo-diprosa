@@ -1,192 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA - Estuardo</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 12px; }
-        h1 { text-align: center; color: #ff9800; font-size: 16px; margin: 5px 0 10px 0; }
-        .input-group { margin-bottom: 12px; }
-        label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
-        input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
-        
-        /* Estilo para el buscador */
-        .search-box {
-            border: 1px solid #ff9800 !important;
-            background-color: #1a1a1a !important;
-        }
-
-        .product-card { 
-            background-color: #1e1e1e; 
-            border: 1px solid #333; 
-            padding: 8px 10px; 
-            border-radius: 6px; 
-            margin-bottom: 6px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        .product-info strong { font-size: 13px; display: block; }
-        .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
-        .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
-
-        /* Cuadro del Resumen del Pedido (Oculto por defecto) */
-        .cart-box {
-            display: none;
-            background-color: #1a1a1a;
-            border: 1px solid #ff9800;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 15px;
-        }
-        .cart-box h3 { margin: 0 0 8px 0; font-size: 14px; color: #ff9800; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .cart-item { font-size: 13px; margin-bottom: 4px; color: #ddd; display: flex; justify-content: space-between; }
-        .cart-total { font-size: 15px; font-weight: bold; color: #4CAF50; margin-top: 10px; text-align: right; }
-        .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 10px; font-size: 14px; border: none; border-radius: 5px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo DIPROSA - ESTUARDO</title>
+  <style>
+    :root { --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff; --accent-color: #27ae60; }
+    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 15px; padding-bottom: 100px; }
+    h1 { text-align: center; font-size: 18px; color: #f59e0b; margin-bottom: 5px; }
+    .search-box { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
+    .producto-card { background: var(--card-bg); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+    .prod-info h4 { margin: 0 0 5px 0; font-size: 14px; }
+    .prod-info p { margin: 0; color: #27ae60; font-weight: bold; font-size: 13px; }
+    .prod-actions { display: flex; align-items: center; gap: 8px; }
+    .prod-actions button { background: #333; color: #fff; border: none; padding: 6px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+    .prod-actions span { font-size: 14px; min-width: 20px; text-align: center; }
+    .footer-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: #1a1a1a; border-top: 1px solid #333; padding: 12px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; }
+    .btn-enviar { background: var(--accent-color); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; }
+  </style>
 </head>
-<body onload="renderCart()">
+<body>
 
-    <h1>🛒 Catálogo DIPROSA - ESTUARDO</h1>
+  <h1>DIPROSA - Vendedor: ESTUARDO</h1>
+  <input type="text" id="buscador" class="search-box" placeholder="🔍 Buscar producto..." oninput="filtrarProductos()">
+  <div id="lista-productos">Cargando catálogo...</div>
 
-    <div class="input-group">
-        <label for="clienteNombre">Nombre del Cliente / Tienda:</label>
-        <input type="text" id="clienteNombre" placeholder="Ej. Tienda La Guadalupana">
+  <div class="footer-cart">
+    <div>
+      <div style="font-size:12px; color:#aaa;">Total Pedido:</div>
+      <div style="font-size:16px; font-weight:bold; color:#27ae60;">Q <span id="total-general">0.00</span></div>
     </div>
+    <button class="btn-enviar" onclick="enviarPedidoWhatsApp()">📤 Enviar a WhatsApp</button>
+  </div>
 
-    <!-- BUSCADOR EN TIEMPO REAL -->
-    <div class="input-group">
-        <label for="buscador" style="color: #ff9800;">🔍 Buscar Producto:</label>
-        <input type="text" id="buscador" class="search-box" placeholder="Escriba para filtrar productos..." oninput="filtrarProductos()">
-    </div>
+  <script>
+    let productos = [];
+    let carrito = {};
 
-    <h3 style="font-size: 13px; color: #aaa; margin: 8px 0 5px 0;">Productos Disponibles</h3>
-    <div id="productsList">
-        <div class="product-card" data-name="limonada salvavidas lata">
-            <div class="product-info">
-                <strong>Limonada Salvavidas lata</strong>
-                <span>Q 67.00</span>
+    async function cargarCatalogo() {
+      try {
+        let respuesta = await fetch('catalogo.csv');
+        let texto = await respuesta.text();
+        let lineas = texto.split('\n');
+        productos = lineas.slice(1).map(linea => {
+          let partes = linea.split(',');
+          if (partes.length >= 2) {
+            return { nombre: partes[0].trim(), precio: parseFloat(partes[1]) || 0 };
+          }
+          return null;
+        }).filter(p => p !== null && p.nombre !== '');
+        mostrarProductos(productos);
+      } catch(e) {
+        document.getElementById('lista-productos').innerHTML = '<p style="color:red; text-align:center;">Error al cargar el catálogo.</p>';
+      }
+    }
+
+    function mostrarProductos(lista) {
+      let html = '';
+      lista.forEach((p, index) => {
+        let cantidad = carrito[p.nombre] || 0;
+        html += `
+          <div class="producto-card">
+            <div class="prod-info">
+              <h4>${p.nombre}</h4>
+              <p>Q ${p.precio.toFixed(2)}</p>
             </div>
-            <button class="btn" onclick="addToCart('Limonada Salvavidas lata', 67.00)">+ Agregar</button>
-        </div>
-        <div class="product-card" data-name="soda naranjada carnaval lata">
-            <div class="product-info">
-                <strong>Soda Naranjada Carnaval lata</strong>
-                <span>Q 67.00</span>
+            <div class="prod-actions">
+              <button onclick="cambiarCantidad('${p.nombre}', -1)">-</button>
+              <span>${cantidad}</span>
+              <button onclick="cambiarCantidad('${p.nombre}', 1)">+</button>
             </div>
-            <button class="btn" onclick="addToCart('Soda Naranjada Carnaval lata', 67.00)">+ Agregar</button>
-        </div>
-        <div class="product-card" data-name="almohadita fardo 4 oz">
-            <div class="product-info">
-                <strong>Almohadita fardo 4 oz</strong>
-                <span>Q 110.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Almohadita fardo 4 oz', 110.00)">+ Agregar</button>
-        </div>
-        <div class="product-card" data-name="salvavidas roja lata">
-            <div class="product-info">
-                <strong>Salvavidas Roja lata</strong>
-                <span>Q 67.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Salvavidas Roja lata', 67.00)">+ Agregar</button>
-        </div>
-    </div>
+          </div>
+        `;
+      });
+      document.getElementById('lista-productos').innerHTML = html;
+      calcularTotal();
+    }
 
-    <!-- Resumen del pedido -->
-    <div class="cart-box" id="cartContainer">
-        <h3>📋 Resumen del Pedido</h3>
-        <div id="cartItems"></div>
-        <div class="cart-total">Total: Q <span id="cartTotal">0.00</span></div>
-        <button class="btn-send" onclick="enviarPedido()">📲 Confirmar y Enviar por WhatsApp</button>
-    </div>
+    function filtrarProductos() {
+      let texto = document.getElementById('buscador').value.toLowerCase();
+      let filtrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
+      mostrarProductos(filtrados);
+    }
 
-    <script>
-        let cart = [];
+    function cambiarCantidad(nombre, cambio) {
+      if (!carrito[nombre]) carrito[nombre] = 0;
+      carrito[nombre] += cambio;
+      if (carrito[nombre] <= 0) delete carrito[nombre];
+      filtrarProductos();
+    }
 
-        function filtrarProductos() {
-            const texto = document.getElementById("buscador").value.toLowerCase();
-            const tarjetas = document.querySelectorAll(".product-card");
+    function calcularTotal() {
+      let total = 0;
+      for (let nombre in carrito) {
+        let prod = productos.find(p => p.nombre === nombre);
+        if (prod) total += prod.precio * carrito[nombre];
+      }
+      document.getElementById('total-general').innerText = total.toFixed(2);
+      return total;
+    }
 
-            tarjetas.forEach(card => {
-                const nombre = card.getAttribute("data-name");
-                if (nombre.includes(texto)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        }
+    function enviarPedidoWhatsApp() {
+      let totalPedido = calcularTotal();
+      if (totalPedido <= 0) {
+        alert("El carrito está vacío.");
+        return;
+      }
 
-        function addToCart(name, price) {
-            const existing = cart.find(item => item.name === name);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ name, price, qty: 1 });
-            }
-            renderCart();
-        }
+      let mensaje = "📦 *PEDIDO DIPROSA - ESTUARDO*\n\n";
+      for (let nombre in carrito) {
+        let prod = productos.find(p => p.nombre === nombre);
+        let sub = prod.precio * carrito[nombre];
+        mensaje += `• ${nombre} x ${carrito[nombre]} = Q ${sub.toFixed(2)}\n`;
+      }
+      mensaje += `\n*TOTAL: Q ${totalPedido.toFixed(2)}*`;
 
-        function renderCart() {
-            const container = document.getElementById("cartItems");
-            const totalEl = document.getElementById("cartTotal");
-            const box = document.getElementById("cartContainer");
+      // REGISTRO AUTOMÁTICO PARA EL PANEL DE AUDITORÍA
+      let historialKey = 'historial_ventas_estuardo';
+      let listaHistorial = JSON.parse(localStorage.getItem(historialKey)) || [];
+      let nuevoTicket = {
+        numero: Math.floor(1000 + Math.random() * 9000),
+        cliente: 'Cliente de Estuardo',
+        total: totalPedido,
+        fecha: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+      };
+      listaHistorial.push(nuevoTicket);
+      localStorage.setItem(historialKey, JSON.stringify(listaHistorial));
 
-            if (cart.length === 0) {
-                box.style.display = "none";
-                container.innerHTML = "";
-                totalEl.innerText = "0.00";
-                return;
-            }
+      let url = `https://api.whatsapp.com/send?phone=50248502382&text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
 
-            box.style.display = "block";
-
-            let html = "";
-            let total = 0;
-
-            cart.forEach(item => {
-                const subtotal = item.price * item.qty;
-                total += subtotal;
-                html += `<div class="cart-item"><span>• ${item.name} (x${item.qty})</span><span>Q${subtotal.toFixed(2)}</span></div>`;
-            });
-
-            container.innerHTML = html;
-            totalEl.innerText = total.toFixed(2);
-        }
-
-        function enviarPedido() {
-            if (cart.length === 0) return;
-
-            const cliente = document.getElementById("clienteNombre").value || "Cliente General";
-            const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-            const nuevoTiquete = {
-                fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                cliente: cliente,
-                items: cart.map(item => ({ name: item.name, qty: item.qty, price: item.price })),
-                total: totalVenta
-            };
-
-            let tiquetesGuardados = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || [];
-            tiquetesGuardados.push(nuevoTiquete);
-            localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
-
-            let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
-            cart.forEach(item => {
-                mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
-            });
-            mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
-
-            cart = [];
-            document.getElementById("clienteNombre").value = "";
-            document.getElementById("buscador").value = "";
-            filtrarProductos();
-            renderCart();
-
-            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
-        }
-    </script>
+    document.addEventListener('DOMContentLoaded', cargarCatalogo);
+  </script>
 </body>
 </html>
