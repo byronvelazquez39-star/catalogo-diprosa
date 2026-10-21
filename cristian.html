@@ -42,14 +42,23 @@
         let respuesta = await fetch('catalogo.csv');
         let texto = await respuesta.text();
         let lineas = texto.split('\n');
-        productos = lineas.slice(1).map(linea => {
+        productos = lineas.map(linea => {
           let partes = linea.split(',');
           if (partes.length >= 2) {
-            return { nombre: partes[0].trim(), precio: parseFloat(partes[1]) || 0 };
+            let nombre = partes[0].trim();
+            let precio = parseFloat(partes[1]) || 0;
+            if (nombre && precio > 0) {
+              return { nombre: nombre, precio: precio };
+            }
           }
           return null;
-        }).filter(p => p !== null && p.nombre !== '');
-        mostrarProductos(productos);
+        }).filter(p => p !== null);
+        
+        if (productos.length === 0) {
+          document.getElementById('lista-productos').innerHTML = '<p style="color:orange; text-align:center;">No se encontraron productos válidos en el CSV.</p>';
+        } else {
+          mostrarProductos(productos);
+        }
       } catch(e) {
         document.getElementById('lista-productos').innerHTML = '<p style="color:red; text-align:center;">Error al cargar el catálogo.</p>';
       }
@@ -57,7 +66,7 @@
 
     function mostrarProductos(lista) {
       let html = '';
-      lista.forEach((p, index) => {
+      lista.forEach((p) => {
         let cantidad = carrito[p.nombre] || 0;
         html += `
           <div class="producto-card">
@@ -66,9 +75,9 @@
               <p>Q ${p.precio.toFixed(2)}</p>
             </div>
             <div class="prod-actions">
-              <button onclick="cambiarCantidad('${p.nombre}', -1)">-</button>
+              <button onclick="cambiarCantidad('${p.nombre.replace(/'/g, "\\'")}', -1)">-</button>
               <span>${cantidad}</span>
-              <button onclick="cambiarCantidad('${p.nombre}', 1)">+</button>
+              <button onclick="cambiarCantidad('${p.nombre.replace(/'/g, "\\'")}', 1)">+</button>
             </div>
           </div>
         `;
@@ -115,7 +124,6 @@
       }
       mensaje += `\n*TOTAL: Q ${totalPedido.toFixed(2)}*`;
 
-      // REGISTRO AUTOMÁTICO PARA EL PANEL DE AUDITORÍA
       let historialKey = 'historial_ventas_cristian';
       let listaHistorial = JSON.parse(localStorage.getItem(historialKey)) || [];
       let nuevoTicket = {
