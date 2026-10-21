@@ -11,6 +11,12 @@
         label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
         input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
         
+        /* Estilo para el buscador */
+        .search-box {
+            border: 1px solid #ff9800 !important;
+            background-color: #1a1a1a !important;
+        }
+
         .product-card { 
             background-color: #1e1e1e; 
             border: 1px solid #333; 
@@ -27,7 +33,7 @@
 
         /* Cuadro del Resumen del Pedido (Oculto por defecto) */
         .cart-box {
-            display: none; /* Inicia oculto */
+            display: none;
             background-color: #1a1a1a;
             border: 1px solid #ff9800;
             border-radius: 8px;
@@ -49,30 +55,36 @@
         <input type="text" id="clienteNombre" placeholder="Ej. Tienda La Guadalupana">
     </div>
 
+    <!-- BUSCADOR AGREGADO -->
+    <div class="input-group">
+        <label for="buscador" style="color: #ff9800;">🔍 Buscar Producto:</label>
+        <input type="text" id="buscador" class="search-box" placeholder="Escriba para filtrar productos..." oninput="filtrarProductos()">
+    </div>
+
     <h3 style="font-size: 13px; color: #aaa; margin: 8px 0 5px 0;">Productos Disponibles</h3>
     <div id="productsList">
-        <div class="product-card">
+        <div class="product-card" data-name="limonada salvavidas lata">
             <div class="product-info">
                 <strong>Limonada Salvavidas lata</strong>
                 <span>Q 67.00</span>
             </div>
             <button class="btn" onclick="addToCart('Limonada Salvavidas lata', 67.00)">+ Agregar</button>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-name="soda naranjada carnaval lata">
             <div class="product-info">
                 <strong>Soda Naranjada Carnaval lata</strong>
                 <span>Q 67.00</span>
             </div>
             <button class="btn" onclick="addToCart('Soda Naranjada Carnaval lata', 67.00)">+ Agregar</button>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-name="almohadita fardo 4 oz">
             <div class="product-info">
                 <strong>Almohadita fardo 4 oz</strong>
                 <span>Q 110.00</span>
             </div>
             <button class="btn" onclick="addToCart('Almohadita fardo 4 oz', 110.00)">+ Agregar</button>
         </div>
-        <div class="product-card">
+        <div class="product-card" data-name="salvavidas roja lata">
             <div class="product-info">
                 <strong>Salvavidas Roja lata</strong>
                 <span>Q 67.00</span>
@@ -81,7 +93,7 @@
         </div>
     </div>
 
-    <!-- Resumen del pedido (Solo visible al agregar productos) -->
+    <!-- Resumen del pedido -->
     <div class="cart-box" id="cartContainer">
         <h3>📋 Resumen del Pedido</h3>
         <div id="cartItems"></div>
@@ -91,6 +103,21 @@
 
     <script>
         let cart = [];
+
+        // Función del buscador en tiempo real
+        function filtrarProductos() {
+            const texto = document.getElementById("buscador").value.toLowerCase();
+            const tarjetas = document.querySelectorAll(".product-card");
+
+            tarjetas.forEach(card => {
+                const nombre = card.getAttribute("data-name");
+                if (nombre.includes(texto)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
 
         function addToCart(name, price) {
             const existing = cart.find(item => item.name === name);
@@ -107,7 +134,6 @@
             const totalEl = document.getElementById("cartTotal");
             const box = document.getElementById("cartContainer");
 
-            // Si el carrito está vacío, se oculta el cuadro por completo
             if (cart.length === 0) {
                 box.style.display = "none";
                 container.innerHTML = "";
@@ -115,7 +141,6 @@
                 return;
             }
 
-            // Si tiene productos, se muestra el cuadro
             box.style.display = "block";
 
             let html = "";
@@ -137,7 +162,6 @@
             const cliente = document.getElementById("clienteNombre").value || "Cliente General";
             const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-            // Guardar tiquete para el panel de administración
             const nuevoTiquete = {
                 fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 cliente: cliente,
@@ -149,17 +173,17 @@
             tiquetesGuardados.push(nuevoTiquete);
             localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
 
-            // Generar mensaje para WhatsApp
             let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
             cart.forEach(item => {
                 mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
-            // Vaciar carrito, limpiar nombre de tienda y OCULTAR EL CUADRO
             cart = [];
             document.getElementById("clienteNombre").value = "";
-            renderCart(); // Al ejecutar esto con el carrito vacío, se oculta el cuadro automáticamente
+            document.getElementById("buscador").value = "";
+            filtrarProductos(); // Limpiar filtro
+            renderCart();
 
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
