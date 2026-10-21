@@ -5,85 +5,149 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo DIPROSA - CRISTIAN</title>
   <style>
-    :root { --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff; --accent-color: #27ae60; }
-    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 15px; padding-bottom: 100px; }
-    h1 { text-align: center; font-size: 18px; color: #f59e0b; margin-bottom: 5px; }
-    .search-box { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
-    .producto-card { background: var(--card-bg); border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-    .prod-info h4 { margin: 0 0 5px 0; font-size: 14px; }
-    .prod-info p { margin: 0; color: #27ae60; font-weight: bold; font-size: 13px; }
-    .prod-actions { display: flex; align-items: center; gap: 8px; }
-    .prod-actions button { background: #333; color: #fff; border: none; padding: 6px 10px; border-radius: 5px; font-weight: bold; cursor: pointer; }
-    .prod-actions span { font-size: 14px; min-width: 20px; text-align: center; }
-    .footer-cart { position: fixed; bottom: 0; left: 0; width: 100%; background: #1a1a1a; border-top: 1px solid #333; padding: 12px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; }
-    .btn-enviar { background: var(--accent-color); color: white; border: none; padding: 10px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px; }
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --accent-color: #27ae60;
+      --danger-color: #e74c3c;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 10px;
+      padding-bottom: 90px;
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 16px; color: #f59e0b; margin: 0; }
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #222;
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+    }
+    .grid-productos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .producto-card {
+      background: var(--card-bg);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .prod-info h4 { margin: 0 0 5px 0; font-size: 13px; line-height: 1.2; }
+    .prod-info p { margin: 5px 0; color: #27ae60; font-weight: bold; font-size: 14px; }
+    .btn-agregar {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+      width: 100%;
+      margin-top: 5px;
+    }
+    .footer-cart {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #1a1a1a;
+      border-top: 1px solid #333;
+      padding: 10px 15px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+    .btn-ticket {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>DIPROSA - Vendedor: CRISTIAN</h1>
+  <div class="header-top">
+    <h1>📦 Catálogo DIPROSA - CRISTIAN</h1>
+  </div>
+
   <input type="text" id="buscador" class="search-box" placeholder="🔍 Buscar producto..." oninput="filtrarProductos()">
-  <div id="lista-productos">Cargando catálogo...</div>
+  
+  <div id="lista-productos" class="grid-productos">
+    <!-- Se llena automáticamente -->
+  </div>
 
   <div class="footer-cart">
     <div>
-      <div style="font-size:12px; color:#aaa;">Total Pedido:</div>
-      <div style="font-size:16px; font-weight:bold; color:#27ae60;">Q <span id="total-general">0.00</span></div>
+      <div style="font-size:11px; color:#aaa;" id="contador-items">🛒 0 ítems</div>
+      <div style="font-size:15px; font-weight:bold; color:#27ae60;">Total: Q <span id="total-general">0.00</span></div>
     </div>
-    <button class="btn-enviar" onclick="enviarPedidoWhatsApp()">📤 Enviar a WhatsApp</button>
+    <button class="btn-ticket" onclick="enviarPedidoWhatsApp()">📄 Ver Ticket / Enviar</button>
   </div>
 
   <script>
-    let productos = [];
-    let carrito = {};
+    // Lista de productos base de DIPROSA
+    const productos = [
+      { nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
+      { nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00 },
+      { nombre: "(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
+      { nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
+      { nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50", precio: 67.00 },
+      { nombre: "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50", precio: 67.00 }
+    ];
 
-    async function cargarCatalogo() {
-      try {
-        let respuesta = await fetch('catalogo.csv');
-        let texto = await respuesta.text();
-        let lineas = texto.split('\n');
-        productos = lineas.map(linea => {
-          let partes = linea.split(',');
-          if (partes.length >= 2) {
-            let nombre = partes[0].trim();
-            let precio = parseFloat(partes[1]) || 0;
-            if (nombre && precio > 0) {
-              return { nombre: nombre, precio: precio };
-            }
-          }
-          return null;
-        }).filter(p => p !== null);
-        
-        if (productos.length === 0) {
-          document.getElementById('lista-productos').innerHTML = '<p style="color:orange; text-align:center;">No se encontraron productos válidos en el CSV.</p>';
-        } else {
-          mostrarProductos(productos);
-        }
-      } catch(e) {
-        document.getElementById('lista-productos').innerHTML = '<p style="color:red; text-align:center;">Error al cargar el catálogo.</p>';
-      }
-    }
+    let carrito = {};
 
     function mostrarProductos(lista) {
       let html = '';
-      lista.forEach((p) => {
-        let cantidad = carrito[p.nombre] || 0;
-        html += `
-          <div class="producto-card">
-            <div class="prod-info">
-              <h4>${p.nombre}</h4>
-              <p>Q ${p.precio.toFixed(2)}</p>
+      if (lista.length === 0) {
+        html = '<p style="color:#aaa; text-align:center; grid-column: span 2;">No se encontraron productos.</p>';
+      } else {
+        lista.forEach((p) => {
+          let cant = carrito[p.nombre] || 0;
+          html += `
+            <div class="producto-card">
+              <div class="prod-info">
+                <h4>${p.nombre}</h4>
+                <p>Q ${p.precio.toFixed(2)}</p>
+              </div>
+              <div>
+                ${cant > 0 ? `<div style="font-size:12px; color:#f59e0b; margin-bottom:4px; text-align:center;">Agregados: <b>${cant}</b></div>` : ''}
+                <button class="btn-agregar" onclick="agregarProducto('${p.nombre.replace(/'/g, "\\'")}')">+ Agregar</button>
+              </div>
             </div>
-            <div class="prod-actions">
-              <button onclick="cambiarCantidad('${p.nombre.replace(/'/g, "\\'")}', -1)">-</button>
-              <span>${cantidad}</span>
-              <button onclick="cambiarCantidad('${p.nombre.replace(/'/g, "\\'")}', 1)">+</button>
-            </div>
-          </div>
-        `;
-      });
+          `;
+        });
+      }
       document.getElementById('lista-productos').innerHTML = html;
-      calcularTotal();
+      actualizarTotales();
     }
 
     function filtrarProductos() {
@@ -92,27 +156,35 @@
       mostrarProductos(filtrados);
     }
 
-    function cambiarCantidad(nombre, cambio) {
+    function agregarProducto(nombre) {
       if (!carrito[nombre]) carrito[nombre] = 0;
-      carrito[nombre] += cambio;
-      if (carrito[nombre] <= 0) delete carrito[nombre];
+      carrito[nombre] += 1;
       filtrarProductos();
     }
 
-    function calcularTotal() {
+    function actualizarTotales() {
       let total = 0;
+      let totalItems = 0;
       for (let nombre in carrito) {
         let prod = productos.find(p => p.nombre === nombre);
-        if (prod) total += prod.precio * carrito[nombre];
+        if (prod) {
+          total += prod.precio * carrito[nombre];
+          totalItems += carrito[nombre];
+        }
       }
       document.getElementById('total-general').innerText = total.toFixed(2);
-      return total;
+      document.getElementById('contador-items').innerText = `🛒 ${totalItems} ítems`;
     }
 
     function enviarPedidoWhatsApp() {
-      let totalPedido = calcularTotal();
+      let totalPedido = 0;
+      for (let nombre in carrito) {
+        let prod = productos.find(p => p.nombre === nombre);
+        if (prod) totalPedido += prod.precio * carrito[nombre];
+      }
+
       if (totalPedido <= 0) {
-        alert("El carrito está vacío.");
+        alert("El carrito está vacío. Agregue productos antes de enviar.");
         return;
       }
 
@@ -124,6 +196,7 @@
       }
       mensaje += `\n*TOTAL: Q ${totalPedido.toFixed(2)}*`;
 
+      // REGISTRO AUTOMÁTICO PARA EL PANEL DE AUDITORÍA
       let historialKey = 'historial_ventas_cristian';
       let listaHistorial = JSON.parse(localStorage.getItem(historialKey)) || [];
       let nuevoTicket = {
@@ -139,7 +212,7 @@
       window.open(url, '_blank');
     }
 
-    document.addEventListener('DOMContentLoaded', cargarCatalogo);
+    document.addEventListener('DOMContentLoaded', () => mostrarProductos(productos));
   </script>
 </body>
 </html>
