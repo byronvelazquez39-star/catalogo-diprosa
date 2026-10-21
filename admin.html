@@ -122,6 +122,7 @@
     function limpiarTiquetes(vendedor) {
       if (confirm(`¿Está seguro de borrar todo el historial de tiquetes de ${vendedor.toUpperCase()}?`)) {
         localStorage.removeItem(`diprosa_tickets_${vendedor}`);
+        localStorage.removeItem(`correlativo_ticket_${vendedor}`);
         cargarReporte(vendedor);
       }
     }
