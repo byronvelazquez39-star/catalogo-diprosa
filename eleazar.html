@@ -116,10 +116,11 @@
         <p style="font-size: 11px; color: #888;">Control de Tres Paralelos (Al 21 Oct)</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 REGLAS CLaras DIPROSA</h4>
+        <h4>📋 REGLA DE ORO TRES PARALELOS</h4>
         <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</p>
-        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> <span id="meta-tiquetes-real">0</span> / 324 Tiquetes (Sin descuento si hay meta de venta)</p>
-        <p style="margin: 6px 0;">⏰ <strong>3. HORAS:</strong> <span id="meta-jornada-estado">119 Horas</span> / 189 Hrs (Descuento estricto por faltantes)</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> <span id="meta-tiquetes-real">0</span> / 324 Tiquetes</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. HORAS:</strong> <span id="meta-jornada-estado">119 Horas</span> / 189 Hrs</p>
+        <p style="margin-top: 6px; color:#f59e0b; font-weight:bold;">⚠️ ¡Atención! Los 3 paralelos deben cumplirse para conservar el bono de Q500 de moto.</p>
       </div>
 
       <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
@@ -136,8 +137,8 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Liquidación y Reglas de Colchón</h3>
-        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Evaluando ruta en tiempo real...</p>
+        <h3>💵 Liquidación y Bono de Moto</h3>
+        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Evaluando cumplimiento de los 3 paralelos...</p>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
@@ -150,9 +151,9 @@
           <strong style="color:#38bdf8; font-size:14px;" id="sueldo-dia-hoy">Q 0.00</strong>
         </div>
 
-        <!-- 2. SEGUNDO PAGO CON COLCHONES Y DESCUENTOS -->
+        <!-- 2. SEGUNDO PAGO EVALUANDO LOS 3 PARALELOS Y BONO MOTO -->
         <div class="sueldo-row" style="background:#0f291e; padding:8px; border-radius:6px; border:1px solid #25d366; margin-top:6px;">
-          <span style="color:#25d366; font-weight:bold;">📅 2do Pago Real (Base + Moto ± Ajustes):</span>
+          <span style="color:#25d366; font-weight:bold;">📅 2do Pago Estimado (Base ± Ajustes):</span>
           <strong style="color:#25d366; font-size:14px;" id="sueldo-segundo-pago">Q 2,250.00</strong>
         </div>
 
@@ -363,42 +364,50 @@
 
       let valorDia = 129.62;
 
-      // 1. Regla de Tiquetes: Si la venta total es buena o cumple, tiquetes no descuenta (ignoramos déficit de tiquetes si hay colchón de venta)
       let difVentas = ventasTotalesMes - metaVentasEsperada;
       let difTiquetes = tiquetesTotalesMes - metaTiquetesEsperada;
-      let difHoras = horasTotalesMes - metaHorasEsperada; // Negativo si faltaron horas
+      let difHoras = horasTotalesMes - metaHorasEsperada;
 
-      // 2. Cálculo de excedentes (colchones)
+      // Colchones de excedentes
       let colchonVentasQ = difVentas > 0 ? difVentas : 0;
       let colchonTiquetesQ = difTiquetes > 0 ? (difTiquetes / 12) * valorDia : 0;
       let totalColchon = colchonVentasQ + colchonTiquetesQ;
 
-      // 3. Cálculo de déficits directos (ej. Horas o ventas bajas)
+      // Déficits directos
       let deficitVentasQ = difVentas < 0 ? (Math.abs(difVentas) / 3000) * valorDia : 0;
+      let deficitTiquetesQ = difTiquetes < 0 ? (Math.abs(difTiquetes) / 12) * valorDia : 0;
       let deficitHorasQ = difHoras < 0 ? (Math.abs(difHoras) / 7) * valorDia : 0;
-      let totalDeficit = deficitVentasQ + deficitHorasQ;
+      let totalDeficit = deficitVentasQ + deficitTiquetesQ + deficitHorasQ;
 
-      // Aplicar colchón para tapar déficit
       let ajusteNeto = totalColchon - totalDeficit;
 
-      // Base fija de segundo pago: Q1,750 sueldo + Q500 moto = Q2,250
-      let segundoPagoBaseMoto = 2250.00;
-      let segundoPagoFinal = segundoPagoBaseMoto + ajusteNeto;
-      if (segundoPagoFinal < 1750.00) segundoPagoFinal = 1750.00; // Piso de protección de la quincena
+      // REGLA DE ORO DEL BONO MOTO (Q500): Si hay déficit en CUALQUIERA de los 3 paralelos que no alcance a cubrirse, pierde el bono de moto.
+      let cumpleTresParalelos = (difVentas >= 0 && difTiquetes >= 0 && difHoras >= 0) || (ajusteNeto >= 0);
+      let baseSegundoPago = 1750.00; // Sueldo base 2da quincena
+      if (cumpleTresParalelos) {
+        baseSegundoPago += 500.00; // Se incluye el bono de moto
+      }
+
+      let segundoPagoFinal = baseSegundoPago + ajusteNeto;
+      if (segundoPagoFinal < 1750.00) segundoPagoFinal = 1750.00; // Piso de protección quincenal
 
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2) + " (" + tiquetesHoyCount + " tiquetes)";
       document.getElementById('sueldo-segundo-pago').innerText = "Q " + segundoPagoFinal.toFixed(2);
 
       let infoParalelosHtml = `• <strong>Ventas Mes:</strong> Q${ventasTotalesMes.toFixed(2)}<br>`;
-      infoParalelosHtml += `• <strong>Tiquetes Mes:</strong> ${tiquetesTotalesMes} <span style="color:#34d399;">(Protegidos por venta)</span><br>`;
+      infoParalelosHtml += `• <strong>Tiquetes Mes:</strong> ${tiquetesTotalesMes}<br>`;
       infoParalelosHtml += `• <strong>Horas Mes:</strong> ${horasTotalesMes} hrs<br>`;
-      infoParalelosHtml += `• <i>Colchones y descuentos aplicados dinámicamente.</i>`;
+      infoParalelosHtml += cumpleTresParalelos ? 
+        `<span style="color:#34d399; font-weight:bold;">✅ ¡Los 3 paralelos al día! Bono de moto (Q500) activo.</span>` : 
+        `<span style="color:#ef4444; font-weight:bold;">❌ Hay déficit en paralelos: Se pierde bono de moto (Q500).</span>`;
+      
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
 
-      let proyeccionFinal = 3500.00 + 500.00; 
-      if (ventasTotalesMes >= 81000) proyeccionFinal += 500.00;
-      document.getElementById('sueldo-total-final').innerText = "Q " + proyeccionFinal.toFixed(2) + " (Base + Moto + Ajustes)";
-      document.getElementById('sueldo-estado-actual').innerText = "⚡ CONTROL DE COLCHONES Y HORAS";
+      let proyeccionFinal = 3500.00 + (cumpleTresParalelos ? 500.00 : 0);
+      if (ventasTotalesMes >= 81000) proyeccionFinal += 500.00; // Comisión extra si pasa de 81k
+      
+      document.getElementById('sueldo-total-final').innerText = "Q " + proyeccionFinal.toFixed(2);
+      document.getElementById('sueldo-estado-actual').innerText = "⚡ EVALUACIÓN ESTRICTA DE 3 PARALELOS";
     }
 
     function enviarCorteDiarioWA() {
