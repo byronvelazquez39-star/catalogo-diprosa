@@ -1,154 +1,372 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #f1c40f;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card {
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        .card img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .card h3 {
-            font-size: 0.9em;
-            margin: 10px 0 5px 0;
-            height: 2.8em;
-            overflow: hidden;
-        }
-        .precio {
-            color: #2ecc71;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin: 5px 0;
-        }
-        /* Botón flotante de WhatsApp */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25d366;
-            color: white;
-            padding: 14px 22px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .whatsapp-btn:hover {
-            background-color: #1ebc57;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo DIPROSA - ESTUARDO</title>
+  <style>
+    :root {
+      --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
+      --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
+    }
+    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 12px; padding-bottom: 100px; box-sizing: border-box; }
+    
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 6px; }
+    h1 { text-align: center; margin: 0; font-size: 16px; color: #ff9800; }
+    
+    .btn-group-header { display: flex; gap: 4px; }
+    .btn-action-header { border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; color: #fff; }
+    .btn-metas { background-color: #0284c7; }
+    .btn-sueldo { background-color: #059669; }
+
+    .search-box { width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px; border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .card { background: var(--card-bg); padding: 10px; border-radius: 8px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
+    .nombre { font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+    .precio { font-size: 14px; color: var(--accent-color); font-weight: bold; margin-bottom: 8px; }
+    
+    .qty-controls { display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .qty-num { font-size: 14px; font-weight: bold; min-width: 18px; text-align: center; }
+    .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 12px; }
+    
+    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 10px; border-radius: 6px; width: 100%; margin-top: 15px; font-weight: bold; cursor: pointer; display: none; }
+
+    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+    .cart-info { font-size: 14px; cursor: pointer; }
+    .cart-total { font-size: 16px; color: var(--accent-color); font-weight: bold; }
+    .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
+    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 13px; }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 10px; }
+    .ticket-header h3 { margin: 0; font-size: 16px; color: #fff; }
+    .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 13px; box-sizing: border-box; margin-bottom: 8px; }
+    .btn-close { background: #555; color: white; border: none; padding: 8px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
+    .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 14px; cursor: pointer; }
+
+    .meta-resumen-box { background: #122118; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
+    .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
+
+    .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 11px; }
+    .ticket-historial-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 3px; align-items: center; }
+    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
+
+    .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
+    .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+
+    .proyeccion-opcion { background: #1e293b; border-left: 3px solid #0284c7; padding: 8px; margin-top: 6px; border-radius: 4px; }
+    .proyeccion-opcion.verde { border-left-color: #25d366; background: #0f291e; }
+    .proyeccion-opcion.premio { border-left-color: #f59e0b; background: #27200e; }
+    .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  </style>
 </head>
 <body>
 
-    <h1>Catálogo DIPROSA</h1>
-    
-    <div class="grid">
-        
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
+  <div class="header-bar">
+    <h1>🛒 ESTUARDO</h1>
+    <div class="btn-group-header">
+      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
+      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
     </div>
+  </div>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-        💬 Pedir por WhatsApp
-    </a>
+  <input type="text" id="buscar" class="search-box" placeholder="🔍 Escriba para buscar producto..." oninput="filtrarDebounce()">
+  
+  <div id="catalogo" class="grid">Cargando productos del catálogo...</div>
+  <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
 
+  <div class="cart-bar">
+    <div class="cart-info" onclick="abrirTicket()">
+      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
+      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
+    </div>
+    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  </div>
+
+  <!-- MODAL TICKET -->
+  <div id="modal-ticket" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3>🧾 TICKET DE COMPRA</h3>
+        <p style="font-size: 11px; color: #888;" id="ticket-fecha"></p>
+        <p style="font-size: 13px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
+      </div>
+      <div id="ticket-items"></div>
+      <div style="margin-top: 10px;">
+        <label style="font-size: 12px; font-weight: bold; color: #bbb;">Nombre del Cliente / Tienda:</label>
+        <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda La Guadalupana">
+      </div>
+      <div style="border-top: 1px dashed #555; padding-top: 8px; margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--accent-color);">
+          <span>Total Final:</span><span>Q <span id="ticket-total">0.00</span></span>
+        </div>
+      </div>
+      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido por WhatsApp</button>
+      <button class="btn-close" onclick="cerrarModal('modal-ticket')">Seguir Comprando</button>
+    </div>
+  </div>
+
+  <!-- MODAL METAS Y TIQUETES DE ESTUARDO -->
+  <div id="modal-metas" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>📊 Estado de Metas - ESTUARDO</h3>
+        <p style="font-size: 11px; color: #888;">Control y Tiquetes Emitidos</p>
+      </div>
+      <div class="meta-resumen-box">
+        <h4>📋 TRES PARALELOS DIPROSA</h4>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS ACUMULADAS:</strong> Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES EMITIDOS:</strong> <span id="meta-tiquetes-real">0</span> / 324 Tiquetes</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día (7 hrs netas de ruta)</p>
+      </div>
+
+      <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
+        📝 Tiquetes emitidos hoy (Si un cliente cancela, puede eliminarlo):
+      </div>
+      <div id="lista-tiquetes-estuardo" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;"></div>
+
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
+      <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar Ventana</button>
+    </div>
+  </div>
+
+  <!-- MODAL SUELDO DE ESTUARDO (CON MOTO) -->
+  <div id="modal-sueldo" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>💵 Nómina y Proyección - ESTUARDO</h3>
+      </div>
+      <div class="sueldo-card">
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
+        <div class="sueldo-row"><span>Depreciación de Moto:</span><strong style="color:#34d399;">Q500.00 (Fin de Mes)</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q133.33</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,800.00 (Ya Pagada)</span></div>
+        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,800.00</span></div>
+        
+        <div class="sueldo-row" style="background:#2a1a1a; padding:6px; border-radius:6px; border:1px solid #e74c3c; margin-top:4px;">
+          <span style="color:#f87171;">Ritmo actual (Sin cambio):</span>
+          <strong style="color:#f87171;">Recibes fin de mes: Q641.20</strong>
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #374151; margin:10px 0;">
+        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 TOTAL A RECIBIR EN FIN DE MES SEGÚN ESFUERZO:</span>
+
+        <div class="proyeccion-opcion">
+          <div style="font-weight:bold; color:#38bdf8;">1. Esfuerzo Medio (10 tiquetes/día):</div>
+          <div>• Neto a Recibir Fin de Mes: <strong style="color:#38bdf8; font-size:13px;">Q1,033.32</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Incluye 2ª Q + Dep. Moto Q500 + Ajuste)</div>
+        </div>
+
+        <div class="proyeccion-opcion verde">
+          <div style="font-weight:bold; color:#25d366;">2. Gran Esfuerzo (15 tiquetes/día):</div>
+          <div>• Neto a Recibir Fin de Mes: <strong style="color:#25d366; font-size:13px;">Q1,588.90</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Incluye 2ª Q + Dep. Moto Q500 + Ajuste)</div>
+        </div>
+
+        <div class="proyeccion-opcion premio">
+          <div style="font-weight:bold; color:#f59e0b;">🎁 3. SUPERAR META (+Q81,000.00 Ventas):</div>
+          <div>• 2ª Quincena Completa: <strong>Q1,800.00</strong></div>
+          <div>• <strong>¡PREMIO BONO EN EFECTIVO: + Q500.00!</strong></div>
+          <div>• <strong>Depreciación de Moto: Q500.00</strong></div>
+          <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente de ventas</div>
+          <div style="font-size:13px; font-weight:bold; color:#25d366; margin-top:4px; border-top:1px dashed #f59e0b; padding-top:3px;">
+            💰 TOTAL EN MANO (FIN DE MES): Q2,800.00 + COMISIONES
+          </div>
+        </div>
+      </div>
+      <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
+    </div>
+  </div>
+
+  <script>
+    const NUMERO_WHATSAPP = "50248502382";
+    const storageKey = "carrito_diprosa_estuardo";
+    const ticketsKey = "diprosa_tickets_estuardo";
+
+    const productosFallback = [
+      { nombre: "(Salvavidas) en lata ROJA Caja de 24", precio: 84.00 },
+      { nombre: "(Salvavidas) en lata UVA Caja de 24", precio: 84.00 },
+      { nombre: "Agua Pura Salvavidas 600ml Pack x12", precio: 36.00 }
+    ];
+
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
+
+    try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('productos.json?v=' + new Date().getTime())
+        .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
+        .then(data => { productos = data; productosFiltrados = data; renderizarCatalogo(); actualizarUIResumen(); })
+        .catch(() => { productos = productosFallback; productosFiltrados = productosFallback; renderizarCatalogo(); actualizarUIResumen(); });
+    });
+
+    function renderizarCatalogo() {
+      let contenedor = document.getElementById('catalogo');
+      if (!productosFiltrados.length) {
+        contenedor.innerHTML = '<p style="text-align:center; color:#888; grid-column: 1/-1;">No se encontraron productos.</p>';
+        document.getElementById('btn-mas').style.display = 'none'; return;
+      }
+      contenedor.innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
+        let key = p.nombre + '_' + p.precio;
+        let cant = carrito[key] ? carrito[key].cantidad : 0;
+        let b64 = btoa(unescape(encodeURIComponent(p.nombre)));
+        return `
+          <div class="card">
+            <div class="nombre">${p.nombre}</div>
+            <div>
+              <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
+              ${cant === 0 ? `<button class="btn-add" onclick="cambiarCant('${b64}',${p.precio},1)">+ Agregar</button>` : 
+                `<div class="qty-controls">
+                  <button class="btn-qty" onclick="cambiarCant('${b64}',${p.precio},-1)">-</button>
+                  <span class="qty-num">${cant}</span>
+                  <button class="btn-qty" onclick="cambiarCant('${b64}',${p.precio},1)">+</button>
+                </div>`}
+            </div>
+          </div>`;
+      }).join('');
+      document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
+    }
+
+    function cargarMasProductos() { limiteActual += 40; renderizarCatalogo(); }
+    function filtrarDebounce() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+        renderizarCatalogo();
+      }, 150);
+    }
+
+    function cambiarCant(b64, precio, delta) {
+      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
+      if (!carrito[key]) carrito[key] = { nombre, precio: parseFloat(precio), cantidad: 0 };
+      carrito[key].cantidad += delta;
+      if (carrito[key].cantidad <= 0) delete carrito[key];
+      localStorage.setItem(storageKey, JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function actualizarUIResumen() {
+      let totalCant = 0, totalMonto = 0;
+      for (let k in carrito) {
+        totalCant += carrito[k].cantidad;
+        totalMonto += carrito[k].cantidad * carrito[k].precio;
+      }
+      document.getElementById('cant-items').innerText = totalCant;
+      document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
+    }
+
+    function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function abrirModalMetas() {
+      actualizarVistaMetas();
+      abrirModal('modal-metas');
+    }
+
+    function actualizarVistaMetas() {
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      
+      let totalVentasReal = 0;
+      tiquetesGuardados.forEach(t => { if (t.total) totalVentasReal += parseFloat(t.total); });
+
+      document.getElementById('meta-tiquetes-real').innerText = tiquetesGuardados.length;
+      document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
+
+      let contenedorLista = document.getElementById('lista-tiquetes-estuardo');
+      if (tiquetesGuardados.length === 0) {
+        contenedorLista.innerHTML = '<p style="color:#888; font-style:italic; font-size:11px;">No hay tiquetes emitidos hoy.</p>';
+        return;
+      }
+
+      let htmlTiquetes = "";
+      tiquetesGuardados.forEach((t, idx) => {
+        let totalT = t.total ? t.total.toFixed(2) : "0.00";
+        htmlTiquetes += `
+          <div class="ticket-historial-card">
+            <div class="ticket-historial-head">
+              <span>Tiquete #${idx + 1} - 👤 ${t.cliente || 'Cliente'}</span>
+              <button class="btn-eliminar-uno" onclick="eliminarUnTiqueteEstuardo(${idx})">❌ Eliminar</button>
+            </div>
+            <div style="color:#aaa;">Hora: ${t.fecha || 'N/A'} | Total: Q${totalT}</div>
+          </div>
+        `;
+      });
+      contenedorLista.innerHTML = htmlTiquetes;
+    }
+
+    function eliminarUnTiqueteEstuardo(index) {
+      if (confirm(`¿Desea eliminar este tiquete del historial de Estuardo?`)) {
+        let tiquetesGuardados = [];
+        try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+        tiquetesGuardados.splice(index, 1);
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        actualizarVistaMetas();
+      }
+    }
+
+    function abrirModalSueldo() { abrirModal('modal-sueldo'); }
+
+    function enviarCorteDiarioWA() {
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      let totalVentasReal = tiquetesGuardados.reduce((acc, t) => acc + (parseFloat(t.total) || 0), 0);
+
+      let msg = `📊 *REPORTE TRES PARALELOS - ESTUARDO*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)} con ${tiquetesGuardados.length} tiquetes generados.`;
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function abrirTicket() {
+      if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
+      let keys = Object.keys(carrito), contenedor = document.getElementById('ticket-items'), subtotal = 0;
+      contenedor.innerHTML = keys.map(k => {
+        let item = carrito[k], sub = item.cantidad * item.precio;
+        subtotal += sub;
+        return `<div style="font-size:12px; margin-bottom:4px; display:flex; justify-content:space-between;"><span>${item.nombre} (x${item.cantidad})</span><span>Q${sub.toFixed(2)}</span></div>`;
+      }).join('');
+      document.getElementById('ticket-total').innerText = subtotal.toFixed(2);
+      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
+      let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
+      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numT).padStart(8, '0');
+      abrirModal('modal-ticket');
+    }
+
+    function enviarWhatsAppYLimpiar() {
+      let receptor = document.getElementById('cliente-receptor').value.trim();
+      if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
+      let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
+      localStorage.setItem('correlativo_ticket_estuardo', numT);
+
+      let nuevoTiquete = {
+        fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        cliente: receptor,
+        items: Object.values(carrito),
+        total: Object.values(carrito).reduce((s, i) => s + (i.precio * i.cantidad), 0)
+      };
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      tiquetesGuardados.push(nuevoTiquete);
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+
+      let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ESTUARDO\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
+      for (let k in carrito) {
+        let item = carrito[k], sub = item.cantidad * item.precio;
+        subtotal += sub;
+        msg += `${item.nombre} (x${item.cantidad}) = Q${sub.toFixed(2)}\n`;
+      }
+      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
+
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
+      carrito = {};
+      localStorage.removeItem(storageKey);
+      cerrarModal('modal-ticket');
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+  </script>
 </body>
 </html>
