@@ -13,12 +13,13 @@
     .vendedor-header h2 { margin: 0; font-size: 15px; color: #ff9800; }
     
     .ticket-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
-    .ticket-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 4px; }
+    .ticket-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 4px; align-items: center; }
     .ticket-cliente { color: #4CAF50; font-weight: bold; margin-bottom: 6px; }
     .ticket-item { display: flex; justify-content: space-between; color: #ccc; margin-bottom: 2px; }
     .ticket-total { text-align: right; font-weight: bold; color: #25d366; font-size: 13px; margin-top: 6px; border-top: 1px dashed #555; padding-top: 4px; }
 
     .btn-clear { background: #e74c3c; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
+    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
     .empty-msg { font-size: 12px; color: #888; font-style: italic; }
   </style>
 </head>
@@ -106,8 +107,8 @@
         html += `
           <div class="ticket-card">
             <div class="ticket-head">
-              <span>Tiquete #${idx + 1}</span>
-              <span>🕒 ${t.fecha || 'Sin fecha'}</span>
+              <span>Tiquete #${idx + 1} (🕒 ${t.fecha || 'Sin fecha'})</span>
+              <button class="btn-eliminar-uno" onclick="eliminarUnTiquete('${vendedor}', ${idx})">❌ Eliminar</button>
             </div>
             <div class="ticket-cliente">👤 Cliente: ${t.cliente || 'Cliente General'}</div>
             ${itemsHtml}
@@ -117,6 +118,27 @@
       });
 
       contenedor.innerHTML = html;
+    }
+
+    function eliminarUnTiquete(vendedor, index) {
+      if (confirm(`¿Desea eliminar el Tiquete #${index + 1} de ${vendedor.toUpperCase()}?`)) {
+        const clave = `diprosa_tickets_${vendedor}`;
+        let tiquetes = [];
+        try {
+          tiquetes = JSON.parse(localStorage.getItem(clave)) || [];
+        } catch(e) {
+          tiquetes = [];
+        }
+        
+        // Elimina únicamente el tiquete seleccionado por su posición (index)
+        tiquetes.splice(index, 1);
+        
+        // Guarda de nuevo el arreglo actualizado en el almacenamiento local
+        localStorage.setItem(clave, JSON.stringify(tiquetes));
+        
+        // Refresca la pantalla del panel
+        cargarReporte(vendedor);
+      }
     }
 
     function limpiarTiquetes(vendedor) {
