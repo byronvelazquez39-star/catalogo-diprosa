@@ -14,7 +14,6 @@
     .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 6px; }
     h1 { text-align: center; margin: 0; font-size: 16px; color: #ff9800; }
     
-    /* Botones compactos superiores que no estorban */
     .btn-group-header { display: flex; gap: 4px; }
     .btn-action-header { border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; color: #fff; }
     .btn-metas { background-color: #0284c7; }
@@ -31,14 +30,14 @@
     .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; }
     .qty-num { font-size: 14px; font-weight: bold; min-width: 18px; text-align: center; }
     .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 12px; }
+    
+    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 10px; border-radius: 6px; width: 100%; margin-top: 15px; font-weight: bold; cursor: pointer; display: none; }
 
-    /* Barra inferior flotante limpia */
     .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
     .cart-info { font-size: 14px; cursor: pointer; }
     .cart-total { font-size: 16px; color: var(--accent-color); font-weight: bold; }
     .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
 
-    /* Modales flotantes independientes que se cierran por completo */
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; }
     .modal-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 400px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 10px; }
@@ -57,10 +56,10 @@
     </div>
   </div>
 
-  <!-- Buscador en tiempo real limpio -->
-  <input type="text" id="buscar" class="search-box" placeholder="🔍 Escriba para buscar producto..." oninput="filtrarProductos()">
+  <input type="text" id="buscar" class="search-box" placeholder="🔍 Escriba para buscar producto..." oninput="filtrarDebounce()">
   
-  <div id="catalogo" class="grid"></div>
+  <div id="catalogo" class="grid">Cargando productos del catálogo...</div>
+  <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
 
   <div class="cart-bar">
     <div class="cart-info" onclick="abrirTicket()">
@@ -115,8 +114,8 @@
     const NUMERO_WHATSAPP = "50248502382";
     const storageKey = "carrito_diprosa_estuardo";
 
-    // Productos integrados para que el buscador responda inmediato
-    const productos = [
+    // Productos de respaldo en caso de que falle la lectura del JSON
+    const productosFallback = [
       { nombre: "(Salvavidas) en lata ROJA Caja de 24", precio: 84.00 },
       { nombre: "(Salvavidas) en lata UVA Caja de 24", precio: 84.00 },
       { nombre: "Agua Pura Salvavidas 600ml Pack x12", precio: 36.00 },
@@ -127,19 +126,41 @@
       { nombre: "Salvavidas Roja lata", precio: 67.00 }
     ];
 
-    let productosFiltrados = productos;
-    let carrito = {};
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      renderizarCatalogo();
-      actualizarUIResumen();
+      // Cargar el catálogo completo desde productos.json
+      fetch('productos.json?v=' + new Date().getTime())
+        .then(res => {
+          if (!res.ok) throw new Error("No encontrado");
+          return res.json();
+        })
+        .then(data => {
+          productos = data;
+          productosFiltrados = data;
+          renderizarCatalogo();
+          actualizarUIResumen();
+        })
+        .catch(() => {
+          // Si no encuentra el archivo JSON, utiliza el grupo de respaldo
+          productos = productosFallback;
+          productosFiltrados = productosFallback;
+          renderizarCatalogo();
+          actualizarUIResumen();
+        });
     });
 
     function renderizarCatalogo() {
       let contenedor = document.getElementById('catalogo');
-      contenedor.innerHTML = productosFiltrados.map(p => {
+      if (!productosFiltrados.length) {
+        contenedor.innerHTML = '<p style="text-align:center; color:#888; grid-column: 1/-1;">No se encontraron productos.</p>';
+        document.getElementById('btn-mas').style.display = 'none';
+        return;
+      }
+
+      contenedor.innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
         let key = p.nombre + '_' + p.precio;
         let cant = carrito[key] ? carrito[key].cantidad : 0;
         let b64 = btoa(unescape(encodeURIComponent(p.nombre)));
@@ -159,12 +180,23 @@
             </div>
           </div>`;
       }).join('');
+
+      document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
     }
 
-    function filtrarProductos() {
-      let q = document.getElementById('buscar').value.toLowerCase().trim();
-      productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+    function cargarMasProductos() {
+      limiteActual += 40;
       renderizarCatalogo();
+    }
+
+    function filtrarDebounce() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+        renderizarCatalogo();
+      }, 150);
     }
 
     function cambiarCant(b64, precio, delta) {
@@ -211,7 +243,6 @@
       let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
       localStorage.setItem('correlativo_ticket_estuardo', numT);
 
-      // Guardar registro para administración
       let nuevoTiquete = {
         fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         cliente: receptor,
