@@ -118,7 +118,7 @@
       <div class="meta-resumen-box">
         <h4>📋 REGLA DE HIERRO (VENTAS)</h4>
         <p style="margin: 4px 0;">💰 <strong>VENTAS ACUMULADAS:</strong> Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</p>
-        <p style="margin-top: 6px; color:#f59e0b; font-weight:bold;">⚠️ Si se llega a Q81k, se anulan penalizaciones. Si no, cada Q3,000 de déficit resta un día de sueldo.</p>
+        <p style="margin-top: 6px; color:#f59e0b; font-weight:bold;">⚠️ Si se llega a Q81k, se anulan penalizaciones. Si no, se aplica descuento por déficit con tope protector.</p>
       </div>
 
       <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
@@ -344,19 +344,23 @@
       let valorDia = sueldoBase / 27; // Q 133.33 por día
       let sueldoProporcional = diasTrabajados * valorDia; // Q 2,799.93
 
-      // Regla de penalización por déficit en ventas (Meta: Q81,000)
       let penalizacionDescuentoQ = 0;
       let metaVentas = 81000;
 
       if (ventasTotalesMes < metaVentas) {
-        let deficitVentas = metaVentas - ventasTotalesMes; // Cuánto falta para los 81k
-        let diasDeDescuento = deficitVentas / 3000; // Cada Q3,000 de déficit = 1 día de descuento
+        let deficitVentas = metaVentas - ventasTotalesMes;
+        let diasDeDescuento = deficitVentas / 3000;
         penalizacionDescuentoQ = diasDeDescuento * valorDia;
+
+        // TOPE PROTECTOR: El descuento por déficit no puede superar el 50% del sueldo proporcional devengado
+        let topeMaximoDescuento = sueldoProporcional * 0.50;
+        if (penalizacionDescuentoQ > topeMaximoDescuento) {
+          penalizacionDescuentoQ = topeMaximoDescuento;
+        }
       }
 
-      // Segundo pago real: Sueldo Proporcional - 1ra Quincena (1,750) - Penalización por Déficit
       let segundoPagoReal = sueldoProporcional - 1750.00 - penalizacionDescuentoQ;
-      if (segundoPagoReal < 0) segundoPagoReal = 0.00; // Blindaje contra negativos
+      if (segundoPagoReal < 0) segundoPagoReal = 0.00;
 
       document.getElementById('sueldo-proporcional-21').innerText = "Q " + sueldoProporcional.toFixed(2);
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2) + " (" + tiquetesHoyCount + " tiquetes)";
@@ -366,7 +370,7 @@
       if (ventasTotalesMes >= metaVentas) {
         infoParalelosHtml += `• <span style="color:#25d366; font-weight:bold;">✨ ¡Meta de Q81k alcanzada! Penalización anulada.</span>`;
       } else {
-        infoParalelosHtml += `• <span style="color:#ef4444;">⚠️ Descuento por déficit de ventas: -Q${penalizacionDescuentoQ.toFixed(2)}</span>`;
+        infoParalelosHtml += `• <span style="color:#f59e0b;">🛡️ Descuento por déficit (con tope protector 50%): -Q${penalizacionDescuentoQ.toFixed(2)}</span>`;
       }
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
 
