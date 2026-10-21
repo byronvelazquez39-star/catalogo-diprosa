@@ -108,19 +108,17 @@
     </div>
   </div>
 
-  <!-- MODAL METAS Y TIQUETES DE ELEAZAR -->
+  <!-- MODAL METAS ELEAZAR -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Metas - ELEAZAR</h3>
-        <p style="font-size: 11px; color: #888;">Control de Tres Paralelos (Al 21 Oct - Día 21)</p>
+        <p style="font-size: 11px; color: #888;">Control de Meta Q81,000 (Al 21 Oct - Día 21)</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 REGLA DIARIA Y PARALELOS</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</p>
-        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> <span id="meta-tiquetes-real">0</span> / 324 Tiquetes</p>
-        <p style="margin: 6px 0;">⏰ <strong>3. HORAS:</strong> <span id="meta-jornada-estado">119 Horas</span> / 189 Hrs</p>
-        <p style="margin-top: 6px; color:#f59e0b; font-weight:bold;">⚠️ Los 3 paralelos rigen el bono de moto (Q500).</p>
+        <h4>📋 REGLA DE HIERRO (VENTAS)</h4>
+        <p style="margin: 4px 0;">💰 <strong>VENTAS ACUMULADAS:</strong> Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</p>
+        <p style="margin-top: 6px; color:#f59e0b; font-weight:bold;">⚠️ Si se llega a Q81k, se anulan penalizaciones. Si no, se aplica descuento por déficit con tope protector.</p>
       </div>
 
       <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
@@ -141,26 +139,22 @@
         <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando avance diario (Día 21 de 27)...</p>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Valor Día Laboral (Q129.62):</span><strong>Día 21 / 27</strong></div>
-        <div class="sueldo-row"><span>Sueldo Proporcional (21d):</span><strong style="color:#38bdf8;" id="sueldo-proporcional-21">Q 2,722.02</strong></div>
-        <div class="sueldo-row"><span>Menos 1ra Quincena Pagada:</span><strong style="color:#ef4444;">- Q 1,750.00</strong></div>
-        <div class="sueldo-row"><span>Depreciación Moto Proporcional (21d):</span><strong style="color:#34d399;" id="sueldo-moto-21">Q 388.71</strong></div>
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral (Q129.63):</span><strong>Día 21 / 27</strong></div>
+        <div class="sueldo-row"><span>Sueldo Proporcional (21d):</span><strong style="color:#38bdf8;" id="sueldo-proporcional-21">Q 2,722.23</strong></div>
         
-        <!-- 1. VENTAS DE HOY -->
         <div class="sueldo-row" style="background:#1e293b; padding:8px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
           <span style="color:#38bdf8; font-weight:bold;">☀️ Ventas de hoy:</span>
           <strong style="color:#38bdf8; font-size:14px;" id="sueldo-dia-hoy">Q 0.00</strong>
         </div>
 
-        <!-- 2. SEGUNDO PAGO REAL PROPORCIONAL AL DIA DE HOY -->
         <div class="sueldo-row" style="background:#0f291e; padding:8px; border-radius:6px; border:1px solid #25d366; margin-top:6px;">
-          <span style="color:#25d366; font-weight:bold;">📅 2do Pago Real al Día de Hoy:</span>
-          <strong style="color:#25d366; font-size:14px;" id="sueldo-segundo-pago">Q 1,361.10</strong>
+          <span style="color:#25d366; font-weight:bold;">📅 Sueldo Neto al Día (Sin Quincena):</span>
+          <strong style="color:#25d366; font-size:14px;" id="sueldo-segundo-pago">Q 0.00</strong>
         </div>
 
         <div id="sueldo-info-paralelos" style="margin-top: 8px; font-size: 11px; color: #cbd5e1; line-height: 1.4; background: #1a1a1a; padding: 8px; border-radius: 6px; border-left: 3px solid #ff9800;"></div>
 
-        <!-- 3. PROYECCIÓN FIN DE MES -->
         <div class="proyeccion-opcion premio" style="margin-top: 8px;">
           <div style="font-weight:bold; color:#f59e0b;">💰 PROYECCIÓN NÓMINA FIN DE MES:</div>
           <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">Q 3,500.00</div>
@@ -279,22 +273,12 @@
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
       
       let totalVentasReal = 0;
-      let totalTiquetesReal = 0;
-      let totalHorasReal = 119; 
-
       tiquetesGuardados.forEach(t => {
-        if (t.esAcumuladoBase) {
-          totalVentasReal += t.total;
-          totalTiquetesReal += t.tiquetesCount;
-        } else if (t.total) {
-          totalVentasReal += parseFloat(t.total);
-          totalTiquetesReal += 1;
-        }
+        if (t.esAcumuladoBase) totalVentasReal += t.total;
+        else if (t.total) totalVentasReal += parseFloat(t.total);
       });
 
-      document.getElementById('meta-tiquetes-real').innerText = totalTiquetesReal;
       document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
-      document.getElementById('meta-jornada-estado').innerText = totalHorasReal + " Horas";
 
       let contenedorLista = document.getElementById('lista-tiquetes-eleazar');
       if (tiquetesGuardados.length === 0) {
@@ -308,7 +292,7 @@
           htmlTiquetes += `
             <div class="ticket-historial-card" style="border-left: 3px solid #27ae60;">
               <div class="ticket-historial-head"><span>📊 BASE ACUMULADA AL 21 OCT</span></div>
-              <div style="color:#34d399;">Ventas: Q${t.total.toFixed(2)} | Tiquetes: ${t.tiquetesCount} | Horas: ${t.horasCount}</div>
+              <div style="color:#34d399;">Ventas: Q${t.total.toFixed(2)}</div>
             </div>
           `;
         } else {
@@ -346,8 +330,7 @@
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
       
-      let ventasHoy = 0;
-      let tiquetesHoyCount = 0;
+      let ventasHoy = 0, tiquetesHoyCount = 0;
       tiquetesGuardados.forEach(t => {
         if (!t.esAcumuladoBase && t.total) {
           ventasHoy += parseFloat(t.total);
@@ -356,52 +339,42 @@
       });
 
       let ventasTotalesMes = 36933.50 + ventasHoy;
-      let tiquetesTotalesMes = 128 + tiquetesHoyCount;
-      let horasTotalesMes = 119; 
+      let diasTrabajados = 21, sueldoBase = 3500;
+      let valorDia = sueldoBase / 27; // Q 129.63 por día
+      let sueldoProporcional = diasTrabajados * valorDia; // Q 2,722.23
 
-      let diasTrabajados = 21; 
-      let valorDia = 129.62;
-      let valorMotoDia = 18.51; 
+      let penalizacionDescuentoQ = 0;
+      let metaVentas = 81000;
 
-      let sueldoProporcional = diasTrabajados * valorDia; // Q 2,722.02
-      let motoProporcional = diasTrabajados * valorMotoDia; // Q 388.71
+      if (ventasTotalesMes < metaVentas) {
+        let deficitVentas = metaVentas - ventasTotalesMes;
+        let diasDeDescuento = deficitVentas / 3000;
+        penalizacionDescuentoQ = diasDeDescuento * valorDia;
 
-      let metaVentasEsperada = (81000 / 27) * diasTrabajados;
-      let metaTiquetesEsperada = (324 / 27) * diasTrabajados;
-      let metaHorasEsperada = (189 / 27) * diasTrabajados;
-
-      let difVentas = ventasTotalesMes - metaVentasEsperada;
-      let difTiquetes = tiquetesTotalesMes - metaTiquetesEsperada;
-      let difHoras = horasTotalesMes - metaHorasEsperada;
-
-      let colchonVentasQ = difVentas > 0 ? difVentas : 0;
-      let colchonTiquetesQ = difTiquetes > 0 ? (difTiquetes / 12) * valorDia : 0;
-      let totalColchon = colchonVentasQ + colchonTiquetesQ;
-
-      let deficitVentasQ = difVentas < 0 ? (Math.abs(difVentas) / 3000) * valorDia : 0;
-      let deficitHorasQ = difHoras < 0 ? (Math.abs(difHoras) / 7) * valorDia : 0;
-      let totalDeficit = deficitVentasQ + deficitHorasQ;
-
-      let ajusteNeto = totalColchon - totalDeficit;
-
-      // Cálculo del segundo pago limpio y protegido contra negativos
-      let segundoPagoReal = sueldoProporcional - 1750.00 + motoProporcional + ajusteNeto;
-      if (segundoPagoReal < 0) {
-        segundoPagoReal = 0.00;
+        // TOPE PROTECTOR 35% BASADO EN SU SUELDO BASE DE Q3,500 (Q1,225)
+        let topeMaximoDescuento = sueldoBase * 0.35;
+        if (penalizacionDescuentoQ > topeMaximoDescuento) {
+          penalizacionDescuentoQ = topeMaximoDescuento;
+        }
       }
 
-      document.getElementById('sueldo-proporcional-21').innerText = "Q " + sueldoProporcional.toFixed(2);
-      document.getElementById('sueldo-moto-21').innerText = "Q " + motoProporcional.toFixed(2);
-      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2) + " (" + tiquetesHoyCount + " tiquetes)";
-      document.getElementById('sueldo-segundo-pago').innerText = "Q " + segundoPagoReal.toFixed(2);
+      let sueldoNetoAlDia = sueldoProporcional - penalizacionDescuentoQ;
+      if (sueldoNetoAlDia < 0) sueldoNetoAlDia = 0.00;
 
-      let infoParalelosHtml = `• <strong>Ventas Mes:</strong> Q${ventasTotalesMes.toFixed(2)}<br>`;
-      infoParalelosHtml += `• <strong>Tiquetes Mes:</strong> ${tiquetesTotalesMes} | <strong>Horas:</strong> ${horasTotalesMes} hrs<br>`;
-      infoParalelosHtml += `• <i>Cálculo proporcional al día 21 con control seguro.</i>`;
+      document.getElementById('sueldo-proporcional-21').innerText = "Q " + sueldoProporcional.toFixed(2);
+      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2) + " (" + tiquetesHoyCount + " tiquetes)";
+      document.getElementById('sueldo-segundo-pago').innerText = "Q " + sueldoNetoAlDia.toFixed(2);
+
+      let infoParalelosHtml = `• <strong>Ventas Mes:</strong> Q${ventasTotalesMes.toFixed(2)} / Q81,000<br>`;
+      if (ventasTotalesMes >= metaVentas) {
+        infoParalelosHtml += `• <span style="color:#25d366; font-weight:bold;">✨ ¡Meta de Q81k alcanzada! Penalización anulada.</span>`;
+      } else {
+        infoParalelosHtml += `• <span style="color:#f59e0b;">🛡️ Descuento ajustado (Tope 35% Base): -Q${penalizacionDescuentoQ.toFixed(2)}</span>`;
+      }
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
 
-      let proyeccionFinMes = 3500.00 + 500.00; 
-      if (ventasTotalesMes >= 81000) proyeccionFinMes += 500.00;
+      let proyeccionFinMes = sueldoBase; 
+      if (ventasTotalesMes >= metaVentas) proyeccionFinMes += 500.00; 
       document.getElementById('sueldo-total-final').innerText = "Q " + proyeccionFinMes.toFixed(2);
       document.getElementById('sueldo-estado-actual').innerText = "⚡ NÓMINA PROPORCIONAL AL DÍA 21";
     }
@@ -410,10 +383,10 @@
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
       let totalVentasReal = 36933.50;
-      tiquetesGuardados.forEach(t => { if (!t.esAcumuladoBase && t.total) totalVentasReal += parseFloat(t.total); });
+      tiquetesGuardados.exports = tiquetesGuardados.forEach(t => { if (!t.esAcumuladoBase && t.total) totalVentasReal += parseFloat(t.total); });
 
-      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)} con 128+ tiquetes y 119 horas en ruta.`;
-      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
+      let msg = `📊 *REPORTE VENTAS - ELEAZAR*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)}.`;
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
     }
 
     function abrirTicket() {
