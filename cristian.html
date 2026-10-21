@@ -38,7 +38,6 @@
     .cart-total { font-size: 16px; color: var(--accent-color); font-weight: bold; }
     .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
 
-    /* Estilos del Modal Corregidos */
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
     .modal-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 13px; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 10px; }
@@ -49,6 +48,10 @@
 
     .meta-resumen-box { background: #122118; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
     .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
+
+    .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 11px; }
+    .ticket-historial-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 3px; align-items: center; }
+    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
 
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
     .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
@@ -64,8 +67,8 @@
   <div class="header-bar">
     <h1>🛒 CRISTIAN</h1>
     <div class="btn-group-header">
-      <button class="btn-action-header btn-metas" onclick="abrirModal('modal-metas')">📊 Metas</button>
-      <button class="btn-action-header btn-sueldo" onclick="abrirModal('modal-sueldo')">💰 Sueldo</button>
+      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
+      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
     </div>
   </div>
 
@@ -105,31 +108,31 @@
     </div>
   </div>
 
-  <!-- MODAL METAS DE CRISTIAN -->
+  <!-- MODAL METAS Y TIQUETES DE CRISTIAN -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>📊 Estado de Paralelos - CRISTIAN</h3>
-        <p style="font-size: 11px; color: #888;">Corte de Control de Ruta</p>
+        <h3>📊 Estado de Metas - CRISTIAN</h3>
+        <p style="font-size: 11px; color: #888;">Control y Tiquetes Emitidos</p>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 TRES PARALELOS DIPROSA</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q30,000.00 / Q81,000.00<br>
-        • Proyección actual: Q47,647.05<br>
-        • Estado: 🔴 Déficit (~11.11 días / -Q1,337.04)</p>
-        
-        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 110 / 324 Tiquetes<br>
-        • Proyección actual: ~174.7 Tiquetes<br>
-        • Estado: 🔴 Déficit mayor (~12.44 días / -Q1,497.35)</p>
-
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS ACUMULADAS:</strong> Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES EMITIDOS:</strong> <span id="meta-tiquetes-real">0</span> / 324 Tiquetes</p>
         <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día (7 hrs netas de ruta)</p>
       </div>
+
+      <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
+        📝 Tiquetes emitidos hoy (Si un cliente cancela, puede eliminarlo):
+      </div>
+      <div id="lista-tiquetes-cristian" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;"></div>
+
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO DE CRISTIAN (BASE Q3,250.00) -->
+  <!-- MODAL SUELDO DE CRISTIAN (Q3,250.00) -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
@@ -138,42 +141,38 @@
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
         <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q120.37</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,625.00 (Ya Pagada)</span></div>
         <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,625.00</span></div>
         
         <div class="sueldo-row" style="background:#2a1a1a; padding:6px; border-radius:6px; border:1px solid #e74c3c; margin-top:4px;">
           <span style="color:#f87171;">Ritmo actual (Sin cambio):</span>
-          <strong style="color:#f87171;">Recibes en 2ª Q: Q127.50</strong>
+          <strong style="color:#f87171;">Recibes fin de mes: Q127.40</strong>
         </div>
 
         <hr style="border:0; border-top:1px dashed #374151; margin:10px 0;">
-        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 PAGO DE 2ª QUINCENA SEGÚN TU ESFUERZO:</span>
+        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 TOTAL A RECIBIR EN FIN DE MES SEGÚN ESFUERZO:</span>
 
         <div class="proyeccion-opcion">
           <div style="font-weight:bold; color:#38bdf8;">1. Esfuerzo Medio (10 tiquetes/día):</div>
-          <div>• Cobro Neto 2ª Quincena: <strong style="color:#38bdf8; font-size:13px;">Q481.48</strong></div>
-          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,106.48)</div>
+          <div>• Neto a Recibir 2ª Quincena: <strong style="color:#38bdf8; font-size:13px;">Q481.20</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,106.20)</div>
         </div>
 
         <div class="proyeccion-opcion verde">
           <div style="font-weight:bold; color:#25d366;">2. Gran Esfuerzo (15 tiquetes/día):</div>
-          <div>• Cobro Neto 2ª Quincena: <strong style="color:#25d366; font-size:13px;">Q983.00</strong></div>
-          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,608.00)</div>
+          <div>• Neto a Recibir 2ª Quincena: <strong style="color:#25d366; font-size:13px;">Q982.50</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,607.50)</div>
         </div>
 
         <div class="proyeccion-opcion premio">
           <div style="font-weight:bold; color:#f59e0b;">🎁 3. SUPERAR META (+Q81,000.00 Ventas):</div>
           <div>• 2ª Quincena Completa: <strong>Q1,625.00</strong></div>
           <div>• <strong>¡PREMIO BONO EN EFECTIVO: + Q500.00!</strong></div>
-          <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente</div>
+          <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente de ventas</div>
           <div style="font-size:13px; font-weight:bold; color:#25d366; margin-top:4px; border-top:1px dashed #f59e0b; padding-top:3px;">
             💰 RECIBES EN MANO (2ª Q): Q2,125.00 + COMISIONES
           </div>
         </div>
-
-        <p style="font-size:10px; color:#aaa; margin-top:8px; margin-bottom:0; font-style:italic; line-height:1.3;">
-          🏆 <strong>¡Pásate de los Q81,000.00 Cristian!</strong> Te llevas tu quincena completa + los Q500 de premio en mano + tus comisiones.
-        </p>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
     </div>
@@ -182,6 +181,7 @@
   <script>
     const NUMERO_WHATSAPP = "50248502382";
     const storageKey = "carrito_diprosa_cristian";
+    const ticketsKey = "diprosa_tickets_cristian";
 
     const productosFallback = [
       { nombre: "(Salvavidas) en lata ROJA Caja de 24", precio: 84.00 },
@@ -261,8 +261,61 @@
     function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 
+    function abrirModalMetas() {
+      actualizarVistaMetas();
+      abrirModal('modal-metas');
+    }
+
+    function actualizarVistaMetas() {
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      
+      let totalVentasReal = 0;
+      tiquetesGuardados.forEach(t => { if (t.total) totalVentasReal += parseFloat(t.total); });
+
+      document.getElementById('meta-tiquetes-real').innerText = tiquetesGuardados.length;
+      document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
+
+      let contenedorLista = document.getElementById('lista-tiquetes-cristian');
+      if (tiquetesGuardados.length === 0) {
+        contenedorLista.innerHTML = '<p style="color:#888; font-style:italic; font-size:11px;">No hay tiquetes emitidos hoy.</p>';
+        return;
+      }
+
+      let htmlTiquetes = "";
+      tiquetesGuardados.forEach((t, idx) => {
+        let totalT = t.total ? t.total.toFixed(2) : "0.00";
+        htmlTiquetes += `
+          <div class="ticket-historial-card">
+            <div class="ticket-historial-head">
+              <span>Tiquete #${idx + 1} - 👤 ${t.cliente || 'Cliente'}</span>
+              <button class="btn-eliminar-uno" onclick="eliminarUnTiqueteCristian(${idx})">❌ Eliminar</button>
+            </div>
+            <div style="color:#aaa;">Hora: ${t.fecha || 'N/A'} | Total: Q${totalT}</div>
+          </div>
+        `;
+      });
+      contenedorLista.innerHTML = htmlTiquetes;
+    }
+
+    function eliminarUnTiqueteCristian(index) {
+      if (confirm(`¿Desea eliminar este tiquete del historial de Cristian?`)) {
+        let tiquetesGuardados = [];
+        try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+        tiquetesGuardados.splice(index, 1);
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        actualizarVistaMetas();
+      }
+    }
+
+    function abrirModalSueldo() { abrirModal('modal-sueldo'); }
+
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Le envío mi reporte de catálogo.`;
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      let totalVentasReal = tiquetesGuardados.reduce((acc, t) => acc + (parseFloat(t.total) || 0), 0);
+
+      let msg = `📊 *REPORTE TRES PARALELOS - CRISTIAN*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)} con ${tiquetesGuardados.length} tiquetes generados.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
@@ -293,9 +346,9 @@
         items: Object.values(carrito),
         total: Object.values(carrito).reduce((s, i) => s + (i.precio * i.cantidad), 0)
       };
-      let tiquetesGuardados = JSON.parse(localStorage.getItem('diprosa_tickets_cristian')) || [];
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.push(nuevoTiquete);
-      localStorage.setItem('diprosa_tickets_cristian', JSON.stringify(tiquetesGuardados));
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
       let subtotal = 0, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* CRISTIAN\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
       for (let k in carrito) {
