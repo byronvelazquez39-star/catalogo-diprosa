@@ -11,7 +11,7 @@
         label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
         input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
         
-        /* Campo de búsqueda destacado */
+        /* Buscador destacado */
         .search-box {
             border: 1px solid #ff9800 !important;
             background-color: #1a1a1a !important;
@@ -31,7 +31,7 @@
         .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
-        /* Cuadro del Resumen del Pedido */
+        /* Cuadro de Resumen del Pedido */
         .cart-box {
             background-color: #1a1a1a;
             border: 1px solid #ff9800;
@@ -54,16 +54,18 @@
         <input type="text" id="clienteNombre" placeholder="Ej. Tienda La Guadalupana">
     </div>
 
-    <!-- Campo de Búsqueda de Productos -->
+    <!-- Campo de Búsqueda General del Catálogo -->
     <div class="input-group">
-        <label for="buscarProducto" style="color: #ff9800;">🔍 Buscar Producto:</label>
-        <input type="text" id="buscarProducto" class="search-box" placeholder="Escriba para filtrar productos..." oninput="filtrarProductos()">
+        <label for="buscarProducto" style="color: #ff9800;">🔍 Buscar en todo el catálogo:</label>
+        <input type="text" id="buscarProducto" class="search-box" placeholder="Escriba el nombre del producto..." oninput="filtrarProductos()">
     </div>
 
     <h3 style="font-size: 13px; color: #aaa; margin: 8px 0 5px 0;">Productos Disponibles</h3>
+    
+    <!-- Lista donde se muestran TODOS los productos filtrados por la búsqueda -->
     <div id="productsList"></div>
 
-    <!-- Resumen del Pedido (Inicia oculto) -->
+    <!-- Cuadro del Resumen del Pedido (Solo visible al agregar ítems) -->
     <div class="cart-box" id="cartContainer" style="display: none;">
         <h3>📋 Resumen del Pedido</h3>
         <div id="cartItems"></div>
@@ -72,7 +74,7 @@
     </div>
 
     <script>
-        // Catálogo de Productos
+        // Listado completo de productos del catálogo
         const productos = [
             { id: 1, name: 'Limonada Salvavidas lata', price: 67.00 },
             { id: 2, name: 'Soda Naranjada Carnaval lata', price: 67.00 },
@@ -82,6 +84,7 @@
 
         let cart = [];
 
+        // Función que renderiza la lista de productos filtrando sobre 'productos'
         function renderProducts(filtro = '') {
             const listEl = document.getElementById("productsList");
             listEl.innerHTML = '';
@@ -89,7 +92,7 @@
             const filtrados = productos.filter(p => p.name.toLowerCase().includes(filtro.toLowerCase()));
 
             if (filtrados.length === 0) {
-                listEl.innerHTML = `<div style="color: #888; font-style: italic; font-size: 12px; text-align: center; padding: 10px;">No se encontraron productos.</div>`;
+                listEl.innerHTML = `<div style="color: #888; font-style: italic; font-size: 12px; text-align: center; padding: 10px;">No se encontraron productos en el catálogo.</div>`;
                 return;
             }
 
@@ -106,6 +109,7 @@
             });
         }
 
+        // Filtra los productos del catálogo al escribir en la casilla
         function filtrarProductos() {
             const texto = document.getElementById("buscarProducto").value;
             renderProducts(texto);
