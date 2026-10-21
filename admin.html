@@ -1,193 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA - Estuardo</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 12px; }
-        h1 { text-align: center; color: #ff9800; font-size: 16px; margin: 5px 0 10px 0; }
-        .input-group { margin-bottom: 12px; }
-        label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
-        input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
-        
-        /* Estilo para el buscador */
-        .search-box {
-            border: 1px solid #ff9800 !important;
-            background-color: #1a1a1a !important;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración - DIPROSA</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 15px; }
+    h1 { text-align: center; color: #ff9800; font-size: 18px; margin-bottom: 15px; }
+    
+    .vendedor-section { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 15px; }
+    .vendedor-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff9800; padding-bottom: 6px; margin-bottom: 10px; }
+    .vendedor-header h2 { margin: 0; font-size: 15px; color: #ff9800; }
+    
+    .ticket-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
+    .ticket-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 4px; }
+    .ticket-cliente { color: #4CAF50; font-weight: bold; margin-bottom: 6px; }
+    .ticket-item { display: flex; justify-content: space-between; color: #ccc; margin-bottom: 2px; }
+    .ticket-total { text-align: right; font-weight: bold; color: #25d366; font-size: 13px; margin-top: 6px; border-top: 1px dashed #555; padding-top: 4px; }
 
-        .product-card { 
-            background-color: #1e1e1e; 
-            border: 1px solid #333; 
-            padding: 8px 10px; 
-            border-radius: 6px; 
-            margin-bottom: 6px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-        }
-        .product-info strong { font-size: 13px; display: block; }
-        .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
-        .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
-
-        /* Cuadro del Resumen del Pedido (Oculto por defecto) */
-        .cart-box {
-            display: none;
-            background-color: #1a1a1a;
-            border: 1px solid #ff9800;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 15px;
-        }
-        .cart-box h3 { margin: 0 0 8px 0; font-size: 14px; color: #ff9800; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .cart-item { font-size: 13px; margin-bottom: 4px; color: #ddd; display: flex; justify-content: space-between; }
-        .cart-total { font-size: 15px; font-weight: bold; color: #4CAF50; margin-top: 10px; text-align: right; }
-        .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 10px; font-size: 14px; border: none; border-radius: 5px; font-weight: bold; margin-top: 10px; cursor: pointer; }
-    </style>
+    .btn-clear { background: #e74c3c; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
+    .empty-msg { font-size: 12px; color: #888; font-style: italic; }
+  </style>
 </head>
-<body onload="renderCart()">
+<body>
 
-    <h1>🛒 Catálogo DIPROSA - ESTUARDO</h1>
+  <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
 
-    <div class="input-group">
-        <label for="clienteNombre">Nombre del Cliente / Tienda:</label>
-        <input type="text" id="clienteNombre" placeholder="Ej. Tienda La Guadalupana">
+  <!-- SECCIÓN ESTUARDO -->
+  <div class="vendedor-section">
+    <div class="vendedor-header">
+      <h2>👤 Vendedor: ESTUARDO</h2>
+      <button class="btn-clear" onclick="limpiarTiquetes('estuardo')">Borrar Historial</button>
     </div>
+    <div id="lista-estuardo">Cargando tiquetes...</div>
+  </div>
 
-    <!-- BUSCADOR AGREGADO -->
-    <div class="input-group">
-        <label for="buscador" style="color: #ff9800;">🔍 Buscar Producto:</label>
-        <input type="text" id="buscador" class="search-box" placeholder="Escriba para filtrar productos..." oninput="filtrarProductos()">
+  <!-- SECCIÓN CRISTIAN -->
+  <div class="vendedor-section">
+    <div class="vendedor-header">
+      <h2>👤 Vendedor: CRISTIAN</h2>
+      <button class="btn-clear" onclick="limpiarTiquetes('cristian')">Borrar Historial</button>
     </div>
+    <div id="lista-cristian">Cargando tiquetes...</div>
+  </div>
 
-    <h3 style="font-size: 13px; color: #aaa; margin: 8px 0 5px 0;">Productos Disponibles</h3>
-    <div id="productsList">
-        <div class="product-card" data-name="limonada salvavidas lata">
-            <div class="product-info">
-                <strong>Limonada Salvavidas lata</strong>
-                <span>Q 67.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Limonada Salvavidas lata', 67.00)">+ Agregar</button>
-        </div>
-        <div class="product-card" data-name="soda naranjada carnaval lata">
-            <div class="product-info">
-                <strong>Soda Naranjada Carnaval lata</strong>
-                <span>Q 67.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Soda Naranjada Carnaval lata', 67.00)">+ Agregar</button>
-        </div>
-        <div class="product-card" data-name="almohadita fardo 4 oz">
-            <div class="product-info">
-                <strong>Almohadita fardo 4 oz</strong>
-                <span>Q 110.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Almohadita fardo 4 oz', 110.00)">+ Agregar</button>
-        </div>
-        <div class="product-card" data-name="salvavidas roja lata">
-            <div class="product-info">
-                <strong>Salvavidas Roja lata</strong>
-                <span>Q 67.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Salvavidas Roja lata', 67.00)">+ Agregar</button>
-        </div>
+  <!-- SECCIÓN JORGE -->
+  <div class="vendedor-section">
+    <div class="vendedor-header">
+      <h2>👤 Vendedor: JORGE</h2>
+      <button class="btn-clear" onclick="limpiarTiquetes('jorge')">Borrar Historial</button>
     </div>
+    <div id="lista-jorge">Cargando tiquetes...</div>
+  </div>
 
-    <!-- Resumen del pedido -->
-    <div class="cart-box" id="cartContainer">
-        <h3>📋 Resumen del Pedido</h3>
-        <div id="cartItems"></div>
-        <div class="cart-total">Total: Q <span id="cartTotal">0.00</span></div>
-        <button class="btn-send" onclick="enviarPedido()">📲 Confirmar y Enviar por WhatsApp</button>
-    </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      cargarReporte('estuardo');
+      cargarReporte('cristian');
+      cargarReporte('jorge');
+    });
 
-    <script>
-        let cart = [];
+    function cargarReporte(vendedor) {
+      const contenedor = document.getElementById(`lista-${vendedor}`);
+      const clave = `diprosa_tickets_${vendedor}`;
+      let tiquetes = [];
 
-        // Función del buscador en tiempo real
-        function filtrarProductos() {
-            const texto = document.getElementById("buscador").value.toLowerCase();
-            const tarjetas = document.querySelectorAll(".product-card");
+      try {
+        tiquetes = JSON.parse(localStorage.getItem(clave)) || [];
+      } catch(e) {
+        tiquetes = [];
+      }
 
-            tarjetas.forEach(card => {
-                const nombre = card.getAttribute("data-name");
-                if (nombre.includes(texto)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
+      if (tiquetes.length === 0) {
+        contenedor.innerHTML = '<p class="empty-msg">No hay tiquetes registrados para este vendedor en este dispositivo.</p>';
+        return;
+      }
+
+      let html = "";
+      tiquetes.forEach((t, idx) => {
+        let itemsHtml = "";
+        let totalCalculado = 0;
+
+        if (Array.isArray(t.items)) {
+          t.items.forEach(item => {
+            let cant = item.cantidad || item.qty || 1;
+            let prec = item.precio || item.price || 0;
+            let sub = cant * prec;
+            totalCalculado += sub;
+            itemsHtml += `<div class="ticket-item"><span>• ${item.nombre || item.name} (x${cant})</span><span>Q${sub.toFixed(2)}</span></div>`;
+          });
         }
 
-        function addToCart(name, price) {
-            const existing = cart.find(item => item.name === name);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ name, price, qty: 1 });
-            }
-            renderCart();
-        }
+        let totalMostrar = t.total ? t.total.toFixed(2) : totalCalculado.toFixed(2);
 
-        function renderCart() {
-            const container = document.getElementById("cartItems");
-            const totalEl = document.getElementById("cartTotal");
-            const box = document.getElementById("cartContainer");
+        html += `
+          <div class="ticket-card">
+            <div class="ticket-head">
+              <span>Tiquete #${idx + 1}</span>
+              <span>🕒 ${t.fecha || 'Sin fecha'}</span>
+            </div>
+            <div class="ticket-cliente">👤 Cliente: ${t.cliente || 'Cliente General'}</div>
+            ${itemsHtml}
+            <div class="ticket-total">Total: Q ${totalMostrar}</div>
+          </div>
+        `;
+      });
 
-            if (cart.length === 0) {
-                box.style.display = "none";
-                container.innerHTML = "";
-                totalEl.innerText = "0.00";
-                return;
-            }
+      contenedor.innerHTML = html;
+    }
 
-            box.style.display = "block";
-
-            let html = "";
-            let total = 0;
-
-            cart.forEach(item => {
-                const subtotal = item.price * item.qty;
-                total += subtotal;
-                html += `<div class="cart-item"><span>• ${item.name} (x${item.qty})</span><span>Q${subtotal.toFixed(2)}</span></div>`;
-            });
-
-            container.innerHTML = html;
-            totalEl.innerText = total.toFixed(2);
-        }
-
-        function enviarPedido() {
-            if (cart.length === 0) return;
-
-            const cliente = document.getElementById("clienteNombre").value || "Cliente General";
-            const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-
-            const nuevoTiquete = {
-                fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                cliente: cliente,
-                items: cart.map(item => ({ name: item.name, qty: item.qty, price: item.price })),
-                total: totalVenta
-            };
-
-            let tiquetesGuardados = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || [];
-            tiquetesGuardados.push(nuevoTiquete);
-            localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
-
-            let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
-            cart.forEach(item => {
-                mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
-            });
-            mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
-
-            cart = [];
-            document.getElementById("clienteNombre").value = "";
-            document.getElementById("buscador").value = "";
-            filtrarProductos(); // Limpiar filtro
-            renderCart();
-
-            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
-        }
-    </script>
+    function limpiarTiquetes(vendedor) {
+      if (confirm(`¿Está seguro de borrar todo el historial de tiquetes de ${vendedor.toUpperCase()}?`)) {
+        localStorage.removeItem(`diprosa_tickets_${vendedor}`);
+        cargarReporte(vendedor);
+      }
+    }
+  </script>
 </body>
 </html>
