@@ -6,14 +6,19 @@
     <title>Catálogo DIPROSA - Estuardo</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 15px; }
-        h1 { text-align: center; color: #ff9800; font-size: 20px; }
+        h1 { text-align: center; color: #ff9800; font-size: 18px; margin-bottom: 15px; }
         .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
         input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; }
-        .product-card { background-color: #1e1e1e; border: 1px solid #333; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .product-card { background-color: #1e1e1e; border: 1px solid #333; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .product-info strong { font-size: 14px; display: block; }
+        .product-info span { font-size: 13px; color: #4CAF50; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 8px 12px; font-weight: bold; border-radius: 5px; cursor: pointer; }
-        .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 12px; font-size: 16px; border: none; border-radius: 5px; font-weight: bold; margin-top: 15px; cursor: pointer; }
-        .cart-section { background-color: #1e1e1e; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .cart-section { background-color: #1e1e1e; padding: 12px; border-radius: 8px; margin-top: 15px; border: 1px solid #333; }
+        .cart-section h3 { margin-top: 0; font-size: 15px; color: #ff9800; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .cart-item { font-size: 13px; margin-bottom: 4px; color: #ddd; }
+        .cart-total { font-size: 16px; font-weight: bold; color: #4CAF50; margin-top: 10px; }
+        .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 12px; font-size: 15px; border: none; border-radius: 5px; font-weight: bold; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -25,42 +30,42 @@
         <input type="text" id="clienteNombre" placeholder="Ej. Tienda La Guadalupana">
     </div>
 
-    <h3>Productos Disponibles</h3>
+    <h3 style="font-size: 15px; color: #aaa;">Productos Disponibles</h3>
     <div id="productsList">
         <div class="product-card">
-            <div>
-                <strong>Limonada Salvavidas lata</strong><br>
-                <span>Precio: Q67.00</span>
+            <div class="product-info">
+                <strong>Limonada Salvavidas lata</strong>
+                <span>Q 67.00</span>
             </div>
             <button class="btn" onclick="addToCart('Limonada Salvavidas lata', 67.00)">+ Agregar</button>
         </div>
         <div class="product-card">
-            <div>
-                <strong>Soda Naranjada Carnaval lata</strong><br>
-                <span>Precio: Q67.00</span>
+            <div class="product-info">
+                <strong>Soda Naranjada Carnaval lata</strong>
+                <span>Q 67.00</span>
             </div>
             <button class="btn" onclick="addToCart('Soda Naranjada Carnaval lata', 67.00)">+ Agregar</button>
         </div>
         <div class="product-card">
-            <div>
-                <strong>Almohadita fardo 4 oz</strong><br>
-                <span>Precio: Q110.00</span>
+            <div class="product-info">
+                <strong>Almohadita fardo 4 oz</strong>
+                <span>Q 110.00</span>
             </div>
             <button class="btn" onclick="addToCart('Almohadita fardo 4 oz', 110.00)">+ Agregar</button>
         </div>
         <div class="product-card">
-            <div>
-                <strong>Salvavidas Roja lata</strong><br>
-                <span>Precio: Q67.00</span>
+            <div class="product-info">
+                <strong>Salvavidas Roja lata</strong>
+                <span>Q 67.00</span>
             </div>
             <button class="btn" onclick="addToCart('Salvavidas Roja lata', 67.00)">+ Agregar</button>
         </div>
     </div>
 
     <div class="cart-section">
-        <h3>Resumen del Pedido</h3>
-        <div id="cartItems">El carrito está vacío.</div>
-        <h4>Total: Q <span id="cartTotal">0.00</span></h4>
+        <h3>📋 Resumen del Pedido</h3>
+        <div id="cartItems" style="font-style: italic; color: #888; font-size: 13px;">El carrito está vacío.</div>
+        <div class="cart-total">Total: Q <span id="cartTotal">0.00</span></div>
         <button class="btn-send" onclick="enviarPedido()">📲 Confirmar y Enviar por WhatsApp</button>
     </div>
 
@@ -81,7 +86,7 @@
             const container = document.getElementById("cartItems");
             const totalEl = document.getElementById("cartTotal");
             if (cart.length === 0) {
-                container.innerHTML = "El carrito está vacío.";
+                container.innerHTML = `<span style="font-style: italic; color: #888;">El carrito está vacío.</span>`;
                 totalEl.innerText = "0.00";
                 return;
             }
@@ -90,7 +95,7 @@
             cart.forEach(item => {
                 const subtotal = item.price * item.qty;
                 total += subtotal;
-                html += `<div>- ${item.name} (x${item.qty}) = Q${subtotal.toFixed(2)}</div>`;
+                html += `<div class="cart-item">• ${item.name} (x${item.qty}) = Q${subtotal.toFixed(2)}</div>`;
             });
             container.innerHTML = html;
             totalEl.innerText = total.toFixed(2);
@@ -105,7 +110,7 @@
             const cliente = document.getElementById("clienteNombre").value || "Cliente General";
             const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-            // GUARDAR TIQUETE EN EL PANEL
+            // Guardar tiquete en la memoria para el panel del administrador
             const nuevoTiquete = {
                 fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 cliente: cliente,
@@ -117,14 +122,14 @@
             tiquetesGuardados.push(nuevoTiquete);
             localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
 
-            // ARMAR MENSAJE DE WHATSAPP
+            // Armar mensaje para WhatsApp
             let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
             cart.forEach(item => {
                 mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
-            // LIMPIAR Y REDIRIGIR
+            // Limpiar y enviar
             cart = [];
             renderCart();
             document.getElementById("clienteNombre").value = "";
