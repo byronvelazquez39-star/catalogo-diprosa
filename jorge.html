@@ -100,7 +100,7 @@
       </div>
       <div style="border-top: 1px dashed #555; padding-top: 8px; margin-top: 8px;">
         <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--accent-color);">
-          <span>Total Final:</span><span>Q <span id="ticket-total">0.00</span></span>
+          <span>Total Final:<span>Q <span id="ticket-total">0.00</span></span></span>
         </div>
       </div>
       <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido por WhatsApp</button>
@@ -116,9 +116,9 @@
         <p style="font-size: 11px; color: #888;">Control de Meta Q81,000 (Al 20 Oct - Día 20)</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>📋 REGLA DE HIERRO (VENTAS)</h4>
+        <h4>🌟 LIDERANDO EL EQUIPO</h4>
         <p style="margin: 4px 0;">💰 <strong>VENTAS ACUMULADAS:</strong> Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</p>
-        <p style="margin-top: 6px; color:#f59e0b; font-weight:bold;">⚠️ Si se llega a Q81k, se anulan penalizaciones. Si no, se aplica descuento por déficit con tope protector.</p>
+        <p style="margin-top: 6px; color:#34d399; font-weight:bold;">🚀 ¡Excelente desempeño! A un paso de asegurar la meta total y la bonificación.</p>
       </div>
 
       <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
@@ -180,7 +180,6 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // LIMPIEZA FORZADA DE CACHÉ PARA ACTUALIZAR EL NUEVO SALDO REAL
       let versionGuardada = localStorage.getItem("version_jorge_v2");
       if (!versionGuardada) {
         localStorage.removeItem(ticketsKey);
