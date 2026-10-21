@@ -5,47 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo DIPROSA - Estuardo</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 10px; padding-bottom: 70px; }
+        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 12px; }
         h1 { text-align: center; color: #ff9800; font-size: 16px; margin: 5px 0 10px 0; }
-        .input-group { margin-bottom: 10px; }
-        label { display: block; margin-bottom: 3px; font-weight: bold; font-size: 12px; }
-        input { width: 100%; padding: 6px 8px; border-radius: 4px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
+        input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
         
-        /* Filas ultra delgadas para los productos */
         .product-card { 
             background-color: #1e1e1e; 
             border: 1px solid #333; 
-            padding: 6px 10px; 
-            border-radius: 5px; 
-            margin-bottom: 5px; 
+            padding: 8px 10px; 
+            border-radius: 6px; 
+            margin-bottom: 6px; 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
         }
-        .product-info strong { font-size: 13px; display: block; line-height: 1.2; }
+        .product-info strong { font-size: 13px; display: block; }
         .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
-        .btn { background-color: #ff9800; color: #000; border: none; padding: 5px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
-        /* Barra fija inferior muy pequeña */
-        .bottom-bar {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #1e1e1e;
-            border-top: 2px solid #25D366;
-            padding: 8px 12px;
-            box-sizing: border-box;
-            z-index: 99;
-            align-items: center;
-            justify-content: space-between;
+        /* Cuadro de resumen del pedido */
+        .cart-box {
+            background-color: #1a1a1a;
+            border: 1px solid #ff9800;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
         }
-        .bottom-total { font-size: 14px; font-weight: bold; color: #4CAF50; }
-        .btn-send { background-color: #25D366; color: #fff; padding: 8px 12px; font-size: 13px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .cart-box h3 { margin: 0 0 8px 0; font-size: 14px; color: #ff9800; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .cart-item { font-size: 13px; margin-bottom: 4px; color: #ddd; display: flex; justify-content: space-between; }
+        .cart-total { font-size: 15px; font-weight: bold; color: #4CAF50; margin-top: 10px; text-align: right; }
+        .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 10px; font-size: 14px; border: none; border-radius: 5px; font-weight: bold; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
-<body onload="renderCart()">
+<body>
 
     <h1>🛒 Catálogo DIPROSA - ESTUARDO</h1>
 
@@ -86,9 +80,12 @@
         </div>
     </div>
 
-    <div class="bottom-bar" id="bottomBar">
-        <div class="bottom-total">Total: Q <span id="cartTotal">0.00</span></div>
-        <button class="btn-send" onclick="enviarPedido()">📲 Enviar WhatsApp</button>
+    <!-- Resumen del pedido -->
+    <div class="cart-box">
+        <h3>📋 Resumen del Pedido</h3>
+        <div id="cartItems" style="font-style: italic; color: #888; font-size: 12px;">No ha agregado productos aún.</div>
+        <div class="cart-total">Total: Q <span id="cartTotal">0.00</span></div>
+        <button class="btn-send" onclick="enviarPedido()">📲 Confirmar y Enviar por WhatsApp</button>
     </div>
 
     <script>
@@ -105,33 +102,38 @@
         }
 
         function renderCart() {
+            const container = document.getElementById("cartItems");
             const totalEl = document.getElementById("cartTotal");
-            const bottomBar = document.getElementById("bottomBar");
 
             if (cart.length === 0) {
+                container.innerHTML = `<span style="font-style: italic; color: #888;">No ha agregado productos aún.</span>`;
                 totalEl.innerText = "0.00";
-                bottomBar.style.display = "none";
                 return;
             }
 
+            let html = "";
             let total = 0;
+
             cart.forEach(item => {
-                total += item.price * item.qty;
+                const subtotal = item.price * item.qty;
+                total += subtotal;
+                html += `<div class="cart-item"><span>• ${item.name} (x${item.qty})</span><span>Q${subtotal.toFixed(2)}</span></div>`;
             });
 
+            container.innerHTML = html;
             totalEl.innerText = total.toFixed(2);
-            bottomBar.style.display = "flex";
         }
 
         function enviarPedido() {
             if (cart.length === 0) {
-                alert("El carrito está vacío.");
+                alert("El carrito está vacío. Agregue algún producto primero.");
                 return;
             }
 
             const cliente = document.getElementById("clienteNombre").value || "Cliente General";
             const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
+            // Guardar en la memoria local para el panel de administración
             const nuevoTiquete = {
                 fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 cliente: cliente,
@@ -143,12 +145,14 @@
             tiquetesGuardados.push(nuevoTiquete);
             localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
 
+            // Generar mensaje para WhatsApp
             let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
             cart.forEach(item => {
                 mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
+            // Limpiar formulario y carrito
             cart = [];
             renderCart();
             document.getElementById("clienteNombre").value = "";
