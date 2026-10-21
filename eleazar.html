@@ -9,7 +9,7 @@
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
       --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
     }
-    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 12px; padding-bottom: 100px; }
+    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 12px; padding-bottom: 100px; box-sizing: border-box; }
     
     .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 6px; }
     h1 { text-align: center; margin: 0; font-size: 16px; color: #ff9800; }
@@ -38,9 +38,10 @@
     .cart-total { font-size: 16px; color: var(--accent-color); font-weight: bold; }
     .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
 
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; }
-    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; }
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
+    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 13px; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 10px; }
+    .ticket-header h3 { margin: 0; font-size: 16px; color: #fff; }
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 13px; box-sizing: border-box; margin-bottom: 8px; }
     .btn-close { background: #555; color: white; border: none; padding: 8px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 14px; cursor: pointer; }
@@ -51,6 +52,9 @@
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
     .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
 
+    .proyeccion-opcion { background: #1e293b; border-left: 3px solid #0284c7; padding: 8px; margin-top: 6px; border-radius: 4px; }
+    .proyeccion-opcion.verde { border-left-color: #25d366; background: #0f291e; }
+    .proyeccion-opcion.premio { border-left-color: #f59e0b; background: #27200e; }
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
   </style>
 </head>
@@ -100,7 +104,7 @@
     </div>
   </div>
 
-  <!-- MODAL METAS DETALLADO - ELEAZAR -->
+  <!-- MODAL METAS DE ELEAZAR -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
@@ -109,34 +113,65 @@
       </div>
       <div class="meta-resumen-box">
         <h4>📋 TRES PARALELOS DIPROSA</h4>
-        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Control y alcance de meta mensual de ruta.<br>
-        • Avance y rendimiento al día</p>
+        <p style="margin: 4px 0;">💰 <strong>1. VENTAS:</strong> Q30,000.00 / Q81,000.00<br>
+        • Proyección actual: Q47,647.05<br>
+        • Estado: 🔴 Déficit (~11.11 días / -Q1,337.04)</p>
         
-        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> Registro continuo de tiquetes emitidos.</p>
+        <p style="margin: 6px 0;">🧾 <strong>2. TIQUETES:</strong> 110 / 324 Tiquetes<br>
+        • Proyección actual: ~174.7 Tiquetes<br>
+        • Estado: 🔴 Déficit mayor (~12.44 días / -Q1,497.35)</p>
 
-        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día en horario de ruta</p>
+        <p style="margin: 6px 0;">⏰ <strong>3. JORNADA:</strong> 🟢 Al día (7 hrs netas de ruta)</p>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- MODAL SUELDO DETALLADO - ELEAZAR -->
+  <!-- MODAL SUELDO DE ELEAZAR (BASE Q3,500.00) -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>💵 Nómina y Proyección - ELEAZAR</h3>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,250.00</strong></div>
-        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q120.37</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,625.00 (Pagada)</span></div>
-        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,625.00</span></div>
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
+        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q129.63</span></div>
+        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,750.00 (Pagada)</span></div>
+        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,750.00</span></div>
         
+        <div class="sueldo-row" style="background:#2a1a1a; padding:6px; border-radius:6px; border:1px solid #e74c3c; margin-top:4px;">
+          <span style="color:#f87171;">Ritmo actual (Sin cambio):</span>
+          <strong style="color:#f87171;">Recibes en 2ª Q: Q137.30</strong>
+        </div>
+
         <hr style="border:0; border-top:1px dashed #374151; margin:10px 0;">
-        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 PAGO Y COMISIONES POR RUTA:</span>
-        <p style="font-size:11px; color:#aaa; margin-top:6px; margin-bottom:0; line-height:1.4;">
-          Mantén tu nivel de tiquetes diarios para asegurar tus comisiones completas y bonos de quincena.
+        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 PAGO DE 2ª QUINCENA SEGÚN TU ESFUERZO:</span>
+
+        <div class="proyeccion-opcion">
+          <div style="font-weight:bold; color:#38bdf8;">1. Esfuerzo Medio (10 tiquetes/día):</div>
+          <div>• Cobro Neto 2ª Quincena: <strong style="color:#38bdf8; font-size:13px;">Q518.50</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,268.50)</div>
+        </div>
+
+        <div class="proyeccion-opcion verde">
+          <div style="font-weight:bold; color:#25d366;">2. Gran Esfuerzo (15 tiquetes/día):</div>
+          <div>• Cobro Neto 2ª Quincena: <strong style="color:#25d366; font-size:13px;">Q1,058.60</strong></div>
+          <div style="font-size:11px; color:#aaa;">(Sueldo Total Mes: Q2,808.60)</div>
+        </div>
+
+        <div class="proyeccion-opcion premio">
+          <div style="font-weight:bold; color:#f59e0b;">🎁 3. SUPERAR META (+Q81,000.00 Ventas):</div>
+          <div>• 2ª Quincena Completa: <strong>Q1,750.00</strong></div>
+          <div>• <strong>¡PREMIO BONO EN EFECTIVO: + Q500.00!</strong></div>
+          <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente</div>
+          <div style="font-size:13px; font-weight:bold; color:#25d366; margin-top:4px; border-top:1px dashed #f59e0b; padding-top:3px;">
+            💰 RECIBES EN MANO (2ª Q): Q2,250.00 + COMISIONES
+          </div>
+        </div>
+
+        <p style="font-size:10px; color:#aaa; margin-top:8px; margin-bottom:0; font-style:italic; line-height:1.3;">
+          🏆 <strong>¡Pásate de los Q81,000.00 Eleazar!</strong> Te llevas tu quincena completa + los Q500 de premio en mano + tus comisiones.
         </p>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
@@ -226,7 +261,7 @@
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Le envío mi reporte de catálogo de ruta.`;
+      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Le envío mi reporte de catálogo.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
     }
 
