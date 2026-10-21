@@ -15,8 +15,9 @@
         .product-info span { font-size: 13px; color: #4CAF50; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 8px 12px; font-weight: bold; border-radius: 5px; cursor: pointer; }
 
-        /* Botón Flotante del Carrito */
+        /* Botón Flotante (Oculto por defecto) */
         .cart-float-btn {
+            display: none; /* Inicia oculto */
             position: fixed;
             bottom: 15px;
             left: 5%;
@@ -31,7 +32,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             cursor: pointer;
             z-index: 99;
-            display: flex;
             justify-content: space-between;
             align-items: center;
         }
@@ -104,8 +104,8 @@
         </div>
     </div>
 
-    <!-- Botón Flotante Verde -->
-    <button class="cart-float-btn" onclick="toggleModal(true)">
+    <!-- Botón Flotante Verde (Oculto por defecto) -->
+    <button class="cart-float-btn" id="floatBtn" onclick="toggleModal(true)">
         <span>🛒 Ver Pedido (<span id="cartCount">0</span>)</span>
         <span>Q <span id="floatTotal">0.00</span></span>
     </button>
@@ -117,9 +117,7 @@
                 <h3>📋 Resumen del Pedido</h3>
                 <button class="close-btn" onclick="toggleModal(false)">✖</button>
             </div>
-            <div id="cartItems" style="margin-top: 15px; max-height: 200px; overflow-y: auto;">
-                <span style="font-style: italic; color: #888;">El carrito está vacío.</span>
-            </div>
+            <div id="cartItems" style="margin-top: 15px; max-height: 200px; overflow-y: auto;"></div>
             <div class="cart-total">Total: Q <span id="cartTotal">0.00</span></div>
             <button class="btn-send" onclick="enviarPedido()">📲 Confirmar y Enviar por WhatsApp</button>
         </div>
@@ -143,14 +141,19 @@
             const totalEl = document.getElementById("cartTotal");
             const floatTotalEl = document.getElementById("floatTotal");
             const countEl = document.getElementById("cartCount");
+            const floatBtn = document.getElementById("floatBtn");
 
             if (cart.length === 0) {
                 container.innerHTML = `<span style="font-style: italic; color: #888;">El carrito está vacío.</span>`;
                 totalEl.innerText = "0.00";
                 floatTotalEl.innerText = "0.00";
                 countEl.innerText = "0";
+                floatBtn.style.display = "none"; // Se oculta totalmente
                 return;
             }
+
+            // Muestra el botón verde sólo si hay al menos 1 producto
+            floatBtn.style.display = "flex";
 
             let html = "";
             let total = 0;
@@ -201,7 +204,7 @@
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
-            // Limpiar
+            // Limpiar todo y ocultar botón
             cart = [];
             renderCart();
             document.getElementById("clienteNombre").value = "";
