@@ -7,10 +7,16 @@
     <style>
         body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 12px; }
         h1 { text-align: center; color: #ff9800; font-size: 16px; margin: 5px 0 10px 0; }
-        .input-group { margin-bottom: 12px; }
+        .input-group { margin-bottom: 10px; }
         label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
         input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
         
+        /* Campo de búsqueda destacado */
+        .search-box {
+            border: 1px solid #ff9800 !important;
+            background-color: #1a1a1a !important;
+        }
+
         .product-card { 
             background-color: #1e1e1e; 
             border: 1px solid #333; 
@@ -25,7 +31,7 @@
         .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
-        /* Cuadro de Resumen del Pedido */
+        /* Cuadro del Resumen del Pedido */
         .cart-box {
             background-color: #1a1a1a;
             border: 1px solid #ff9800;
@@ -39,7 +45,7 @@
         .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 10px; font-size: 14px; border: none; border-radius: 5px; font-weight: bold; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
-<body onload="renderCart()">
+<body onload="renderProducts(); renderCart();">
 
     <h1>🛒 Catálogo DIPROSA - ESTUARDO</h1>
 
@@ -48,39 +54,16 @@
         <input type="text" id="clienteNombre" placeholder="Ej. Tienda La Guadalupana">
     </div>
 
-    <h3 style="font-size: 13px; color: #aaa; margin: 8px 0 5px 0;">Productos Disponibles</h3>
-    <div id="productsList">
-        <div class="product-card">
-            <div class="product-info">
-                <strong>Limonada Salvavidas lata</strong>
-                <span>Q 67.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Limonada Salvavidas lata', 67.00)">+ Agregar</button>
-        </div>
-        <div class="product-card">
-            <div class="product-info">
-                <strong>Soda Naranjada Carnaval lata</strong>
-                <span>Q 67.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Soda Naranjada Carnaval lata', 67.00)">+ Agregar</button>
-        </div>
-        <div class="product-card">
-            <div class="product-info">
-                <strong>Almohadita fardo 4 oz</strong>
-                <span>Q 110.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Almohadita fardo 4 oz', 110.00)">+ Agregar</button>
-        </div>
-        <div class="product-card">
-            <div class="product-info">
-                <strong>Salvavidas Roja lata</strong>
-                <span>Q 67.00</span>
-            </div>
-            <button class="btn" onclick="addToCart('Salvavidas Roja lata', 67.00)">+ Agregar</button>
-        </div>
+    <!-- Campo de Búsqueda de Productos -->
+    <div class="input-group">
+        <label for="buscarProducto" style="color: #ff9800;">🔍 Buscar Producto:</label>
+        <input type="text" id="buscarProducto" class="search-box" placeholder="Escriba para filtrar productos..." oninput="filtrarProductos()">
     </div>
 
-    <!-- CUADRO CON OCULTACIÓN DIRECTA (style="display: none;") -->
+    <h3 style="font-size: 13px; color: #aaa; margin: 8px 0 5px 0;">Productos Disponibles</h3>
+    <div id="productsList"></div>
+
+    <!-- Resumen del Pedido (Inicia oculto) -->
     <div class="cart-box" id="cartContainer" style="display: none;">
         <h3>📋 Resumen del Pedido</h3>
         <div id="cartItems"></div>
@@ -89,7 +72,44 @@
     </div>
 
     <script>
+        // Catálogo de Productos
+        const productos = [
+            { id: 1, name: 'Limonada Salvavidas lata', price: 67.00 },
+            { id: 2, name: 'Soda Naranjada Carnaval lata', price: 67.00 },
+            { id: 3, name: 'Almohadita fardo 4 oz', price: 110.00 },
+            { id: 4, name: 'Salvavidas Roja lata', price: 67.00 }
+        ];
+
         let cart = [];
+
+        function renderProducts(filtro = '') {
+            const listEl = document.getElementById("productsList");
+            listEl.innerHTML = '';
+
+            const filtrados = productos.filter(p => p.name.toLowerCase().includes(filtro.toLowerCase()));
+
+            if (filtrados.length === 0) {
+                listEl.innerHTML = `<div style="color: #888; font-style: italic; font-size: 12px; text-align: center; padding: 10px;">No se encontraron productos.</div>`;
+                return;
+            }
+
+            filtrados.forEach(p => {
+                listEl.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-info">
+                            <strong>${p.name}</strong>
+                            <span>Q ${p.price.toFixed(2)}</span>
+                        </div>
+                        <button class="btn" onclick="addToCart('${p.name}', ${p.price})">+ Agregar</button>
+                    </div>
+                `;
+            });
+        }
+
+        function filtrarProductos() {
+            const texto = document.getElementById("buscarProducto").value;
+            renderProducts(texto);
+        }
 
         function addToCart(name, price) {
             const existing = cart.find(item => item.name === name);
@@ -153,6 +173,8 @@
 
             cart = [];
             document.getElementById("clienteNombre").value = "";
+            document.getElementById("buscarProducto").value = "";
+            renderProducts();
             renderCart();
 
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
