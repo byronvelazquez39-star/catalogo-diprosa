@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Auditoría - DIPROSA</title>
+  <style>
+    :root {
+      --bg-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #ffffff;
+      --accent-color: #27ae60;
+      --danger-color: #e74c3c;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+      padding-bottom: 80px;
+    }
+    h1 { text-align: center; font-size: 20px; color: #34d399; margin-bottom: 5px; }
+    p.subtitle { text-align: center; font-size: 12px; color: #888; margin-top: 0; margin-bottom: 20px; }
+
+    .resumen-global {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .resumen-global h3 { margin: 0 0 10px 0; font-size: 15px; color: #38bdf8; }
+    .global-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+
+    .vendedor-box {
+      background: var(--card-bg);
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    .vendedor-titulo {
+      font-size: 16px;
+      font-weight: bold;
+      color: #f59e0b;
+      border-bottom: 1px dashed #444;
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .tabla-pedidos {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 8px;
+    }
+    .tabla-pedidos th, .tabla-pedidos td {
+      border: 1px solid #333;
+      padding: 6px;
+      text-align: left;
+    }
+    .tabla-pedidos th { background: #252525; color: #aaa; }
+    
+    .btn-limpiar {
+      background-color: var(--danger-color);
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      width: 100%;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛡️ PANEL DE AUDITORÍA DIPROSA</h1>
+  <p class="subtitle">Consolidado de Tiquetes y Ventas (Anti-Fantasmas)</p>
+
+  <div class="resumen-global">
+    <h3>📈 Resumen General Acumulado</h3>
+    <div class="global-row"><span>Total Tiquetes Emitidos:</span> <strong id="gl-tiquetes">0</strong></div>
+    <div class="global-row"><span>Ventas Totales Sistema:</span> <strong style="color: var(--accent-color);">Q <span id="gl-monto">0.00</span></strong></div>
+  </div>
+
+  <div id="contenedor-vendedores">
+    <!-- Se llena automáticamente con JavaScript -->
+  </div>
+
+  <button class="btn-limpiar" onclick="limpiarHistorialAdmin()">🗑️ Borrar Todo el Historial (Nuevo Mes)</button>
+
+  <script>
+    const vendedores = ['cristian', 'jorge', 'eleazar', 'estuardo'];
+
+    function cargarDatosAdmin() {
+      let totalGlobalTiquetes = 0;
+      let totalGlobalMonto = 0;
+      let contenedorHtml = '';
+
+      vendedores.forEach(v => {
+        let historialKey = 'historial_ventas_' + v;
+        let pedidos = [];
+        try {
+          pedidos = JSON.parse(localStorage.getItem(historialKey)) || [];
+        } catch(e) {
+          pedidos = [];
+        }
+
+        let subtotalVendedor = pedidos.reduce((acc, p) => acc + (p.total || 0), 0);
+        let cantTiquetesVendedor = pedidos.length;
+
+        totalGlobalTiquetes += cantTiquetesVendedor;
+        totalGlobalMonto += subtotalVendedor;
+
+        let filasTabla = '';
+        if (pedidos.length === 0) {
+          filasTabla = `<tr><td colspan="4" style="text-align:center; color:#777;">Sin tiquetes registrados aún</td></tr>`;
+        } else {
+          filasTabla = pedidos.map(p => `
+            <tr>
+              <td>#${p.numero || '----'}</td>
+              <td>${p.cliente || 'Consumidor Final'}</td>
+              <td>Q ${parseFloat(p.total || 0).toFixed(2)}</td>
+              <td style="color:#888; font-size:10px;">${p.fecha || ''}</td>
+            </tr>
+          `).join('');
+        }
+
+        contenedorHtml += `
+          <div class="vendedor-box">
+            <div class="vendedor-titulo">
+              <span>👤 ${v.toUpperCase()}</span>
+              <span>Q ${subtotalVendedor.toFixed(2)}</span>
+            </div>
+            <div style="font-size: 12px; color: #aaa; margin-bottom: 6px;">
+              Tiquetes emitidos en app: <strong>${cantTiquetesVendedor}</strong>
+            </div>
+            <table class="tabla-pedidos">
+              <tr>
+                <th>Tq #</th>
+                <th>Cliente / Receptor</th>
+                <th>Total</th>
+                <th>Fecha</th>
+              </tr>
+              ${filasTabla}
+            </table>
+          </div>
+        `;
+      });
+
+      document.getElementById('gl-tiquetes').innerText = totalGlobalTiquetes;
+      document.getElementById('gl-monto').innerText = totalGlobalMonto.toFixed(2);
+      document.getElementById('contenedor-vendedores').innerHTML = contenedorHtml;
+    }
+
+    function limpiarHistorialAdmin() {
+      if (confirm("¿Está seguro de limpiar todo el historial de tiquetes guardados? Haga esto únicamente al iniciar un nuevo mes de operaciones.")) {
+        vendedores.forEach(v => {
+          localStorage.removeItem('historial_ventas_' + v);
+        });
+        cargarDatosAdmin();
+        alert("Historial reiniciado con éxito.");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarDatosAdmin);
+  </script>
+</body>
+</html>
