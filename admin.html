@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Auditoría - DIPROSA</title>
+  <title>Panel de Administración - DIPROSA</title>
   <style>
     :root {
       --bg-color: #121212;
       --card-bg: #1e1e1e;
       --text-color: #ffffff;
       --accent-color: #27ae60;
-      --danger-color: #e74c3c;
+      --primary-color: #f59e0b;
     }
     body {
       font-family: Arial, sans-serif;
@@ -18,156 +18,130 @@
       color: var(--text-color);
       margin: 0;
       padding: 15px;
-      padding-bottom: 80px;
     }
-    h1 { text-align: center; font-size: 20px; color: #34d399; margin-bottom: 5px; }
-    p.subtitle { text-align: center; font-size: 12px; color: #888; margin-top: 0; margin-bottom: 20px; }
-
+    h1 { font-size: 20px; color: var(--primary-color); text-align: center; margin-bottom: 20px; }
     .resumen-global {
-      background: #1e293b;
-      border: 1px solid #334155;
+      background: var(--card-bg);
+      border: 1px solid #333;
       border-radius: 10px;
       padding: 15px;
       margin-bottom: 20px;
+      text-align: center;
     }
-    .resumen-global h3 { margin: 0 0 10px 0; font-size: 15px; color: #38bdf8; }
-    .global-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
-
-    .vendedor-box {
+    .resumen-global h2 { margin: 0 0 10px 0; font-size: 16px; color: #aaa; }
+    .total-monto { font-size: 24px; color: var(--accent-color); font-weight: bold; }
+    .vendedor-seccion {
       background: var(--card-bg);
       border: 1px solid #333;
       border-radius: 10px;
       padding: 15px;
       margin-bottom: 15px;
     }
-    .vendedor-titulo {
-      font-size: 16px;
-      font-weight: bold;
-      color: #f59e0b;
-      border-bottom: 1px dashed #444;
-      padding-bottom: 8px;
-      margin-bottom: 10px;
+    .vendedor-seccion h3 { margin: 0 0 10px 0; font-size: 16px; color: #38bdf8; display: flex; justify-content: space-between; align-items: center; }
+    .ticket-item {
+      background: #252525;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      font-size: 13px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      border-left: 3px solid var(--accent-color);
     }
-    .tabla-pedidos {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-      margin-top: 8px;
-    }
-    .tabla-pedidos th, .tabla-pedidos td {
-      border: 1px solid #333;
-      padding: 6px;
-      text-align: left;
-    }
-    .tabla-pedidos th { background: #252525; color: #aaa; }
-    
     .btn-limpiar {
-      background-color: var(--danger-color);
+      background-color: #e74c3c;
       color: white;
       border: none;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
       font-weight: bold;
-      width: 100%;
       cursor: pointer;
-      margin-top: 20px;
+      font-size: 12px;
+      margin-top: 5px;
     }
+    .sin-datos { font-size: 13px; color: #777; font-style: italic; }
   </style>
 </head>
 <body>
 
-  <h1>🛡️ PANEL DE AUDITORÍA DIPROSA</h1>
-  <p class="subtitle">Consolidado de Tiquetes y Ventas (Anti-Fantasmas)</p>
+  <h1>📊 Panel Central de Auditoría - DIPROSA</h1>
 
   <div class="resumen-global">
-    <h3>📈 Resumen General Acumulado</h3>
-    <div class="global-row"><span>Total Tiquetes Emitidos:</span> <strong id="gl-tiquetes">0</strong></div>
-    <div class="global-row"><span>Ventas Totales Sistema:</span> <strong style="color: var(--accent-color);">Q <span id="gl-monto">0.00</span></strong></div>
+    <h2>VENTAS TOTALES ACUMULADAS</h2>
+    <div class="total-monto">Q <span id="monto-global">0.00</span></div>
   </div>
 
   <div id="contenedor-vendedores">
-    <!-- Se llena automáticamente con JavaScript -->
+    <!-- Se llena dinámicamente -->
   </div>
 
-  <button class="btn-limpiar" onclick="limpiarHistorialAdmin()">🗑️ Borrar Todo el Historial (Nuevo Mes)</button>
-
   <script>
-    const vendedores = ['cristian', 'jorge', 'eleazar', 'estuardo'];
+    const vendedores = [
+      { id: 'cristian', nombre: 'Cristian', key: 'historial_ventas_cristian' },
+      { id: 'jorge', nombre: 'Jorge', key: 'historial_ventas_jorge' },
+      { id: 'eleazar', nombre: 'Eleazar', key: 'historial_ventas_eleazar' },
+      { id: 'estuardo', nombre: 'Estuardo', key: 'historial_ventas_estuardo' }
+    ];
 
-    function cargarDatosAdmin() {
-      let totalGlobalTiquetes = 0;
-      let totalGlobalMonto = 0;
-      let contenedorHtml = '';
+    function cargarPanel() {
+      let contenedor = document.getElementById('contenedor-vendedores');
+      let html = '';
+      let montoGlobal = 0;
 
       vendedores.forEach(v => {
-        let historialKey = 'historial_ventas_' + v;
-        let pedidos = [];
+        let historial = [];
         try {
-          pedidos = JSON.parse(localStorage.getItem(historialKey)) || [];
+          historial = JSON.parse(localStorage.getItem(v.key)) || [];
         } catch(e) {
-          pedidos = [];
+          historial = [];
         }
 
-        let subtotalVendedor = pedidos.reduce((acc, p) => acc + (p.total || 0), 0);
-        let cantTiquetesVendedor = pedidos.length;
+        let totalVendedor = historial.reduce((sum, item) => sum + (parseFloat(item.total) || 0), 0);
+        montoGlobal += totalVendedor;
 
-        totalGlobalTiquetes += cantTiquetesVendedor;
-        totalGlobalMonto += subtotalVendedor;
-
-        let filasTabla = '';
-        if (pedidos.length === 0) {
-          filasTabla = `<tr><td colspan="4" style="text-align:center; color:#777;">Sin tiquetes registrados aún</td></tr>`;
-        } else {
-          filasTabla = pedidos.map(p => `
-            <tr>
-              <td>#${p.numero || '----'}</td>
-              <td>${p.cliente || 'Consumidor Final'}</td>
-              <td>Q ${parseFloat(p.total || 0).toFixed(2)}</td>
-              <td style="color:#888; font-size:10px;">${p.fecha || ''}</td>
-            </tr>
-          `).join('');
-        }
-
-        contenedorHtml += `
-          <div class="vendedor-box">
-            <div class="vendedor-titulo">
-              <span>👤 ${v.toUpperCase()}</span>
-              <span>Q ${subtotalVendedor.toFixed(2)}</span>
-            </div>
-            <div style="font-size: 12px; color: #aaa; margin-bottom: 6px;">
-              Tiquetes emitidos en app: <strong>${cantTiquetesVendedor}</strong>
-            </div>
-            <table class="tabla-pedidos">
-              <tr>
-                <th>Tq #</th>
-                <th>Cliente / Receptor</th>
-                <th>Total</th>
-                <th>Fecha</th>
-              </tr>
-              ${filasTabla}
-            </table>
-          </div>
+        html += `
+          <div class="vendedor-seccion">
+            <h3>
+              <span>👤 ${v.nombre}</span>
+              <span style="font-size: 14px; color: var(--accent-color);">Total: Q ${totalVendedor.toFixed(2)}</span>
+            </h3>
         `;
+
+        if (historial.length === 0) {
+          html += `<div class="sin-datos">No hay tiquetes registrados aún.</div>`;
+        } else {
+          html += `<div style="max-height: 200px; overflow-y: auto; margin-bottom: 10px;">`;
+          historial.slice().reverse().forEach(t => {
+            html += `
+              <div class="ticket-item">
+                <div>
+                  <strong>Tiquete #${t.numero || 'S/N'}</strong> - ${t.cliente || 'Cliente general'}<br>
+                  <span style="font-size: 11px; color: #aaa;">${t.fecha || ''}</span>
+                </div>
+                <div style="font-weight: bold; color: var(--accent-color);">Q ${parseFloat(t.total).toFixed(2)}</div>
+              </div>
+            `;
+          });
+          html += `</div>`;
+          html += `<button class="btn-limpiar" onclick="limpiarHistorial('${v.key}')">🗑️ Borrar historial de ${v.nombre}</button>`;
+        }
+
+        html += `</div>`;
       });
 
-      document.getElementById('gl-tiquetes').innerText = totalGlobalTiquetes;
-      document.getElementById('gl-monto').innerText = totalGlobalMonto.toFixed(2);
-      document.getElementById('contenedor-vendedores').innerHTML = contenedorHtml;
+      contenedor.innerHTML = html;
+      document.getElementById('monto-global').innerText = montoGlobal.toFixed(2);
     }
 
-    function limpiarHistorialAdmin() {
-      if (confirm("¿Está seguro de limpiar todo el historial de tiquetes guardados? Haga esto únicamente al iniciar un nuevo mes de operaciones.")) {
-        vendedores.forEach(v => {
-          localStorage.removeItem('historial_ventas_' + v);
-        });
-        cargarDatosAdmin();
-        alert("Historial reiniciado con éxito.");
+    function limpiarHistorial(key) {
+      if (confirm("¿Está seguro de borrar el historial de este vendedor?")) {
+        localStorage.removeItem(key);
+        cargarPanel();
       }
     }
 
-    document.addEventListener('DOMContentLoaded', cargarDatosAdmin);
+    document.addEventListener('DOMContentLoaded', cargarPanel);
   </script>
 </body>
 </html>
