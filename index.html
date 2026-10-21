@@ -25,7 +25,7 @@
         .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
-        /* Cuadro de resumen del pedido */
+        /* Cuadro de Resumen del Pedido */
         .cart-box {
             background-color: #1a1a1a;
             border: 1px solid #ff9800;
@@ -39,7 +39,7 @@
         .btn-send { background-color: #25D366; color: #fff; width: 100%; padding: 10px; font-size: 14px; border: none; border-radius: 5px; font-weight: bold; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
-<body>
+<body onload="renderCart()">
 
     <h1>🛒 Catálogo DIPROSA - ESTUARDO</h1>
 
@@ -80,10 +80,10 @@
         </div>
     </div>
 
-    <!-- Resumen del pedido -->
-    <div class="cart-box">
+    <!-- CUADRO CON OCULTACIÓN DIRECTA (style="display: none;") -->
+    <div class="cart-box" id="cartContainer" style="display: none;">
         <h3>📋 Resumen del Pedido</h3>
-        <div id="cartItems" style="font-style: italic; color: #888; font-size: 12px;">No ha agregado productos aún.</div>
+        <div id="cartItems"></div>
         <div class="cart-total">Total: Q <span id="cartTotal">0.00</span></div>
         <button class="btn-send" onclick="enviarPedido()">📲 Confirmar y Enviar por WhatsApp</button>
     </div>
@@ -104,12 +104,16 @@
         function renderCart() {
             const container = document.getElementById("cartItems");
             const totalEl = document.getElementById("cartTotal");
+            const box = document.getElementById("cartContainer");
 
             if (cart.length === 0) {
-                container.innerHTML = `<span style="font-style: italic; color: #888;">No ha agregado productos aún.</span>`;
+                box.style.display = "none";
+                container.innerHTML = "";
                 totalEl.innerText = "0.00";
                 return;
             }
+
+            box.style.display = "block";
 
             let html = "";
             let total = 0;
@@ -125,15 +129,11 @@
         }
 
         function enviarPedido() {
-            if (cart.length === 0) {
-                alert("El carrito está vacío. Agregue algún producto primero.");
-                return;
-            }
+            if (cart.length === 0) return;
 
             const cliente = document.getElementById("clienteNombre").value || "Cliente General";
             const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-            // Guardar en la memoria local para el panel de administración
             const nuevoTiquete = {
                 fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                 cliente: cliente,
@@ -145,17 +145,15 @@
             tiquetesGuardados.push(nuevoTiquete);
             localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
 
-            // Generar mensaje para WhatsApp
             let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
             cart.forEach(item => {
                 mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
-            // Limpiar formulario y carrito
             cart = [];
-            renderCart();
             document.getElementById("clienteNombre").value = "";
+            renderCart();
 
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
             window.open(url, '_blank');
