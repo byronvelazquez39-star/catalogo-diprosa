@@ -132,47 +132,43 @@
     </div>
   </div>
 
-  <!-- MODAL SUELDO DE ESTUARDO (CON MOTO) -->
+  <!-- MODAL SUELDO DINÁMICO EN TIEMPO REAL -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina y Proyección - ESTUARDO</h3>
+        <h3>💵 Nómina y Proyección en Tiempo Real</h3>
+        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando avance actual...</p>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
-        <div class="sueldo-row"><span>Depreciación de Moto:</span><strong style="color:#34d399;">Q500.00 (Fin de Mes)</strong></div>
-        <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><span>Q133.33</span></div>
-        <div class="sueldo-row"><span>1ª Quincena (Día 15):</span><span style="color:#34d399;">Q1,800.00 (Ya Pagada)</span></div>
-        <div class="sueldo-row"><span>2ª Quincena Base:</span><span>Q1,800.00</span></div>
+        <div class="sueldo-row"><span>Depreciación de Moto:</span><strong style="color:#34d399;">Q500.00</strong></div>
+        <div class="sueldo-row"><span>1ª Quincena (Pagada):</span><span style="color:#34d399;">Q1,800.00</span></div>
         
-        <div class="sueldo-row" style="background:#2a1a1a; padding:6px; border-radius:6px; border:1px solid #e74c3c; margin-top:4px;">
-          <span style="color:#f87171;">Ritmo actual (Sin cambio):</span>
-          <strong style="color:#f87171;">Recibes fin de mes: Q641.20</strong>
+        <div class="sueldo-row" style="background:#1e293b; padding:6px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
+          <span style="color:#38bdf8; font-weight:bold;">Ventas Realizadas Hoy:</span>
+          <strong style="color:#38bdf8;" id="sueldo-ventas-hoy">Q 0.00</strong>
+        </div>
+        <div class="sueldo-row" style="background:#1e293b; padding:6px; border-radius:6px; border:1px solid #0284c7; margin-top:4px;">
+          <span style="color:#38bdf8; font-weight:bold;">Tiquetes Emitidos Hoy:</span>
+          <strong style="color:#38bdf8;" id="sueldo-tiquetes-hoy">0 Tiquetes</strong>
+        </div>
+
+        <div class="sueldo-row" style="background:#2a1a1a; padding:6px; border-radius:6px; border:1px solid #e74c3c; margin-top:6px;">
+          <span style="color:#f87171;">Proyección 2ª Quincena (Base):</span>
+          <strong style="color:#f87171;" id="sueldo-quincena-dinamica">Q1,800.00</strong>
         </div>
 
         <hr style="border:0; border-top:1px dashed #374151; margin:10px 0;">
-        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 TOTAL A RECIBIR EN FIN DE MES SEGÚN ESFUERZO:</span>
+        <span style="font-weight:bold; color:#38bdf8; font-size:11px;">🚀 ESTADO DE META Y COMISIONES ACTUALES:</span>
 
-        <div class="proyeccion-opcion">
-          <div style="font-weight:bold; color:#38bdf8;">1. Esfuerzo Medio (10 tiquetes/día):</div>
-          <div>• Neto a Recibir Fin de Mes: <strong style="color:#38bdf8; font-size:13px;">Q1,033.32</strong></div>
-          <div style="font-size:11px; color:#aaa;">(Incluye 2ª Q + Dep. Moto Q500 + Ajuste)</div>
+        <div id="sueldo-info-meta" style="margin-top: 6px; font-size: 11px; color: #cbd5e1; line-height: 1.4;">
+          <!-- Se actualiza dinámicamente -->
         </div>
 
-        <div class="proyeccion-opcion verde">
-          <div style="font-weight:bold; color:#25d366;">2. Gran Esfuerzo (15 tiquetes/día):</div>
-          <div>• Neto a Recibir Fin de Mes: <strong style="color:#25d366; font-size:13px;">Q1,588.90</strong></div>
-          <div style="font-size:11px; color:#aaa;">(Incluye 2ª Q + Dep. Moto Q500 + Ajuste)</div>
-        </div>
-
-        <div class="proyeccion-opcion premio">
-          <div style="font-weight:bold; color:#f59e0b;">🎁 3. SUPERAR META (+Q81,000.00 Ventas):</div>
-          <div>• 2ª Quincena Completa: <strong>Q1,800.00</strong></div>
-          <div>• <strong>¡PREMIO BONO EN EFECTIVO: + Q500.00!</strong></div>
-          <div>• <strong>Depreciación de Moto: Q500.00</strong></div>
-          <div style="font-size:11px; color:#fcd34d;">+ 2.5% de Comisión sobre el excedente de ventas</div>
-          <div style="font-size:13px; font-weight:bold; color:#25d366; margin-top:4px; border-top:1px dashed #f59e0b; padding-top:3px;">
-            💰 TOTAL EN MANO (FIN DE MES): Q2,800.00 + COMISIONES
+        <div class="proyeccion-opcion premio" style="margin-top: 8px;">
+          <div style="font-weight:bold; color:#f59e0b;">💰 TOTAL ESTIMADO EN MANO (FIN DE MES):</div>
+          <div style="font-size:15px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">
+            Q2,300.00 + Comisiones
           </div>
         </div>
       </div>
@@ -310,7 +306,44 @@
       }
     }
 
-    function abrirModalSueldo() { abrirModal('modal-sueldo'); }
+    function abrirModalSueldo() {
+      actualizarVistaSueldoDinamico();
+      abrirModal('modal-sueldo');
+    }
+
+    function actualizarVistaSueldoDinamico() {
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      
+      let totalVentasReal = tiquetesGuardados.reduce((acc, t) => acc + (parseFloat(t.total) || 0), 0);
+      let totalTiquetes = tiquetesGuardados.length;
+
+      document.getElementById('sueldo-ventas-hoy').innerText = "Q " + totalVentasReal.toFixed(2);
+      document.getElementById('sueldo-tiquetes-hoy').innerText = totalTiquetes + " Tiquetes";
+
+      let metaVentas = 81000.00;
+      let superoMeta = totalVentasReal >= metaVentas;
+      let baseQuincena = 1800.00;
+      let depreciacionMoto = 500.00;
+
+      let infoMetaHtml = "";
+      let totalFinal = baseQuincena + depreciacionMoto;
+
+      if (superoMeta) {
+        let excedente = totalVentasReal - metaVentas;
+        let comisionExcedente = excedente * 0.025;
+        totalFinal += 500.00 + comisionExcedente; // Bono meta Q500 + comisión
+        document.getElementById('sueldo-estado-actual').innerText = "🌟 ¡FELICIDADES! META SUPERADA";
+        infoMetaHtml = `• ¡Meta de Q81,000 alcanzada!<br>• <strong>¡Bono en efectivo ganado: +Q500.00!</strong><br>• Comisión extra (2.5% sobre excedente): <span style="color:#34d399;">Q${comisionExcedente.toFixed(2)}</span>`;
+      } else {
+        let faltante = metaVentas - totalVentasReal;
+        document.getElementById('sueldo-estado-actual').innerText = "⚡ En ruta - Acumulando para la meta";
+        infoMetaHtml = `• Faltan <strong>Q${faltante.toFixed(2)}</strong> para activar el bono de Q500 + 2.5% de comisión.<br>• ¡Sigue sumando tiquetes en tu ruta!`;
+      }
+
+      document.getElementById('sueldo-info-meta').innerHTML = infoMetaHtml;
+      document.getElementById('sueldo-total-final').innerText = "Q " + totalFinal.toFixed(2) + (superoMeta ? " + Comisiones" : " (Base + Moto)");
+    }
 
     function enviarCorteDiarioWA() {
       let tiquetesGuardados = [];
