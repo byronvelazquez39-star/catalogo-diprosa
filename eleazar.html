@@ -134,12 +134,12 @@
     </div>
   </div>
 
-  <!-- MODAL SUELDO ELEAZAR (BASE Q3,500 + Q500 MOTO) -->
+  <!-- MODAL SUELDO ELEAZAR (CON 3 NIVELES DE VISUALIZACIÓN) -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>💵 Rendimiento y Sueldo Diario</h3>
-        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Evaluando paralelos del día...</p>
+        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Evaluando rendimiento del día...</p>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
@@ -158,25 +158,24 @@
           </select>
         </div>
 
-        <div class="sueldo-row" style="background:#1e293b; padding:6px; border-radius:6px; border:1px solid #0284c7; margin-top:4px;">
-          <span style="color:#38bdf8; font-weight:bold;">Ventas Acumuladas Hoy:</span>
-          <strong style="color:#38bdf8;" id="sueldo-ventas-hoy">Q 0.00</strong>
-        </div>
-        <div class="sueldo-row" style="background:#1e293b; padding:6px; border-radius:6px; border:1px solid #0284c7; margin-top:4px;">
-          <span style="color:#38bdf8; font-weight:bold;">Tiquetes Emitidos Hoy:</span>
-          <strong style="color:#38bdf8;" id="sueldo-tiquetes-hoy">0 Tiquetes</strong>
+        <!-- 1. GANANCIA SOLO EL DÍA DE HOY -->
+        <div class="sueldo-row" style="background:#1e293b; padding:8px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
+          <span style="color:#38bdf8; font-weight:bold;">☀️ Lo ganado solo el día de hoy:</span>
+          <strong style="color:#38bdf8; font-size:14px;" id="sueldo-dia-hoy">Q 0.00</strong>
         </div>
 
-        <div class="sueldo-row" style="background:#0f291e; padding:8px; border-radius:6px; border:1px solid #25d366; margin-top:8px;">
-          <span style="color:#25d366; font-weight:bold;">🌞 Lo que llevas ganado hoy:</span>
-          <strong style="color:#25d366; font-size:15px;" id="sueldo-dia-ganado">Q 0.00</strong>
+        <!-- 2. GANANCIA ACUMULADA HASTA HOY EN EL MES -->
+        <div class="sueldo-row" style="background:#0f291e; padding:8px; border-radius:6px; border:1px solid #25d366; margin-top:6px;">
+          <span style="color:#25d366; font-weight:bold;">📅 Ganado acumulado en el mes:</span>
+          <strong style="color:#25d366; font-size:14px;" id="sueldo-mes-acumulado">Q 0.00</strong>
         </div>
 
         <div id="sueldo-info-paralelos" style="margin-top: 8px; font-size: 11px; color: #cbd5e1; line-height: 1.4; background: #1a1a1a; padding: 8px; border-radius: 6px; border-left: 3px solid #ff9800;"></div>
 
+        <!-- 3. PROYECCIÓN FIN DE MES SEGÚN RITMO -->
         <div class="proyeccion-opcion premio" style="margin-top: 8px;">
-          <div style="font-weight:bold; color:#f59e0b;">💰 PROYECCIÓN TOTAL FIN DE MES:</div>
-          <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">Q2,250.00</div>
+          <div style="font-weight:bold; color:#f59e0b;">💰 PROYECCIÓN FIN DE MES (Al ritmo actual):</div>
+          <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">Q 0.00</div>
         </div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
@@ -198,12 +197,10 @@
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
-    // Inyección directa y limpia del acumulado base al 21 de octubre (Q36,933.50 y 128 tiquetes)
     document.addEventListener('DOMContentLoaded', () => {
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
 
-      // Si no existe el registro base del mes, lo creamos limpio con los valores fijos
       let hasBase = tiquetesGuardados.some(t => t.esAcumuladoBase);
       if (!hasBase) {
         tiquetesGuardados.unshift({
@@ -319,9 +316,7 @@
         if (t.esAcumuladoBase) {
           htmlTiquetes += `
             <div class="ticket-historial-card" style="border-left: 3px solid #27ae60;">
-              <div class="ticket-historial-head">
-                <span>📊 BASE ACUMULADA AL 21 OCT</span>
-              </div>
+              <div class="ticket-historial-head"><span>📊 BASE ACUMULADA AL 21 OCT</span></div>
               <div style="color:#34d399;">Ventas: Q${t.total.toFixed(2)} | Tiquetes: ${t.tiquetesCount}</div>
             </div>
           `;
@@ -360,43 +355,69 @@
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
       
-      let totalVentasReal = 0;
+      // Ventas de hoy (tiquetes nuevos emitidos hoy)
+      let ventasHoy = 0;
+      let tiquetesHoyCount = 0;
       tiquetesGuardados.forEach(t => {
-        if (t.esAcumuladoBase) totalVentasReal += t.total;
-        else if (t.total) totalVentasReal += parseFloat(t.total);
+        if (!t.esAcumuladoBase && t.total) {
+          ventasHoy += parseFloat(t.total);
+          tiquetesHoyCount += 1;
+        }
       });
 
-      document.getElementById('sueldo-ventas-hoy').innerText = "Q " + totalVentasReal.toFixed(2);
-      document.getElementById('sueldo-tiquetes-hoy').innerText = "128+ Tiquetes";
-
+      let horasTrabajadas = parseFloat(document.getElementById('select-horas-trabajadas').value) || 7;
       let cuotaVentasDia = 3000.00;
-      let valorDiaBase = 129.63; 
-      let diaGanadoReal = valorDiaBase;
+      let valorDiaBase = 129.63; // Q3,500 / 27 días
 
-      document.getElementById('sueldo-estado-actual').innerText = "⭐ ACUMULADO DEL MES CARGADO";
-      let infoParalelosHtml = `• <strong>Ventas Totales Mes:</strong> Q${totalVentasReal.toFixed(2)}.<br>• <strong>Jornada Acumulada:</strong> 119 Horas registradas.<br>• El sistema mantiene tu base histórica y calcula tu ruta al día.`;
+      // 1. Ganancia solo el día de hoy
+      let ganadoHoy = 0;
+      if (ventasHoy === 0) {
+        ganadoHoy = 0.00;
+      } else if (ventasHoy >= cuotaVentasDia) {
+        ganadoHoy = valorDiaBase;
+      } else {
+        let prop = (ventasHoy / cuotaVentasDia) * valorDiaBase;
+        ganadoHoy = prop + 10.00 + 14.50; // Rescates
+        if (ganadoHoy > valorDiaBase) ganadoHoy = valorDiaBase;
+      }
 
-      document.getElementById('sueldo-dia-ganado').innerText = "Q " + diaGanadoReal.toFixed(2);
+      // 2. Ganancia acumulada en el mes (Base proporcional a los días transcurridos, ej. al 21 de oct = ~21 días de base ganados + moto + ajustes)
+      let diasTranscurridos = 21; 
+      let sueldoBaseMensual = 3500.00;
+      let motoMensual = 500.00;
+      let ganadoAcumuladoMes = (sueldoBaseMensual / 27) * diasTranscurridos + ganadoHoy;
+
+      // 3. Proyección fin de mes basada en el ritmo de ventas acumuladas (Q36,933.50 al 21 de oct)
+      let ventasAcumuladasTotal = 36933.50 + ventasHoy;
+      let promedioVentaDiaria = ventasAcumuladasTotal / diasTranscurridos;
+      let proyeccionVentasMes = promedioVentaDiaria * 27; // Proyección total de ventas del mes
+      
+      let metaMensualEsperada = 81000.00;
+      let proyeccionSueldoFinal = sueldoBaseMensual + motoMensual;
+
+      if (proyeccionVentasMes >= metaMensualEsperada) {
+        proyeccionSueldoFinal += 500.00; // Bono por meta alcanzada
+        document.getElementById('sueldo-estado-actual').innerText = "⭐ ¡RITMO DE META ALCANZADA!";
+      } else {
+        document.getElementById('sueldo-estado-actual').innerText = "⚡ EVALUACIÓN DE RUTA Y RITMO";
+      }
+
+      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ganadoHoy.toFixed(2);
+      document.getElementById('sueldo-mes-acumulado').innerText = "Q " + ganadoAcumuladoMes.toFixed(2);
+      document.getElementById('sueldo-total-final').innerText = "Q " + proyeccionSueldoFinal.toFixed(2) + " (Base + Moto + Bonos)";
+
+      let infoParalelosHtml = `• <strong>Ventas Hoy:</strong> Q${ventasHoy.toFixed(2)} (${tiquetesHoyCount} tiquetes).<br>• <strong>Ventas Totales Mes:</strong> Q${ventasAcumuladasTotal.toFixed(2)}.<br>• <strong>Ritmo Promedio:</strong> Q${promedioVentaDiaria.toFixed(2)} diarios.`;
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
-
-      let baseQuincena = 1750.00;
-      let depreciacionMoto = 500.00;
-      let totalFinalMes = baseQuincena + depreciacionMoto + 500.00; // Con meta alcanzada por buen acumulado
-
-      document.getElementById('sueldo-total-final').innerText = "Q " + totalFinalMes.toFixed(2) + " + Comisiones";
     }
 
     function enviarCorteDiarioWA() {
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
-      let totalVentasReal = 0;
-      tiquetesGuardados.forEach(t => {
-        if (t.esAcumuladoBase) totalVentasReal += t.total;
-        else if (t.total) totalVentasReal += parseFloat(t.total);
-      });
+      let totalVentasReal = 36933.50;
+      tiquetesGuardados.forEach(t => { if (!t.esAcumuladoBase && t.total) totalVentasReal += parseFloat(t.total); });
 
-      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Mis acumulados al 21 de octubre son Q${totalVentasReal.toFixed(2)} con 128 tiquetes y 119 horas en ruta.`;
-      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=${encodeURIComponent(msg)}`, '_blank');
+      let msg = `📊 *REPORTE TRES PARALELOS - ELEAZAR*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)} con 128+ tiquetes y 119 horas en ruta.`;
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
     }
 
     function abrirTicket() {
