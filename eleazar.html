@@ -142,9 +142,9 @@
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Valor Día Laboral (Q129.62):</span><strong>Día 21 / 27</strong></div>
-        <div class="sueldo-row"><span>Sueldo Proporcional (21d):</span><strong style="color:#38bdf8;" id="sueldo-proporcional-21">Q 2,722.22</strong></div>
+        <div class="sueldo-row"><span>Sueldo Proporcional (21d):</span><strong style="color:#38bdf8;" id="sueldo-proporcional-21">Q 2,722.02</strong></div>
         <div class="sueldo-row"><span>Menos 1ra Quincena Pagada:</span><strong style="color:#ef4444;">- Q 1,750.00</strong></div>
-        <div class="sueldo-row"><span>Depreciación Moto Proporcional (21d):</span><strong style="color:#34d399;" id="sueldo-moto-21">Q 388.88</strong></div>
+        <div class="sueldo-row"><span>Depreciación Moto Proporcional (21d):</span><strong style="color:#34d399;" id="sueldo-moto-21">Q 388.71</strong></div>
         
         <!-- 1. VENTAS DE HOY -->
         <div class="sueldo-row" style="background:#1e293b; padding:8px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
@@ -359,12 +359,12 @@
       let tiquetesTotalesMes = 128 + tiquetesHoyCount;
       let horasTotalesMes = 119; 
 
-      let diasTrabajados = 21; // Al 21 de Octubre
+      let diasTrabajados = 21; 
       let valorDia = 129.62;
-      let valorMotoDia = 18.51; // Q500 / 27 días
+      let valorMotoDia = 18.51; 
 
-      let sueldoProporcional = diasTrabajados * valorDia; // Q2,722.22
-      let motoProporcional = diasTrabajados * valorMotoDia; // Q388.88
+      let sueldoProporcional = diasTrabajados * valorDia; // Q 2,722.02
+      let motoProporcional = diasTrabajados * valorMotoDia; // Q 388.71
 
       let metaVentasEsperada = (81000 / 27) * diasTrabajados;
       let metaTiquetesEsperada = (324 / 27) * diasTrabajados;
@@ -374,7 +374,6 @@
       let difTiquetes = tiquetesTotalesMes - metaTiquetesEsperada;
       let difHoras = horasTotalesMes - metaHorasEsperada;
 
-      // Colchones y déficits
       let colchonVentasQ = difVentas > 0 ? difVentas : 0;
       let colchonTiquetesQ = difTiquetes > 0 ? (difTiquetes / 12) * valorDia : 0;
       let totalColchon = colchonVentasQ + colchonTiquetesQ;
@@ -385,8 +384,11 @@
 
       let ajusteNeto = totalColchon - totalDeficit;
 
-      // Cálculo del segundo pago proporcional al día: Sueldo Proporcional (2,722.22) - 1ra Quincena (1,750) + Moto Proporcional (388.88) ± Ajustes
+      // Cálculo del segundo pago limpio y protegido contra negativos
       let segundoPagoReal = sueldoProporcional - 1750.00 + motoProporcional + ajusteNeto;
+      if (segundoPagoReal < 0) {
+        segundoPagoReal = 0.00;
+      }
 
       document.getElementById('sueldo-proporcional-21').innerText = "Q " + sueldoProporcional.toFixed(2);
       document.getElementById('sueldo-moto-21').innerText = "Q " + motoProporcional.toFixed(2);
@@ -395,10 +397,10 @@
 
       let infoParalelosHtml = `• <strong>Ventas Mes:</strong> Q${ventasTotalesMes.toFixed(2)}<br>`;
       infoParalelosHtml += `• <strong>Tiquetes Mes:</strong> ${tiquetesTotalesMes} | <strong>Horas:</strong> ${horasTotalesMes} hrs<br>`;
-      infoParalelosHtml += `• <i>Cálculo basado en 21 días laborados con ajuste de paralelos en tiempo real.</i>`;
+      infoParalelosHtml += `• <i>Cálculo proporcional al día 21 con control seguro.</i>`;
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
 
-      let proyeccionFinMes = 3500.00 + 500.00; // Base + Moto
+      let proyeccionFinMes = 3500.00 + 500.00; 
       if (ventasTotalesMes >= 81000) proyeccionFinMes += 500.00;
       document.getElementById('sueldo-total-final').innerText = "Q " + proyeccionFinMes.toFixed(2);
       document.getElementById('sueldo-estado-actual').innerText = "⚡ NÓMINA PROPORCIONAL AL DÍA 21";
