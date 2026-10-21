@@ -180,6 +180,13 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // LIMPIEZA FORZADA DE CACHÉ PARA ACTUALIZAR EL NUEVO SALDO REAL
+      let versionGuardada = localStorage.getItem("version_jorge_v2");
+      if (!versionGuardada) {
+        localStorage.removeItem(ticketsKey);
+        localStorage.setItem("version_jorge_v2", "activo");
+      }
+
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
 
@@ -291,7 +298,7 @@
         if (t.esAcumuladoBase) {
           htmlTiquetes += `
             <div class="ticket-historial-card" style="border-left: 3px solid #27ae60;">
-              <div class="ticket-historial-head"><span>📊 BASE ACUMULADA AL 20 OCT (196 Tq / 119 Hrs)</span></div>
+              <div class="ticket-historial-head"><span>📊 BASE AL 20 OCT (196 Tq / 119 Hrs)</span></div>
               <div style="color:#34d399;">Ventas: Q${t.total.toFixed(2)}</div>
             </div>
           `;
