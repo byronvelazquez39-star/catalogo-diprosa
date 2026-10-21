@@ -113,7 +113,7 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Estado de Metas - JORGE</h3>
-        <p style="font-size: 11px; color: #888;">Control de Meta Q81,000 (Al 21 Oct - Día 21)</p>
+        <p style="font-size: 11px; color: #888;">Control de Meta Q81,000 (Al 20 Oct - Día 20)</p>
       </div>
       <div class="meta-resumen-box">
         <h4>📋 REGLA DE HIERRO (VENTAS)</h4>
@@ -136,7 +136,7 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>💵 Nómina Proporcional en Tiempo Real</h3>
-        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando avance diario (Día 21 de 27)...</p>
+        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando avance diario...</p>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
@@ -187,10 +187,10 @@
       if (!hasBase) {
         tiquetesGuardados.unshift({
           esAcumuladoBase: true,
-          fecha: "Al 21 Octubre",
+          fecha: "Al 20 Octubre",
           cliente: "Acumulado Mes Anterior",
-          total: 36933.50,
-          tiquetesCount: 128,
+          total: 62490.00,
+          tiquetesCount: 196,
           horasCount: 119
         });
         localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
@@ -291,7 +291,7 @@
         if (t.esAcumuladoBase) {
           htmlTiquetes += `
             <div class="ticket-historial-card" style="border-left: 3px solid #27ae60;">
-              <div class="ticket-historial-head"><span>📊 BASE ACUMULADA AL 21 OCT</span></div>
+              <div class="ticket-historial-head"><span>📊 BASE ACUMULADA AL 20 OCT (196 Tq / 119 Hrs)</span></div>
               <div style="color:#34d399;">Ventas: Q${t.total.toFixed(2)}</div>
             </div>
           `;
@@ -338,10 +338,10 @@
         }
       });
 
-      let ventasTotalesMes = 36933.50 + ventasHoy;
+      let ventasTotalesMes = 62490.00 + ventasHoy;
       let diasTrabajados = 21, sueldoBase = 3600;
-      let valorDia = sueldoBase / 27; // Q 133.33 por día
-      let sueldoProporcional = diasTrabajados * valorDia; // Q 2,799.93
+      let valorDia = sueldoBase / 27; 
+      let sueldoProporcional = diasTrabajados * valorDia; 
 
       let penalizacionDescuentoQ = 0;
       let metaVentas = 81000;
@@ -351,7 +351,6 @@
         let diasDeDescuento = deficitVentas / 3000;
         penalizacionDescuentoQ = diasDeDescuento * valorDia;
 
-        // TOPE PROTECTOR 35% BASADO EN SU SUELDO BASE DE Q3,600 (Q1,260)
         let topeMaximoDescuento = sueldoBase * 0.35;
         if (penalizacionDescuentoQ > topeMaximoDescuento) {
           penalizacionDescuentoQ = topeMaximoDescuento;
@@ -382,7 +381,7 @@
     function enviarCorteDiarioWA() {
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
-      let totalVentasReal = 36933.50;
+      let totalVentasReal = 62490.00;
       tiquetesGuardados.forEach(t => { if (!t.esAcumuladoBase && t.total) totalVentasReal += parseFloat(t.total); });
 
       let msg = `📊 *REPORTE VENTAS - JORGE*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)}.`;
