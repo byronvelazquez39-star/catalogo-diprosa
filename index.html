@@ -11,7 +11,7 @@
         label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
         input { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #444; background-color: #222; color: #fff; box-sizing: border-box; font-size: 13px; }
         
-        /* Buscador destacado */
+        /* Campo de Búsqueda Destacado */
         .search-box {
             border: 1px solid #ff9800 !important;
             background-color: #1a1a1a !important;
@@ -31,7 +31,7 @@
         .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
 
-        /* Cuadro de Resumen del Pedido */
+        /* Cuadro de Resumen */
         .cart-box {
             background-color: #1a1a1a;
             border: 1px solid #ff9800;
@@ -54,18 +54,18 @@
         <input type="text" id="clienteNombre" placeholder="Ej. Tienda La Guadalupana">
     </div>
 
-    <!-- Campo de Búsqueda General del Catálogo -->
+    <!-- BUSCADOR DEL CATÁLOGO -->
     <div class="input-group">
-        <label for="buscarProducto" style="color: #ff9800;">🔍 Buscar en todo el catálogo:</label>
-        <input type="text" id="buscarProducto" class="search-box" placeholder="Escriba el nombre del producto..." oninput="filtrarProductos()">
+        <label for="buscarProducto" style="color: #ff9800;">🔍 Buscar Producto:</label>
+        <input type="text" id="buscarProducto" class="search-box" placeholder="Escriba para filtrar todo el catálogo..." oninput="filtrarProductos()">
     </div>
 
     <h3 style="font-size: 13px; color: #aaa; margin: 8px 0 5px 0;">Productos Disponibles</h3>
     
-    <!-- Lista donde se muestran TODOS los productos filtrados por la búsqueda -->
+    <!-- Lista de todos los productos -->
     <div id="productsList"></div>
 
-    <!-- Cuadro del Resumen del Pedido (Solo visible al agregar ítems) -->
+    <!-- Resumen del Pedido (Oculto al inicio) -->
     <div class="cart-box" id="cartContainer" style="display: none;">
         <h3>📋 Resumen del Pedido</h3>
         <div id="cartItems"></div>
@@ -84,7 +84,7 @@
 
         let cart = [];
 
-        // Función que renderiza la lista de productos filtrando sobre 'productos'
+        // Filtra y muestra los productos del catálogo
         function renderProducts(filtro = '') {
             const listEl = document.getElementById("productsList");
             listEl.innerHTML = '';
@@ -92,7 +92,7 @@
             const filtrados = productos.filter(p => p.name.toLowerCase().includes(filtro.toLowerCase()));
 
             if (filtrados.length === 0) {
-                listEl.innerHTML = `<div style="color: #888; font-style: italic; font-size: 12px; text-align: center; padding: 10px;">No se encontraron productos en el catálogo.</div>`;
+                listEl.innerHTML = `<div style="color: #888; font-style: italic; font-size: 12px; text-align: center; padding: 10px;">No se encontraron productos.</div>`;
                 return;
             }
 
@@ -109,7 +109,6 @@
             });
         }
 
-        // Filtra los productos del catálogo al escribir en la casilla
         function filtrarProductos() {
             const texto = document.getElementById("buscarProducto").value;
             renderProducts(texto);
@@ -158,23 +157,13 @@
             const cliente = document.getElementById("clienteNombre").value || "Cliente General";
             const totalVenta = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
 
-            const nuevoTiquete = {
-                fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                cliente: cliente,
-                items: cart.map(item => ({ name: item.name, qty: item.qty, price: item.price })),
-                total: totalVenta
-            };
-
-            let tiquetesGuardados = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || [];
-            tiquetesGuardados.push(nuevoTiquete);
-            localStorage.setItem('diprosa_tickets_estuardo', JSON.stringify(tiquetesGuardados));
-
             let mensaje = `DISTRIBUIDORA DIPROSA\n👤 Vendedor: ESTUARDO\n👤 Cliente: ${cliente}\n------------------------------\n`;
             cart.forEach(item => {
                 mensaje += `${item.name} (x${item.qty}) = Q${(item.price * item.qty).toFixed(2)}\n`;
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
+            // Resetear el catálogo
             cart = [];
             document.getElementById("clienteNombre").value = "";
             document.getElementById("buscarProducto").value = "";
