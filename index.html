@@ -141,6 +141,7 @@
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
+        <div class="sueldo-row"><span>Depreciación de Moto:</span><strong style="color:#34d399;">Q500.00 (Fin de Mes)</strong></div>
         <div class="sueldo-row"><span>Valor Día Laboral (27d):</span><strong style="color:#34d399;">Q133.33</strong></div>
         
         <div class="sueldo-row" style="background:#1e293b; padding:6px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
@@ -157,15 +158,11 @@
           <strong style="color:#25d366; font-size:14px;" id="sueldo-dia-ganado">Q 0.00</strong>
         </div>
 
-        <div id="sueldo-info-paralelos" style="margin-top: 8px; font-size: 11px; color: #cbd5e1; line-height: 1.4; background: #1a1a1a; padding: 8px; border-radius: 6px;">
-          <!-- Análisis de paralelos en tiempo real -->
-        </div>
+        <div id="sueldo-info-paralelos" style="margin-top: 8px; font-size: 11px; color: #cbd5e1; line-height: 1.4; background: #1a1a1a; padding: 8px; border-radius: 6px;"></div>
 
         <div class="proyeccion-opcion premio" style="margin-top: 8px;">
           <div style="font-weight:bold; color:#f59e0b;">💰 PROYECCIÓN TOTAL FIN DE MES:</div>
-          <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">
-            Q2,300.00
-          </div>
+          <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">Q2,300.00</div>
         </div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
@@ -270,7 +267,6 @@
       document.getElementById('meta-tiquetes-real').innerText = tiquetesGuardados.length;
       document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
 
-      // Evaluación del paralelo diario de cuota (Ej. Cuota diaria esperada proporcional o meta base Q3,000 aprox)
       let cuotaDiariaMeta = 3000.00; 
       let jornadaEstado = "🟢 Al día (Ruta activa)";
       if (totalVentasReal >= cuotaDiariaMeta) {
@@ -328,21 +324,18 @@
       document.getElementById('sueldo-ventas-hoy').innerText = "Q " + totalVentasReal.toFixed(2);
       document.getElementById('sueldo-tiquetes-hoy').innerText = totalTiquetes + " Tiquetes";
 
-      // Lógica de cálculo diario según cuota (Q3,000 diarios de referencia o proporcional)
       let cuotaDiariaReferencia = 3000.00;
-      let valorDiaBase = 133.33; // Q3,600 / 27 días
+      let valorDiaBase = 133.33; 
       
       let diaGanadoReal = 0;
       let infoParalelosHtml = "";
 
       if (totalVentasReal >= cuotaDiariaReferencia) {
-        // Si superó la cuota del día, se gana completo su día (Q133.33) o genera colchón
         diaGanadoReal = valorDiaBase;
         let excedenteVenta = totalVentasReal - cuotaDiariaReferencia;
         document.getElementById('sueldo-estado-actual').innerText = "⭐ ¡DÍA LOGRADO CON COLCHÓN!";
         infoParalelosHtml = `• <strong>¡Excelente ritmo!</strong> Cumpliste la cuota de ventas del día.<br>• Tienes un excedente de Q${excedenteVenta.toFixed(2)}, lo que cubre con creces tus horas de ruta. ¡Día limpio y ganado sin deuda!`;
       } else if (totalVentasReal > 0) {
-        // Si va en camino, calcula proporcional al esfuerzo de ventas
         let proporcion = totalVentasReal / cuotaDiariaReferencia;
         diaGanadoReal = valorDiaBase * proporcion;
         let faltante = cuotaDiariaReferencia - totalVentasReal;
@@ -356,18 +349,16 @@
       document.getElementById('sueldo-dia-ganado').innerText = "Q " + diaGanadoReal.toFixed(2);
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
 
-      // Proyección global de fin de mes
       let metaGlobal = 81000.00;
       let baseQuincena = 1800.00;
       let depreciacionMoto = 500.00;
       let totalFinalMes = baseQuincena + depreciacionMoto;
 
-      let ventasMesAprox = totalVentasReal * 27; // Proyección lineal estimada
-      if (ventasMesAprox >= metaGlobal || totalVentasReal >= 3000) {
-        totalFinalMes += 500.00; // bono
-        document.getElementById('sueldo-total-final').innerText = "Q " + totalFinalMes.toFixed(2) + " + Bono/Comisiones activas";
+      if (totalVentasReal >= metaGlobal) {
+        totalFinalMes += 500.00;
+        document.getElementById('sueldo-total-final').innerText = "Q " + totalFinalMes.toFixed(2) + " + Comisiones";
       } else {
-        document.getElementById('sueldo-total-final').innerText = "Q " + totalFinalMes.toFixed(2) + " (Base + Moto a este ritmo)";
+        document.getElementById('sueldo-total-final').innerText = "Q " + totalFinalMes.toFixed(2) + " (Base + Moto)";
       }
     }
 
@@ -411,15 +402,14 @@
       tiquetesGuardados.push(nuevoTiquete);
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
-      let subtotal =, msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ESTUARDO\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
-      // Corrigiendo detalle menor de sintaxis en el mensaje
-      let subTotalMsg = 0;
+      let subtotal = 0;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* ESTUARDO\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
       for (let k in carrito) {
         let item = carrito[k], sub = item.cantidad * item.precio;
-        subTotalMsg += sub;
+        subtotal += sub;
         msg += `${item.nombre} (x${item.cantidad}) = Q${sub.toFixed(2)}\n`;
       }
-      msg += `--------------------------------\nTOTAL: Q${subTotalMsg.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
+      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
       carrito = {};
