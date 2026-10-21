@@ -134,7 +134,7 @@
     </div>
   </div>
 
-  <!-- MODAL SUELDO EVALUADOR DE 3 PARALELOS EN TIEMPO REAL -->
+  <!-- MODAL SUELDO CORREGIDO (VENTA ZERO = Q0.00) -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
@@ -340,43 +340,37 @@
       document.getElementById('sueldo-tiquetes-hoy').innerText = totalTiquetes + " Tiquetes";
 
       let cuotaVentasDia = 3000.00;
-      let cuotaTiquetesDia = 12;
       let valorDiaBase = 133.33; 
 
       let diaGanadoReal = 0;
       let infoParalelosHtml = "";
 
-      // 1. Evaluación si logró o superó la venta en dinero
-      if (totalVentasReal >= cuotaVentasDia) {
+      // CONDICIONAL ESTRICTO: Si no hay ventas (Q0.00), el día ganado es Q0.00
+      if (totalVentasReal === 0) {
+        diaGanadoReal = 0.00;
+        document.getElementById('sueldo-estado-actual').innerText = "⏳ ESPERANDO PRIMERAS VENTAS";
+        infoParalelosHtml = `• <strong>Sin ventas aún:</strong> Tienes Q0.00 acumulados.<br>• Emite tiquetes en tu ruta para activar el cálculo de tu día laboral de Q133.33.`;
+      } else if (totalVentasReal >= cuotaVentasDia) {
         diaGanadoReal = valorDiaBase;
         let excedente = totalVentasReal - cuotaVentasDia;
         document.getElementById('sueldo-estado-actual').innerText = "⭐ ¡DÍA 100% GANADO Y LIMPIO!";
         infoParalelosHtml = `• <strong>¡Cumpliste la meta de ventas!</strong> Te ganas tu día completo de Q133.33.<br>• Tienes Q${excedente.toFixed(2)} de colchón a tu favor para fin de mes.`;
       } else {
-        // Cálculo base por ventas proporcionales
+        // Ventas mayores a 0 pero menores a Q3,000
         let basePropVenta = (totalVentasReal / cuotaVentasDia) * valorDiaBase;
         diaGanadoReal = basePropVenta;
 
         let rescateTiquetes = 0;
         let rescateHoras = 0;
 
-        // 2. Rescate por Tiquetes (Cobertura)
-        if (totalTiquetes >= 20) {
-          rescateTiquetes = 16.00; // Alta cobertura
-        } else if (totalTiquetes >= 12) {
-          rescateTiquetes = 10.00;
-        }
+        if (totalTiquetes >= 20) rescateTiquetes = 16.00;
+        else if (totalTiquetes >= 12) rescateTiquetes = 10.00;
 
-        // 3. Rescate por Horas / Jornada
-        if (horasTrabajadas >= 12) {
-          rescateHoras = 28.00; // Sobreesfuerzo de 12 horas
-        } else if (horasTrabajadas >= 7) {
-          rescateHoras = 15.00; // Disciplina de 7 horas cumplidas
-        }
+        if (horasTrabajadas >= 12) rescateHoras = 28.00;
+        else if (horasTrabajadas >= 7) rescateHoras = 15.00;
 
         diaGanadoReal += rescateTiquetes + rescateHoras;
-
-        if (diaGanadoReal > valorDiaBase) diaGanadoReal = valorDiaBase; // No sobrepasa el día base sin excedente de dinero
+        if (diaGanadoReal > valorDiaBase) diaGanadoReal = valorDiaBase;
 
         let faltanteMoney = cuotaVentasDia - totalVentasReal;
         document.getElementById('sueldo-estado-actual').innerText = "⚡ EVALUACIÓN DE TRES PARALELOS";
