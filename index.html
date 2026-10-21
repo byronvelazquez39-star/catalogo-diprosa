@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA - Estuardo</title>
+    <title>Catálogo DIPROSA - ESTUARDO</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 12px; }
         h1 { text-align: center; color: #ff9800; font-size: 16px; margin: 5px 0 10px 0; }
@@ -30,6 +30,11 @@
         .product-info strong { font-size: 13px; display: block; }
         .product-info span { font-size: 12px; color: #4CAF50; font-weight: bold; }
         .btn { background-color: #ff9800; color: #000; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        
+        /* Controles de cantidad limpios */
+        .qty-controls { display: flex; align-items: center; gap: 6px; }
+        .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .qty-num { font-size: 14px; font-weight: bold; min-width: 18px; text-align: center; }
 
         /* Cuadro de Resumen */
         .cart-box {
@@ -38,6 +43,7 @@
             border-radius: 8px;
             padding: 12px;
             margin-top: 15px;
+            margin-bottom: 30px;
         }
         .cart-box h3 { margin: 0 0 8px 0; font-size: 14px; color: #ff9800; border-bottom: 1px solid #333; padding-bottom: 5px; }
         .cart-item { font-size: 13px; margin-bottom: 4px; color: #ddd; display: flex; justify-content: space-between; }
@@ -84,7 +90,7 @@
 
         let cart = [];
 
-        // Filtra y muestra los productos del catálogo
+        // Filtra y muestra los productos del catálogo con control de cantidad
         function renderProducts(filtro = '') {
             const listEl = document.getElementById("productsList");
             listEl.innerHTML = '';
@@ -97,13 +103,25 @@
             }
 
             filtrados.forEach(p => {
+                // Ver si ya está agregado en el carrito para mostrar el contador (+ / -)
+                const itemEnCarrito = cart.find(item => item.name === p.name);
+                const cantidad = itemEnCarrito ? itemEnCarrito.qty : 0;
+
+                let botonesHtml = cantidad === 0 ? 
+                    `<button class="btn" onclick="cambiarCantidad('${p.name}', ${p.price}, 1)">+ Agregar</button>` :
+                    `<div class="qty-controls">
+                        <button class="btn-qty" onclick="cambiarCantidad('${p.name}', ${p.price}, -1)">-</button>
+                        <span class="qty-num">${cantidad}</span>
+                        <button class="btn-qty" onclick="cambiarCantidad('${p.name}', ${p.price}, 1)">+</button>
+                    </div>`;
+
                 listEl.innerHTML += `
                     <div class="product-card">
                         <div class="product-info">
                             <strong>${p.name}</strong>
                             <span>Q ${p.price.toFixed(2)}</span>
                         </div>
-                        <button class="btn" onclick="addToCart('${p.name}', ${p.price})">+ Agregar</button>
+                        <div>${botonesHtml}</div>
                     </div>
                 `;
             });
@@ -114,13 +132,20 @@
             renderProducts(texto);
         }
 
-        function addToCart(name, price) {
+        function cambiarCantidad(name, price, delta) {
             const existing = cart.find(item => item.name === name);
             if (existing) {
-                existing.qty += 1;
-            } else {
+                existing.qty += delta;
+                if (existing.qty <= 0) {
+                    cart = cart.filter(item => item.name !== name);
+                }
+            } else if (delta > 0) {
                 cart.push({ name, price, qty: 1 });
             }
+            
+            // Refrescar tanto la lista de productos (para actualizar contadores) como el resumen
+            const textoFiltro = document.getElementById("buscarProducto").value;
+            renderProducts(textoFiltro);
             renderCart();
         }
 
@@ -163,7 +188,7 @@
             });
             mensaje += `------------------------------\nTOTAL: Q${totalVenta.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
-            // Resetear el catálogo
+            // Resetear el catálogo y carrito
             cart = [];
             document.getElementById("clienteNombre").value = "";
             document.getElementById("buscarProducto").value = "";
