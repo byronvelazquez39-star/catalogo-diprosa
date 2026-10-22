@@ -130,18 +130,19 @@
         function parsearCSV(texto) {
             const lineas = texto.split('\n');
             productos = [];
-            // Empezamos desde la línea 15 para saltarnos las cabeceras técnicas del archivo
             for (let i = 15; i < lineas.length; i++) {
                 if (!lineas[i].trim()) continue;
                 const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                if (columnas.length >= 5) {
-                    let codigo = columnas[0] ? columnas[0].replace(/"/g, '').trim() : '';
+                if (columnas.length >= 4) {
                     let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
-                    let precio = columnas[4] ? columnas[4].replace(/"/g, '').trim() : '0';
+                    let brutoPrecio = columnas[3] ? columnas[3].replace(/"/g, '').trim() : '0';
                     
-                    // Validamos que sea un producto real y no código basura
+                    // Extraer solo el número del precio si viene con texto
+                    let matchPrecio = brutoPrecio.match(/[\d.]+/);
+                    let precioNum = matchPrecio ? parseFloat(matchPrecio[0]) : 0;
+
                     if (descripcion && !descripcion.includes('{') && !descripcion.includes('function') && descripcion.length > 2) {
-                        productos.push({ id: i, codigo, descripcion, precio });
+                        productos.push({ id: i, descripcion, precio: precioNum, precioTxt: brutoPrecio });
                     }
                 }
             }
@@ -159,8 +160,8 @@
                 <div class="card">
                     <img src="https://via.placeholder.com/150?text=DIPROSA" alt="${p.descripcion}" loading="lazy">
                     <h3>${p.descripcion}</h3>
-                    <p class="precio">Q ${p.precio}</p>
-                    <button class="btn-agregar" onclick="agregarAlCarrito('${p.descripcion}', ${p.precio})">Agregar</button>
+                    <p class="precio">${p.precioTxt}</p>
+                    <button class="btn-agregar" onclick="agregarAlCarrito('${p.descripcion.replace(/'/g, "")}', ${p.precio})">Agregar</button>
                 </div>
             `).join('');
         }
