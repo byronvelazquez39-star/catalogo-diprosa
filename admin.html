@@ -114,7 +114,7 @@
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbw-fd8l6_Euw25vwpkZJAZYL267Vwt3_o8jsmqTYvuC8D9qmTEpol_2ogivHrVJ7z2q/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxIwzEb3YcbcPUmOBUs7zsMYeci2O6M7F737Wpq2F8zocxXmFeBIivzlh9moJ1LeGlD/exec';
     const vendedores = ['ESTUARDO', 'CRISTIAN', 'JORGE', 'ELEAZAR'];
 
     function cargarPedidosEnTiempoReal() {
@@ -137,7 +137,6 @@
       container.innerHTML = '';
 
       vendedores.forEach(vendedor => {
-        // Filtrar pedidos correspondientes a este vendedor
         const pedidosVendedor = pedidos.filter(p => p.vendedor && p.vendedor.toUpperCase().trim() === vendedor);
 
         let htmlCard = `
@@ -174,10 +173,10 @@
       });
     }
 
-    // Cargar inmediatamente al abrir la página
+    // Cargar inmediatamente
     cargarPedidosEnTiempoReal();
 
-    // Actualizar automáticamente cada 15 segundos en tiempo real
+    // Actualizar automáticamente cada 15 segundos
     setInterval(cargarPedidosEnTiempoReal, 15000);
   </script>
 </body>
