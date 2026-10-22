@@ -106,7 +106,7 @@
 
   <div class="header-bar">
     <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
-    <span class="status-badge" id="status-indicador">🟢 Conectado en tiempo real</span>
+    <span class="status-badge" id="status-indicador">🔄 Conectando...</span>
   </div>
 
   <div id="vendedores-container">
@@ -114,7 +114,7 @@
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxIwzEb3YcbcPUmOBUs7zsMYeci2O6M7F737Wpq2F8zocxXmFeBIivzlh9moJ1LeGlD/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzIVsjXjXt4A6QSHgcPbNORPhUEETmm0lK0L35WJZ3Uj8WJi3V5CuF0U_durgFNXoeo/exec';
     const vendedores = ['ESTUARDO', 'CRISTIAN', 'JORGE', 'ELEAZAR'];
 
     function cargarPedidosEnTiempoReal() {
@@ -136,8 +136,12 @@
       const container = document.getElementById('vendedores-container');
       container.innerHTML = '';
 
+      if (!Array.isArray(pedidos)) {
+        pedidos = [];
+      }
+
       vendedores.forEach(vendedor => {
-        const pedidosVendedor = pedidos.filter(p => p.vendedor && p.vendedor.toUpperCase().trim() === vendedor);
+        const pedidosVendedor = pedidos.filter(p => p.vendedor && p.vendedor.toString().toUpperCase().trim() === vendedor);
 
         let htmlCard = `
           <div class="vendedor-card">
@@ -173,7 +177,7 @@
       });
     }
 
-    // Cargar inmediatamente
+    // Cargar inmediatamente al ingresar
     cargarPedidosEnTiempoReal();
 
     // Actualizar automáticamente cada 15 segundos
