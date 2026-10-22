@@ -164,7 +164,8 @@
     </div>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv';
+        // Enlace exacto apuntando a la pestaña específica (gid=1578551749) en formato CSV
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=1578551749';
         
         let productos = [];
         let carrito = {};
@@ -172,10 +173,12 @@
         async function cargarProductos() {
             try {
                 const respuesta = await fetch(SHEET_URL);
+                if (!respuesta.ok) throw new Error('Network response was not ok');
                 const datos = await respuesta.text();
                 parsearCSV(datos);
             } catch (error) {
-                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al conectar con la hoja.</p>';
+                console.error(error);
+                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al cargar los datos. Verifique su conexión.</p>';
             }
         }
 
@@ -184,7 +187,8 @@
             productos = [];
             let vistos = new Set();
             
-            for (let i = 25; i < lineas.length; i++) {
+            // Leemos desde la línea 5 en adelante para capturar todos los productos de esta pestaña sin perdernos nada
+            for (let i = 5; i < lineas.length; i++) {
                 if (!lineas[i].trim()) continue;
                 const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 
@@ -215,7 +219,7 @@
         function mostrarProductos(lista) {
             const grid = document.getElementById('catalogo-grid');
             if (lista.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos.</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos en esta pestaña.</p>';
                 return;
             }
             
@@ -225,3 +229,68 @@
                     <div class="card">
                         <h3>${p.descripcion}</h3>
                         <p class="precio">Q ${p.precio.toFixed(2)}</p>
+                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filtrarProductos() {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const filtrados = productos.filter(p => p.descripcion.toLowerCase().includes(texto));
+            
+            const grid = document.getElementById('catalogo-grid');
+            if (filtrados.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos.</p>';
+                return;
+            }
+            
+            grid.innerHTML = filtrados.map((p) => {
+                let originalIndex = productos.findIndex(prod => prod.id === p.id);
+                return `
+                    <div class="card">
+                        <h3>${p.descripcion}</h3>
+                        <p class="precio">Q ${p.precio.toFixed(2)}</p>
+                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function agregarAlCarrito(index) {
+            let producto = productos[index];
+            if (!producto) return;
+            
+            let nombre = producto.descripcion;
+            let precio = producto.precio;
+
+            if (!carrito[nombre]) {
+                carrito[nombre] = { precio: precio, cantidad: 0 };
+            }
+            carrito[nombre].cantidad += 1;
+            actualizarTicketWhatsApp();
+        }
+
+        function actualizarTicketWhatsApp() {
+            let totalItems = 0;
+            let totalGeneral = 0;
+            let mensaje = "Hola, me gustaría realizar el siguiente pedido:%0A";
+            
+            for (let nombre in carrito) {
+                let cant = carrito[nombre].cantidad;
+                let sub = cant * carrito[nombre].precio;
+                totalItems += cant;
+                totalGeneral += sub;
+                mensaje += `- ${cant}x ${nombre} (Q ${sub.toFixed(2)})%0A`;
+            }
+            mensaje += `%0ATotal general: Q ${totalGeneral.toFixed(2)}`;
+
+            document.getElementById('contador-items').innerText = totalItems;
+            document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
+            document.getElementById('whatsapp-pedido').href = `https://wa.me/50248502382?text=${mensaje}`;
+        }
+
+        cargarProductos();
+    </script>
+</body>
+</html>
