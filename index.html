@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo DIPROSA - Estuardo</title>
+    <!-- Importamos la librería para leer archivos Excel (.xlsx) completos -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -146,11 +148,11 @@
     </div>
     
     <div class="search-box">
-        <input type="text" id="buscador" placeholder="Escriba para buscar producto..." onkeyup="filtrarProductos()">
+        <input type="text" id="buscador" placeholder="Escriba para buscar entre los 1,327 productos..." onkeyup="filtrarProductos()">
     </div>
 
     <div class="grid" id="catalogo-grid">
-        <p style="text-align: center; grid-column: 1 / -1;">Cargando inventario...</p>
+        <p style="text-align: center; grid-column: 1 / -1;">Cargando los 1,327 productos del archivo Excel...</p>
     </div>
 
     <div class="footer-bar">
@@ -164,59 +166,73 @@
     </div>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=1578551749';
+        // Enlace de descarga directa del archivo Excel de Google Drive
+        const EXCEL_URL = 'https://docs.google.com/uc?export=download&id=1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS';
         
         let productos = [];
         let carrito = {};
 
-        async function cargarProductos() {
+        async function cargarExcel() {
             try {
-                const respuesta = await fetch(SHEET_URL);
-                const datos = await respuesta.text();
-                parsearCSV(datos);
-            } catch (error) {
-                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al conectar con la hoja.</p>';
-            }
-        }
-
-        function parsearCSV(texto) {
-            const lineas = texto.split('\n');
-            productos = [];
-            let vistos = new Set();
-            
-            for (let i = 0; i < lineas.length; i++) {
-                if (!lineas[i].trim()) continue;
-                const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                const respuesta = await fetch(EXCEL_URL);
+                const arrayBuffer = await respuesta.arrayBuffer();
                 
-                if (columnas.length >= 3) {
-                    let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
+                // Procesamos el archivo binario completo de Excel con SheetJS
+                const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
+                const primeraHojaName = workbook.SheetNames[0];
+                const hoja = workbook.Sheets[primeraHojaName];
+                
+                // Convertimos la hoja completa a una matriz de filas y columnas
+                const filas = XLSX.utils.sheet_to_json(hoja, { header: 1 });
+                
+                productos = [];
+                let vistos = new Set();
+                
+                // Recorremos desde la fila 0 hasta el final (los 1,327 registros)
+                for (let i = 0; i < filas.length; i++) {
+                    let fila = filas[i];
+                    if (!fila || fila.length === 0) continue;
                     
-                    // Filtramos filas vacías, títulos de encabezado y código interno
-                    if (descripcion && 
-                        descripcion.toLowerCase() !== 'detalle' &&
-                        !descripcion.toLowerCase().includes('descripcion') && 
-                        !descripcion.toLowerCase().includes('producto') && 
-                        !descripcion.includes('{') && 
-                        !descripcion.includes('function') && 
-                        descripcion.length > 2) {
-                        
-                        if (vistos.has(descripcion)) continue;
+                    // Buscamos la celda de descripción (por lo general en la columna C, índice 2, o barremos la fila)
+                    let descripcion = "";
+                    let precioCelda = 0;
+                    
+                    for (let c = 0; c < fila.length; c++) {
+                        let val = String(fila[c] || "").trim();
+                        // Si encontramos texto largo que parezca un producto
+                        if (val.length > 5 && !val.toLowerCase().includes('detalle') && !val.toLowerCase().includes('descripcion') && !val.toLowerCase().includes('estado')) {
+                            if (!descripcion) descripcion = val;
+                        }
+                    }
+
+                    if (descripcion && !vistos.has(descripcion)) {
                         vistos.add(descripcion);
 
+                        // Extracción de precio mediante expresión regular en la descripción o buscando números en otras columnas
                         let precioNum = 0.00;
                         let matchPrecio = descripcion.match(/Q\.?\s*(\d+(\.\d+)?)/i);
                         if (matchPrecio) {
                             precioNum = parseFloat(matchPrecio[1]);
-                        } else if (columnas[4]) {
-                            let matchCol = columnas[4].replace(/"/g, '').match(/(\d+(\.\d+)?)/);
-                            if (matchCol) precioNum = parseFloat(matchCol[1]);
+                        } else {
+                            // Buscar en las demás celdas de la misma fila si hay un número que sea el precio
+                            for (let c = 0; c < fila.length; c++) {
+                                let num = parseFloat(fila[c]);
+                                if (!isNaN(num) && num > 0 && num < 10000 && (String(fila[c]).includes('.') || num % 1 !== 0 || fila.length > 4)) {
+                                    precioNum = num;
+                                    break;
+                                }
+                            }
                         }
 
                         productos.push({ id: i, descripcion, precio: precioNum });
                     }
                 }
+
+                mostrarProductos(productos);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al cargar el archivo Excel. Verifique los permisos del enlace en Drive.</p>';
             }
-            mostrarProductos(productos);
         }
 
         function mostrarProductos(lista) {
@@ -226,6 +242,7 @@
                 return;
             }
             
+            // Mostramos los primeros 50 para fluidez inicial, el buscador filtra todo el archivo
             const muestra = lista.slice(0, 50);
             grid.innerHTML = muestra.map((p) => {
                 let originalIndex = productos.findIndex(prod => prod.id === p.id);
@@ -236,7 +253,7 @@
                         <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
                     </div>
                 `;
-            }).join('') + (lista.length > 50 ? `<p style="text-align:center; grid-column:1/-1; color:#f1c40f; padding: 10px;">Mostrando los primeros 50 productos. Use el buscador para encontrar el resto.</p>` : '');
+            }).join('') + (lista.length > 50 ? `<p style="text-align:center; grid-column:1/-1; color:#f1c40f; padding: 10px;">Mostrando 50 de ${lista.length} productos cargados. Escriba en el buscador para encontrar cualquier artículo.</p>` : '');
         }
 
         function filtrarProductos() {
@@ -245,7 +262,7 @@
             
             const grid = document.getElementById('catalogo-grid');
             if (filtrados.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos con ese nombre.</p>';
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontró ningún producto con ese nombre.</p>';
                 return;
             }
             
@@ -294,7 +311,7 @@
             document.getElementById('whatsapp-pedido').href = `https://wa.me/50248502382?text=${mensaje}`;
         }
 
-        cargarProductos();
+        cargarExcel();
     </script>
 </body>
 </html>
