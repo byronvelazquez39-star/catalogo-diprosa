@@ -164,12 +164,14 @@
     </div>
 
     <script>
+        // Enlace directo de exportación CSV adaptado a tus columnas reales
         const SHEET_URL = 'https://google.com' + new Date().getTime();
         const APPS_SCRIPT_URL = 'https://google.com'; 
         
         let productos = [];
         let carrito = {};
 
+        // Procesador de bloques CSV seguro
         function parsearCSV(texto) {
             const lineas = [];
             let fila = [];
@@ -218,18 +220,16 @@
                 const filas = parsearCSV(textoCSV);
                 
                 productos = [];
+                // Mapeo exacto para tus 3 columnas: A=Codigo, B=Unidad, C=Detalle
                 for (let i = 1; i < filas.length; i++) {
                     const columnas = filas[i];
-                    if (columnas.length >= 3 && columnas !== "") {
-                        let estadoStr = columnas ? columnas.trim().toLowerCase() : 'activado';
-                        if (estadoStr === "" || estadoStr.startsWith("act")) {
-                            productos.push({
-                                codigo: columnas ? columnas.replace(/"/g, '') : '',
-                                unidad: columnas ? columnas.replace(/"/g, '') : 'Unidad',
-                                detalle: columnas ? columnas.replace(/"/g, '') : '',
-                                precio: parseFloat(columnas) || 0
-                            });
-                        }
+                    if (columnas.length >= 3 && columnas[0] !== "") {
+                        productos.push({
+                            codigo: columnas[0] ? columnas[0].replace(/"/g, '') : '',
+                            unidad: columnas[1] ? columnas[1].replace(/"/g, '') : 'Unidad',
+                            detalle: columnas[2] ? columnas[2].replace(/"/g, '') : '',
+                            precio: columnas[4] ? (parseFloat(columnas[4]) || 0) : 0 // Busca precio si existe en la columna E, si no, usa 0
+                        });
                     }
                 }
                 renderizarProductos(productos);
@@ -254,7 +254,7 @@
                         <p style="font-size: 0.85em; color: #aaa; margin: 0 0 8px 0;">${p.unidad} - Cód: ${p.codigo}</p>
                     </div>
                     <div>
-                        <div class="precio">Q ${p.precio.toFixed(2)}</div>
+                        <div class="precio">Q ${p.precio > 0 ? p.precio.toFixed(2) : '---'}</div>
                         <button class="btn-agregar" onclick="agregarAlCarrito('${p.codigo}')">+ Agregar</button>
                     </div>
                 </div>
@@ -285,5 +285,3 @@
             let textoTicket = '*PEDIDO CENTRAL - DIPROSA (ESTUARDO)*\n\n';
 
             for (const key in carrito) {
-                const item = carrito[key];
-                totalItems += item.cantidad;
