@@ -164,16 +164,12 @@
     </div>
 
     <script>
-        // Enlace directo a tu Google Sheet (Con protección anti-caché de tiempo real habilitada)
         const SHEET_URL = 'https://google.com' + new Date().getTime();
-        
-        // URL limpia obtenida tras reparar el Apps Script de tu hoja de cálculo
         const APPS_SCRIPT_URL = 'https://google.com'; 
         
         let productos = [];
         let carrito = {};
 
-        // Procesador avanzado de CSV para admitir comillas dobles y comas sin romper columnas
         function parsearCSV(texto) {
             const lineas = [];
             let fila = [];
@@ -216,22 +212,24 @@
         async function cargarProductos() {
             try {
                 const respuesta = await fetch(SHEET_URL);
-                if (!respuesta.ok) throw new Error('Error al conectar con la base de datos');
+                if (!respuesta.ok) throw new Error('Error al conectar');
                 
                 const textoCSV = await respuesta.text();
                 const filas = parsearCSV(textoCSV);
                 
                 productos = [];
-                // Saltamos la fila 1 de títulos e indexamos las filas reales activadas
                 for (let i = 1; i < filas.length; i++) {
                     const columnas = filas[i];
-                    if (columnas.length >= 4 && columnas[4] === 'Activado') {
-                        productos.push({
-                            codigo: columnas[0] ? columnas[0].replace(/"/g, '') : '',
-                            unidad: columnas[1] ? columnas[1].replace(/"/g, '') : 'Unidad',
-                            detalle: columnas[2] ? columnas[2].replace(/"/g, '') : '',
-                            precio: parseFloat(columnas[3]) || 0
-                        });
+                    if (columnas.length >= 3 && columnas !== "") {
+                        let estadoStr = columnas ? columnas.trim().toLowerCase() : 'activado';
+                        if (estadoStr === "" || estadoStr.startsWith("act")) {
+                            productos.push({
+                                codigo: columnas ? columnas.replace(/"/g, '') : '',
+                                unidad: columnas ? columnas.replace(/"/g, '') : 'Unidad',
+                                detalle: columnas ? columnas.replace(/"/g, '') : '',
+                                precio: parseFloat(columnas) || 0
+                            });
+                        }
                     }
                 }
                 renderizarProductos(productos);
@@ -284,3 +282,8 @@
         function actualizarInterfazCarrito() {
             let totalItems = 0;
             let precioTotal = 0;
+            let textoTicket = '*PEDIDO CENTRAL - DIPROSA (ESTUARDO)*\n\n';
+
+            for (const key in carrito) {
+                const item = carrito[key];
+                totalItems += item.cantidad;
