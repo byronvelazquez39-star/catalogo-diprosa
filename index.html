@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA - Estuardo</title>
+    <title>Catálogo DIPROSA - Central / Estuardo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -138,7 +138,7 @@
 <body>
 
     <div class="header-top">
-        <h2>📦 ESTUARDO</h2>
+        <h2>🏢 CENTRAL / ESTUARDO</h2>
         <div class="header-btns">
             <a href="#" class="mini-btn">📊 Metas</a>
             <a href="#" class="mini-btn">💰 Sueldo</a>
@@ -164,136 +164,123 @@
     </div>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=1578551749';
+        // Enlace directo a tu Google Sheet (Con protección anti-caché de tiempo real habilitada)
+        const SHEET_URL = 'https://google.com' + new Date().getTime();
+        
+        // URL limpia obtenida tras reparar el Apps Script de tu hoja de cálculo
+        const APPS_SCRIPT_URL = 'https://google.com'; 
         
         let productos = [];
         let carrito = {};
 
+        // Procesador avanzado de CSV para admitir comillas dobles y comas sin romper columnas
+        function parsearCSV(texto) {
+            const lineas = [];
+            let fila = [];
+            let celda = '';
+            let dentroDeComillas = false;
+
+            for (let i = 0; i < texto.length; i++) {
+                const char = texto[i];
+                const siguienteChar = texto[i + 1];
+
+                if (char === '"') {
+                    if (dentroDeComillas && siguienteChar === '"') {
+                        celda += '"';
+                        i++;
+                    } else {
+                        dentroDeComillas = !dentroDeComillas;
+                    }
+                } else if (char === ',' && !dentroDeComillas) {
+                    fila.push(celda.trim());
+                    celda = '';
+                } else if ((char === '\r' || char === '\n') && !dentroDeComillas) {
+                    if (celda || fila.length > 0) {
+                        fila.push(celda.trim());
+                        lineas.push(fila);
+                        celda = '';
+                    }
+                    fila = [];
+                    if (char === '\r' && siguienteChar === '\n') i++;
+                } else {
+                    celda += char;
+                }
+            }
+            if (celda || fila.length > 0) {
+                fila.push(celda.trim());
+                lineas.push(fila);
+            }
+            return lineas;
+        }
+
         async function cargarProductos() {
             try {
                 const respuesta = await fetch(SHEET_URL);
-                const datos = await respuesta.text();
-                parsearCSV(datos);
-            } catch (error) {
-                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al conectar con la hoja.</p>';
-            }
-        }
-
-        function parsearCSV(texto) {
-            const lineas = texto.split('\n');
-            productos = [];
-            let vistos = new Set();
-            
-            for (let i = 0; i < lineas.length; i++) {
-                if (!lineas[i].trim()) continue;
-                const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if (!respuesta.ok) throw new Error('Error al conectar con la base de datos');
                 
-                if (columnas.length >= 3) {
-                    let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
-                    
-                    if (descripcion && 
-                        descripcion.toLowerCase() !== 'detalle' &&
-                        !descripcion.toLowerCase().includes('descripcion') && 
-                        !descripcion.toLowerCase().includes('producto') && 
-                        !descripcion.includes('{') && 
-                        !descripcion.includes('function') && 
-                        descripcion.length > 2) {
-                        
-                        if (vistos.has(descripcion)) continue;
-                        vistos.add(descripcion);
-
-                        let precioNum = 0.00;
-                        let matchPrecio = descripcion.match(/Q\.?\s*(\d+(\.\d+)?)/i);
-                        if (matchPrecio) {
-                            precioNum = parseFloat(matchPrecio[1]);
-                        } else if (columnas[4]) {
-                            let matchCol = columnas[4].replace(/"/g, '').match(/(\d+(\.\d+)?)/);
-                            if (matchCol) precioNum = parseFloat(matchCol[1]);
-                        }
-
-                        productos.push({ id: i, descripcion, precio: precioNum });
+                const textoCSV = await respuesta.text();
+                const filas = parsearCSV(textoCSV);
+                
+                productos = [];
+                // Saltamos la fila 1 de títulos e indexamos las filas reales activadas
+                for (let i = 1; i < filas.length; i++) {
+                    const columnas = filas[i];
+                    if (columnas.length >= 4 && columnas[4] === 'Activado') {
+                        productos.push({
+                            codigo: columnas[0] ? columnas[0].replace(/"/g, '') : '',
+                            unidad: columnas[1] ? columnas[1].replace(/"/g, '') : 'Unidad',
+                            detalle: columnas[2] ? columnas[2].replace(/"/g, '') : '',
+                            precio: parseFloat(columnas[3]) || 0
+                        });
                     }
                 }
+                renderizarProductos(productos);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('catalogo-grid').innerHTML = 
+                    `<p style="text-align: center; grid-column: 1 / -1; color: #e74c3c;">Error al cargar el inventario. Verifique la conexión con Google Sheets.</p>`;
             }
-            mostrarProductos(productos);
         }
 
-        function mostrarProductos(lista) {
+        function renderizarProductos(lista) {
             const grid = document.getElementById('catalogo-grid');
             if (lista.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos.</p>';
+                grid.innerHTML = `<p style="text-align: center; grid-column: 1 / -1;">No se encontraron productos en el inventario.</p>`;
                 return;
             }
-            
-            const muestra = lista.slice(0, 50);
-            grid.innerHTML = muestra.map((p) => {
-                let originalIndex = productos.findIndex(prod => prod.id === p.id);
-                return `
-                    <div class="card">
-                        <h3>${p.descripcion}</h3>
-                        <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
+
+            grid.innerHTML = lista.map(p => `
+                <div class="card">
+                    <div>
+                        <h3>${p.detalle}</h3>
+                        <p style="font-size: 0.85em; color: #aaa; margin: 0 0 8px 0;">${p.unidad} - Cód: ${p.codigo}</p>
                     </div>
-                `;
-            }).join('') + (lista.length > 50 ? `<p style="text-align:center; grid-column:1/-1; color:#f1c40f; padding: 10px;">Mostrando primeros 50 de ${lista.length} productos. Use el buscador para encontrar los demás.</p>` : '');
+                    <div>
+                        <div class="precio">Q ${p.precio.toFixed(2)}</div>
+                        <button class="btn-agregar" onclick="agregarAlCarrito('${p.codigo}')">+ Agregar</button>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function filtrarProductos() {
-            const texto = document.getElementById('buscador').value.toLowerCase();
-            const filtrados = productos.filter(p => p.descripcion.toLowerCase().includes(texto));
-            
-            const grid = document.getElementById('catalogo-grid');
-            if (filtrados.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos con ese nombre.</p>';
-                return;
-            }
-            
-            grid.innerHTML = filtrados.map((p) => {
-                let originalIndex = productos.findIndex(prod => prod.id === p.id);
-                return `
-                    <div class="card">
-                        <h3>${p.descripcion}</h3>
-                        <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
-                    </div>
-                `;
-            }).join('');
+            const termino = document.getElementById('buscador').value.toLowerCase();
+            const filtrados = productos.filter(p => p.detalle.toLowerCase().includes(termino) || p.codigo.toLowerCase().includes(termino));
+            renderizarProductos(filtrados);
         }
 
-        function agregarAlCarrito(index) {
-            let producto = productos[index];
-            if (!producto) return;
-            
-            let nombre = producto.descripcion;
-            let precio = producto.precio;
+        function agregarAlCarrito(codigo) {
+            const prod = productos.find(p => p.codigo === codigo);
+            if (!prod) return;
 
-            if (!carrito[nombre]) {
-                carrito[nombre] = { precio: precio, cantidad: 0 };
+            if (carrito[codigo]) {
+                carrito[codigo].cantidad++;
+            } else {
+                carrito[codigo] = { ...prod, cantidad: 1 };
             }
-            carrito[nombre].cantidad += 1;
-            actualizarTicketWhatsApp();
+            actualizarInterfazCarrito();
         }
 
-        function actualizarTicketWhatsApp() {
+        function actualizarInterfazCarrito() {
             let totalItems = 0;
-            let totalGeneral = 0;
-            let mensaje = "Hola, me gustaría realizar el siguiente pedido:%0A";
-            
-            for (let nombre in carrito) {
-                let cant = carrito[nombre].cantidad;
-                let sub = cant * carrito[nombre].precio;
-                totalItems += cant;
-                totalGeneral += sub;
-                mensaje += `- ${cant}x ${nombre} (Q ${sub.toFixed(2)})%0A`;
-            }
-            mensaje += `%0ATotal general: Q ${totalGeneral.toFixed(2)}`;
-
-            document.getElementById('contador-items').innerText = totalItems;
-            document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
-            document.getElementById('whatsapp-pedido').href = `https://wa.me/50248502382?text=${mensaje}`;
-        }
-
-        cargarProductos();
-    </script>
-</body>
-</html>
+            let precioTotal = 0;
