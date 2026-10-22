@@ -3,276 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA - Estuardo</title>
+    <title>Panel de Administración - Pedidos DIPROSA</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 10px;
-            padding-bottom: 100px;
-        }
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto 10px auto;
-        }
-        .header-top h2 {
-            color: #f1c40f;
-            margin: 0;
-            font-size: 1.1em;
-        }
-        .header-btns {
-            display: flex;
-            gap: 6px;
-        }
-        .mini-btn {
-            background-color: #1e1e1e;
-            color: white;
-            border: 1px solid #444;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.8em;
-            text-decoration: none;
-        }
-        .search-box {
-            max-width: 1200px;
-            margin: 0 auto 12px auto;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 10px;
-            font-size: 15px;
-            border-radius: 8px;
-            border: 1px solid #444;
-            background-color: #1e1e1e;
-            color: white;
-            outline: none;
-            box-sizing: border-box;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        @media (min-width: 768px) {
-            .grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            }
-        }
-        .card {
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            border: 1px solid #333;
-        }
-        .card h3 {
-            font-size: 0.85em;
-            margin: 0 0 8px 0;
-            color: #ffffff;
-            line-height: 1.3;
-        }
-        .precio {
-            color: #2ecc71;
-            font-weight: bold;
-            font-size: 1.05em;
-            margin: 0 0 8px 0;
-        }
-        .btn-agregar {
-            background-color: #1b8e3e;
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            font-size: 13px;
-        }
-        .footer-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #0b0b0b;
-            border-top: 2px solid #222;
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            z-index: 1000;
-        }
-        .footer-info {
-            font-size: 0.85em;
-            color: #fff;
-        }
-        .footer-info span {
-            color: #2ecc71;
-            font-weight: bold;
-        }
-        .ver-ticket-btn {
-            background-color: #1b8e3e;
-            color: white;
-            padding: 8px 14px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 0.9em;
-        }
+        body { font-family: Arial, sans-serif; background-color: #0f172a; color: #f8fafc; padding: 20px; margin: 0; }
+        h1 { text-align: center; color: #38bdf8; }
+        .card-resumen { background: #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 8px; overflow: hidden; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; font-size: 14px; }
+        th { background: #334155; color: #38bdf8; }
+        tr:hover { background: #273548; }
+        button { background: #38bdf8; color: #0f172a; border: none; padding: 10px 20px; font-weight: bold; border-radius: 5px; cursor: pointer; display: block; margin: 0 auto 20px auto; }
+        button:hover { background: #0284c7; color: white; }
     </style>
 </head>
 <body>
 
-    <div class="header-top">
-        <h2>📦 ESTUARDO</h2>
-        <div class="header-btns">
-            <a href="#" class="mini-btn">📊 Metas</a>
-            <a href="#" class="mini-btn">💰 Sueldo</a>
-        </div>
-    </div>
+    <h1>Panel de Administración DIPROSA</h1>
     
-    <div class="search-box">
-        <input type="text" id="buscador" placeholder="Escriba para buscar producto..." onkeyup="filtrarProductos()">
+    <div class="card-resumen">
+        <h3>Total Acumulado de Ventas: <span id="totalVentas">Q0.00</span></h3>
+        <p>Total de Pedidos Recibidos: <span id="cantidadPedidos">0</span></p>
     </div>
 
-    <div class="grid" id="catalogo-grid">
-        <p style="text-align: center; grid-column: 1 / -1;">Cargando catálogo completo...</p>
-    </div>
+    <button onclick="cargarPedidosAdmin()">Actualizar Pedidos</button>
 
-    <div class="footer-bar">
-        <div class="footer-info">
-            🛒 <span id="contador-items">0</span> ítems<br>
-            Total: <span id="total-quetzales">Q 0.00</span>
-        </div>
-        <a href="#" id="whatsapp-pedido" class="ver-ticket-btn" target="_blank" rel="noopener noreferrer">
-            📋 Ver Ticket
-        </a>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Vendedor</th>
+                <th>Cliente</th>
+                <th>Total (Q)</th>
+                <th>Detalle</th>
+            </tr>
+         ilə
+        <tbody id="tablaPedidos">
+            <tr><td colspan="5" style="text-align: center;">Cargando pedidos...</td></tr>
+        </tbody>
+    </table>
 
     <script>
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=1578551749';
-        
-        let productos = [];
-        let carrito = {};
+        const URL_WEB_APP = "https://script.google.com/macros/s/AKfycbwDkG1DfkduR7P4BMzenv3jB5vxVjXkV-SVefPobpUTw8yY1k84BGlBIJ5uP9AK0ldC/exec";
 
-        async function cargarProductos() {
+        async function cargarPedidosAdmin() {
+            const tabla = document.getElementById("tablaPedidos");
+            tabla.innerHTML = `<tr><td colspan="5" style="text-align: center;">Actualizando...</td></tr>`;
+
             try {
-                const respuesta = await fetch(SHEET_URL);
-                const datos = await respuesta.text();
-                parsearCSV(datos);
-            } catch (error) {
-                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error de conexión.</p>';
-            }
-        }
-
-        function parsearCSV(texto) {
-            const lineas = texto.split('\n');
-            productos = [];
-            let vistos = new Set();
-            
-            for (let i = 0; i < lineas.length; i++) {
-                if (!lineas[i].trim()) continue;
-                const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                let respuesta = await fetch(URL_WEB_APP);
+                let listaPedidos = await respuesta.json();
                 
-                if (columnas.length >= 3) {
-                    let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
-                    
-                    if (descripcion && 
-                        descripcion.toLowerCase() !== 'detalle' &&
-                        !descripcion.toLowerCase().includes('descripcion') && 
-                        !descripcion.toLowerCase().includes('producto') && 
-                        !descripcion.includes('{') && 
-                        !descripcion.includes('function') && 
-                        descripcion.length > 2) {
-                        
-                        if (vistos.has(descripcion)) continue;
-                        vistos.add(descripcion);
+                tabla.innerHTML = "";
+                let acumuladoGlobal = 0;
+                let totalTickets = listaPedidos.length;
 
-                        let precioNum = 0.00;
-                        let matchPrecio = descripcion.match(/Q\.?\s*(\d+(\.\d+)?)/i);
-                        if (matchPrecio) {
-                            precioNum = parseFloat(matchPrecio[1]);
-                        } else if (columnas[4]) {
-                            let matchCol = columnas[4].replace(/"/g, '').match(/(\d+(\.\d+)?)/);
-                            if (matchCol) precioNum = parseFloat(matchCol[1]);
-                        }
-
-                        productos.push({ id: i, descripcion, precio: precioNum });
-                    }
+                if (totalTickets === 0) {
+                    tabla.innerHTML = `<tr><td colspan="5" style="text-align: center;">No hay pedidos registrados todavía.</td></tr>`;
+                    document.getElementById("totalVentas").innerText = "Q0.00";
+                    document.getElementById("cantidadPedidos").innerText = "0";
+                    return;
                 }
+
+                listaPedidos.forEach(item => {
+                    let totalNum = parseFloat(item.total) || 0;
+                    acumuladoGlobal += totalNum;
+
+                    let fila = `<tr>
+                        <td>${item.fecha || ''}</td>
+                        <td><b>${item.vendedor || ''}</b></td>
+                        <td>${item.cliente || ''}</td>
+                        <td>Q${totalNum.toFixed(2)}</td>
+                        <td>${item.detalle || ''}</td>
+                    </tr>`;
+                    tabla.innerHTML += fila;
+                });
+
+                document.getElementById("totalVentas").innerText = "Q" + acumuladoGlobal.toFixed(2);
+                document.getElementById("cantidadPedidos").innerText = totalTickets;
+
+            } catch (error) {
+                console.error("Error al cargar los pedidos del panel:", error);
+                tabla.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #f87171;">Error al conectar con la hoja de pedidos.</td></tr>`;
             }
-            mostrarProductos(productos);
         }
 
-        function mostrarProductos(lista) {
-            const grid = document.getElementById('catalogo-grid');
-            if (lista.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos.</p>';
-                return;
-            }
-            
-            grid.innerHTML = lista.map((p) => {
-                let originalIndex = productos.findIndex(prod => prod.id === p.id);
-                return `
-                    <div class="card">
-                        <h3>${p.descripcion}</h3>
-                        <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function filtrarProductos() {
-            const texto = document.getElementById('buscador').value.toLowerCase();
-            const filtrados = productos.filter(p => p.descripcion.toLowerCase().includes(texto));
-            mostrarProductos(filtrados);
-        }
-
-        function agregarAlCarrito(index) {
-            let producto = productos[index];
-            if (!producto) return;
-            
-            let nombre = producto.descripcion;
-            let precio = producto.precio;
-
-            if (!carrito[nombre]) {
-                carrito[nombre] = { precio: precio, cantidad: 0 };
-            }
-            carrito[nombre].cantidad += 1;
-            actualizarTicketWhatsApp();
-        }
-
-        function actualizarTicketWhatsApp() {
-            let totalItems = 0;
-            let totalGeneral = 0;
-            let mensaje = "Pedido de *ESTUARDO*:%0A";
-            
-            for (let nombre in carrito) {
-                let cant = carrito[nombre].cantidad;
-                let sub = cant * carrito[nombre].precio;
-                totalItems += cant;
-                totalGeneral += sub;
-                mensaje += `- ${cant}x ${nombre} (Q ${sub.toFixed(2)})%0A`;
-            }
-            mensaje += `%0ATotal general: Q ${totalGeneral.toFixed(2)}`;
-
-            document.getElementById('contador-items').innerText = totalItems;
-            document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
-            document.getElementById('whatsapp-pedido').href = `https://wa.me/50248502382?text=${mensaje}`;
-        }
-
-        cargarProductos();
+        // Cargar automáticamente al abrir la página
+        cargarPedidosAdmin();
     </script>
 </body>
 </html>
