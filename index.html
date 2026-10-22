@@ -112,7 +112,6 @@
     </a>
 
     <script>
-        // Enlace de exportación actualizado con su ID exacto
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv';
         
         let productos = [];
@@ -131,14 +130,17 @@
         function parsearCSV(texto) {
             const lineas = texto.split('\n');
             productos = [];
-            for (let i = 1; i < lineas.length; i++) {
+            // Empezamos desde la línea 15 para saltarnos las cabeceras técnicas del archivo
+            for (let i = 15; i < lineas.length; i++) {
+                if (!lineas[i].trim()) continue;
                 const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 if (columnas.length >= 5) {
                     let codigo = columnas[0] ? columnas[0].replace(/"/g, '').trim() : '';
                     let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
                     let precio = columnas[4] ? columnas[4].replace(/"/g, '').trim() : '0';
                     
-                    if (descripcion) {
+                    // Validamos que sea un producto real y no código basura
+                    if (descripcion && !descripcion.includes('{') && !descripcion.includes('function') && descripcion.length > 2) {
                         productos.push({ id: i, codigo, descripcion, precio });
                     }
                 }
