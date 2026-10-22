@@ -54,7 +54,6 @@
             outline: none;
             box-sizing: border-box;
         }
-        /* Muestra 2 columnas en celulares y más en pantallas grandes */
         .grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -222,7 +221,6 @@
                 return;
             }
             
-            // Muestra el total completo de la lista sin cortar en 50
             grid.innerHTML = lista.map((p) => {
                 let originalIndex = productos.findIndex(prod => prod.id === p.id);
                 return `
@@ -258,7 +256,7 @@
         function actualizarTicketWhatsApp() {
             let totalItems = 0;
             let totalGeneral = 0;
-            let mensaje = "Hola, me gustaría realizar el siguiente pedido:%0A";
+            let mensaje = "Pedido de *ESTUARDO*:%0A";
             
             for (let nombre in carrito) {
                 let cant = carrito[nombre].cantidad;
