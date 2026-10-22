@@ -3,24 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA</title>
+    <title>Catálogo DIPROSA - Eleazar</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #ffffff;
             margin: 0;
-            padding: 20px;
-            padding-bottom: 130px;
+            padding: 15px;
+            padding-bottom: 100px;
         }
-        h1 {
-            text-align: center;
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto 15px auto;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header-top h2 {
             color: #f1c40f;
-            margin-bottom: 15px;
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .header-btns {
+            display: flex;
+            gap: 8px;
+        }
+        .mini-btn {
+            background-color: #1e1e1e;
+            color: white;
+            border: 1px solid #444;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85em;
+            cursor: pointer;
+            text-decoration: none;
         }
         .search-box {
             max-width: 1200px;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 15px auto;
             text-align: center;
         }
         .search-box input {
@@ -43,17 +67,16 @@
         }
         .card {
             background-color: #1e1e1e;
-            border-radius: 8px;
+            border-radius: 10px;
             padding: 15px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border-left: 4px solid #f1c40f;
-            margin-bottom: 10px;
+            border: 1px solid #333;
         }
         .card h3 {
-            font-size: 1em;
+            font-size: 0.95em;
             margin: 0 0 10px 0;
             color: #ffffff;
             line-height: 1.4;
@@ -65,50 +88,80 @@
             margin: 0 0 12px 0;
         }
         .btn-agregar {
-            background-color: #f1c40f;
-            color: #121212;
+            background-color: #1b8e3e;
+            color: white;
             border: none;
             padding: 10px;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             font-size: 15px;
         }
-        .whatsapp-btn {
+        .footer-bar {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25d366;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #0b0b0b;
+            border-top: 2px solid #222;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .footer-info {
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .footer-info span {
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        .ver-ticket-btn {
+            background-color: #1b8e3e;
             color: white;
-            padding: 14px 22px;
-            border-radius: 30px;
+            padding: 10px 18px;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
+            font-size: 0.95em;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Catálogo DIPROSA</h1>
+    <div class="header-top">
+        <h2>🛺 ELEAZAR (MOTORISTA)</h2>
+        <div class="header-btns">
+            <a href="#" class="mini-btn">📊 Metas</a>
+            <a href="#" class="mini-btn">💰 Sueldo</a>
+        </div>
+    </div>
     
     <div class="search-box">
         <input type="text" id="buscador" placeholder="Escriba para buscar producto..." onkeyup="filtrarProductos()">
     </div>
 
     <div class="grid" id="catalogo-grid">
-        <p style="text-align: center; grid-column: 1 / -1;">Cargando inventario completo...</p>
+        <p style="text-align: center; grid-column: 1 / -1;">Cargando inventario...</p>
     </div>
 
-    <a href="#" id="whatsapp-pedido" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-        💬 Pedir por WhatsApp (<span id="contador-carrito">0</span>)
-    </a>
+    <div class="footer-bar">
+        <div class="footer-info">
+            🛒 <span id="contador-items">0</span> ítems (Ver Ticket)<br>
+            Total: <span id="total-quetzales">Q 0.00</span>
+        </div>
+        <a href="#" id="whatsapp-pedido" class="ver-ticket-btn" target="_blank" rel="noopener noreferrer">
+            📋 Ver Ticket
+        </a>
+    </div>
 
     <script>
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv';
@@ -172,7 +225,7 @@
                     <div class="card">
                         <h3>${p.descripcion}</h3>
                         <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">Agregar</button>
+                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
                     </div>
                 `;
             }).join('');
@@ -194,7 +247,7 @@
                     <div class="card">
                         <h3>${p.descripcion}</h3>
                         <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">Agregar</button>
+                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
                     </div>
                 `;
             }).join('');
@@ -211,19 +264,25 @@
                 carrito[nombre] = { precio: precio, cantidad: 0 };
             }
             carrito[nombre].cantidad += 1;
-            actualizarCarritoWhatsApp();
+            actualizarTicketWhatsApp();
         }
 
-        function actualizarCarritoWhatsApp() {
+        function actualizarTicketWhatsApp() {
             let totalItems = 0;
+            let totalGeneral = 0;
             let mensaje = "Hola, me gustaría realizar el siguiente pedido:%0A";
+            
             for (let nombre in carrito) {
                 let cant = carrito[nombre].cantidad;
                 let sub = cant * carrito[nombre].precio;
                 totalItems += cant;
+                totalGeneral += sub;
                 mensaje += `- ${cant}x ${nombre} (Q ${sub.toFixed(2)})%0A`;
             }
-            document.getElementById('contador-carrito').innerText = totalItems;
+            mensaje += `%0ATotal general: Q ${totalGeneral.toFixed(2)}`;
+
+            document.getElementById('contador-items').innerText = totalItems;
+            document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
             document.getElementById('whatsapp-pedido').href = `https://wa.me/50248502382?text=${mensaje}`;
         }
 
