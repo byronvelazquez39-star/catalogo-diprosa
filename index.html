@@ -67,7 +67,7 @@
 <body>
 
   <div class="header-bar">
-    <h1>🛵 ESTUARDO</h1>
+    <h1>🛵 ESTUARDO (MOTORISTA)</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
@@ -136,7 +136,7 @@
         </div>
 
         <p style="margin-top: 8px; color:#f59e0b; font-weight:bold; font-size: 11px;">
-          🛵 ¡Aproveche la moto! 1ra quincena libre. Descuentos desde el 16 y bono de Q500 de moto íntegro a fin de mes.
+          🛵 1ra quincena libre. Descuentos desde el 16 y bono de Q500 de moto íntegro a fin de mes.
         </p>
       </div>
 
@@ -205,10 +205,10 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      let versionGuardada = localStorage.getItem("version_estuardo_v6");
+      let versionGuardada = localStorage.getItem("version_estuardo_v8");
       if (!versionGuardada) {
         localStorage.removeItem(ticketsKey);
-        localStorage.setItem("version_estuardo_v6", "activo");
+        localStorage.setItem("version_estuardo_v8", "activo");
       }
 
       let tiquetesGuardados = [];
@@ -218,7 +218,7 @@
       if (!hasBase) {
         tiquetesGuardados.unshift({
           esAcumuladoBase: true,
-          fecha: "Al 21 Octubre",
+          fecha: "Al 20 Oct",
           cliente: "Acumulado Mes Anterior",
           total: 37144.49,
           tiquetesCount: 101,
@@ -383,7 +383,7 @@
 
       let ventasTotalesMes = baseInicial + ventasHoy;
       let sueldoBase = 3600;
-      let valorDia = sueldoBase / 27; 
+      let valorDia = sueldoBase / 27; // Q133.33 por día
       let metaVentas = 81000;
 
       let baseSegundaQuincena = sueldoBase / 2; // Q1,800.00
