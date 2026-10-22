@@ -67,7 +67,7 @@
 <body>
 
   <div class="header-bar">
-    <h1>🛒 JORGE</h1>
+    <h1>📦 JORGE (VENDEDOR)</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
@@ -98,7 +98,7 @@
       <div id="ticket-items"></div>
       <div style="margin-top: 10px;">
         <label style="font-size: 12px; font-weight: bold; color: #bbb;">Nombre del Cliente / Tienda:</label>
-        <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda La Guadalupana">
+        <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda La Bendición">
       </div>
       <div style="border-top: 1px dashed #555; padding-top: 8px; margin-top: 8px;">
         <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--accent-color);">
@@ -115,13 +115,13 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Control de Metas y Rendimiento</h3>
-        <p style="font-size: 11px; color: #888;">Avance al Día 20 de 27 del ciclo</p>
+        <p style="font-size: 11px; color: #888;">Panel de Vendedor - Ruta Activa</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>🌟 JORGE - ESTADO DE CUOTAS</h4>
+        <h4>📦 JORGE - ESTADO DE CUOTAS</h4>
         
         <div class="kpi-row">
-          <span>💰 Ventas Acumuladas:</span>
+          <span>💰 Ventas Acumuladas Mes:</span>
           <strong>Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</strong>
         </div>
 
@@ -135,8 +135,8 @@
           <strong id="meta-horas-real">0 / 135 Hrs Meta</strong>
         </div>
 
-        <p style="margin-top: 8px; color:#34d399; font-weight:bold; font-size: 11px;">
-          🚀 ¡Excelente ritmo! Mantener la frecuencia de venta garantiza llegar al 100% de la meta de ventas.
+        <p style="margin-top: 8px; color:#f59e0b; font-weight:bold; font-size: 11px;">
+          📦 1ra quincena libre. Descuentos desde el 16 y premio de Q500 si cumple cuotas con los 3 paralelos.
         </p>
       </div>
 
@@ -154,13 +154,13 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
-        <h3>💵 Nómina Proporcional en Tiempo Real</h3>
-        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando avance diario...</p>
+        <h3>💵 Nómina Real en Tiempo Real</h3>
+        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando segundo pago...</p>
       </div>
       <div class="sueldo-card">
         <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
-        <div class="sueldo-row"><span>Valor Día Laboral (Q133.33):</span><strong>Día 20 / 27</strong></div>
-        <div class="sueldo-row"><span>Sueldo Proporcional (20d):</span><strong style="color:#38bdf8;" id="sueldo-proporcional-20">Q 2,666.67</strong></div>
+        <div class="sueldo-row" style="color:#25d366;"><span>1ra Quincena (1 al 15):</span><strong>Libre (Q1,800.00 pagados)</strong></div>
+        <div class="sueldo-row" style="color:#38bdf8;"><span>Base 2da Quincena (16 al 30):</span><strong>Q 1,800.00</strong></div>
         
         <div class="sueldo-row" style="background:#1e293b; padding:8px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
           <span style="color:#38bdf8; font-weight:bold;">☀️ Ventas de hoy:</span>
@@ -168,20 +168,21 @@
         </div>
 
         <div class="sueldo-row" style="background:#1e1e1e; padding:8px; border-radius:6px; border:1px dashed #ef4444; margin-top:6px;">
-          <span style="color:#f87171;">💸 Pago 1ra Quincena (50%):</span>
-          <strong style="color:#f87171;">-Q 1,800.00</strong>
+          <span style="color:#f87171;">📉 Descuento por Déficit (Desde el 16):</span>
+          <strong style="color:#f87171;" id="sueldo-descuento-deficit">-Q 0.00</strong>
         </div>
 
         <div class="sueldo-row" style="background:#0f291e; padding:8px; border-radius:6px; border:1px solid #25d366; margin-top:6px;">
-          <span style="color:#25d366; font-weight:bold;">📅 Líquido Pendiente a la Fecha:</span>
+          <span style="color:#25d366; font-weight:bold;">📅 2do Pago Neto (Sueldo del Mes):</span>
           <strong style="color:#25d366; font-size:14px;" id="sueldo-segundo-pago">Q 0.00</strong>
         </div>
 
         <div id="sueldo-info-paralelos" style="margin-top: 8px; font-size: 11px; color: #cbd5e1; line-height: 1.4; background: #1a1a1a; padding: 8px; border-radius: 6px; border-left: 3px solid #ff9800;"></div>
 
         <div class="proyeccion-opcion premio" style="margin-top: 8px;">
-          <div style="font-weight:bold; color:#f59e0b;">💰 PROYECCIÓN 2da QUINCENA (FIN DE MES):</div>
-          <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">Q 1,800.00</div>
+          <div style="font-weight:bold; color:#f59e0b;">🏆 TOTAL A RECIBIR FIN DE MES (CON PREMIO META):</div>
+          <div style="font-size:11px; color:#fcd34d; margin-top:2px;">Incluye 2do pago neto + Premio Q500.00 si alcanza la meta</div>
+          <div style="font-size:15px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-con-premio">Q 0.00</div>
         </div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
@@ -204,11 +205,10 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Version v4: descuento formal de 1ra quincena de Jorge
-      let versionGuardada = localStorage.getItem("version_jorge_v4");
+      let versionGuardada = localStorage.getItem("version_jorge_v8");
       if (!versionGuardada) {
         localStorage.removeItem(ticketsKey);
-        localStorage.setItem("version_jorge_v4", "activo");
+        localStorage.setItem("version_jorge_v8", "activo");
       }
 
       let tiquetesGuardados = [];
@@ -218,7 +218,7 @@
       if (!hasBase) {
         tiquetesGuardados.unshift({
           esAcumuladoBase: true,
-          fecha: "Al 20 Octubre",
+          fecha: "Al 20 Oct",
           cliente: "Acumulado Mes Anterior",
           total: 62490.00,
           tiquetesCount: 196,
@@ -303,9 +303,7 @@
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
       
-      let totalVentasReal = 0;
-      let totalTiquetesReal = 0;
-      let totalHorasReal = 0;
+      let totalVentasReal = 0, totalTiquetesReal = 0, totalHorasReal = 0;
 
       tiquetesGuardados.forEach(t => {
         if (t.esAcumuladoBase) {
@@ -372,21 +370,24 @@
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
       
-      let ventasHoy = 0, tiquetesHoyCount = 0;
+      let baseInicial = 0, ventasHoy = 0, tiquetesHoyCount = 0;
+
       tiquetesGuardados.forEach(t => {
-        if (!t.esAcumuladoBase && t.total) {
+        if (t.esAcumuladoBase) {
+          baseInicial = t.total;
+        } else if (t.total) {
           ventasHoy += parseFloat(t.total);
           tiquetesHoyCount += 1;
         }
       });
 
-      let ventasTotalesMes = 62490.00 + ventasHoy;
-      let diasTrabajados = 20, sueldoBase = 3600;
-      let valorDia = sueldoBase / 27; 
-      let sueldoProporcional = diasTrabajados * valorDia; 
-
-      let penalizacionDescuentoQ = 0;
+      let ventasTotalesMes = baseInicial + ventasHoy;
+      let sueldoBase = 3600;
+      let valorDia = sueldoBase / 27; // Q133.33 por día
       let metaVentas = 81000;
+
+      let baseSegundaQuincena = sueldoBase / 2; // Q1,800.00
+      let penalizacionDescuentoQ = 0;
 
       if (ventasTotalesMes < metaVentas) {
         let deficitVentas = metaVentas - ventasTotalesMes;
@@ -399,46 +400,34 @@
         }
       }
 
-      // Descuento de Primera Quincena (50% del sueldo base)
-      let primeraQuincena = sueldoBase / 2;
-      let sueldoAcumuladoGanado = sueldoProporcional - penalizacionDescuentoQ;
-      
-      // Saldo liquido restante a cobrar
-      let liquidoPendiente = sueldoAcumuladoGanado - primeraQuincena;
+      let segundoPagoNeto = baseSegundaQuincena - penalizacionDescuentoQ;
+      if (segundoPagoNeto < 0) segundoPagoNeto = 0; 
 
-      document.getElementById('sueldo-proporcional-20').innerText = "Q " + sueldoProporcional.toFixed(2);
+      // Premio de Q500 si alcanza la meta
+      let premioMeta = ventasTotalesMes >= metaVentas ? 500.00 : 0.00;
+      let totalConPremio = segundoPagoNeto + premioMeta;
+
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2) + " (" + tiquetesHoyCount + " tiquetes)";
-      
-      let elLiquido = document.getElementById('sueldo-segundo-pago');
-      if (liquidoPendiente >= 0) {
-        elLiquido.innerText = "Q " + liquidoPendiente.toFixed(2);
-        elLiquido.style.color = "#25d366";
-      } else {
-        elLiquido.innerText = "-Q " + Math.abs(liquidoPendiente).toFixed(2) + " (Acumulando días restantes)";
-        elLiquido.style.color = "#f87171";
-      }
+      document.getElementById('sueldo-descuento-deficit').innerText = "-Q " + penalizacionDescuentoQ.toFixed(2);
+      document.getElementById('sueldo-segundo-pago').innerText = "Q " + segundoPagoNeto.toFixed(2);
 
-      let infoParalelosHtml = `• <strong>Ventas Mes:</strong> Q${ventasTotalesMes.toFixed(2)} / Q81,000<br>`;
+      let infoParalelosHtml = `• <strong>Ventas Totales Mes:</strong> Q${ventasTotalesMes.toFixed(2)} / Q81,000<br>`;
       if (ventasTotalesMes >= metaVentas) {
-        infoParalelosHtml += `• <span style="color:#25d366; font-weight:bold;">✨ ¡Meta de Q81k alcanzada! Penalización anulada.</span>`;
+        infoParalelosHtml += `• <span style="color:#25d366; font-weight:bold;">✨ ¡Meta alcanzada! Premio de Q500 activado.</span>`;
       } else {
-        infoParalelosHtml += `• <span style="color:#f59e0b;">🛡️ Descuento por déficit (Tope 35%): -Q${penalizacionDescuentoQ.toFixed(2)}</span>`;
+        infoParalelosHtml += `• <span style="color:#f59e0b;">🛡️ Descuento aplicado desde el 16 (Déficit de ventas).</span>`;
       }
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
 
-      // Proyección a fin de mes descontando la primera quincena ya cobrada
-      let proyeccionFinMes = (sueldoBase - penalizacionDescuentoQ) - primeraQuincena; 
-      if (ventasTotalesMes >= metaVentas) proyeccionFinMes = primeraQuincena + 500.00; 
-
-      document.getElementById('sueldo-total-final').innerText = "Q " + proyeccionFinMes.toFixed(2);
-      document.getElementById('sueldo-estado-actual').innerText = "⚡ NÓMINA PROPORCIONAL AL DÍA 20";
+      document.getElementById('sueldo-total-con-premio').innerText = "Q " + totalConPremio.toFixed(2);
+      document.getElementById('sueldo-estado-actual').innerText = "⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)";
     }
 
     function enviarCorteDiarioWA() {
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
-      let totalVentasReal = 62490.00;
-      tiquetesGuardados.forEach(t => { if (!t.esAcumuladoBase && t.total) totalVentasReal += parseFloat(t.total); });
+      let totalVentasReal = 0;
+      tiquetesGuardados.forEach(t => { if (t.total) totalVentasReal += parseFloat(t.total); });
 
       let msg = `📊 *REPORTE VENTAS - JORGE*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)}.`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
@@ -476,7 +465,7 @@
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
       let subtotal = 0;
-      let msg = `*DISTRIBUIDORA DIPROSA*\n👤 *Vendedor:* JORGE\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* JORGE\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
       for (let k in carrito) {
         let item = carrito[k], sub = item.cantidad * item.precio;
         subtotal += sub;
