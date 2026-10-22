@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA - Estuardo</title>
+    <title>Catálogo DIPROSA - Central / Estuardo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -138,7 +138,7 @@
 <body>
 
     <div class="header-top">
-        <h2>📦 ESTUARDO</h2>
+        <h2>🏢 CENTRAL / ESTUARDO</h2>
         <div class="header-btns">
             <a href="#" class="mini-btn">📊 Metas</a>
             <a href="#" class="mini-btn">💰 Sueldo</a>
@@ -150,7 +150,7 @@
     </div>
 
     <div class="grid" id="catalogo-grid">
-        <p style="text-align: center; grid-column: 1 / -1;">Cargando inventario...</p>
+        <p style="text-align: center; grid-column: 1 / -1;">Sincronizando inventario...</p>
     </div>
 
     <div class="footer-bar">
@@ -164,6 +164,7 @@
     </div>
 
     <script>
+        // Enlace directo a la pestaña específica (gid=1578551749)
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=1578551749';
         
         let productos = [];
@@ -175,7 +176,7 @@
                 const datos = await respuesta.text();
                 parsearCSV(datos);
             } catch (error) {
-                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al conectar con la hoja.</p>';
+                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al sincronizar inventario. Verifique el acceso a la hoja.</p>';
             }
         }
 
