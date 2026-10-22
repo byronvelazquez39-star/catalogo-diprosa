@@ -167,16 +167,21 @@
           <strong style="color:#38bdf8; font-size:14px;" id="sueldo-dia-hoy">Q 0.00</strong>
         </div>
 
+        <div class="sueldo-row" style="background:#1e1e1e; padding:8px; border-radius:6px; border:1px dashed #ef4444; margin-top:6px;">
+          <span style="color:#f87171;">💸 Pago 1ra Quincena (50%):</span>
+          <strong style="color:#f87171;">-Q 1,625.00</strong>
+        </div>
+
         <div class="sueldo-row" style="background:#0f291e; padding:8px; border-radius:6px; border:1px solid #25d366; margin-top:6px;">
-          <span style="color:#25d366; font-weight:bold;">📅 Sueldo Neto al Día (Sin Quincena):</span>
+          <span style="color:#25d366; font-weight:bold;">📅 Líquido Pendiente a la Fecha:</span>
           <strong style="color:#25d366; font-size:14px;" id="sueldo-segundo-pago">Q 0.00</strong>
         </div>
 
         <div id="sueldo-info-paralelos" style="margin-top: 8px; font-size: 11px; color: #cbd5e1; line-height: 1.4; background: #1a1a1a; padding: 8px; border-radius: 6px; border-left: 3px solid #ff9800;"></div>
 
         <div class="proyeccion-opcion premio" style="margin-top: 8px;">
-          <div style="font-weight:bold; color:#f59e0b;">💰 PROYECCIÓN NÓMINA FIN DE MES:</div>
-          <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">Q 3,250.00</div>
+          <div style="font-weight:bold; color:#f59e0b;">💰 PROYECCIÓN 2da QUINCENA (FIN DE MES):</div>
+          <div style="font-size:14px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-final">Q 1,625.00</div>
         </div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
@@ -199,11 +204,11 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Forzar reseteo de LocalStorage para cargar el nuevo saldo real de Cristian
-      let versionGuardada = localStorage.getItem("version_cristian_v4");
+      // Version v5: incluye descuento explicito de 1ra Quincena
+      let versionGuardada = localStorage.getItem("version_cristian_v5");
       if (!versionGuardada) {
         localStorage.removeItem(ticketsKey);
-        localStorage.setItem("version_cristian_v4", "activo");
+        localStorage.setItem("version_cristian_v5", "activo");
       }
 
       let tiquetesGuardados = [];
@@ -394,23 +399,38 @@
         }
       }
 
-      let sueldoNetoAlDia = sueldoProporcional - penalizacionDescuentoQ;
-      if (sueldoNetoAlDia < 0) sueldoNetoAlDia = 0.00;
+      // Descuento de Primera Quincena (50% del sueldo base)
+      let primeraQuincena = sueldoBase / 2;
+      let sueldoAcumuladoGanado = sueldoProporcional - penalizacionDescuentoQ;
+      
+      // Saldo liquido restante a cobrar
+      let liquidoPendiente = sueldoAcumuladoGanado - primeraQuincena;
 
       document.getElementById('sueldo-proporcional-21').innerText = "Q " + sueldoProporcional.toFixed(2);
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2) + " (" + tiquetesHoyCount + " tiquetes)";
-      document.getElementById('sueldo-segundo-pago').innerText = "Q " + sueldoNetoAlDia.toFixed(2);
+      
+      // Mostrar liquido pendiente con formato
+      let elLiquido = document.getElementById('sueldo-segundo-pago');
+      if (liquidoPendiente >= 0) {
+        elLiquido.innerText = "Q " + liquidoPendiente.toFixed(2);
+        elLiquido.style.color = "#25d366";
+      } else {
+        elLiquido.innerText = "-Q " + Math.abs(liquidoPendiente).toFixed(2) + " (Acumulando días restantes)";
+        elLiquido.style.color = "#f87171";
+      }
 
       let infoParalelosHtml = `• <strong>Ventas Mes:</strong> Q${ventasTotalesMes.toFixed(2)} / Q81,000<br>`;
       if (ventasTotalesMes >= metaVentas) {
         infoParalelosHtml += `• <span style="color:#25d366; font-weight:bold;">✨ ¡Meta de Q81k alcanzada! Penalización anulada.</span>`;
       } else {
-        infoParalelosHtml += `• <span style="color:#f59e0b;">🛡️ Descuento ajustado (Tope 35% Base): -Q${penalizacionDescuentoQ.toFixed(2)}</span>`;
+        infoParalelosHtml += `• <span style="color:#f59e0b;">🛡️ Descuento por déficit (Tope 35%): -Q${penalizacionDescuentoQ.toFixed(2)}</span>`;
       }
       document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
 
-      let proyeccionFinMes = sueldoBase; 
-      if (ventasTotalesMes >= metaVentas) proyeccionFinMes += 500.00; 
+      // Proyección a fin de mes descontando la primera quincena ya cobrada
+      let proyeccionFinMes = (sueldoBase - penalizacionDescuentoQ) - primeraQuincena; 
+      if (ventasTotalesMes >= metaVentas) proyeccionFinMes = primeraQuincena + 500.00; 
+
       document.getElementById('sueldo-total-final').innerText = "Q " + proyeccionFinMes.toFixed(2);
       document.getElementById('sueldo-estado-actual').innerText = "⚡ NÓMINA PROPORCIONAL AL DÍA 21";
     }
