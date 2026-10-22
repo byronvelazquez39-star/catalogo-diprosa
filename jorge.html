@@ -1,20 +1,513 @@
-// Función para enviar la venta de Jorge a la hoja de cálculo
-function enviarPedidoANube(cliente, total, detalle) {
-  const URL_API = 'https://script.google.com/macros/s/AKfycbzIVsjXjXt4A6QSHgcPbNORPhUEETmm0lK0L35WJZ3Uj8WJi3V5CuF0U_durgFNXoeo/exec';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo DIPROSA - JORGE</title>
+  <style>
+    :root {
+      --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
+      --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
+    }
+    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 12px; padding-bottom: 100px; box-sizing: border-box; }
+    
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 6px; }
+    h1 { text-align: center; margin: 0; font-size: 16px; color: #ff9800; }
+    
+    .btn-group-header { display: flex; gap: 4px; }
+    .btn-action-header { border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; color: #fff; }
+    .btn-metas { background-color: #0284c7; }
+    .btn-sueldo { background-color: #059669; }
 
-  fetch(URL_API, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      vendedor: 'JORGE',
-      cliente: cliente || 'Consumidor Final',
-      total: total,
-      detalle: detalle
-    })
-  })
-  .then(() => console.log("Pedido enviado a la hoja de cálculo"))
-  .catch(err => console.error("Error al enviar pedido:", err));
-}
+    .search-box { width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px; border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .card { background: var(--card-bg); padding: 10px; border-radius: 8px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
+    .nombre { font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+    .precio { font-size: 14px; color: var(--accent-color); font-weight: bold; margin-bottom: 8px; }
+    
+    .qty-controls { display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .qty-num { font-size: 14px; font-weight: bold; min-width: 18px; text-align: center; }
+    .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 12px; }
+    
+    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 10px; border-radius: 6px; width: 100%; margin-top: 15px; font-weight: bold; cursor: pointer; display: none; }
+
+    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+    .cart-info { font-size: 14px; cursor: pointer; }
+    .cart-total { font-size: 16px; color: var(--accent-color); font-weight: bold; }
+    .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
+    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 13px; }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 10px; }
+    .ticket-header h3 { margin: 0; font-size: 16px; color: #fff; }
+    .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 13px; box-sizing: border-box; margin-bottom: 8px; }
+    .btn-close { background: #555; color: white; border: none; padding: 8px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
+    .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 14px; cursor: pointer; }
+
+    .meta-resumen-box { background: #122118; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
+    .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
+
+    .kpi-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #234e38; padding-bottom: 3px; }
+
+    .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 11px; }
+    .ticket-historial-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 3px; align-items: center; }
+    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
+
+    .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
+    .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+
+    .proyeccion-opcion { background: #1e293b; border-left: 3px solid #0284c7; padding: 8px; margin-top: 6px; border-radius: 4px; }
+    .proyeccion-opcion.verde { border-left-color: #25d366; background: #0f291e; }
+    .proyeccion-opcion.premio { border-left-color: #f59e0b; background: #27200e; }
+    .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <h1>📦 JORGE (VENDEDOR)</h1>
+    <div class="btn-group-header">
+      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
+      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
+    </div>
+  </div>
+
+  <input type="text" id="buscar" class="search-box" placeholder="🔍 Escriba para buscar producto..." oninput="filtrarDebounce()">
+  
+  <div id="catalogo" class="grid">Cargando productos del catálogo...</div>
+  <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
+
+  <div class="cart-bar">
+    <div class="cart-info" onclick="abrirTicket()">
+      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
+      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
+    </div>
+    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  </div>
+
+  <!-- MODAL TICKET -->
+  <div id="modal-ticket" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3>🧾 TICKET DE COMPRA</h3>
+        <p style="font-size: 11px; color: #888;" id="ticket-fecha"></p>
+        <p style="font-size: 13px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
+      </div>
+      <div id="ticket-items"></div>
+      <div style="margin-top: 10px;">
+        <label style="font-size: 12px; font-weight: bold; color: #bbb;">Nombre del Cliente / Tienda:</label>
+        <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda La Bendición">
+      </div>
+      <div style="border-top: 1px dashed #555; padding-top: 8px; margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--accent-color);">
+          <span>Total Final:</span><span>Q <span id="ticket-total">0.00</span></span>
+        </div>
+      </div>
+      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido por WhatsApp</button>
+      <button class="btn-close" onclick="cerrarModal('modal-ticket')">Seguir Comprando</button>
+    </div>
+  </div>
+
+  <!-- MODAL METAS JORGE -->
+  <div id="modal-metas" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>📊 Control de Metas y Rendimiento</h3>
+        <p style="font-size: 11px; color: #888;">Panel de Vendedor - Ruta Activa</p>
+      </div>
+      <div class="meta-resumen-box">
+        <h4>📦 JORGE - ESTADO DE CUOTAS</h4>
+        
+        <div class="kpi-row">
+          <span>💰 Ventas Acumuladas Mes:</span>
+          <strong>Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</strong>
+        </div>
+
+        <div class="kpi-row">
+          <span>🧾 Tiquetes Emitidos:</span>
+          <strong id="meta-tiquetes-real">0 / 220 Tq Meta</strong>
+        </div>
+
+        <div class="kpi-row">
+          <span>⏱️ Horas de Ruta:</span>
+          <strong id="meta-horas-real">0 / 135 Hrs Meta</strong>
+        </div>
+
+        <p style="margin-top: 8px; color:#f59e0b; font-weight:bold; font-size: 11px;">
+          📦 1ra quincena libre. Descuentos desde el 16 y premio de Q500 si cumple cuotas con los 3 paralelos.
+        </p>
+      </div>
+
+      <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">
+        📝 Registro Histórico y Tiquetes de Hoy:
+      </div>
+      <div id="lista-tiquetes-jorge" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;"></div>
+
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
+      <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar Ventana</button>
+    </div>
+  </div>
+
+  <!-- MODAL SUELDO JORGE -->
+  <div id="modal-sueldo" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>💵 Nómina Real en Tiempo Real</h3>
+        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando segundo pago...</p>
+      </div>
+      <div class="sueldo-card">
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
+        <div class="sueldo-row" style="color:#25d366;"><span>1ra Quincena (1 al 15):</span><strong>Libre (Q1,800.00 pagados)</strong></div>
+        <div class="sueldo-row" style="color:#38bdf8;"><span>Base 2da Quincena (16 al 30):</span><strong>Q 1,800.00</strong></div>
+        
+        <div class="sueldo-row" style="background:#1e293b; padding:8px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
+          <span style="color:#38bdf8; font-weight:bold;">☀️ Ventas de hoy:</span>
+          <strong style="color:#38bdf8; font-size:14px;" id="sueldo-dia-hoy">Q 0.00</strong>
+        </div>
+
+        <div class="sueldo-row" style="background:#1e1e1e; padding:8px; border-radius:6px; border:1px dashed #ef4444; margin-top:6px;">
+          <span style="color:#f87171;">📉 Descuento por Déficit (Desde el 16):</span>
+          <strong style="color:#f87171;" id="sueldo-descuento-deficit">-Q 0.00</strong>
+        </div>
+
+        <div class="sueldo-row" style="background:#0f291e; padding:8px; border-radius:6px; border:1px solid #25d366; margin-top:6px;">
+          <span style="color:#25d366; font-weight:bold;">📅 2do Pago Neto (Sueldo del Mes):</span>
+          <strong style="color:#25d366; font-size:14px;" id="sueldo-segundo-pago">Q 0.00</strong>
+        </div>
+
+        <div id="sueldo-info-paralelos" style="margin-top: 8px; font-size: 11px; color: #cbd5e1; line-height: 1.4; background: #1a1a1a; padding: 8px; border-radius: 6px; border-left: 3px solid #ff9800;"></div>
+
+        <div class="proyeccion-opcion premio" style="margin-top: 8px;">
+          <div style="font-weight:bold; color:#f59e0b;">🏆 TOTAL A RECIBIR FIN DE MES (CON PREMIO META):</div>
+          <div style="font-size:11px; color:#fcd34d; margin-top:2px;">Incluye 2do pago neto + Premio Q500.00 si alcanza la meta</div>
+          <div style="font-size:15px; font-weight:bold; color:#25d366; margin-top:4px;" id="sueldo-total-con-premio">Q 0.00</div>
+        </div>
+      </div>
+      <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar Ventana</button>
+    </div>
+  </div>
+
+  <script>
+    const NUMERO_WHATSAPP = "50248502382";
+    const storageKey = "carrito_diprosa_jorge";
+    const ticketsKey = "diprosa_tickets_jorge";
+
+    const productosFallback = [
+      { nombre: "(Salvavidas) en lata ROJA Caja de 24", precio: 84.00 },
+      { nombre: "(Salvavidas) en lata UVA Caja de 24", precio: 84.00 },
+      { nombre: "Agua Pura Salvavidas 600ml Pack x12", precio: 36.00 }
+    ];
+
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
+
+    try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      let versionGuardada = localStorage.getItem("version_jorge_v8");
+      if (!versionGuardada) {
+        localStorage.removeItem(ticketsKey);
+        localStorage.setItem("version_jorge_v8", "activo");
+      }
+
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+
+      let hasBase = tiquetesGuardados.some(t => t.esAcumuladoBase);
+      if (!hasBase) {
+        tiquetesGuardados.unshift({
+          esAcumuladoBase: true,
+          fecha: "Al 20 Oct",
+          cliente: "Acumulado Mes Anterior",
+          total: 62490.00,
+          tiquetesCount: 196,
+          horasCount: 119
+        });
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+      }
+
+      fetch('productos.json?v=' + new Date().getTime())
+        .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
+        .then(data => { productos = data; productosFiltrados = data; renderizarCatalogo(); actualizarUIResumen(); })
+        .catch(() => { productos = productosFallback; productosFiltrados = productosFallback; renderizarCatalogo(); actualizarUIResumen(); });
+    });
+
+    function renderizarCatalogo() {
+      let contenedor = document.getElementById('catalogo');
+      if (!productosFiltrados.length) {
+        contenedor.innerHTML = '<p style="text-align:center; color:#888; grid-column: 1/-1;">No se encontraron productos.</p>';
+        document.getElementById('btn-mas').style.display = 'none'; return;
+      }
+      contenedor.innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
+        let key = p.nombre + '_' + p.precio;
+        let cant = carrito[key] ? carrito[key].cantidad : 0;
+        let b64 = btoa(unescape(encodeURIComponent(p.nombre)));
+        return `
+          <div class="card">
+            <div class="nombre">${p.nombre}</div>
+            <div>
+              <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
+              ${cant === 0 ? `<button class="btn-add" onclick="cambiarCant('${b64}',${p.precio},1)">+ Agregar</button>` : 
+                `<div class="qty-controls">
+                  <button class="btn-qty" onclick="cambiarCant('${b64}',${p.precio},-1)">-</button>
+                  <span class="qty-num">${cant}</span>
+                  <button class="btn-qty" onclick="cambiarCant('${b64}',${p.precio},1)">+</button>
+                </div>`}
+            </div>
+          </div>`;
+      }).join('');
+      document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
+    }
+
+    function cargarMasProductos() { limiteActual += 40; renderizarCatalogo(); }
+    function filtrarDebounce() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        let q = document.getElementById('buscar').value.toLowerCase().trim();
+        limiteActual = 40;
+        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+        renderizarCatalogo();
+      }, 150);
+    }
+
+    function cambiarCant(b64, precio, delta) {
+      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
+      if (!carrito[key]) carrito[key] = { nombre, precio: parseFloat(precio), cantidad: 0 };
+      carrito[key].cantidad += delta;
+      if (carrito[key].cantidad <= 0) delete carrito[key];
+      localStorage.setItem(storageKey, JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function actualizarUIResumen() {
+      let totalCant = 0, totalMonto = 0;
+      for (let k in carrito) {
+        totalCant += carrito[k].cantidad;
+        totalMonto += carrito[k].cantidad * carrito[k].precio;
+      }
+      document.getElementById('cant-items').innerText = totalCant;
+      document.getElementById('total-precio').innerText = totalMonto.toFixed(2);
+    }
+
+    function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function abrirModalMetas() {
+      actualizarVistaMetas();
+      abrirModal('modal-metas');
+    }
+
+    function actualizarVistaMetas() {
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      
+      let totalVentasReal = 0, totalTiquetesReal = 0, totalHorasReal = 0;
+
+      tiquetesGuardados.forEach(t => {
+        if (t.esAcumuladoBase) {
+          totalVentasReal += t.total;
+          totalTiquetesReal += (t.tiquetesCount || 0);
+          totalHorasReal += (t.horasCount || 0);
+        } else if (t.total) {
+          totalVentasReal += parseFloat(t.total);
+          totalTiquetesReal += 1;
+        }
+      });
+
+      document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
+      document.getElementById('meta-tiquetes-real').innerText = totalTiquetesReal + " / 220 Tq Meta";
+      document.getElementById('meta-horas-real').innerText = totalHorasReal + " / 135 Hrs Meta";
+
+      let contenedorLista = document.getElementById('lista-tiquetes-jorge');
+      if (tiquetesGuardados.length === 0) {
+        contenedorLista.innerHTML = '<p style="color:#888; font-style:italic; font-size:11px;">No hay tiquetes registrados.</p>';
+        return;
+      }
+
+      let htmlTiquetes = "";
+      tiquetesGuardados.forEach((t, idx) => {
+        if (t.esAcumuladoBase) {
+          htmlTiquetes += `
+            <div class="ticket-historial-card" style="border-left: 3px solid #27ae60;">
+              <div class="ticket-historial-head"><span>📊 BASE AL 20 OCT (${t.tiquetesCount} Tq / ${t.horasCount} Hrs)</span></div>
+              <div style="color:#34d399;">Ventas: Q${t.total.toFixed(2)}</div>
+            </div>
+          `;
+        } else {
+          let totalT = t.total ? t.total.toFixed(2) : "0.00";
+          htmlTiquetes += `
+            <div class="ticket-historial-card">
+              <div class="ticket-historial-head">
+                <span>Tiquete #${idx} - 👤 ${t.cliente || 'Cliente'}</span>
+                <button class="btn-eliminar-uno" onclick="eliminarUnTiqueteJorge(${idx})">❌ Eliminar</button>
+              </div>
+              <div style="color:#aaa;">Hora: ${t.fecha || 'N/A'} | Total: Q${totalT}</div>
+            </div>
+          `;
+        }
+      });
+      contenedorLista.innerHTML = htmlTiquetes;
+    }
+
+    function eliminarUnTiqueteJorge(index) {
+      if (confirm(`¿Desea eliminar este elemento del historial?`)) {
+        let tiquetesGuardados = [];
+        try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+        tiquetesGuardados.splice(index, 1);
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        actualizarVistaMetas();
+      }
+    }
+
+    function abrirModalSueldo() {
+      actualizarVistaSueldoDinamico();
+      abrirModal('modal-sueldo');
+    }
+
+    function actualizarVistaSueldoDinamico() {
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      
+      let baseInicial = 0, ventasHoy = 0, tiquetesHoyCount = 0;
+
+      tiquetesGuardados.forEach(t => {
+        if (t.esAcumuladoBase) {
+          baseInicial = t.total;
+        } else if (t.total) {
+          ventasHoy += parseFloat(t.total);
+          tiquetesHoyCount += 1;
+        }
+      });
+
+      let ventasTotalesMes = baseInicial + ventasHoy;
+      let sueldoBase = 3600;
+      let valorDia = sueldoBase / 27; // Q133.33 por día
+      let metaVentas = 81000;
+
+      let baseSegundaQuincena = sueldoBase / 2; // Q1,800.00
+      let penalizacionDescuentoQ = 0;
+
+      if (ventasTotalesMes < metaVentas) {
+        let deficitVentas = metaVentas - ventasTotalesMes;
+        let diasDeDescuento = deficitVentas / 3000;
+        penalizacionDescuentoQ = diasDeDescuento * valorDia;
+
+        let topeMaximoDescuento = sueldoBase * 0.35;
+        if (penalizacionDescuentoQ > topeMaximoDescuento) {
+          penalizacionDescuentoQ = topeMaximoDescuento;
+        }
+      }
+
+      let segundoPagoNeto = baseSegundaQuincena - penalizacionDescuentoQ;
+      if (segundoPagoNeto < 0) segundoPagoNeto = 0; 
+
+      // Premio de Q500 si alcanza la meta
+      let premioMeta = ventasTotalesMes >= metaVentas ? 500.00 : 0.00;
+      let totalConPremio = segundoPagoNeto + premioMeta;
+
+      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2) + " (" + tiquetesHoyCount + " tiquetes)";
+      document.getElementById('sueldo-descuento-deficit').innerText = "-Q " + penalizacionDescuentoQ.toFixed(2);
+      document.getElementById('sueldo-segundo-pago').innerText = "Q " + segundoPagoNeto.toFixed(2);
+
+      let infoParalelosHtml = `• <strong>Ventas Totales Mes:</strong> Q${ventasTotalesMes.toFixed(2)} / Q81,000<br>`;
+      if (ventasTotalesMes >= metaVentas) {
+        infoParalelosHtml += `• <span style="color:#25d366; font-weight:bold;">✨ ¡Meta alcanzada! Premio de Q500 activado.</span>`;
+      } else {
+        infoParalelosHtml += `• <span style="color:#f59e0b;">🛡️ Descuento aplicado desde el 16 (Déficit de ventas).</span>`;
+      }
+      document.getElementById('sueldo-info-paralelos').innerHTML = infoParalelosHtml;
+
+      document.getElementById('sueldo-total-con-premio').innerText = "Q " + totalConPremio.toFixed(2);
+      document.getElementById('sueldo-estado-actual').innerText = "⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)";
+    }
+
+    function enviarCorteDiarioWA() {
+      let tiquetesGuardados = [];
+      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
+      let totalVentasReal = 0;
+      tiquetesGuardados.forEach(t => { if (t.total) totalVentasReal += parseFloat(t.total); });
+
+      let msg = `📊 *REPORTE VENTAS - JORGE*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)}.`;
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
+    }
+
+    function abrirTicket() {
+      if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
+      let keys = Object.keys(carrito), contenedor = document.getElementById('ticket-items'), subtotal = 0;
+      contenedor.innerHTML = keys.map(k => {
+        let item = carrito[k], sub = item.cantidad * item.precio;
+        subtotal += sub;
+        return `<div style="font-size:12px; margin-bottom:4px; display:flex; justify-content:space-between;"><span>${item.nombre} (x${item.cantidad})</span><span>Q${sub.toFixed(2)}</span></div>`;
+      }).join('');
+      document.getElementById('ticket-total').innerText = subtotal.toFixed(2);
+      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
+      let numT = (parseInt(localStorage.getItem('correlativo_ticket_jorge')) || 0) + 1;
+      document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numT).padStart(8, '0');
+      abrirModal('modal-ticket');
+    }
+
+    // --- FUNCIÓN PARA ENVIAR EL PEDIDO A LA NUBE (GOOGLE SHEETS) ---
+    function enviarPedidoANube(cliente, total, detalle) {
+      const URL_API = 'https://script.google.com/macros/s/AKfycbzIVsjXjXt4A6QSHgcPbNORPhUEETmm0lK0L35WJZ3Uj8WJi3V5CuF0U_durgFNXoeo/exec';
+
+      fetch(URL_API, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          vendedor: 'JORGE',
+          cliente: cliente || 'Consumidor Final',
+          total: total,
+          detalle: detalle
+        })
+      })
+      .then(() => console.log("Pedido enviado a la hoja de cálculo"))
+      .catch(err => console.error("Error al enviar pedido:", err));
+    }
+
+    function enviarWhatsAppYLimpiar() {
+      let receptor = document.getElementById('cliente-receptor').value.trim();
+      if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
+      let numT = (parseInt(localStorage.getItem('correlativo_ticket_jorge')) || 0) + 1;
+      localStorage.setItem('correlativo_ticket_jorge', numT);
+
+      let subtotal = 0;
+      let detalleTexto = "";
+      
+      for (let k in carrito) {
+        let item = carrito[k], sub = item.cantidad * item.precio;
+        subtotal += sub;
+        detalleTexto += `${item.cantidad}x ${item.nombre} (Q${sub.toFixed(2)})\n`;
+      }
+
+      // --- DISPARAR ENVÍO AUTOMÁTICO A GOOGLE SHEETS ---
+      enviarPedidoANube(receptor, subtotal, detalleTexto);
+
+      let nuevoTiquete = {
+        fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        cliente: receptor,
+        items: Object.values(carrito),
+        total: subtotal
+      };
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      tiquetesGuardados.push(nuevoTiquete);
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+
+      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* JORGE\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
+      msg += detalleTexto;
+      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
+
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
+      carrito = {};
+      localStorage.removeItem(storageKey);
+      cerrarModal('modal-ticket');
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+  </script>
+</body>
+</html>
