@@ -11,7 +11,7 @@
             color: #ffffff;
             margin: 0;
             padding: 20px;
-            padding-bottom: 90px;
+            padding-bottom: 130px;
         }
         h1 {
             text-align: center;
@@ -50,6 +50,7 @@
             flex-direction: column;
             justify-content: space-between;
             border-left: 4px solid #f1c40f;
+            margin-bottom: 10px;
         }
         .card h3 {
             font-size: 1em;
@@ -130,7 +131,6 @@
             productos = [];
             let vistos = new Set();
             
-            // Empezamos desde la línea 25 para saltar la zona donde se estancaba con los Heinz repetidos
             for (let i = 25; i < lineas.length; i++) {
                 if (!lineas[i].trim()) continue;
                 const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
@@ -140,7 +140,6 @@
                     
                     if (descripcion && !descripcion.includes('{') && !descripcion.includes('function') && descripcion.length > 2) {
                         
-                        // Evitar duplicados exactos
                         if (vistos.has(descripcion)) continue;
                         vistos.add(descripcion);
 
