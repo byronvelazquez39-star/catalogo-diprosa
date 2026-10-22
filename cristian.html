@@ -115,7 +115,7 @@
     <div class="modal-content">
       <div class="ticket-header" style="margin-bottom: 10px;">
         <h3>📊 Control de Metas y Rendimiento</h3>
-        <p style="font-size: 11px; color: #888;">Avance al Día 21 de 27 del ciclo</p>
+        <p style="font-size: 11px; color: #888;">Avance al Día 20 de 27 del ciclo</p>
       </div>
       <div class="meta-resumen-box">
         <h4>🌟 CRISTIAN - ESTADO DE CUOTAS</h4>
@@ -199,10 +199,11 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      let versionGuardada = localStorage.getItem("version_cristian_v3");
+      // Forzar reseteo de LocalStorage para cargar el nuevo saldo real de Cristian
+      let versionGuardada = localStorage.getItem("version_cristian_v4");
       if (!versionGuardada) {
         localStorage.removeItem(ticketsKey);
-        localStorage.setItem("version_cristian_v3", "activo");
+        localStorage.setItem("version_cristian_v4", "activo");
       }
 
       let tiquetesGuardados = [];
@@ -212,10 +213,10 @@
       if (!hasBase) {
         tiquetesGuardados.unshift({
           esAcumuladoBase: true,
-          fecha: "Al 21 Octubre",
+          fecha: "Al 20 Octubre",
           cliente: "Acumulado Mes Anterior",
-          total: 36933.50,
-          tiquetesCount: 128,
+          total: 32213.82,
+          tiquetesCount: 82,
           horasCount: 119
         });
         localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
@@ -327,7 +328,7 @@
         if (t.esAcumuladoBase) {
           htmlTiquetes += `
             <div class="ticket-historial-card" style="border-left: 3px solid #27ae60;">
-              <div class="ticket-historial-head"><span>📊 BASE AL 21 OCT (${t.tiquetesCount} Tq / ${t.horasCount} Hrs)</span></div>
+              <div class="ticket-historial-head"><span>📊 BASE AL 20 OCT (${t.tiquetesCount} Tq / ${t.horasCount} Hrs)</span></div>
               <div style="color:#34d399;">Ventas: Q${t.total.toFixed(2)}</div>
             </div>
           `;
@@ -374,7 +375,7 @@
         }
       });
 
-      let ventasTotalesMes = 36933.50 + ventasHoy;
+      let ventasTotalesMes = 32213.82 + ventasHoy;
       let diasTrabajados = 21, sueldoBase = 3250;
       let valorDia = sueldoBase / 27; 
       let sueldoProporcional = diasTrabajados * valorDia; 
@@ -417,7 +418,7 @@
     function enviarCorteDiarioWA() {
       let tiquetesGuardados = [];
       try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) { tiquetesGuardados = []; }
-      let totalVentasReal = 36933.50;
+      let totalVentasReal = 32213.82;
       tiquetesGuardados.forEach(t => { if (!t.esAcumuladoBase && t.total) totalVentasReal += parseFloat(t.total); });
 
       let msg = `📊 *REPORTE VENTAS - CRISTIAN*\n¡Hola don Byron! Mis ventas acumuladas son Q${totalVentasReal.toFixed(2)}.`;
