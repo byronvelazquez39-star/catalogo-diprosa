@@ -112,8 +112,8 @@
     </a>
 
     <script>
-        // ENLACE CSV DE SU HOJA DE GOOGLE SHEETS
-        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1XlU-lE8QvO000000000000000000000000000000000/export?format=csv&gid=0';
+        // Enlace de exportación actualizado con su ID exacto
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv';
         
         let productos = [];
         let carrito = {};
@@ -124,7 +124,7 @@
                 const datos = await respuesta.text();
                 parsearCSV(datos);
             } catch (error) {
-                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al cargar los productos. Verifique la conexión.</p>';
+                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error al conectar con la hoja. Verifique que sea accesible.</p>';
             }
         }
 
