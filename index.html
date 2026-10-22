@@ -164,85 +164,36 @@
     </div>
 
     <script>
-        // Enlace directo de exportación CSV adaptado a tus columnas reales
-        const SHEET_URL = 'https://google.com' + new Date().getTime();
+        // Usamos la URL del Apps Script para traer los productos de forma segura y directa
         const APPS_SCRIPT_URL = 'https://google.com'; 
+        const REQUEST_URL = APPS_SCRIPT_URL + '?action=getProducts&t=' + new Date().getTime();
         
         let productos = [];
         let carrito = {};
 
-        // Procesador de bloques CSV seguro
-        function parsearCSV(texto) {
-            const lineas = [];
-            let fila = [];
-            let celda = '';
-            let dentroDeComillas = false;
-
-            for (let i = 0; i < texto.length; i++) {
-                const char = texto[i];
-                const siguienteChar = texto[i + 1];
-
-                if (char === '"') {
-                    if (dentroDeComillas && siguienteChar === '"') {
-                        celda += '"';
-                        i++;
-                    } else {
-                        dentroDeComillas = !dentroDeComillas;
-                    }
-                } else if (char === ',' && !dentroDeComillas) {
-                    fila.push(celda.trim());
-                    celda = '';
-                } else if ((char === '\r' || char === '\n') && !dentroDeComillas) {
-                    if (celda || fila.length > 0) {
-                        fila.push(celda.trim());
-                        lineas.push(fila);
-                        celda = '';
-                    }
-                    fila = [];
-                    if (char === '\r' && siguienteChar === '\n') i++;
-                } else {
-                    celda += char;
-                }
-            }
-            if (celda || fila.length > 0) {
-                fila.push(celda.trim());
-                lineas.push(fila);
-            }
-            return lineas;
-        }
-
         async function cargarProductos() {
             try {
-                const respuesta = await fetch(SHEET_URL);
-                if (!respuesta.ok) throw new Error('Error al conectar');
+                const respuesta = await fetch(REQUEST_URL);
+                if (!respuesta.ok) throw new Error('Error al conectar con el servidor');
                 
-                const textoCSV = await respuesta.text();
-                const filas = parsearCSV(textoCSV);
+                productos = await respuesta.json();
                 
-                productos = [];
-                // Mapeo exacto para tus 3 columnas: A=Codigo, B=Unidad, C=Detalle
-                for (let i = 1; i < filas.length; i++) {
-                    const columnas = filas[i];
-                    if (columnas.length >= 3 && columnas[0] !== "") {
-                        productos.push({
-                            codigo: columnas[0] ? columnas[0].replace(/"/g, '') : '',
-                            unidad: columnas[1] ? columnas[1].replace(/"/g, '') : 'Unidad',
-                            detalle: columnas[2] ? columnas[2].replace(/"/g, '') : '',
-                            precio: columnas[4] ? (parseFloat(columnas[4]) || 0) : 0 // Busca precio si existe en la columna E, si no, usa 0
-                        });
-                    }
+                // Si el script devolvió un error interno de Google Sheets
+                if (productos.error) {
+                    throw new Error(productos.error);
                 }
+                
                 renderizarProductos(productos);
             } catch (error) {
                 console.error(error);
                 document.getElementById('catalogo-grid').innerHTML = 
-                    `<p style="text-align: center; grid-column: 1 / -1; color: #e74c3c;">Error al cargar el inventario. Verifique la conexión con Google Sheets.</p>`;
+                    `<p style="text-align: center; grid-column: 1 / -1; color: #e74c3c;">Error al sincronizar inventario. Asegúrese de que la pestaña de su Google Sheet se llame "Productos".</p>`;
             }
         }
 
         function renderizarProductos(lista) {
             const grid = document.getElementById('catalogo-grid');
-            if (lista.length === 0) {
+            if (!lista || lista.length === 0) {
                 grid.innerHTML = `<p style="text-align: center; grid-column: 1 / -1;">No se encontraron productos en el inventario.</p>`;
                 return;
             }
@@ -250,11 +201,11 @@
             grid.innerHTML = lista.map(p => `
                 <div class="card">
                     <div>
-                        <h3>${p.detalle}</h3>
-                        <p style="font-size: 0.85em; color: #aaa; margin: 0 0 8px 0;">${p.unidad} - Cód: ${p.codigo}</p>
+                        <h3>${p.descripcion || 'Sin descripción'}</h3>
+                        <p style="font-size: 0.85em; color: #aaa; margin: 0 0 8px 0;">${p.unidad || 'Unidad'} - Cód: ${p.codigo || '---'}</p>
                     </div>
                     <div>
-                        <div class="precio">Q ${p.precio > 0 ? p.precio.toFixed(2) : '---'}</div>
+                        <div class="precio">Q ${parseFloat(p.precio) > 0 ? parseFloat(p.precio).toFixed(2) : '---'}</div>
                         <button class="btn-agregar" onclick="agregarAlCarrito('${p.codigo}')">+ Agregar</button>
                     </div>
                 </div>
@@ -263,7 +214,10 @@
 
         function filtrarProductos() {
             const termino = document.getElementById('buscador').value.toLowerCase();
-            const filtrados = productos.filter(p => p.detalle.toLowerCase().includes(termino) || p.codigo.toLowerCase().includes(termino));
+            const filtrados = productos.filter(p => 
+                (p.descripcion && p.descripcion.toLowerCase().includes(termino)) || 
+                (p.codigo && p.codigo.toLowerCase().includes(termino))
+            );
             renderizarProductos(filtrados);
         }
 
@@ -274,7 +228,9 @@
             if (carrito[codigo]) {
                 carrito[codigo].cantidad++;
             } else {
-                carrito[codigo] = { ...prod, cantidad: 1 };
+                carrito[carrito.codigo ? carrito.codigo : codigo] = { ...prod, cantidad: 1 };
+                // Asegurar compatibilidad de llaves
+                if(!carrito[codigo]) carrito[codigo] = { ...prod, cantidad: 1 };
             }
             actualizarInterfazCarrito();
         }
@@ -285,3 +241,48 @@
             let textoTicket = '*PEDIDO CENTRAL - DIPROSA (ESTUARDO)*\n\n';
 
             for (const key in carrito) {
+                const item = carrito[key];
+                if(item && item.cantidad) {
+                    totalItems += item.cantidad;
+                    let itemPrecio = parseFloat(item.precio) || 0;
+                    precioTotal += itemPrecio * item.cantidad;
+                    textoTicket += `- ${item.cantidad}x ${item.descripcion || 'Producto'} (${item.unidad || 'Unidad'})\n`;
+                }
+            }
+
+            if(precioTotal > 0) {
+                textoTicket += `\n*TOTAL ESTIMADO: Q ${precioTotal.toFixed(2)}*`;
+            }
+
+            document.getElementById('contador-items').innerText = totalItems;
+            document.getElementById('total-quetzales').innerText = `Q ${precioTotal.toFixed(2)}`;
+
+            const numeroTelefono = '50248502382'; 
+            document.getElementById('whatsapp-pedido').href = `https://whatsapp.com{numeroTelefono}&text=${encodeURIComponent(textoTicket)}`;
+            
+            if (totalItems > 0) {
+                enviarPanelCentral(textoTicket, precioTotal);
+            }
+        }
+
+        async function enviarPanelCentral(detalleText, total) {
+            try {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        vendedor: 'ESTUARDO',
+                        cliente: 'Venta Central',
+                        total: total.toFixed(2),
+                        detalle: detalleText
+                    })
+                });
+            } catch (e) {
+                console.error("Error registrando pedido:", e);
+            }
+        }
+
+        window.onload = cargarProductos;
+    </script>
+</body>
