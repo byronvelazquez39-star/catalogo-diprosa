@@ -5,149 +5,180 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Administración - DIPROSA</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 15px; }
-    h1 { text-align: center; color: #ff9800; font-size: 18px; margin-bottom: 15px; }
-    
-    .vendedor-section { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 15px; }
-    .vendedor-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ff9800; padding-bottom: 6px; margin-bottom: 10px; }
-    .vendedor-header h2 { margin: 0; font-size: 15px; color: #ff9800; }
-    
-    .ticket-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 10px; margin-bottom: 8px; font-size: 12px; }
-    .ticket-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 4px; align-items: center; }
-    .ticket-cliente { color: #4CAF50; font-weight: bold; margin-bottom: 6px; }
-    .ticket-item { display: flex; justify-content: space-between; color: #ccc; margin-bottom: 2px; }
-    .ticket-total { text-align: right; font-weight: bold; color: #25d366; font-size: 13px; margin-top: 6px; border-top: 1px dashed #555; padding-top: 4px; }
-
-    .btn-clear { background: #e74c3c; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
-    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
-    .empty-msg { font-size: 12px; color: #888; font-style: italic; }
+    :root {
+      --bg-color: #0d1117;
+      --card-bg: #161b22;
+      --accent-color: #27ae60;
+      --text-color: #f0f6fc;
+      --subtext-color: #8b949e;
+      --border-color: #30363d;
+      --header-bg: #1f2937;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 15px;
+    }
+    .header-bar {
+      text-align: center;
+      padding: 15px;
+      background-color: var(--header-bg);
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-color);
+    }
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #f39c12;
+    }
+    .status-badge {
+      font-size: 13px;
+      color: #2ecc71;
+      margin-top: 5px;
+      display: block;
+    }
+    .vendedor-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .vendedor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .vendedor-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #f39c12;
+    }
+    .ticket-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ticket-card {
+      background-color: #21262d;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px;
+    }
+    .ticket-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--subtext-color);
+      margin-bottom: 5px;
+    }
+    .ticket-cliente {
+      font-weight: bold;
+      color: var(--text-color);
+      font-size: 14px;
+    }
+    .ticket-total {
+      color: #2ecc71;
+      font-weight: bold;
+      font-size: 15px;
+      text-align: right;
+    }
+    .ticket-detalle {
+      font-size: 12px;
+      color: var(--subtext-color);
+      margin-top: 5px;
+      white-space: pre-line;
+    }
+    .no-data {
+      font-style: italic;
+      color: var(--subtext-color);
+      font-size: 13px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
-
-  <!-- SECCIÓN ESTUARDO -->
-  <div class="vendedor-section">
-    <div class="vendedor-header">
-      <h2>👤 Vendedor: ESTUARDO</h2>
-      <button class="btn-clear" onclick="limpiarTiquetes('estuardo')">Borrar Historial</button>
-    </div>
-    <div id="lista-estuardo">Cargando tiquetes...</div>
+  <div class="header-bar">
+    <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
+    <span class="status-badge" id="status-indicador">🟢 Conectado en tiempo real</span>
   </div>
 
-  <!-- SECCIÓN CRISTIAN -->
-  <div class="vendedor-section">
-    <div class="vendedor-header">
-      <h2>👤 Vendedor: CRISTIAN</h2>
-      <button class="btn-clear" onclick="limpiarTiquetes('cristian')">Borrar Historial</button>
-    </div>
-    <div id="lista-cristian">Cargando tiquetes...</div>
-  </div>
-
-  <!-- SECCIÓN JORGE -->
-  <div class="vendedor-section">
-    <div class="vendedor-header">
-      <h2>👤 Vendedor: JORGE</h2>
-      <button class="btn-clear" onclick="limpiarTiquetes('jorge')">Borrar Historial</button>
-    </div>
-    <div id="lista-jorge">Cargando tiquetes...</div>
-  </div>
-
-  <!-- SECCIÓN ELEAZAR -->
-  <div class="vendedor-section">
-    <div class="vendedor-header">
-      <h2>👤 Vendedor: ELEAZAR</h2>
-      <button class="btn-clear" onclick="limpiarTiquetes('eleazar')">Borrar Historial</button>
-    </div>
-    <div id="lista-eleazar">Cargando tiquetes...</div>
+  <div id="vendedores-container">
+    <!-- Secciones cargadas dinámicamente -->
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      cargarReporte('estuardo');
-      cargarReporte('cristian');
-      cargarReporte('jorge');
-      cargarReporte('eleazar');
-    });
+    const API_URL = 'https://script.google.com/macros/s/AKfycbw-fd8l6_Euw25vwpkZJAZYL267Vwt3_o8jsmqTYvuC8D9qmTEpol_2ogivHrVJ7z2q/exec';
+    const vendedores = ['ESTUARDO', 'CRISTIAN', 'JORGE', 'ELEAZAR'];
 
-    function cargarReporte(vendedor) {
-      const contenedor = document.getElementById(`lista-${vendedor}`);
-      const clave = `diprosa_tickets_${vendedor}`;
-      let tiquetes = [];
+    function cargarPedidosEnTiempoReal() {
+      document.getElementById('status-indicador').innerText = "🔄 Sincronizando ventas...";
 
-      try {
-        tiquetes = JSON.parse(localStorage.getItem(clave)) || [];
-      } catch(e) {
-        tiquetes = [];
-      }
+      fetch(API_URL)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('status-indicador').innerText = "🟢 Conectado en tiempo real (" + new Date().toLocaleTimeString() + ")";
+          renderizarPedidos(data);
+        })
+        .catch(error => {
+          console.error("Error al obtener tiquetes:", error);
+          document.getElementById('status-indicador').innerText = "🔴 Error al sincronizar";
+        });
+    }
 
-      if (tiquetes.length === 0) {
-        contenedor.innerHTML = '<p class="empty-msg">No hay tiquetes registrados para este vendedor en este dispositivo.</p>';
-        return;
-      }
+    function renderizarPedidos(pedidos) {
+      const container = document.getElementById('vendedores-container');
+      container.innerHTML = '';
 
-      let html = "";
-      tiquetes.forEach((t, idx) => {
-        let itemsHtml = "";
-        let totalCalculado = 0;
+      vendedores.forEach(vendedor => {
+        // Filtrar pedidos correspondientes a este vendedor
+        const pedidosVendedor = pedidos.filter(p => p.vendedor && p.vendedor.toUpperCase().trim() === vendedor);
 
-        if (Array.isArray(t.items)) {
-          t.items.forEach(item => {
-            let cant = item.cantidad || item.qty || 1;
-            let prec = item.precio || item.price || 0;
-            let sub = cant * prec;
-            totalCalculado += sub;
-            itemsHtml += `<div class="ticket-item"><span>• ${item.nombre || item.name} (x${cant})</span><span>Q${sub.toFixed(2)}</span></div>`;
+        let htmlCard = `
+          <div class="vendedor-card">
+            <div class="vendedor-header">
+              <span class="vendedor-title">👤 Vendedor: ${vendedor}</span>
+            </div>
+            <div class="ticket-list">
+        `;
+
+        if (pedidosVendedor.length === 0) {
+          htmlCard += `<p class="no-data">No hay tiquetes registrados para este vendedor en la hoja de cálculo.</p>`;
+        } else {
+          pedidosVendedor.reverse().forEach(p => {
+            htmlCard += `
+              <div class="ticket-card">
+                <div class="ticket-header">
+                  <span>📅 ${p.fecha || 'Sin fecha'}</span>
+                </div>
+                <div class="ticket-cliente">👤 Cliente: ${p.cliente || 'Consumidor Final'}</div>
+                <div class="ticket-detalle">${p.detalle || ''}</div>
+                <div class="ticket-total">Total: Q${parseFloat(p.total || 0).toFixed(2)}</div>
+              </div>
+            `;
           });
         }
 
-        let totalMostrar = t.total ? t.total.toFixed(2) : totalCalculado.toFixed(2);
-
-        html += `
-          <div class="ticket-card">
-            <div class="ticket-head">
-              <span>Tiquete #${idx + 1} (🕒 ${t.fecha || 'Sin fecha'})</span>
-              <button class="btn-eliminar-uno" onclick="eliminarUnTiquete('${vendedor}', ${idx})">❌ Eliminar</button>
+        htmlCard += `
             </div>
-            <div class="ticket-cliente">👤 Cliente: ${t.cliente || 'Cliente General'}</div>
-            ${itemsHtml}
-            <div class="ticket-total">Total: Q ${totalMostrar}</div>
           </div>
         `;
+
+        container.innerHTML += htmlCard;
       });
-
-      contenedor.innerHTML = html;
     }
 
-    function eliminarUnTiquete(vendedor, index) {
-      if (confirm(`¿Desea eliminar el Tiquete #${index + 1} de ${vendedor.toUpperCase()}?`)) {
-        const clave = `diprosa_tickets_${vendedor}`;
-        let tiquetes = [];
-        try {
-          tiquetes = JSON.parse(localStorage.getItem(clave)) || [];
-        } catch(e) {
-          tiquetes = [];
-        }
-        
-        // Elimina únicamente el tiquete seleccionado por su posición (index)
-        tiquetes.splice(index, 1);
-        
-        // Guarda de nuevo el arreglo actualizado en el almacenamiento local
-        localStorage.setItem(clave, JSON.stringify(tiquetes));
-        
-        // Refresca la pantalla del panel
-        cargarReporte(vendedor);
-      }
-    }
+    // Cargar inmediatamente al abrir la página
+    cargarPedidosEnTiempoReal();
 
-    function limpiarTiquetes(vendedor) {
-      if (confirm(`¿Está seguro de borrar todo el historial de tiquetes de ${vendedor.toUpperCase()}?`)) {
-        localStorage.removeItem(`diprosa_tickets_${vendedor}`);
-        localStorage.removeItem(`correlativo_ticket_${vendedor}`);
-        cargarReporte(vendedor);
-      }
-    }
+    // Actualizar automáticamente cada 15 segundos en tiempo real
+    setInterval(cargarPedidosEnTiempoReal, 15000);
   </script>
 </body>
 </html>
