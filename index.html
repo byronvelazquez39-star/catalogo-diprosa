@@ -150,7 +150,7 @@
     </div>
 
     <div class="grid" id="catalogo-grid">
-        <p style="text-align: center; grid-column: 1 / -1;">Cargando los 1,327 productos...</p>
+        <p style="text-align: center; grid-column: 1 / -1;">Cargando inventario...</p>
     </div>
 
     <div class="footer-bar">
@@ -184,7 +184,6 @@
             productos = [];
             let vistos = new Set();
             
-            // Recorremos desde el inicio para capturar todo el inventario de la hoja
             for (let i = 0; i < lineas.length; i++) {
                 if (!lineas[i].trim()) continue;
                 const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
@@ -192,8 +191,9 @@
                 if (columnas.length >= 3) {
                     let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
                     
-                    // Filtramos filas vacías, títulos de columnas o código interno
+                    // Filtramos filas vacías, títulos de encabezado y código interno
                     if (descripcion && 
+                        descripcion.toLowerCase() !== 'detalle' &&
                         !descripcion.toLowerCase().includes('descripcion') && 
                         !descripcion.toLowerCase().includes('producto') && 
                         !descripcion.includes('{') && 
@@ -226,7 +226,6 @@
                 return;
             }
             
-            // Mostramos los primeros 50 para que cargue volando al abrir, y el buscador busca en todo el total
             const muestra = lista.slice(0, 50);
             grid.innerHTML = muestra.map((p) => {
                 let originalIndex = productos.findIndex(prod => prod.id === p.id);
@@ -237,7 +236,7 @@
                         <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
                     </div>
                 `;
-            }).join('') + (lista.length > 50 ? `<p style="text-align:center; grid-column:1/-1; color:#f1c40f; padding: 10px;">Mostrando los primeros 50 productos. Use el buscador arriba para encontrar los demás de su inventario.</p>` : '');
+            }).join('') + (lista.length > 50 ? `<p style="text-align:center; grid-column:1/-1; color:#f1c40f; padding: 10px;">Mostrando los primeros 50 productos. Use el buscador para encontrar el resto.</p>` : '');
         }
 
         function filtrarProductos() {
