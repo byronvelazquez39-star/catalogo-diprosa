@@ -112,7 +112,6 @@
     </a>
 
     <script>
-        // Enlace directo a la versión publicada en CSV de su Google Sheet actual
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=0';
         
         let productos = [];
@@ -164,7 +163,7 @@
         }
 
         function filtrarProductos() {
-            const texto = document.getElementById('buscador'].value.toLowerCase();
+            const texto = document.getElementById('buscador').value.toLowerCase();
             const filtrados = productos.filter(p => p.descripcion.toLowerCase().includes(texto));
             mostrarProductos(filtrados);
         }
