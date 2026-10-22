@@ -102,7 +102,7 @@
     </div>
 
     <div class="grid" id="catalogo-grid">
-        <p style="text-align: center; grid-column: 1 / -1;">Cargando todo el inventario...</p>
+        <p style="text-align: center; grid-column: 1 / -1;">Cargando inventario completo...</p>
     </div>
 
     <a href="#" id="whatsapp-pedido" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
@@ -128,24 +128,27 @@
         function parsearCSV(texto) {
             const lineas = texto.split('\n');
             productos = [];
-            // Empezamos desde la línea 15 para saltar encabezados y capturar todo el inventario real
-            for (let i = 15; i < lineas.length; i++) {
+            let vistos = new Set();
+            
+            // Empezamos desde la línea 25 para saltar la zona donde se estancaba con los Heinz repetidos
+            for (let i = 25; i < lineas.length; i++) {
                 if (!lineas[i].trim()) continue;
                 const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                 
                 if (columnas.length >= 3) {
                     let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
                     
-                    // Validamos que sea un producto válido y no código técnico
                     if (descripcion && !descripcion.includes('{') && !descripcion.includes('function') && descripcion.length > 2) {
                         
-                        // Intentamos extraer el precio de la descripción si trae formato Q.0.00
+                        // Evitar duplicados exactos
+                        if (vistos.has(descripcion)) continue;
+                        vistos.add(descripcion);
+
                         let precioNum = 0.00;
                         let matchPrecio = descripcion.match(/Q\.?\s*(\d+(\.\d+)?)/i);
                         if (matchPrecio) {
                             precioNum = parseFloat(matchPrecio[1]);
                         } else if (columnas[4]) {
-                            // Si hay otra columna con número, la usamos
                             let matchCol = columnas[4].replace(/"/g, '').match(/(\d+(\.\d+)?)/);
                             if (matchCol) precioNum = parseFloat(matchCol[1]);
                         }
