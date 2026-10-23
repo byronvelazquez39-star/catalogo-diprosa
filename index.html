@@ -17,10 +17,30 @@
             text-align: center;
             color: #f1c40f;
             font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+        .sub-header {
+            text-align: center;
+            color: #3b82f6;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            display: block;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #333;
+            background-color: #1a1a1a;
+            color: white;
+            font-size: 1em;
+            box-sizing: border-box;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 12px;
             max-width: 1200px;
             margin: 0 auto;
@@ -37,7 +57,7 @@
         }
         .card img {
             width: 100%;
-            height: 120px;
+            height: 130px;
             object-fit: cover;
             border-radius: 5px;
         }
@@ -57,11 +77,11 @@
             background-color: #3b82f6;
             color: white;
             border: none;
-            padding: 6px;
+            padding: 8px;
             border-radius: 5px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 0.8em;
+            font-size: 0.85em;
         }
         /* Barra flotante del carrito */
         .cart-bar {
@@ -94,20 +114,35 @@
 <body>
 
     <h1>📦 Catálogo DIPROSA</h1>
+    <div class="sub-header">Ruta Activa - Ventas</div>
+
+    <input type="text" id="buscador" class="search-box" placeholder="🔍 Buscar producto..." onkeyup="filtrarProductos()">
     
-    <!-- Lista de productos de ejemplo (puede adaptarla a su CSV) -->
+    <!-- Grilla de Productos -->
     <div class="grid" id="product-grid">
-        <div class="card">
-            <img src="https://via.placeholder.com/150?text=Producto+1" alt="Producto">
+        <div class="card" data-nombre="Detergente en Polvo 1kg">
+            <img src="https://via.placeholder.com/150?text=Detergente" alt="Producto" loading="lazy">
             <h3>Detergente en Polvo 1kg</h3>
             <p class="precio">Q 15.00</p>
             <button class="btn-add" onclick="agregarAlCarro('Detergente en Polvo 1kg', 15.00)">Agregar</button>
         </div>
-        <div class="card">
-            <img src="https://via.placeholder.com/150?text=Producto+2" alt="Producto">
+        <div class="card" data-nombre="Aceite Vegetal 800ml">
+            <img src="https://via.placeholder.com/150?text=Aceite" alt="Producto" loading="lazy">
             <h3>Aceite Vegetal 800ml</h3>
             <p class="precio">Q 22.50</p>
             <button class="btn-add" onclick="agregarAlCarro('Aceite Vegetal 800ml', 22.50)">Agregar</button>
+        </div>
+        <div class="card" data-nombre="Arroz Blanco 5lbs">
+            <img src="https://via.placeholder.com/150?text=Arroz" alt="Producto" loading="lazy">
+            <h3>Arroz Blanco 5lbs</h3>
+            <p class="precio">Q 20.00</p>
+            <button class="btn-add" onclick="agregarAlCarro('Arroz Blanco 5lbs', 20.00)">Agregar</button>
+        </div>
+        <div class="card" data-nombre="Frijol Negro 5lbs">
+            <img src="https://via.placeholder.com/150?text=Frijol" alt="Producto" loading="lazy">
+            <h3>Frijol Negro 5lbs</h3>
+            <p class="precio">Q 25.00</p>
+            <button class="btn-add" onclick="agregarAlCarro('Frijol Negro 5lbs', 25.00)">Agregar</button>
         </div>
     </div>
 
@@ -121,7 +156,7 @@
     </div>
 
     <script>
-        // CAMBIE AQUÍ EL NOMBRE DEL VENDEDOR SEGÚN CORRESPONDA (JORGE, ELEAZAR, ESTUARDO, CRISTIAN)
+        // CAMBIE AQUÍ EL VENDEDOR SEGÚN CORRESPONDA (JORGE, ELEAZAR, ESTUARDO, CRISTIAN)
         const VENDEDOR_ACTUAL = 'JORGE'; 
         const FIREBASE_URL = `https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/${VENDEDOR_ACTUAL}.json`;
 
@@ -135,6 +170,15 @@
         function actualizarTotal() {
             let total = carrito.reduce((sum, item) => sum + item.precio, 0);
             document.getElementById('lbl-total').innerText = `Q ${total.toFixed(2)}`;
+        }
+
+        function filtrarProductos() {
+            let filtro = document.getElementById('buscador').value.toLowerCase();
+            let tarjetas = document.querySelectorAll('.card');
+            tarjetas.forEach(card => {
+                let nombre = card.getAttribute('data-nombre').toLowerCase();
+                card.style.display = nombre.includes(filtro) ? 'flex' : 'none';
+            });
         }
 
         async function procesarPedido() {
@@ -154,26 +198,24 @@
                 fecha: fechaHora
             };
 
-            // 1. Enviar los datos a Firebase para que caiga al Panel Admin de inmediato
+            // 1. Enviar los datos directo a Firebase para que el Admin los vea al instante
             try {
                 let respuesta = await fetch(FIREBASE_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datosTicket)
                 });
-
                 if (!respuesta.ok) {
-                    console.error("Aviso: Firebase no confirmó el guardado, pero se procederá con WhatsApp.");
+                    console.error("Firebase no confirmó el guardado.");
                 }
             } catch (e) {
-                console.error("Error de red al conectar con Firebase:", e);
+                console.error("Error de red con Firebase:", e);
             }
 
-            // 2. Armar mensaje de WhatsApp
+            // 2. Armar mensaje y redirigir a WhatsApp
             let mensaje = `*DISTRIBUIDORA DIPROSA*%0A*Vendedor:* ${VENDEDOR_ACTUAL}%0A*Fecha:* ${fechaHora}%0A*Detalle:* ${detalleTexto}%0A*Total:* Q${totalVenta.toFixed(2)}`;
             let urlWhatsApp = `https://wa.me/50248502382?text=${mensaje}`;
 
-            // Vaciar carrito y abrir WhatsApp
             carrito = [];
             actualizarTotal();
             window.open(urlWhatsApp, '_blank');
