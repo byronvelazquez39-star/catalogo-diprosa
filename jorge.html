@@ -174,7 +174,7 @@
         }
         .caja-cuotas {
             border: 1px solid #166534;
-            background-color: #051408; /* Fondo verde oscuro idéntico a Eleazar */
+            background-color: #051408;
             border-radius: 8px;
             padding: 12px;
             margin-bottom: 12px;
@@ -593,8 +593,9 @@
             };
 
             try {
-                await fetch(FIREBASE_URL, {
-                    method: 'POST',
+                let urlUnica = `https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/JORGE/${Date.now()}.json`;
+                await fetch(urlUnica, {
+                    method: 'PUT',
                     body: JSON.stringify(nuevoTicket),
                     headers: { 'Content-Type': 'application/json' }
                 });
