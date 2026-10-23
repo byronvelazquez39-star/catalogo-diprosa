@@ -163,6 +163,7 @@
 
     <script>
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=1578551749';
+        const FIREBASE_URL = 'https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/JORGE.json';
         
         let productos = [];
         let carrito = {};
@@ -268,17 +269,19 @@
             document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
         }
 
-        function enviarPedidoAdmin() {
+        async function enviarPedidoAdmin() {
             let totalItems = 0;
             let totalGeneral = 0;
             let detalleTexto = "";
+            let detalleWhatsApp = "";
             
             for (let nombre in carrito) {
                 let cant = carrito[nombre].cantidad;
                 let sub = cant * carrito[nombre].precio;
                 totalItems += cant;
                 totalGeneral += sub;
-                detalleTexto += `- ${cant}x ${nombre} (Q ${sub.toFixed(2)})%0A`;
+                detalleTexto += `${cant}x ${nombre} (Q ${sub.toFixed(2)}) | `;
+                detalleWhatsApp += `${nombre} (x${cant}) = Q${sub.toFixed(2)}%0A`;
             }
 
             if (totalItems === 0) {
@@ -289,20 +292,41 @@
             let clienteNom = prompt("Ingrese el nombre del cliente para este pedido:", "Cliente General");
             if (!clienteNom) return;
 
-            // Guardar en el almacenamiento local para que admin.html lo reciba al instante
-            let ventasGuardadas = JSON.parse(localStorage.getItem('ventas_JORGE') || '[]');
+            // Hora real de Guatemala
+            let ahora = new Date();
+            let fechaStr = ahora.toLocaleDateString('es-GT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            let horaStr = ahora.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true });
+            let fechaHoraCompleta = `${fechaStr} - ${horaStr}`;
+
             let nuevoTicket = {
-                id: ventasGuardadas.length + 1,
-                fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                fecha: fechaHoraCompleta,
                 cliente: clienteNom,
-                detalle: detalleTexto.replace(/%0A/g, ' | '),
+                detalle: detalleTexto,
                 total: totalGeneral
             };
-            ventasGuardadas.push(nuevoTicket);
-            localStorage.setItem('ventas_JORGE', JSON.stringify(ventasGuardadas));
 
-            // Enviar a WhatsApp de Administración
-            let mensaje = `Pedido de *JORGE*%0ACliente: ${clienteNom}%0A` + detalleTexto + `%0ATotal general: Q ${totalGeneral.toFixed(2)}`;
+            // Enviar a la nube (Firebase Realtime Database)
+            try {
+                await fetch(FIREBASE_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(nuevoTicket),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            } catch (e) {
+                console.error("Error enviando a la nube:", e);
+            }
+
+            // Mensaje para WhatsApp
+            let mensaje = `*DISTRIBUIDORA DIPROSA*%0A` +
+                          `📦 *Vendedor:* JORGE%0A` +
+                          `🕒 *Fecha y Hora:* ${fechaHoraCompleta}%0A` +
+                          `👤 *Cliente:* ${clienteNom}%0A` +
+                          `--------------------------------%0A` +
+                          detalleWhatsApp +
+                          `--------------------------------%0A` +
+                          `*TOTAL: Q ${totalGeneral.toFixed(2)}*%0A%0A` +
+                          `¡Hola! Confirmo este pedido.`;
+
             window.open(`https://wa.me/50248502382?text=${mensaje}`, '_blank');
         }
 
