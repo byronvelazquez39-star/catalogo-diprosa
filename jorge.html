@@ -1,251 +1,148 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA - Jorge</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 15px;
-            padding-bottom: 90px;
-        }
-        h1 {
-            text-align: center;
-            color: #f1c40f;
-            font-size: 1.4em;
-            margin-bottom: 5px;
-        }
-        .sub-header {
-            text-align: center;
-            color: #3b82f6;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-        }
-        .search-box {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 20px auto;
-            display: block;
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid #333;
-            background-color: #1a1a1a;
-            color: white;
-            font-size: 1em;
-            box-sizing: border-box;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 12px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card {
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card img {
-            width: 100%;
-            height: 130px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .card h3 {
-            font-size: 0.85em;
-            margin: 8px 0 4px 0;
-            height: 2.5em;
-            overflow: hidden;
-        }
-        .precio {
-            color: #2ecc71;
-            font-weight: bold;
-            font-size: 1em;
-            margin: 4px 0;
-        }
-        .btn-add {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 0.85em;
-        }
-        .btn-add:active {
-            background-color: #2563eb;
-        }
-        .cart-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: #1a1a1a;
-            border-top: 2px solid #333;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            z-index: 1000;
-        }
-        .btn-checkout {
-            background-color: #25d366;
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 0.9em;
-            cursor: pointer;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo DIPROSA - JORGE</title>
+  <style>
+    :root {
+      --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
+      --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
+    }
+    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 12px; padding-bottom: 100px; box-sizing: border-box; }
+    
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 6px; }
+    h1 { text-align: center; margin: 0; font-size: 16px; color: #ff9800; }
+    
+    .btn-group-header { display: flex; gap: 4px; }
+    .btn-action-header { border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; color: #fff; }
+    .btn-metas { background-color: #0284c7; }
+    .btn-sueldo { background-color: #059669; }
+
+    .search-box { width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px; border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; }
+    
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .card { background: var(--card-bg); padding: 10px; border-radius: 8px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
+    .nombre { font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+    .precio { font-size: 14px; color: var(--accent-color); font-weight: bold; margin-bottom: 8px; }
+    
+    .qty-controls { display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .qty-num { font-size: 14px; font-weight: bold; min-width: 18px; text-align: center; }
+    .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 12px; }
+    
+    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 10px; border-radius: 6px; width: 100%; margin-top: 15px; font-weight: bold; cursor: pointer; display: none; }
+
+    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+    .cart-info { font-size: 14px; cursor: pointer; }
+    .cart-total { font-size: 16px; color: var(--accent-color); font-weight: bold; }
+    .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
+
+    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
+    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 420px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 13px; }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 10px; }
+    .ticket-header h3 { margin: 0; font-size: 16px; color: #fff; }
+    .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 13px; box-sizing: border-box; margin-bottom: 8px; }
+    .btn-close { background: #555; color: white; border: none; padding: 8px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
+    .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 14px; cursor: pointer; }
+
+    .meta-resumen-box { background: #122118; border: 1px solid #059669; border-radius: 8px; padding: 12px; margin-bottom: 10px; font-size: 12px; color: #a7f3d0; line-height: 1.5; }
+    .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
+
+    .kpi-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #234e38; padding-bottom: 3px; }
+
+    .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 11px; }
+    .ticket-historial-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 3px; align-items: center; }
+    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
+
+    .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
+    .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+
+    .proyeccion-opcion { background: #1e293b; border-left: 3px solid #0284c7; padding: 8px; margin-top: 6px; border-radius: 4px; }
+    .proyeccion-opcion.verde { border-left-color: #25d366; background: #0f291e; }
+    .proyeccion-opcion.premio { border-left-color: #f59e0b; background: #27200e; }
+    .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  </style>
 </head>
 <body>
 
-    <h1>📦 Catálogo DIPROSA</h1>
-    <div class="sub-header" id="lbl-vendedor-ruta">Ruta Activa - Ventas</div>
-
-    <input type="text" id="buscador" class="search-box" placeholder="🔍 Escriba para buscar producto..." onkeyup="filtrarProductos()">
-    
-    <div class="grid" id="product-grid">
-        <p style="text-align:center; color:#888; grid-column:1/-1;">Cargando inventario desde el archivo CSV...</p>
+  <div class="header-bar">
+    <h1>📦 JORGE (VENDEDOR)</h1>
+    <div class="btn-group-header">
+      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
+      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
     </div>
+  </div>
 
-    <div class="cart-bar">
-        <div>
-            <span style="font-size: 0.8em; color: #aaa;" id="lbl-contador-items">0 items (Ver Ticket)</span><br>
-            <strong id="lbl-total" style="color: #2ecc71; font-size: 1.1em;">Q 0.00</strong>
+  <input type="text" id="buscar" class="search-box" placeholder="🔍 Escriba para buscar producto..." oninput="filtrarDebounce()">
+  
+  <div id="catalogo" class="grid">Cargando productos del catálogo...</div>
+  <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
+
+  <div class="cart-bar">
+    <div class="cart-info" onclick="abrirTicket()">
+      <div>🛒 <span id="cant-items">0</span> ítems (Ver Ticket)</div>
+      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
+    </div>
+    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+  </div>
+
+  <!-- MODAL TICKET -->
+  <div id="modal-ticket" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3>🧾 TICKET DE COMPRA</h3>
+        <p style="font-size: 11px; color: #888;" id="ticket-fecha"></p>
+        <p style="font-size: 13px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
+      </div>
+      <div id="ticket-items"></div>
+      <div style="margin-top: 10px;">
+        <label style="font-size: 12px; font-weight: bold; color: #bbb;">Nombre del Cliente / Tienda:</label>
+        <input type="text" id="cliente-receptor" class="client-input" placeholder="Ej. Tienda La Bendición">
+      </div>
+      <div style="border-top: 1px dashed #555; padding-top: 8px; margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: var(--accent-color);">
+          <span>Total Final:</span><span>Q <span id="ticket-total">0.00</span></span>
         </div>
-        <button class="btn-checkout" onclick="procesarPedido()">💬 Ver Ticket y Enviar</button>
+      </div>
+      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido por WhatsApp</button>
+      <button class="btn-close" onclick="cerrarModal('modal-ticket')">Seguir Comprando</button>
     </div>
+  </div>
 
-    <script>
-        const VENDEDOR_ACTUAL = 'JORGE'; 
-        const FIREBASE_URL = `https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/${VENDEDOR_ACTUAL}.json`;
+  <!-- MODAL METAS JORGE -->
+  <div id="modal-metas" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>📊 Control de Metas y Rendimiento</h3>
+        <p style="font-size: 11px; color: #888;">Panel de Vendedor - Ruta Activa</p>
+      </div>
+      <div class="meta-resumen-box">
+        <h4>📦 JORGE - ESTADO DE CUOTAS</h4>
+        <div class="kpi-row"><span>💰 Ventas Acumuladas Mes:</span><strong>Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</strong></div>
+        <div class="kpi-row"><span>🧾 Tiquetes Emitidos:</span><strong id="meta-tiquetes-real">0 / 220 Tq Meta</strong></div>
+        <div class="kpi-row"><span>⏱️ Horas de Ruta:</span><strong id="meta-horas-real">0 / 135 Hrs Meta</strong></div>
+      </div>
+      <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">📝 Registro Histórico:</div>
+      <div id="lista-tiquetes-eleazar" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;"></div>
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
+      <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar Ventana</button>
+    </div>
+  </div>
 
-        document.getElementById('lbl-vendedor-ruta').innerText = `Vendedor: ${VENDEDOR_ACTUAL} (Ruta Activa)`;
-
-        let carrito = [];
-        let productosDisponibles = [];
-
-        // Cargar automáticamente el archivo catalogo.csv del repositorio
-        async function cargarInventarioCSV() {
-            try {
-                let respuesta = await fetch('catalogo.csv');
-                let texto = await respuesta.text();
-                let lineas = texto.split('\n');
-                
-                productosDisponibles = [];
-
-                // Asume formato CSV: Nombre, Precio, Imagen (ajuste las columnas si es necesario)
-                for (let i = 1; i < lineas.length; i++) {
-                    let linea = lineas[i].trim();
-                    if (linea) {
-                        let columnas = linea.split(',');
-                        if (columnas.length >= 2) {
-                            let nombre = columnas[0].replace(/"/g, '').trim();
-                            let precio = parseFloat(columnas[1].replace(/"/g, '').trim()) || 0.00;
-                            let imagen = columnas[2] ? columnas[2].replace(/"/g, '').trim() : 'https://via.placeholder.com/150?text=DIPROSA';
-                            
-                            productosDisponibles.push({ nombre, precio, imagen });
-                        }
-                    }
-                }
-                renderizarCatalogo(productosDisponibles);
-            } catch (e) {
-                console.error("Error al cargar el catalogo.csv:", e);
-                document.getElementById('product-grid').innerHTML = '<p style="text-align:center; color:#e74c3c; grid-column:1/-1;">Error al cargar el inventario del CSV.</p>';
-            }
-        }
-
-        function renderizarCatalogo(lista) {
-            const grid = document.getElementById('product-grid');
-            if (lista.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; color:#888; grid-column:1/-1;">No se encontraron productos.</p>';
-                return;
-            }
-            grid.innerHTML = lista.map(p => `
-                <div class="card" data-nombre="${p.nombre.toLowerCase()}">
-                    <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=DIPROSA'">
-                    <h3>${p.nombre}</h3>
-                    <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                    <button class="btn-add" onclick="agregarAlCarro('${p.nombre.replace(/'/g, "\\'")}', ${p.precio})">Agregar</button>
-                </div>
-            `).join('');
-        }
-
-        function filtrarProductos() {
-            let filtro = document.getElementById('buscador').value.toLowerCase();
-            let filtrados = productosDisponibles.filter(p => p.nombre.toLowerCase().includes(filtro));
-            renderizarCatalogo(filtrados);
-        }
-
-        function agregarAlCarro(nombre, precio) {
-            carrito.push({ nombre, precio });
-            actualizarBarraCarrito();
-        }
-
-        function actualizarBarraCarrito() {
-            let total = carrito.reduce((sum, item) => sum + item.precio, 0);
-            document.getElementById('lbl-total').innerText = `Q ${total.toFixed(2)}`;
-            document.getElementById('lbl-contador-items').innerText = `${carrito.length} items (Ver Carrito)`;
-        }
-
-        async function procesarPedido() {
-            if (carrito.length === 0) {
-                alert("El carrito está vacío. Agregue productos antes de enviar el tiquete.");
-                return;
-            }
-
-            let totalVenta = carrito.reduce((sum, item) => sum + item.precio, 0);
-            let detalleTexto = carrito.map(i => `${i.nombre} (Q${i.precio.toFixed(2)})`).join(', ');
-            let fechaHora = new Date().toLocaleString();
-
-            let datosTicket = {
-                cliente: "Cliente General",
-                detalle: detalleTexto,
-                total: totalVenta,
-                fecha: fechaHora
-            };
-
-            // Enviar a Firebase para sincronización instantánea en el Panel Admin
-            try {
-                let respuesta = await fetch(FIREBASE_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(datosTicket)
-                });
-                if (!respuesta.ok) {
-                    console.error("Aviso: Firebase no confirmó el guardado automático.");
-                }
-            } catch (e) {
-                console.error("Error de conexión con Firebase:", e);
-            }
-
-            // Redirección a WhatsApp
-            let mensaje = `*DISTRIBUIDORA DIPROSA*%0A*Vendedor:* ${VENDEDOR_ACTUAL}%0A*Fecha:* ${fechaHora}%0A*Detalle:* ${detalleTexto}%0A*Total:* Q${totalVenta.toFixed(2)}`;
-            let urlWhatsApp = `https://wa.me/50248502382?text=${mensaje}`;
-
-            carrito = [];
-            actualizarBarraCarrito();
-            window.open(urlWhatsApp, '_blank');
-        }
-
-        // Cargar los productos al abrir la página
-        cargarInventarioCSV();
-    </script>
-</body>
-</html>
+  <!-- MODAL SUELDO JORGE -->
+  <div id="modal-sueldo" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header" style="margin-bottom: 10px;">
+        <h3>💵 Nómina Real en Tiempo Real</h3>
+        <p style="font-size: 11px; color: #38bdf8;" id="sueldo-estado-actual">Calculando segundo pago...</p>
+      </div>
+      <div class="sueldo-card">
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
+        <div class="sueldo-row" style="color:#25d366;"><span>1ra Quincena (1 al 15):</span><strong>Libre (Q1,750.00 pagados)</strong></div>
+        <div class="sueldo-row" style="color:#38bdf8;"><span>Base 2da Quincena (16 al 30):</span><strong>Q 1,750.00</strong></div>
+        <div class="sueldo-row" style="background:#1e293b; padding:8px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
+          <span style="color:#38bdf8; font-weight:bold;">☀️ Ventas de hoy:</span><strong style="color:#38bdf8; font-size:14px;" id="sueldo-dia-hoy">Q 0.00</strong>
+        </div>
+        <div class="sueldo-row" style="background:#1e1e1e; padding:8px; border-radius:6px; border:1px dashed #ef4444; margin-top:6px;">
+          <span style="color
