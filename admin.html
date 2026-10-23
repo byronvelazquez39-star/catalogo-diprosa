@@ -7,259 +7,179 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
+            background-color: #000000;
             color: #ffffff;
             margin: 0;
             padding: 12px;
-            padding-bottom: 50px;
+            padding-bottom: 80px;
         }
-        .header {
-            text-align: center;
-            padding: 10px 0 15px 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 15px;
-        }
-        .header h1 {
-            color: #ff9800;
-            margin: 0;
-            font-size: 1.3em;
-            letter-spacing: 0.5px;
-        }
-        .grid-vendedores {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .card-vendedor {
-            background-color: #121212;
-            border: 1px solid #282828;
-            border-radius: 12px;
-            padding: 12px 14px;
-        }
-        .vendedor-top {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            max-width: 1200px;
+            margin: 0 auto 15px auto;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
         }
-        .vendedor-info {
+        h2 {
+            color: #ff9800;
+            margin: 0;
+            font-size: 1.1em;
+        }
+        .btn-actualizar {
+            background-color: #15803d;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.8em;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .vendedor-box {
+            background-color: #0d0d0d;
+            border: 1px solid #222;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+        .vendedor-titulo {
+            color: #2ecc71;
             font-size: 1em;
             font-weight: bold;
-            color: #ff9800;
-        }
-        .vendedor-acciones {
-            display: flex;
-            gap: 6px;
-        }
-        .btn-venta {
-            background-color: #008000;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8em;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-borrar {
-            background-color: #a00000;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.8em;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .linea-divisora {
-            border-bottom: 1px solid #282828;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 6px;
             margin-bottom: 8px;
-        }
-        .ticket-list {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            justify-content: space-between;
         }
-        .sin-pedidos {
-            color: #888;
-            font-size: 0.85em;
-            padding: 4px 0;
+        .tiquete-item {
+            background-color: #161616;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            font-size: 0.82em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .ticket-item {
-            background-color: #1e1e1e;
-            border-left: 3px solid #ff9800;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 0.85em;
-        }
-        .ticket-meta {
-            color: #aaa;
-            font-size: 0.8em;
-            margin-bottom: 3px;
-        }
-        .ticket-cliente {
+        .total-vendedor {
+            color: #fb923c;
             font-weight: bold;
-            color: #fff;
-        }
-        .ticket-detalle {
-            color: #ccc;
-            margin: 3px 0;
-            font-size: 0.8em;
-            line-height: 1.3;
-        }
-        .ticket-monto {
-            color: #2ecc71;
-            font-weight: bold;
+            margin-top: 8px;
+            font-size: 0.9em;
             text-align: right;
+        }
+        .resumen-global {
+            background-color: #051408;
+            border: 1px solid #166534;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .resumen-global h3 {
+            color: #2ecc71;
+            margin: 0 0 5px 0;
+            font-size: 1em;
+        }
+        .resumen-global p {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
+    <div class="header-top">
+        <h2>📦 DIPROSA - ADMIN</h2>
+        <button onclick="cargarVentasAdmin()" class="btn-actualizar">🔄 Actualizar</button>
     </div>
 
-    <div class="grid-vendedores">
-
-        <!-- ESTUARDO -->
-        <div class="card-vendedor">
-            <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor: ESTUARDO</div>
-                <div class="vendedor-acciones">
-                    <button class="btn-venta" onclick="sumarVenta('ESTUARDO')">+ Venta</button>
-                    <button class="btn-borrar" onclick="borrarHistorial('ESTUARDO')">Borrar Historial</button>
-                </div>
-            </div>
-            <div class="linea-divisora"></div>
-            <div class="ticket-list" id="lista-ESTUARDO">
-                <div class="sin-pedidos">Esperando reportes del día...</div>
-            </div>
+    <div class="container">
+        <div class="resumen-global">
+            <h3>📊 VENTAS TOTALES DE HOY (TODAS LAS RUTAS)</h3>
+            <p id="total-global">Q 0.00</p>
         </div>
 
-        <!-- CRISTIAN -->
-        <div class="card-vendedor">
-            <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor: CRISTIAN</div>
-                <div class="vendedor-acciones">
-                    <button class="btn-venta" onclick="sumarVenta('CRISTIAN')">+ Venta</button>
-                    <button class="btn-borrar" onclick="borrarHistorial('CRISTIAN')">Borrar Historial</button>
-                </div>
-            </div>
-            <div class="linea-divisora"></div>
-            <div class="ticket-list" id="lista-CRISTIAN">
-                <div class="sin-pedidos">Esperando reportes del día...</div>
-            </div>
+        <div id="panel-admin">
+            <p style="text-align: center; color: #888;">Cargando tiquetes en tiempo real...</p>
         </div>
-
-        <!-- JORGE -->
-        <div class="card-vendedor">
-            <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor: JORGE</div>
-                <div class="vendedor-acciones">
-                    <button class="btn-venta" onclick="sumarVenta('JORGE')">+ Venta</button>
-                    <button class="btn-borrar" onclick="borrarHistorial('JORGE')">Borrar Historial</button>
-                </div>
-            </div>
-            <div class="linea-divisora"></div>
-            <div class="ticket-list" id="lista-JORGE">
-                <div class="sin-pedidos">Esperando reportes del día...</div>
-            </div>
-        </div>
-
-        <!-- ELEAZAR -->
-        <div class="card-vendedor">
-            <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor: ELEAZAR</div>
-                <div class="vendedor-acciones">
-                    <button class="btn-venta" onclick="sumarVenta('ELEAZAR')">+ Venta</button>
-                    <button class="btn-borrar" onclick="borrarHistorial('ELEAZAR')">Borrar Historial</button>
-                </div>
-            </div>
-            <div class="linea-divisora"></div>
-            <div class="ticket-list" id="lista-ELEAZAR">
-                <div class="sin-pedidos">Esperando reportes del día...</div>
-            </div>
-        </div>
-
     </div>
 
     <script>
-        const FIREBASE_BASE_URL = 'https://diprosa-ventas-default-rtdb.firebaseio.com/ventas';
-        const VENDEDORES = ['ESTUARDO', 'CRISTIAN', 'JORGE', 'ELEAZAR'];
+        const FIREBASE_ROOT_URL = 'https://diprosa-ventas-default-rtdb.firebaseio.com/ventas.json';
+        const vendedores = ['JORGE', 'ELEAZAR', 'ESTUARDO', 'CRISTIAN'];
 
-        async function cargarVentas() {
-            for (let v of VENDEDORES) {
-                try {
-                    const res = await fetch(`${FIREBASE_BASE_URL}/${v}.json`);
-                    const data = await res.json();
-                    procesarVendedor(v, data);
-                } catch (e) {
-                    console.error("Error leyendo Firebase para " + v, e);
-                }
+        async function cargarVentasAdmin() {
+            try {
+                const respuesta = await fetch(FIREBASE_ROOT_URL);
+                const datos = await respuesta.json();
+                
+                const panel = document.getElementById('panel-admin');
+                let htmlGlobal = '';
+                let granTotalGlobal = 0;
+
+                vendedores.forEach(vendedor => {
+                    let ventasVendedor = (datos && datos[vendedor]) ? Object.entries(datos[vendedor]) : [];
+                    let totalVendedorHoy = 0;
+                    let htmlTiquetes = '';
+
+                    if (ventasVendedor.length > 0) {
+                        ventasVendedor.forEach(([id, t], index) => {
+                            let monto = parseFloat(t.total) || 0;
+                            totalVendedorHoy += monto;
+                            granTotalGlobal += monto;
+                            
+                            let horaStr = t.fecha ? t.fecha.split('-')[1] || t.fecha : 'Hoy';
+                            let clienteNom = t.cliente || 'General';
+
+                            htmlTiquetes += `
+                                <div class="tiquete-item">
+                                    <div style="flex-grow: 1; padding-right: 8px;">
+                                        <div style="color:#3b82f6; font-weight:bold;">Tiquete #${index + 1} - 👤 ${clienteNom}</div>
+                                        <div style="color:#aaa; font-size:0.75em; margin-top:2px;">Hora: ${horaStr} | Detalle: ${t.detalle || ''}</div>
+                                    </div>
+                                    <div style="color:#2ecc71; font-weight:bold; font-size:0.95em; white-space:nowrap;">Q${monto.toFixed(2)}</div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        htmlTiquetes = '<div style="color:#666; font-size:0.8em; padding:4px;">Sin tiquetes registrados.</div>';
+                    }
+
+                    htmlGlobal += `
+                        <div class="vendedor-box">
+                            <div class="vendedor-titulo">
+                                <span>👤 ${vendedor}</span>
+                                <span style="font-size:0.85em; color:#aaa;">(${ventasVendedor.length} tiquetes)</span>
+                            </div>
+                            ${htmlTiquetes}
+                            <div class="total-vendedor">Total ${vendedor}: Q ${totalVendedorHoy.toFixed(2)}</div>
+                        </div>
+                    `;
+                });
+
+                panel.innerHTML = htmlGlobal;
+                document.getElementById('total-global').innerText = `Q ${granTotalGlobal.toFixed(2)}`;
+
+            } catch (error) {
+                console.error("Error al sincronizar datos:", error);
+                document.getElementById('panel-admin').innerHTML = '<p style="text-align:center; color:#ef4444;">Error al conectar con la base de datos.</p>';
             }
         }
 
-        function procesarVendedor(vendedor, datos) {
-            const contenedor = document.getElementById(`lista-${vendedor}`);
-            
-            if (!datos) {
-                contenedor.innerHTML = '<div class="sin-pedidos">Esperando reportes del día...</div>';
-                return;
-            }
-
-            let html = '';
-            let tickets = Object.values(datos).reverse();
-
-            tickets.forEach(t => {
-                let monto = parseFloat(t.total) || 0;
-                html += `
-                    <div class="ticket-item">
-                        <div class="ticket-meta">🕒 ${t.fecha || 'Hoy'}</div>
-                        <div class="ticket-cliente">👤 Cliente: ${t.cliente || 'General'}</div>
-                        <div class="ticket-detalle">${t.detalle || ''}</div>
-                        <div class="ticket-monto">Total: Q ${monto.toFixed(2)}</div>
-                    </div>
-                `;
-            });
-
-            contenedor.innerHTML = html;
-        }
-
-        async function borrarHistorial(vendedor) {
-            if (confirm(`¿Desea borrar el historial de reportes de ${vendedor}?`)) {
-                try {
-                    await fetch(`${FIREBASE_BASE_URL}/${vendedor}.json`, { method: 'DELETE' });
-                    document.getElementById(`lista-${vendedor}`).innerHTML = '<div class="sin-pedidos">Esperando reportes del día...</div>';
-                } catch (e) {
-                    alert("Error borrando historial.");
-                }
-            }
-        }
-
-        function sumarVenta(vendedor) {
-            let monto = prompt(`Ingrese monto manual para ${vendedor}:`, "0.00");
-            if (monto) {
-                let ahora = new Date();
-                let fechaHora = ahora.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true });
-                let nuevoTicket = {
-                    fecha: `Venta Manual - ${fechaHora}`,
-                    cliente: 'Venta Directa',
-                    detalle: 'Ingreso manual admin',
-                    total: parseFloat(monto)
-                };
-                fetch(`${FIREBASE_BASE_URL}/${vendedor}.json`, {
-                    method: 'POST',
-                    body: JSON.stringify(nuevoTicket),
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(() => cargarVentas());
-            }
-        }
-
-        cargarVentas();
-        setInterval(cargarVentas, 3000);
+        // Cargar al abrir y actualizar automáticamente cada 5 segundos
+        cargarVentasAdmin();
+        setInterval(cargarVentasAdmin, 5000);
     </script>
 </body>
 </html>
