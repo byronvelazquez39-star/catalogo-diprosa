@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Catálogo DIPROSA - JORGE</title>
   <style>
     :root {
@@ -161,9 +161,7 @@
         .catch(() => {
           productos = [
             { nombre: "Detergente en Polvo 1kg", precio: 15.00 },
-            { nombre: "Aceite Vegetal 800ml", precio: 22.50 },
-            { nombre: "Arroz Blanco 5lbs", precio: 20.00 },
-            { nombre: "Frijol Negro 5lbs", precio: 25.00 }
+            { nombre: "Aceite Vegetal 800ml", precio: 22.50 }
           ];
           productosFiltrados = productos;
           renderizarCatalogo();
@@ -242,6 +240,9 @@
         if (t.total) { 
           totalVentasReal += parseFloat(t.total); 
           totalTq += 1; 
+        } else if (t.esAcumuladoBase && t.total) {
+          totalVentasReal += parseFloat(t.total);
+          totalTq += (t.tiquetesCount || 0);
         }
       });
       
@@ -257,15 +258,29 @@
         return;
       }
 
-      contenedorLista.innerHTML = tiquetesGuardados.map((t, idx) => `
-        <div class="ticket-historial-card">
-          <div class="ticket-historial-head">
-            <span>Tiquete #${idx+1} - 👤 ${t.cliente || 'Cliente'}</span>
-            <button class="btn-eliminar-uno" onclick="eliminarTiquete(${idx})">❌ Eliminar</button>
-          </div>
-          <div style="color:#aaa;">Total: Q${t.total ? t.total.toFixed(2) : '0.00'}</div>
-        </div>
-      `).join('');
+      contenedorLista.innerHTML = tiquetesGuardados.map((t, idx) => {
+        if (t.esAcumuladoBase) {
+          return `
+            <div class="ticket-historial-card" style="border-left: 3px solid #27ae60;">
+              <div class="ticket-historial-head" style="color: #34d399;">
+                <span>📊 BASE DE INICIO (${t.tiquetesCount || 0} Tq)</span>
+                <button class="btn-eliminar-uno" onclick="eliminarTiquete(${idx})">❌ Eliminar</button>
+              </div>
+              <div style="color:#a7f3d0;">Ventas Base: Q${t.total ? t.total.toFixed(2) : '0.00'}</div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="ticket-historial-card">
+              <div class="ticket-historial-head">
+                <span>Tiquete #${idx+1} - 👤 ${t.cliente || 'Cliente'}</span>
+                <button class="btn-eliminar-uno" onclick="eliminarTiquete(${idx})">❌ Eliminar</button>
+              </div>
+              <div style="color:#aaa;">Total: Q${t.total ? t.total.toFixed(2) : '0.00'}</div>
+            </div>
+          `;
+        }
+      }).join('');
     }
 
     function eliminarTiquete(idx) {
