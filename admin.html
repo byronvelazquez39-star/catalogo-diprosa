@@ -41,7 +41,7 @@
         .vendedor-top {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 8px;
         }
         .vendedor-info {
@@ -49,13 +49,9 @@
             font-weight: bold;
             color: #ff9800;
         }
-        .vendedor-info span {
-            color: #ff9800;
-        }
         .vendedor-acciones {
             display: flex;
             gap: 6px;
-            align-items: center;
         }
         .btn-venta {
             background-color: #008000;
@@ -110,6 +106,8 @@
         .ticket-detalle {
             color: #ccc;
             margin: 3px 0;
+            font-size: 0.8em;
+            line-height: 1.3;
         }
         .ticket-monto {
             color: #2ecc71;
@@ -129,7 +127,7 @@
         <!-- ESTUARDO -->
         <div class="card-vendedor">
             <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor:<br><span>ESTUARDO</span></div>
+                <div class="vendedor-info">👤 Vendedor: ESTUARDO</div>
                 <div class="vendedor-acciones">
                     <button class="btn-venta" onclick="sumarVenta('ESTUARDO')">+ Venta</button>
                     <button class="btn-borrar" onclick="borrarHistorial('ESTUARDO')">Borrar Historial</button>
@@ -144,7 +142,7 @@
         <!-- CRISTIAN -->
         <div class="card-vendedor">
             <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor:<br><span>CRISTIAN</span></div>
+                <div class="vendedor-info">👤 Vendedor: CRISTIAN</div>
                 <div class="vendedor-acciones">
                     <button class="btn-venta" onclick="sumarVenta('CRISTIAN')">+ Venta</button>
                     <button class="btn-borrar" onclick="borrarHistorial('CRISTIAN')">Borrar Historial</button>
@@ -159,7 +157,7 @@
         <!-- JORGE -->
         <div class="card-vendedor">
             <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor: <span>JORGE</span></div>
+                <div class="vendedor-info">👤 Vendedor: JORGE</div>
                 <div class="vendedor-acciones">
                     <button class="btn-venta" onclick="sumarVenta('JORGE')">+ Venta</button>
                     <button class="btn-borrar" onclick="borrarHistorial('JORGE')">Borrar Historial</button>
@@ -174,7 +172,7 @@
         <!-- ELEAZAR -->
         <div class="card-vendedor">
             <div class="vendedor-top">
-                <div class="vendedor-info">👤 Vendedor:<br><span>ELEAZAR</span></div>
+                <div class="vendedor-info">👤 Vendedor: ELEAZAR</div>
                 <div class="vendedor-acciones">
                     <button class="btn-venta" onclick="sumarVenta('ELEAZAR')">+ Venta</button>
                     <button class="btn-borrar" onclick="borrarHistorial('ELEAZAR')">Borrar Historial</button>
@@ -220,7 +218,7 @@
                 html += `
                     <div class="ticket-item">
                         <div class="ticket-meta">🕒 ${t.fecha || 'Hoy'}</div>
-                        <div class="ticket-cliente">👤 ${t.cliente || 'Cliente General'}</div>
+                        <div class="ticket-cliente">👤 Cliente: ${t.cliente || 'General'}</div>
                         <div class="ticket-detalle">${t.detalle || ''}</div>
                         <div class="ticket-monto">Total: Q ${monto.toFixed(2)}</div>
                     </div>
