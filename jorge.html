@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
+            background-color: #000000;
             color: #ffffff;
             margin: 0;
             padding: 10px;
@@ -30,8 +30,8 @@
             gap: 6px;
         }
         .mini-btn {
-            background-color: #1a1a1a;
-            color: #aaa;
+            background-color: #121212;
+            color: #ff9800;
             border: 1px solid #333;
             padding: 6px 12px;
             border-radius: 6px;
@@ -49,7 +49,7 @@
             font-size: 15px;
             border-radius: 8px;
             border: 1px solid #333;
-            background-color: #181818;
+            background-color: #121212;
             color: white;
             outline: none;
             box-sizing: border-box;
@@ -67,13 +67,13 @@
             }
         }
         .card {
-            background-color: #141414;
+            background-color: #0a0a0a;
             border-radius: 8px;
             padding: 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid #282828;
+            border: 1px solid #222;
         }
         .card h3 {
             font-size: 0.85em;
@@ -103,7 +103,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #0b0b0b;
+            background-color: #000000;
             border-top: 2px solid #222;
             padding: 10px 15px;
             display: flex;
@@ -132,96 +132,104 @@
             border: none;
         }
 
-        /* MODAL AVANZADO (NÓMINA Y METAS) */
+        /* MODAL IDENTICO AL ORIGINAL DE ELEAZAR */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
+            background: rgba(0, 0, 0, 0.88);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 12px;
             box-sizing: border-box;
         }
         .modal-box {
-            background: #0a0a0a;
-            border: 1px solid #1a1a2e;
+            background: #050505;
+            border: 1px solid #1a1a1a;
             padding: 16px;
             border-radius: 12px;
-            max-width: 420px;
+            max-width: 400px;
             width: 100%;
             color: white;
             font-size: 0.85em;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-            max-height: 90vh;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.95);
+            max-height: 92vh;
             overflow-y: auto;
         }
-        .modal-header {
+        .modal-title {
             font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 4px;
-            color: #fff;
+            font-size: 1.15em;
             text-align: center;
+            color: #ffffff;
+            margin-bottom: 2px;
         }
-        .modal-sub {
-            color: #4d90fe;
-            font-size: 0.8em;
+        .modal-subtitle {
+            color: #3b82f6;
+            font-size: 0.78em;
             text-align: center;
+            margin-bottom: 14px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        .contenedor-principal {
+            background-color: #040814;
+            border: 1px solid #101d36;
+            border-radius: 10px;
+            padding: 12px;
             margin-bottom: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
         }
-        .card-seccion {
-            background-color: #0d111a;
-            border: 1px solid #1c2536;
-            border-radius: 8px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
+        .caja-detalle {
+            border: 1px solid #1e293b;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            background-color: rgba(15, 23, 42, 0.6);
         }
-        .card-seccion.verde {
-            background-color: #0a180e;
-            border-color: #16381e;
+        .caja-detalle.azul {
+            border-color: #1d4ed8;
+            background-color: rgba(30, 58, 138, 0.2);
         }
-        .card-seccion.rojo {
-            background-color: #1a0d0d;
-            border-color: #381616;
+        .caja-detalle.roja {
+            border-color: #b91c1c;
+            background-color: rgba(127, 29, 29, 0.2);
         }
-        .card-seccion.naranja {
-            background-color: #1a120b;
-            border-color: #382414;
+        .caja-detalle.verde {
+            border-color: #15803d;
+            background-color: rgba(20, 83, 45, 0.2);
         }
-        .fila-monto {
+        .caja-detalle.naranja {
+            border-color: #c2410c;
+            background-color: rgba(124, 45, 18, 0.2);
+        }
+        .fila-flex {
             display: flex;
             justify-content: space-between;
-            margin: 4px 0;
+            align-items: center;
+            margin: 3px 0;
         }
-        .monto-resaltado {
-            font-weight: bold;
-            color: #2ecc71;
-        }
-        .btn-cerrar {
-            background: #333333;
+        .btn-accion-cerrar {
+            background: #262626;
             color: white;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-        .btn-reporte {
-            background: #008000;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 11px;
+            border-radius: 8px;
             width: 100%;
             font-weight: bold;
             cursor: pointer;
             margin-top: 8px;
+            font-size: 0.9em;
+        }
+        .btn-accion-reporte {
+            background: #008000;
+            color: white;
+            border: none;
+            padding: 11px;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 6px;
             font-size: 0.9em;
         }
     </style>
@@ -254,11 +262,9 @@
         </button>
     </div>
 
-    <!-- MODAL DE NÓMINA Y METAS -->
+    <!-- MODAL -->
     <div id="modal-info" class="modal-overlay">
-        <div class="modal-box" id="modal-box-body">
-            <!-- Se llena dinámicamente -->
-        </div>
+        <div class="modal-box" id="modal-box-body"></div>
     </div>
 
     <script>
@@ -376,75 +382,77 @@
 
         async function obtenerVentasFirebase() {
             let total = 0;
-            let cantidadTiquetes = 0;
+            let tiquetes = 0;
             try {
                 const res = await fetch(FIREBASE_URL);
                 const data = await res.json();
                 if (data) {
-                    let tickets = Object.values(data);
-                    cantidadTiquetes = tickets.length;
-                    tickets.forEach(t => { total += parseFloat(t.total) || 0; });
+                    let lista = Object.values(data);
+                    tiquetes = lista.length;
+                    lista.forEach(t => { total += parseFloat(t.total) || 0; });
                 }
             } catch (e) { console.error(e); }
-            return { total, cantidadTiquetes };
+            return { total, tiquetes };
         }
 
         async function mostrarSueldo() {
             const datosFB = await obtenerVentasFirebase();
             let ventasHoy = datosFB.total;
-            let tiquetesHoy = datosFB.cantidadTiquetes;
+            let tiquetesHoy = datosFB.tiquetes;
 
-            let sueldoBaseMensual = 3500.00;
-            let baseQuincena = 1750.00;
-            let descuentoDeficit = 1225.00; 
-            let pagoNeto2do = 525.00;
-            let bonoMoto = 500.00;
-            let totalFinDeMes = pagoNeto2do + bonoMoto;
+            let ventasTotalesMes = 37944.00 + ventasHoy;
 
             let html = `
-                <div class="modal-header">💵 Nómina Real en Tiempo Real</div>
-                <div class="modal-sub">⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)</div>
+                <div class="modal-title">💵 Nómina Real en Tiempo Real</div>
+                <div class="modal-subtitle">⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)</div>
 
-                <div class="card-seccion">
-                    <div class="fila-monto"><span>Sueldo Base Mensual:</span> <b>Q${sueldoBaseMensual.toLocaleString('es-GT', {minimumFractionDigits:2})}</b></div>
-                    <div class="fila-monto" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
-                    <div class="fila-monto" style="color:#4d90fe;"><span>Base 2da Quincena (16 al 30):</span> <b>Q ${baseQuincena.toFixed(2)}</b></div>
-                </div>
+                <div class="contenedor-principal">
+                    <div class="caja-detalle">
+                        <div class="fila-flex"><span>Sueldo Base Mensual:</span> <b>Q3,500.00</b></div>
+                        <div class="fila-flex" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
+                        <div class="fila-flex" style="color:#60a5fa;"><span>Base 2da Quincena (16 al 30):</span> <b>Q 1,750.00</b></div>
+                    </div>
 
-                <div class="card-seccion" style="border-color:#4d90fe;">
-                    <div class="fila-monto" style="color:#4d90fe;">
-                        <span>☀️ Ventas de hoy:</span> 
-                        <b>Q ${ventasHoy.toFixed(2)} (${tiquetesHoy} tiquetes)</b>
+                    <div class="caja-detalle azul">
+                        <div class="fila-flex" style="color:#60a5fa; font-weight:bold;">
+                            <span>☀️ Ventas de hoy:</span> 
+                            <span>Q ${ventasHoy.toFixed(2)} (${tiquetesHoy} tiquetes)</span>
+                        </div>
+                    </div>
+
+                    <div class="caja-detalle roja">
+                        <div class="fila-flex" style="color:#f87171;">
+                            <span>📉 Descuento por Déficit (Desde el 16):</span> 
+                            <b>-Q 1225.00</b>
+                        </div>
+                    </div>
+
+                    <div class="caja-detalle verde">
+                        <div class="fila-flex" style="color:#4ade80; font-weight:bold; font-size:1em;">
+                            <span>📅 2do Pago Neto (Sueldo del Mes):</span> 
+                            <span>Q 525.00</span>
+                        </div>
+                    </div>
+
+                    <div style="font-size:0.75em; color:#94a3b8; margin: 8px 0;">
+                        • Ventas Totales Mes: Q${ventasTotalesMes.toFixed(2)} / Q81,000<br>
+                        • 🛡️ Descuento aplicado desde el 16 (Déficit de ventas).
+                    </div>
+
+                    <div class="caja-detalle naranja">
+                        <div style="color:#fb923c; font-weight:bold; font-size:0.85em; margin-bottom:2px;">
+                            🛵 TOTAL A RECIBIR FIN DE MES (CON MOTO):
+                        </div>
+                        <div style="font-size:0.72em; color:#cbd5e1; margin-bottom:4px;">
+                            Incluye 2do pago neto + Bono de Moto Q500.00 íntegro
+                        </div>
+                        <div style="color:#4ade80; font-size:1.15em; font-weight:bold;">
+                            Q 1025.00
+                        </div>
                     </div>
                 </div>
 
-                <div class="card-seccion rojo">
-                    <div class="fila-monto" style="color:#ff6b6b;">
-                        <span>📉 Descuento por Déficit (Desde el 16):</span> 
-                        <b>-Q ${descuentoDeficit.toFixed(2)}</b>
-                    </div>
-                </div>
-
-                <div class="card-seccion verde">
-                    <div class="fila-monto" style="color:#2ecc71; font-size:1em;">
-                        <span>📅 2do Pago Neto (Sueldo del Mes):</span> 
-                        <b>Q ${pagoNeto2do.toFixed(2)}</b>
-                    </div>
-                </div>
-
-                <div class="card-seccion naranja">
-                    <div style="color:#ff9800; font-weight:bold; margin-bottom:4px;">
-                        🛵 TOTAL A RECIBIR FIN DE MES:
-                    </div>
-                    <div style="font-size:0.8em; color:#aaa; margin-bottom:4px;">
-                        Incluye 2do pago neto + Bono integro Q500.00
-                    </div>
-                    <div style="color:#2ecc71; font-size:1.2em; font-weight:bold;">
-                        Q ${totalFinDeMes.toFixed(2)}
-                    </div>
-                </div>
-
-                <button class="btn-cerrar" onclick="cerrarModal()">Cerrar Ventana</button>
+                <button class="btn-accion-cerrar" onclick="cerrarModal()">Cerrar Ventana</button>
             `;
 
             document.getElementById('modal-box-body').innerHTML = html;
@@ -454,31 +462,30 @@
         async function mostrarMetas() {
             const datosFB = await obtenerVentasFirebase();
             let ventasHoy = datosFB.total;
-            let tiquetesHoy = datosFB.cantidadTiquetes;
+            let tiquetesHoy = datosFB.tiquetes;
 
-            let ventasAcumuladasMes = 36933.50 + ventasHoy;
-            let metaVentasMes = 81000.00;
-            let tiquetesEmitidos = 114 + tiquetesHoy;
+            let ventasTotalesMes = 36933.50 + ventasHoy;
+            let tiquetesTotal = 114 + tiquetesHoy;
 
             let html = `
-                <div class="modal-header">📊 Control de Metas y Rendimiento</div>
-                <div class="modal-sub">Panel de Jorge - Ruta Activa</div>
+                <div class="modal-title">📊 Control de Metas y Rendimiento</div>
+                <div class="modal-subtitle">Panel de Jorge - Ruta Activa</div>
 
-                <div class="card-seccion verde">
-                    <div style="color:#2ecc71; font-weight:bold; margin-bottom:8px;">📦 JORGE - ESTADO DE CUOTAS</div>
-                    <div class="fila-monto"><span>💰 Ventas Acumuladas Mes:</span> <b>Q ${ventasAcumuladasMes.toFixed(2)} / Q${metaVentasMes.toLocaleString()}</b></div>
-                    <div class="fila-monto"><span>📄 Tiquetes Emitidos:</span> <b>${tiquetesEmitidos} / 220 Tq Meta</b></div>
-                    <div class="fila-monto"><span>⏱️ Horas de Ruta:</span> <b>119 / 135 Hrs Meta</b></div>
+                <div class="caja-detalle verde" style="padding:10px;">
+                    <div style="color:#4ade80; font-weight:bold; margin-bottom:6px;">📦 JORGE - ESTADO DE CUOTAS</div>
+                    <div class="fila-flex"><span>💰 Ventas Acumuladas Mes:</span> <b>Q ${ventasTotalesMes.toFixed(2)} / Q81,000.00</b></div>
+                    <div class="fila-flex"><span>📄 Tiquetes Emitidos:</span> <b>${tiquetesTotal} / 220 Tq Meta</b></div>
+                    <div class="fila-flex"><span>⏱️ Horas de Ruta:</span> <b>119 / 135 Hrs Meta</b></div>
                 </div>
 
-                <div class="card-seccion">
-                    <div style="color:#ff9800; font-weight:bold; margin-bottom:6px;">📝 Ventas Registradas Hoy:</div>
-                    <div class="fila-monto"><span>• Tiquetes Generados:</span> <b>${tiquetesHoy}</b></div>
-                    <div class="fila-monto"><span>• Total Vendido Hoy:</span> <b style="color:#2ecc71;">Q ${ventasHoy.toFixed(2)}</b></div>
+                <div class="caja-detalle azul" style="padding:10px; margin-top:8px;">
+                    <div style="color:#fb923c; font-weight:bold; margin-bottom:4px;">📝 Ventas Registradas Hoy:</div>
+                    <div class="fila-flex"><span>• Tiquetes Generados:</span> <b>${tiquetesHoy}</b></div>
+                    <div class="fila-flex"><span>• Total Vendido Hoy:</span> <b style="color:#4ade80;">Q ${ventasHoy.toFixed(2)}</b></div>
                 </div>
 
-                <button class="btn-reporte" onclick="enviarReporteVoz()">📲 Enviar Reporte a don Byron</button>
-                <button class="btn-cerrar" onclick="cerrarModal()">Cerrar Ventana</button>
+                <button class="btn-accion-reporte" onclick="enviarReporteVoz()">📲 Enviar Reporte a don Byron</button>
+                <button class="btn-accion-cerrar" onclick="cerrarModal()">Cerrar Ventana</button>
             `;
 
             document.getElementById('modal-box-body').innerHTML = html;
