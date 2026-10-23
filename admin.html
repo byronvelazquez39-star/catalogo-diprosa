@@ -15,78 +15,77 @@
         }
         .header {
             text-align: center;
-            padding: 10px 0 20px 0;
+            padding: 10px 0 15px 0;
             border-bottom: 2px solid #222;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .header h1 {
             color: #e67e22;
-            font-size: 1.3em;
+            font-size: 1.2em;
             margin: 0;
         }
         .vendedor-card {
             background-color: #161616;
             border: 1px solid #2a2a2a;
             border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
+            padding: 12px;
+            margin-bottom: 15px;
         }
         .vendedor-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border-bottom: 1px solid #333;
             padding-bottom: 8px;
         }
         .vendedor-nombre {
             font-weight: bold;
             color: #f39c12;
-            font-size: 1.1em;
+            font-size: 1em;
         }
-        .btn-borrar {
+        .btn-accion {
             background-color: #c0392b;
             color: white;
             border: none;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 5px;
             font-weight: bold;
-            font-size: 0.8em;
+            font-size: 0.75em;
             cursor: pointer;
+        }
+        .btn-sumar {
+            background-color: #27ae60;
+            margin-right: 5px;
         }
         .ticket-box {
             background-color: #1e1e1e;
             border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
             border: 1px solid #333;
         }
         .ticket-info {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85em;
-            color: #aaa;
-            margin-bottom: 6px;
+            font-size: 0.8em;
+            color: #3498db;
+            margin-bottom: 4px;
         }
         .ticket-cliente {
             font-weight: bold;
             color: #2ecc71;
-            margin-bottom: 6px;
-            font-size: 0.9em;
-        }
-        .ticket-detalle {
+            margin-bottom: 4px;
             font-size: 0.85em;
-            color: #ddd;
-            margin-bottom: 8px;
-            line-height: 1.4;
         }
         .ticket-total {
             text-align: right;
             font-weight: bold;
             color: #2ecc71;
-            font-size: 1em;
+            font-size: 0.95em;
             border-top: 1px dashed #444;
-            padding-top: 6px;
+            padding-top: 4px;
+            margin-top: 4px;
         }
     </style>
 </head>
@@ -96,41 +95,103 @@
         <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
     </div>
 
-    <div id="vendedores-container">
-        <!-- Vendedores montados dinámicamente -->
-    </div>
+    <div id="vendedores-container"></div>
 
     <script>
         const vendedores = ['ESTUARDO', 'CRISTIAN', 'JORGE', 'ELEAZAR'];
+
+        // Datos iniciales para restaurar los acumulados de octubre
+        const datosIniciales = {
+            'ESTUARDO': [
+                { id: 1, fecha: 'Al 20 Octubre', cliente: 'Acumulado Mes Anterior', total: 35000.00 }
+            ],
+            'CRISTIAN': [
+                { id: 1, fecha: 'Al 20 Oct', cliente: 'Acumulado Mes Anterior', total: 32213.82 }
+            ],
+            'JORGE': [
+                { id: 1, fecha: 'Al 20 Oct', cliente: 'Acumulado Mes Anterior', total: 35000.00 },
+                { id: 2, fecha: '03:18 p.m.', cliente: 'Y', detalle: '(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50 (x1)', total: 67.00 }
+            ],
+            'ELEAZAR': []
+        };
+
+        function obtenerVentas(vendedor) {
+            let guardado = localStorage.getItem(`ventas_${vendedor}`);
+            if (!guardado) {
+                localStorage.setItem(`ventas_${vendedor}`, JSON.stringify(datosIniciales[vendedor] || []));
+                return datosIniciales[vendedor] || [];
+            }
+            return JSON.parse(guardado);
+        }
 
         function renderizarPanel() {
             const container = document.getElementById('vendedores-container');
             container.innerHTML = '';
 
             vendedores.forEach(v => {
-                let html = `
+                let ventas = obtenerVentas(v);
+                let ticketsHTML = '';
+
+                if (ventas.length === 0) {
+                    ticketsHTML = '<p style="color:#777; font-size:0.85em;">Esperando reportes del día...</p>';
+                } else {
+                    ventas.forEach(t => {
+                        ticketsHTML += `
+                            <div class="ticket-box">
+                                <div class="ticket-info">
+                                    <span>Tiquete #${t.id}</span>
+                                    <span>🕒 ${t.fecha}</span>
+                                </div>
+                                <div class="ticket-cliente">👤 Cliente: ${t.cliente}</div>
+                                ${t.detalle ? `<div style="font-size:0.8em; color:#bbb;">• ${t.detalle}</div>` : ''}
+                                <div class="ticket-total">Total: Q ${t.total.toFixed(2)}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                container.innerHTML += `
                     <div class="vendedor-card">
                         <div class="vendedor-header">
                             <span class="vendedor-nombre">👤 Vendedor: ${v}</span>
-                            <button class="btn-borrar" onclick="borrarHistorial('${v}')">Borrar Historial</button>
+                            <div>
+                                <button class="btn-accion btn-sumar" onclick="agregarVentaManual('${v}')">+ Venta</button>
+                                <button class="btn-accion" onclick="borrarHistorial('${v}')">Borrar Historial</button>
+                            </div>
                         </div>
-                        <div id="tickets-${v}">
-                            <p style="color:#777; font-size:0.85em;">Esperando reportes del día...</p>
-                        </div>
+                        <div>${ticketsHTML}</div>
                     </div>
                 `;
-                container.innerHTML += html;
             });
         }
 
+        function agregarVentaManual(vendedor) {
+            let cliente = prompt(`Ingrese el nombre del cliente para ${vendedor}:`, "Cliente General");
+            if (!cliente) return;
+            let monto = prompt(`Ingrese el monto en Quetzales para ${vendedor}:`, "0.00");
+            if (!monto || isNaN(monto)) return;
+
+            let ventas = obtenerVentas(vendedor);
+            let nuevoTicket = {
+                id: ventas.length + 1,
+                fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                cliente: cliente,
+                total: parseFloat(monto)
+            };
+
+            ventas.push(nuevoTicket);
+            localStorage.setItem(`ventas_${vendedor}`, JSON.stringify(ventas));
+            renderizarPanel();
+        }
+
         function borrarHistorial(vendedor) {
-            if (confirm(`¿Desea borrar el historial de ventas acumulado para ${vendedor}?`)) {
-                localStorage.removeItem(`ventas_${vendedor}`);
+            if (confirm(`¿Desea borrar el historial de ${vendedor}?`)) {
+                localStorage.setItem(`ventas_${vendedor}`, JSON.stringify([]));
                 renderizarPanel();
             }
         }
 
         renderizarPanel();
-            </script>
+    </script>
 </body>
 </html>
