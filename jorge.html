@@ -131,8 +131,6 @@
             cursor: pointer;
             border: none;
         }
-
-        /* ESTILO EXACTO MODAL (FOTO REFERENCIA) */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -211,7 +209,7 @@
         }
         .caja-base {
             border: 1px solid #166534;
-            border-left: 4px solid #2ecc71; /* Franja verde lateral exacta a la foto */
+            border-left: 4px solid #2ecc71;
             background-color: #051408;
             border-radius: 6px;
             padding: 8px 10px;
@@ -266,7 +264,7 @@
 <body>
 
     <div class="header-top">
-        <h2>🛵 JORGE (MOTORISTA)</h2>
+        <h2>📦 JORGE (VENDEDOR)</h2>
         <div class="header-btns">
             <button type="button" onclick="mostrarMetas()" class="mini-btn">📊 Metas</button>
             <button type="button" onclick="mostrarSueldo()" class="mini-btn">💰 Sueldo</button>
@@ -462,16 +460,16 @@
 
             let html = `
                 <div class="modal-header-title">📊 Control de Metas y Rendimiento</div>
-                <div class="modal-header-sub">Panel de Motorista - Ruta Activa</div>
+                <div class="modal-header-sub">Panel de Vendedor - Ruta Activa</div>
 
                 <div class="caja-cuotas">
-                    <div class="titulo-cuotas">🛵 JORGE - ESTADO DE CUOTAS</div>
+                    <div class="titulo-cuotas">📦 JORGE - ESTADO DE CUOTAS</div>
                     <div class="fila-cuota"><span>Ventas Acumuladas Mes:</span> <b>Q ${acumuladoMesTotal.toFixed(2)} / Q81,000.00</b></div>
                     <div class="fila-cuota"><span>Tiquetes Emitidos:</span> <b>${tiquetesTotalMes} / 220 Tq Meta</b></div>
                     <div class="fila-cuota"><span>Horas de Ruta:</span> <b>${baseHoras} / 135 Hrs Meta</b></div>
                     
                     <div class="texto-moto">
-                        🛵 ¡Aproveche la moto! Del 1 al 15 libre de descuentos. Del 16 en adelante se evalúa el rendimiento diario y su bono de moto de Q500 se paga íntegro a fin de mes.
+                        📦 Del 1 al 15 libre de descuentos. Del 16 en adelante se evalúa el rendimiento diario de ventas.
                     </div>
                 </div>
 
@@ -501,8 +499,6 @@
             let baseQuincena = 1750.00;
             let descuentoDeficit = 1225.00;
             let pagoNeto2do = 525.00;
-            let bonoMoto = 500.00;
-            let totalFinDeMes = pagoNeto2do + bonoMoto;
             let ventasMesTotal = 35000.00 + totalHoy;
 
             let html = `
@@ -539,18 +535,6 @@
                 <div style="font-size:0.75em; color:#94a3b8; margin: 8px 0;">
                     • Ventas Totales Mes: Q${ventasMesTotal.toFixed(2)} / Q81,000<br>
                     • 🛡️ Descuento aplicado desde el 16 (Déficit de ventas).
-                </div>
-
-                <div style="background:rgba(124, 45, 18, 0.2); border:1px solid #c2410c; border-radius:8px; padding:10px; margin-bottom:10px;">
-                    <div style="color:#fb923c; font-weight:bold; font-size:0.85em; margin-bottom:2px;">
-                        🛵 TOTAL A RECIBIR FIN DE MES (CON MOTO):
-                    </div>
-                    <div style="font-size:0.72em; color:#cbd5e1; margin-bottom:4px;">
-                        Incluye 2do pago neto + Bono de Moto Q500.00 íntegro
-                    </div>
-                    <div style="color:#4ade80; font-size:1.15em; font-weight:bold;">
-                        Q ${totalFinDeMes.toFixed(2)}
-                    </div>
                 </div>
 
                 <button class="btn-cerrar-modal" onclick="cerrarModal()">Cerrar Ventana</button>
