@@ -33,7 +33,7 @@
             background-color: #1e1e1e;
             color: white;
             border: 1px solid #444;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.8em;
@@ -131,6 +131,38 @@
             cursor: pointer;
             border: none;
         }
+        /* Ventana emergente (Modal) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-box {
+            background: #1e1e1e;
+            border: 1px solid #444;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            width: 85%;
+            color: white;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        .modal-btn {
+            background: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -138,8 +170,8 @@
     <div class="header-top">
         <h2>📦 JORGE (VENDEDOR)</h2>
         <div class="header-btns">
-            <button onclick="verMetas()" class="mini-btn">📊 Metas</button>
-            <button onclick="verSueldo()" class="mini-btn">💰 Sueldo</button>
+            <button type="button" onclick="mostrarMetas()" class="mini-btn">📊 Metas</button>
+            <button type="button" onclick="mostrarSueldo()" class="mini-btn">💰 Sueldo</button>
         </div>
     </div>
     
@@ -159,6 +191,14 @@
         <button onclick="enviarPedidoAdmin()" class="ver-ticket-btn">
             📋 Ver Ticket
         </button>
+    </div>
+
+    <!-- VENTANA EMERGENTE -->
+    <div id="modal-info" class="modal-overlay">
+        <div class="modal-box">
+            <div id="modal-contenido"></div>
+            <button class="modal-btn" onclick="cerrarModal()">Aceptar</button>
+        </div>
     </div>
 
     <script>
@@ -274,34 +314,44 @@
             document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
         }
 
-        function verMetas() {
-            let totalVendido = 0;
-            for (let nombre in carrito) {
-                totalVendido += carrito[nombre].cantidad * carrito[nombre].precio;
-            }
+        function abrirModal(html) {
+            document.getElementById('modal-contenido').innerHTML = html;
+            document.getElementById('modal-info').style.display = 'flex';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-info').style.display = 'none';
+        }
+
+        function calcularTotalCarrito() {
+            let t = 0;
+            for (let k in carrito) { t += carrito[k].cantidad * carrito[k].precio; }
+            return t;
+        }
+
+        function mostrarMetas() {
+            let totalVendido = calcularTotalCarrito();
             let metaDiaria = 500.00;
             let porcentaje = ((totalVendido / metaDiaria) * 100).toFixed(1);
             
-            alert(`📊 ESTADO DE METAS (JORGE)\n\n` +
-                  `• Venta acumulada en carrito: Q ${totalVendido.toFixed(2)}\n` +
-                  `• Meta diaria asignada: Q ${metaDiaria.toFixed(2)}\n` +
-                  `• Progreso actual: ${porcentaje}%\n\n` +
-                  `¡Siga adelante para alcanzar la meta!`);
+            let html = `<h3 style="color:#ff9800;margin-top:0;">📊 ESTADO DE METAS</h3>` +
+                       `<p>• <b>Venta en carrito:</b> Q ${totalVendido.toFixed(2)}</p>` +
+                       `<p>• <b>Meta diaria:</b> Q ${metaDiaria.toFixed(2)}</p>` +
+                       `<p>• <b>Progreso:</b> ${porcentaje}%</p>`;
+            abrirModal(html);
         }
 
-        function verSueldo() {
-            let totalVendido = 0;
-            for (let nombre in carrito) {
-                totalVendido += carrito[nombre].cantidad * carrito[nombre].precio;
-            }
+        function mostrarSueldo() {
+            let totalVendido = calcularTotalCarrito();
             let sueldoBase = 100.00; 
             let comision = totalVendido * 0.05; 
             let estimadoTotal = sueldoBase + comision;
 
-            alert(`💰 CÁLCULO DE SUELDO Y COMISIÓN (JORGE)\n\n` +
-                  `• Sueldo base diario: Q ${sueldoBase.toFixed(2)}\n` +
-                  `• Comisión proyectada (5%): Q ${comision.toFixed(2)}\n` +
-                  `• Total acumulado hoy: Q ${estimadoTotal.toFixed(2)}`);
+            let html = `<h3 style="color:#ff9800;margin-top:0;">💰 SUELDO Y COMISIÓN</h3>` +
+                       `<p>• <b>Sueldo base diario:</b> Q ${sueldoBase.toFixed(2)}</p>` +
+                       `<p>• <b>Comisión proyectada (5%):</b> Q ${comision.toFixed(2)}</p>` +
+                       `<p>• <b>Total estimado hoy:</b> Q ${estimadoTotal.toFixed(2)}</p>`;
+            abrirModal(html);
         }
 
         async function enviarPedidoAdmin() {
