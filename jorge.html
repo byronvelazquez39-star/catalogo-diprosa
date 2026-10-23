@@ -121,7 +121,7 @@
     <input type="text" id="buscador" class="search-box" placeholder="🔍 Escriba para buscar producto..." onkeyup="filtrarProductos()">
     
     <div class="grid" id="product-grid">
-        <p style="text-align:center; color:#888; grid-column:1/-1;">Cargando inventario de productos...</p>
+        <p style="text-align:center; color:#888; grid-column:1/-1;">Cargando inventario desde el archivo CSV...</p>
     </div>
 
     <div class="cart-bar">
@@ -141,16 +141,34 @@
         let carrito = [];
         let productosDisponibles = [];
 
-        function cargarInventario() {
-            productosDisponibles = [
-                { nombre: "Detergente en Polvo 1kg", precio: 15.00, imagen: "https://via.placeholder.com/150?text=Detergente" },
-                { nombre: "Aceite Vegetal 800ml", precio: 22.50, imagen: "https://via.placeholder.com/150?text=Aceite" },
-                { nombre: "Arroz Blanco 5lbs", precio: 20.00, imagen: "https://via.placeholder.com/150?text=Arroz" },
-                { nombre: "Frijol Negro 5lbs", precio: 25.00, imagen: "https://via.placeholder.com/150?text=Frijol" },
-                { nombre: "Azúcar Morena 5lbs", precio: 23.00, imagen: "https://via.placeholder.com/150?text=Azucar" },
-                { nombre: "Pasta Spaghetti 200g", precio: 5.00, imagen: "https://via.placeholder.com/150?text=Pasta" }
-            ];
-            renderizarCatalogo(productosDisponibles);
+        // Cargar automáticamente el archivo catalogo.csv del repositorio
+        async function cargarInventarioCSV() {
+            try {
+                let respuesta = await fetch('catalogo.csv');
+                let texto = await respuesta.text();
+                let lineas = texto.split('\n');
+                
+                productosDisponibles = [];
+
+                // Asume formato CSV: Nombre, Precio, Imagen (ajuste las columnas si es necesario)
+                for (let i = 1; i < lineas.length; i++) {
+                    let linea = lineas[i].trim();
+                    if (linea) {
+                        let columnas = linea.split(',');
+                        if (columnas.length >= 2) {
+                            let nombre = columnas[0].replace(/"/g, '').trim();
+                            let precio = parseFloat(columnas[1].replace(/"/g, '').trim()) || 0.00;
+                            let imagen = columnas[2] ? columnas[2].replace(/"/g, '').trim() : 'https://via.placeholder.com/150?text=DIPROSA';
+                            
+                            productosDisponibles.push({ nombre, precio, imagen });
+                        }
+                    }
+                }
+                renderizarCatalogo(productosDisponibles);
+            } catch (e) {
+                console.error("Error al cargar el catalogo.csv:", e);
+                document.getElementById('product-grid').innerHTML = '<p style="text-align:center; color:#e74c3c; grid-column:1/-1;">Error al cargar el inventario del CSV.</p>';
+            }
         }
 
         function renderizarCatalogo(lista) {
@@ -164,7 +182,7 @@
                     <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=DIPROSA'">
                     <h3>${p.nombre}</h3>
                     <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                    <button class="btn-add" onclick="agregarAlCarro('${p.nombre}', ${p.precio})">Agregar</button>
+                    <button class="btn-add" onclick="agregarAlCarro('${p.nombre.replace(/'/g, "\\'")}', ${p.precio})">Agregar</button>
                 </div>
             `).join('');
         }
@@ -203,6 +221,7 @@
                 fecha: fechaHora
             };
 
+            // Enviar a Firebase para sincronización instantánea en el Panel Admin
             try {
                 let respuesta = await fetch(FIREBASE_URL, {
                     method: 'POST',
@@ -216,6 +235,7 @@
                 console.error("Error de conexión con Firebase:", e);
             }
 
+            // Redirección a WhatsApp
             let mensaje = `*DISTRIBUIDORA DIPROSA*%0A*Vendedor:* ${VENDEDOR_ACTUAL}%0A*Fecha:* ${fechaHora}%0A*Detalle:* ${detalleTexto}%0A*Total:* Q${totalVenta.toFixed(2)}`;
             let urlWhatsApp = `https://wa.me/50248502382?text=${mensaje}`;
 
@@ -224,7 +244,8 @@
             window.open(urlWhatsApp, '_blank');
         }
 
-        cargarInventario();
+        // Cargar los productos al abrir la página
+        cargarInventarioCSV();
     </script>
 </body>
 </html>
