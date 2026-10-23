@@ -3,195 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - DIPROSA</title>
+    <title>Catálogo DIPROSA - Estuardo</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
+            background-color: #121212;
             color: #ffffff;
             margin: 0;
-            padding: 15px;
-            padding-bottom: 50px;
+            padding: 10px;
+            padding-bottom: 100px;
         }
-        .header {
-            text-align: center;
-            padding: 10px 0 15px 0;
-            border-bottom: 2px solid #222;
-            margin-bottom: 15px;
-        }
-        .header h1 {
-            color: #e67e22;
-            font-size: 1.2em;
-            margin: 0;
-        }
-        .vendedor-card {
-            background-color: #161616;
-            border: 1px solid #2a2a2a;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 15px;
-        }
-        .vendedor-header {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 8px;
+            max-width: 1200px;
+            margin: 0 auto 10px auto;
         }
-        .vendedor-nombre {
-            font-weight: bold;
-            color: #f39c12;
-            font-size: 1em;
+        .header-top h2 {
+            color: #ff9800;
+            margin: 0;
+            font-size: 1.1em;
         }
-        .btn-accion {
-            background-color: #c0392b;
+        .header-btns {
+            display: flex;
+            gap: 6px;
+        }
+        .mini-btn {
+            background-color: #1e1e1e;
             color: white;
-            border: none;
+            border: 1px solid #444;
             padding: 5px 10px;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
-            font-size: 0.75em;
-            cursor: pointer;
+            font-size: 0.8em;
+            text-decoration: none;
         }
-        .btn-sumar {
-            background-color: #27ae60;
-            margin-right: 5px;
+        .search-box {
+            max-width: 1200px;
+            margin: 0 auto 12px auto;
         }
-        .ticket-box {
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #1e1e1e;
+            color: white;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+        .card {
             background-color: #1e1e1e;
             border-radius: 8px;
             padding: 10px;
-            margin-bottom: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             border: 1px solid #333;
         }
-        .ticket-info {
+        .card h3 {
+            font-size: 0.85em;
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+        .precio {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 1.05em;
+            margin: 0 0 8px 0;
+        }
+        .btn-agregar {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 13px;
+        }
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #0b0b0b;
+            border-top: 2px solid #222;
+            padding: 10px 15px;
             display: flex;
             justify-content: space-between;
-            font-size: 0.8em;
-            color: #3498db;
-            margin-bottom: 4px;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 1000;
         }
-        .ticket-cliente {
-            font-weight: bold;
-            color: #2ecc71;
-            margin-bottom: 4px;
+        .footer-info {
             font-size: 0.85em;
+            color: #fff;
         }
-        .ticket-total {
-            text-align: right;
-            font-weight: bold;
+        .footer-info span {
             color: #2ecc71;
-            font-size: 0.95em;
-            border-top: 1px dashed #444;
-            padding-top: 4px;
-            margin-top: 4px;
+            font-weight: bold;
+        }
+        .ver-ticket-btn {
+            background-color: #2e7d32;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+            cursor: pointer;
+            border: none;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
+    <div class="header-top">
+        <h2>📦 ESTUARDO (VENDEDOR)</h2>
+        <div class="header-btns">
+            <a href="#" class="mini-btn">📊 Metas</a>
+            <a href="#" class="mini-btn">💰 Sueldo</a>
+        </div>
+    </div>
+    
+    <div class="search-box">
+        <input type="text" id="buscador" placeholder="🔍 Escriba para buscar producto..." onkeyup="filtrarProductos()">
     </div>
 
-    <div id="vendedores-container"></div>
+    <div class="grid" id="catalogo-grid">
+        <p style="text-align: center; grid-column: 1 / -1;">Cargando catálogo completo...</p>
+    </div>
+
+    <div class="footer-bar">
+        <div class="footer-info">
+            🛒 <span id="contador-items">0</span> ítems (Ver Ticket)<br>
+            Total: <span id="total-quetzales">Q 0.00</span>
+        </div>
+        <button onclick="enviarPedidoAdmin()" class="ver-ticket-btn">
+            📋 Ver Ticket
+        </button>
+    </div>
 
     <script>
-        const vendedores = ['ESTUARDO', 'CRISTIAN', 'JORGE', 'ELEAZAR'];
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1yRkOiPyX6hEnIhtuQarQXWXkPPTD65jS/export?format=csv&gid=1578551749';
+        const FIREBASE_URL = 'https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/ESTUARDO.json';
+        
+        let productos = [];
+        let carrito = {};
 
-        // Datos iniciales para restaurar los acumulados de octubre
-        const datosIniciales = {
-            'ESTUARDO': [
-                { id: 1, fecha: 'Al 20 Octubre', cliente: 'Acumulado Mes Anterior', total: 35000.00 }
-            ],
-            'CRISTIAN': [
-                { id: 1, fecha: 'Al 20 Oct', cliente: 'Acumulado Mes Anterior', total: 32213.82 }
-            ],
-            'JORGE': [
-                { id: 1, fecha: 'Al 20 Oct', cliente: 'Acumulado Mes Anterior', total: 35000.00 },
-                { id: 2, fecha: '03:18 p.m.', cliente: 'Y', detalle: '(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50 (x1)', total: 67.00 }
-            ],
-            'ELEAZAR': []
-        };
-
-        function obtenerVentas(vendedor) {
-            let guardado = localStorage.getItem(`ventas_${vendedor}`);
-            if (!guardado) {
-                localStorage.setItem(`ventas_${vendedor}`, JSON.stringify(datosIniciales[vendedor] || []));
-                return datosIniciales[vendedor] || [];
+        async function cargarProductos() {
+            try {
+                const respuesta = await fetch(SHEET_URL);
+                const datos = await respuesta.text();
+                parsearCSV(datos);
+            } catch (error) {
+                document.getElementById('catalogo-grid').innerHTML = '<p style="text-align:center; color:red; grid-column:1/-1;">Error de conexión.</p>';
             }
-            return JSON.parse(guardado);
         }
 
-        function renderizarPanel() {
-            const container = document.getElementById('vendedores-container');
-            container.innerHTML = '';
+        function parsearCSV(texto) {
+            const lineas = texto.split('\n');
+            productos = [];
+            let vistos = new Set();
+            
+            for (let i = 0; i < lineas.length; i++) {
+                if (!lineas[i].trim()) continue;
+                const columnas = lineas[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                
+                if (columnas.length >= 3) {
+                    let descripcion = columnas[2] ? columnas[2].replace(/"/g, '').trim() : '';
+                    
+                    if (descripcion && 
+                        descripcion.toLowerCase() !== 'detalle' &&
+                        !descripcion.toLowerCase().includes('descripcion') && 
+                        !descripcion.toLowerCase().includes('producto') && 
+                        !descripcion.includes('{') && 
+                        !descripcion.includes('function') && 
+                        descripcion.length > 2) {
+                        
+                        if (vistos.has(descripcion)) continue;
+                        vistos.add(descripcion);
 
-            vendedores.forEach(v => {
-                let ventas = obtenerVentas(v);
-                let ticketsHTML = '';
+                        let precioNum = 0.00;
+                        
+                        if (columnas[3] && columnas[3].trim()) {
+                            let matchCol = columnas[3].replace(/"/g, '').replace('Q', '').trim();
+                            let parsed = parseFloat(matchCol);
+                            if (!isNaN(parsed) && parsed > 0) precioNum = parsed;
+                        }
+                        
+                        if (precioNum === 0 && columnas[4] && columnas[4].trim()) {
+                            let matchCol = columnas[4].replace(/"/g, '').replace('Q', '').trim();
+                            let parsed = parseFloat(matchCol);
+                            if (!isNaN(parsed) && parsed > 0) precioNum = parsed;
+                        }
 
-                if (ventas.length === 0) {
-                    ticketsHTML = '<p style="color:#777; font-size:0.85em;">Esperando reportes del día...</p>';
-                } else {
-                    ventas.forEach(t => {
-                        ticketsHTML += `
-                            <div class="ticket-box">
-                                <div class="ticket-info">
-                                    <span>Tiquete #${t.id}</span>
-                                    <span>🕒 ${t.fecha}</span>
-                                </div>
-                                <div class="ticket-cliente">👤 Cliente: ${t.cliente}</div>
-                                ${t.detalle ? `<div style="font-size:0.8em; color:#bbb;">• ${t.detalle}</div>` : ''}
-                                <div class="ticket-total">Total: Q ${t.total.toFixed(2)}</div>
-                            </div>
-                        `;
-                    });
+                        productos.push({ id: i, descripcion, precio: precioNum });
+                    }
                 }
+            }
+            mostrarProductos(productos);
+        }
 
-                container.innerHTML += `
-                    <div class="vendedor-card">
-                        <div class="vendedor-header">
-                            <span class="vendedor-nombre">👤 Vendedor: ${v}</span>
-                            <div>
-                                <button class="btn-accion btn-sumar" onclick="agregarVentaManual('${v}')">+ Venta</button>
-                                <button class="btn-accion" onclick="borrarHistorial('${v}')">Borrar Historial</button>
-                            </div>
-                        </div>
-                        <div>${ticketsHTML}</div>
+        function mostrarProductos(lista) {
+            const grid = document.getElementById('catalogo-grid');
+            if (lista.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No se encontraron productos.</p>';
+                return;
+            }
+            
+            grid.innerHTML = lista.map((p) => {
+                let originalIndex = productos.findIndex(prod => prod.id === p.id);
+                return `
+                    <div class="card">
+                        <h3>${p.descripcion}</h3>
+                        <p class="precio">Q ${p.precio.toFixed(2)}</p>
+                        <button class="btn-agregar" onclick="agregarAlCarrito(${originalIndex})">+ Agregar</button>
                     </div>
                 `;
-            });
+            }).join('');
         }
 
-        function agregarVentaManual(vendedor) {
-            let cliente = prompt(`Ingrese el nombre del cliente para ${vendedor}:`, "Cliente General");
-            if (!cliente) return;
-            let monto = prompt(`Ingrese el monto en Quetzales para ${vendedor}:`, "0.00");
-            if (!monto || isNaN(monto)) return;
+        function filtrarProductos() {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const filtrados = productos.filter(p => p.descripcion.toLowerCase().includes(texto));
+            mostrarProductos(filtrados);
+        }
 
-            let ventas = obtenerVentas(vendedor);
+        function agregarAlCarrito(index) {
+            let producto = productos[index];
+            if (!producto) return;
+            
+            let nombre = producto.descripcion;
+            let precio = producto.precio;
+
+            if (!carrito[nombre]) {
+                carrito[nombre] = { precio: precio, cantidad: 0 };
+            }
+            carrito[nombre].cantidad += 1;
+            actualizarTotalesUI();
+        }
+
+        function actualizarTotalesUI() {
+            let totalItems = 0;
+            let totalGeneral = 0;
+            
+            for (let nombre in carrito) {
+                totalItems += carrito[nombre].cantidad;
+                totalGeneral += carrito[nombre].cantidad * carrito[nombre].precio;
+            }
+
+            document.getElementById('contador-items').innerText = totalItems;
+            document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
+        }
+
+        async function enviarPedidoAdmin() {
+            let totalItems = 0;
+            let totalGeneral = 0;
+            let detalleTexto = "";
+            let detalleWhatsApp = "";
+            
+            for (let nombre in carrito) {
+                let cant = carrito[nombre].cantidad;
+                let sub = cant * carrito[nombre].precio;
+                totalItems += cant;
+                totalGeneral += sub;
+                detalleTexto += `${cant}x ${nombre} (Q ${sub.toFixed(2)}) | `;
+                detalleWhatsApp += `${nombre} (x${cant}) = Q${sub.toFixed(2)}%0A`;
+            }
+
+            if (totalItems === 0) {
+                alert("Debe agregar al menos un producto al carrito.");
+                return;
+            }
+
+            let clienteNom = prompt("Ingrese el nombre del cliente para este pedido:", "Cliente General");
+            if (!clienteNom) return;
+
+            let ahora = new Date();
+            let fechaStr = ahora.toLocaleDateString('es-GT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            let horaStr = ahora.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true });
+            let fechaHoraCompleta = `${fechaStr} - ${horaStr}`;
+
             let nuevoTicket = {
-                id: ventas.length + 1,
-                fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                cliente: cliente,
-                total: parseFloat(monto)
+                fecha: fechaHoraCompleta,
+                cliente: clienteNom,
+                detalle: detalleTexto,
+                total: totalGeneral
             };
 
-            ventas.push(nuevoTicket);
-            localStorage.setItem(`ventas_${vendedor}`, JSON.stringify(ventas));
-            renderizarPanel();
-        }
-
-        function borrarHistorial(vendedor) {
-            if (confirm(`¿Desea borrar el historial de ${vendedor}?`)) {
-                localStorage.setItem(`ventas_${vendedor}`, JSON.stringify([]));
-                renderizarPanel();
+            try {
+                await fetch(FIREBASE_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(nuevoTicket),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            } catch (e) {
+                console.error("Error enviando a la nube:", e);
             }
+
+            let mensaje = `*DISTRIBUIDORA DIPROSA*%0A` +
+                          `📦 *Vendedor:* ESTUARDO%0A` +
+                          `🕒 *Fecha y Hora:* ${fechaHoraCompleta}%0A` +
+                          `👤 *Cliente:* ${clienteNom}%0A` +
+                          `--------------------------------%0A` +
+                          detalleWhatsApp +
+                          `--------------------------------%0A` +
+                          `*TOTAL: Q ${totalGeneral.toFixed(2)}*%0A%0A` +
+                          `¡Hola! Confirmo este pedido.`;
+
+            window.open(`https://wa.me/50248502382?text=${mensaje}`, '_blank');
         }
 
-        renderizarPanel();
+        cargarProductos();
     </script>
 </body>
 </html>
