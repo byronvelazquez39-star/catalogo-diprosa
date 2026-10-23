@@ -15,9 +15,10 @@
     h1 { text-align: center; margin: 0; font-size: 16px; color: #ff9800; }
     
     .btn-group-header { display: flex; gap: 4px; }
-    .btn-action-header { border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; color: #fff; }
+    .btn-action-header { border: none; padding: 6px 8px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 11px; color: #fff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
     .btn-metas { background-color: #0284c7; }
     .btn-sueldo { background-color: #059669; }
+    .btn-panel { background-color: #27ae60; }
 
     .search-box { width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px; border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; }
     
@@ -60,8 +61,9 @@
 <body>
 
   <div class="header-bar">
-    <h1>📦 ESTUARDO (VENDEDOR)</h1>
+    <h1>📦 ESTUARDO</h1>
     <div class="btn-group-header">
+      <a href="panel.html" class="btn-action-header btn-panel">📋 Panel</a>
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
     </div>
