@@ -10,116 +10,258 @@
             background-color: #0d0d0d;
             color: #ffffff;
             margin: 0;
-            padding: 15px;
+            padding: 12px;
             padding-bottom: 50px;
         }
         .header {
             text-align: center;
             padding: 10px 0 15px 0;
-            border-bottom: 2px solid #222;
+            border-bottom: 1px solid #333;
             margin-bottom: 15px;
         }
         .header h1 {
             color: #ff9800;
             margin: 0;
-            font-size: 1.4em;
-        }
-        .status-badge {
-            display: inline-block;
-            background-color: #1e1e1e;
-            color: #2ecc71;
-            border: 1px solid #2ecc71;
-            font-size: 0.8em;
-            padding: 3px 10px;
-            border-radius: 12px;
-            margin-top: 6px;
-            font-weight: bold;
+            font-size: 1.3em;
+            letter-spacing: 0.5px;
         }
         .grid-vendedores {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 15px;
-            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 600px;
             margin: 0 auto;
         }
         .card-vendedor {
-            background-color: #161616;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            background-color: #121212;
+            border: 1px solid #282828;
+            border-radius: 12px;
+            padding: 12px 14px;
         }
-        .vendedor-header {
+        .vendedor-top {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
+            align-items: flex-start;
+            margin-bottom: 8px;
         }
-        .vendedor-nombre {
-            font-size: 1.1em;
+        .vendedor-info {
+            font-size: 1em;
             font-weight: bold;
             color: #ff9800;
         }
-        .vendedor-total {
-            font-size: 1em;
+        .vendedor-info span {
+            color: #ff9800;
+        }
+        .vendedor-acciones {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .btn-venta {
+            background-color: #008000;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
             font-weight: bold;
-            color: #2ecc71;
-            background-color: #0e2a14;
-            padding: 4px 8px;
-            border-radius: 6px;
+            cursor: pointer;
+        }
+        .btn-borrar {
+            background-color: #a00000;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .linea-divisora {
+            border-bottom: 1px solid #282828;
+            margin-bottom: 8px;
         }
         .ticket-list {
-            max-height: 250px;
-            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
+        .sin-pedidos {
+            color: #888;
+            font-size: 0.85em;
+            padding: 4px 0;
+        }
         .ticket-item {
-            background-color: #222222;
-            border-left: 4px solid #ff9800;
-            border-radius: 4px;
+            background-color: #1e1e1e;
+            border-left: 3px solid #ff9800;
             padding: 8px;
+            border-radius: 4px;
             font-size: 0.85em;
         }
         .ticket-meta {
-            display: flex;
-            justify-content: space-between;
             color: #aaa;
             font-size: 0.8em;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         .ticket-cliente {
             font-weight: bold;
             color: #fff;
         }
         .ticket-detalle {
-            color: #ddd;
-            margin: 4px 0;
-            word-break: break-word;
+            color: #ccc;
+            margin: 3px 0;
         }
         .ticket-monto {
-            text-align: right;
-            font-weight: bold;
             color: #2ecc71;
-        }
-        .sin-pedidos {
-            text-align: center;
-            color: #666;
-            font-size: 0.85em;
-            padding: 15px 0;
+            font-weight: bold;
+            text-align: right;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>📊 ADMIN - DIPROSA</h1>
-        <div class="status-badge">● Tiempo Real Activo</div>
+        <h1>📊 PANEL DE ADMINISTRACIÓN - DIPROSA</h1>
     </div>
 
     <div class="grid-vendedores">
+
+        <!-- ESTUARDO -->
+        <div class="card-vendedor">
+            <div class="vendedor-top">
+                <div class="vendedor-info">👤 Vendedor:<br><span>ESTUARDO</span></div>
+                <div class="vendedor-acciones">
+                    <button class="btn-venta" onclick="sumarVenta('ESTUARDO')">+ Venta</button>
+                    <button class="btn-borrar" onclick="borrarHistorial('ESTUARDO')">Borrar Historial</button>
+                </div>
+            </div>
+            <div class="linea-divisora"></div>
+            <div class="ticket-list" id="lista-ESTUARDO">
+                <div class="sin-pedidos">Esperando reportes del día...</div>
+            </div>
+        </div>
+
         <!-- CRISTIAN -->
-        <div
+        <div class="card-vendedor">
+            <div class="vendedor-top">
+                <div class="vendedor-info">👤 Vendedor:<br><span>CRISTIAN</span></div>
+                <div class="vendedor-acciones">
+                    <button class="btn-venta" onclick="sumarVenta('CRISTIAN')">+ Venta</button>
+                    <button class="btn-borrar" onclick="borrarHistorial('CRISTIAN')">Borrar Historial</button>
+                </div>
+            </div>
+            <div class="linea-divisora"></div>
+            <div class="ticket-list" id="lista-CRISTIAN">
+                <div class="sin-pedidos">Esperando reportes del día...</div>
+            </div>
+        </div>
+
+        <!-- JORGE -->
+        <div class="card-vendedor">
+            <div class="vendedor-top">
+                <div class="vendedor-info">👤 Vendedor: <span>JORGE</span></div>
+                <div class="vendedor-acciones">
+                    <button class="btn-venta" onclick="sumarVenta('JORGE')">+ Venta</button>
+                    <button class="btn-borrar" onclick="borrarHistorial('JORGE')">Borrar Historial</button>
+                </div>
+            </div>
+            <div class="linea-divisora"></div>
+            <div class="ticket-list" id="lista-JORGE">
+                <div class="sin-pedidos">Esperando reportes del día...</div>
+            </div>
+        </div>
+
+        <!-- ELEAZAR -->
+        <div class="card-vendedor">
+            <div class="vendedor-top">
+                <div class="vendedor-info">👤 Vendedor:<br><span>ELEAZAR</span></div>
+                <div class="vendedor-acciones">
+                    <button class="btn-venta" onclick="sumarVenta('ELEAZAR')">+ Venta</button>
+                    <button class="btn-borrar" onclick="borrarHistorial('ELEAZAR')">Borrar Historial</button>
+                </div>
+            </div>
+            <div class="linea-divisora"></div>
+            <div class="ticket-list" id="lista-ELEAZAR">
+                <div class="sin-pedidos">Esperando reportes del día...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const FIREBASE_BASE_URL = 'https://diprosa-ventas-default-rtdb.firebaseio.com/ventas';
+        const VENDEDORES = ['ESTUARDO', 'CRISTIAN', 'JORGE', 'ELEAZAR'];
+
+        async function cargarVentas() {
+            for (let v of VENDEDORES) {
+                try {
+                    const res = await fetch(`${FIREBASE_BASE_URL}/${v}.json`);
+                    const data = await res.json();
+                    procesarVendedor(v, data);
+                } catch (e) {
+                    console.error("Error leyendo Firebase para " + v, e);
+                }
+            }
+        }
+
+        function procesarVendedor(vendedor, datos) {
+            const contenedor = document.getElementById(`lista-${vendedor}`);
+            
+            if (!datos) {
+                contenedor.innerHTML = '<div class="sin-pedidos">Esperando reportes del día...</div>';
+                return;
+            }
+
+            let html = '';
+            let tickets = Object.values(datos).reverse();
+
+            tickets.forEach(t => {
+                let monto = parseFloat(t.total) || 0;
+                html += `
+                    <div class="ticket-item">
+                        <div class="ticket-meta">🕒 ${t.fecha || 'Hoy'}</div>
+                        <div class="ticket-cliente">👤 ${t.cliente || 'Cliente General'}</div>
+                        <div class="ticket-detalle">${t.detalle || ''}</div>
+                        <div class="ticket-monto">Total: Q ${monto.toFixed(2)}</div>
+                    </div>
+                `;
+            });
+
+            contenedor.innerHTML = html;
+        }
+
+        async function borrarHistorial(vendedor) {
+            if (confirm(`¿Desea borrar el historial de reportes de ${vendedor}?`)) {
+                try {
+                    await fetch(`${FIREBASE_BASE_URL}/${vendedor}.json`, { method: 'DELETE' });
+                    document.getElementById(`lista-${vendedor}`).innerHTML = '<div class="sin-pedidos">Esperando reportes del día...</div>';
+                } catch (e) {
+                    alert("Error borrando historial.");
+                }
+            }
+        }
+
+        function sumarVenta(vendedor) {
+            let monto = prompt(`Ingrese monto manual para ${vendedor}:`, "0.00");
+            if (monto) {
+                let ahora = new Date();
+                let fechaHora = ahora.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit', hour12: true });
+                let nuevoTicket = {
+                    fecha: `Venta Manual - ${fechaHora}`,
+                    cliente: 'Venta Directa',
+                    detalle: 'Ingreso manual admin',
+                    total: parseFloat(monto)
+                };
+                fetch(`${FIREBASE_BASE_URL}/${vendedor}.json`, {
+                    method: 'POST',
+                    body: JSON.stringify(nuevoTicket),
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(() => cargarVentas());
+            }
+        }
+
+        cargarVentas();
+        setInterval(cargarVentas, 3000);
+    </script>
+</body>
+</html>
