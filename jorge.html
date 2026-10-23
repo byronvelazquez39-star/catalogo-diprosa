@@ -1,19 +1,16 @@
-        async function limpiarTodo() {
-            if (confirm("¿Desea limpiar todos los tiquetes acumulados?")) {
-                try {
-                    let respuesta = await fetch(FIREBASE_URL, {
-                        method: 'PUT',
-                        body: JSON.stringify(null),
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-                    if (respuesta.ok) {
-                        alert("Base de datos limpiada correctamente.");
-                        setTimeout(mostrarMetas, 300);
-                    } else {
-                        alert("No se pudo limpiar la base de datos.");
-                    }
-                } catch (e) {
-                    alert("Error de conexión al limpiar.");
-                }
-            }
-        }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo DIPROSA - Jorge</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #000; color: #fff; padding: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>📦 JORGE (VENDEDOR)</h2>
+    <p style="color: #2ecc71; margin-top: 20px;">Sistema reiniciado correctamente.</p>
+    <p>Actualización en curso...</p>
+</body>
+</html>
