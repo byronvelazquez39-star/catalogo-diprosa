@@ -5,16 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo DIPROSA - Jorge</title>
     <style>
-        :root {
-            --bg-color: #000000;
-            --card-bg: #0a0a0a;
-            --accent-color: #ff9800;
-            --success-color: #2ecc71;
-            --border-color: #222;
-        }
         body {
             font-family: Arial, sans-serif;
-            background-color: var(--bg-color);
+            background-color: #000000;
             color: #ffffff;
             margin: 0;
             padding: 10px;
@@ -28,7 +21,7 @@
             margin: 0 auto 10px auto;
         }
         .header-top h2 {
-            color: var(--accent-color);
+            color: #ff9800;
             margin: 0;
             font-size: 1.1em;
         }
@@ -38,7 +31,7 @@
         }
         .mini-btn {
             background-color: #121212;
-            color: var(--accent-color);
+            color: #ff9800;
             border: 1px solid #333;
             padding: 6px 12px;
             border-radius: 6px;
@@ -74,13 +67,13 @@
             }
         }
         .card {
-            background-color: var(--card-bg);
+            background-color: #0a0a0a;
             border-radius: 8px;
             padding: 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid var(--border-color);
+            border: 1px solid #222;
         }
         .card h3 {
             font-size: 0.85em;
@@ -89,7 +82,7 @@
             line-height: 1.3;
         }
         .precio {
-            color: var(--success-color);
+            color: #2ecc71;
             font-weight: bold;
             font-size: 1.05em;
             margin: 0 0 8px 0;
@@ -110,8 +103,8 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: var(--bg-color);
-            border-top: 2px solid var(--border-color);
+            background-color: #000000;
+            border-top: 2px solid #222;
             padding: 10px 15px;
             display: flex;
             justify-content: space-between;
@@ -124,7 +117,7 @@
             color: #fff;
         }
         .footer-info span {
-            color: var(--success-color);
+            color: #2ecc71;
             font-weight: bold;
         }
         .ver-ticket-btn {
@@ -138,6 +131,8 @@
             cursor: pointer;
             border: none;
         }
+
+        /* DISEÑO ORIGINAL EXACTO (ESTILO ESTUARDO) */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -150,8 +145,8 @@
             box-sizing: border-box;
         }
         .modal-box {
-            background: #0d0d0d;
-            border: 1px solid #222;
+            background: #080808;
+            border: 1px solid #1c1c1c;
             padding: 16px;
             border-radius: 12px;
             max-width: 420px;
@@ -178,58 +173,86 @@
             padding-bottom: 8px;
         }
         .caja-cuotas {
-            border: 1px solid #166534;
+            border: 1px solid #123d1d;
             background-color: #051408;
             border-radius: 8px;
             padding: 12px;
             margin-bottom: 12px;
         }
         .titulo-cuotas {
-            color: var(--success-color);
+            color: #2ecc71;
             font-weight: bold;
             font-size: 0.95em;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .fila-cuota {
             display: flex;
             justify-content: space-between;
             margin: 6px 0;
-            color: #aaa;
+            color: #ccc;
             font-size: 0.85em;
         }
         .fila-cuota b {
             color: #ffffff;
         }
         .texto-moto {
-            color: #fb923c;
+            color: #ff9800;
             font-size: 0.78em;
             line-height: 1.35;
             margin-top: 10px;
-            border-top: 1px solid #166534;
+            border-top: 1px solid #1a331f;
             padding-top: 8px;
         }
         .titulo-historico {
-            color: #fb923c;
+            color: #ff9800;
             font-weight: bold;
             margin: 12px 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-size: 0.9em;
         }
         .caja-base {
-            border: 1px solid #166534;
+            border: 1px solid #123d1d;
             background-color: #051408;
             border-radius: 6px;
             padding: 8px 10px;
             margin-bottom: 8px;
         }
+        .caja-base-titulo {
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+        .caja-base-monto {
+            color: #2ecc71;
+            font-size: 0.85em;
+            margin-top: 2px;
+        }
         .item-tiquete {
-            border: 1px solid #333;
-            background-color: #161616;
+            border: 1px solid #222;
+            background-color: #111;
             border-radius: 6px;
             padding: 8px 10px;
             margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+        .tiquete-info {
+            font-size: 0.82em;
+        }
+        .tiquete-nombre {
+            color: #3b82f6;
+            font-weight: bold;
+        }
+        .tiquete-detalles {
+            color: #888;
+            font-size: 0.78em;
+            margin-top: 2px;
         }
         .btn-eliminar-tq {
             background-color: #b91c1c;
@@ -242,7 +265,7 @@
             cursor: pointer;
         }
         .btn-enviar-byron {
-            background-color: #15803d;
+            background-color: #008000;
             color: white;
             border: none;
             padding: 10px;
@@ -270,7 +293,7 @@
 <body>
 
     <div class="header-top">
-        <h2>📦 JORGE (VENDEDOR)</h2>
+        <h2>🛵 JORGE (MOTORISTA)</h2>
         <div class="header-btns">
             <button type="button" onclick="mostrarMetas()" class="mini-btn">📊 Metas</button>
             <button type="button" onclick="mostrarSueldo()" class="mini-btn">💰 Sueldo</button>
@@ -448,11 +471,11 @@
                 
                 htmlTiquetes += `
                     <div class="item-tiquete">
-                        <div style="font-size:0.82em;">
-                            <div style="color:#3b82f6; font-weight:bold;">Tiquete #${index + 1} - 👤 ${clienteNom}</div>
-                            <div style="color:#888; font-size:0.78em; margin-top:2px;">Hora: ${horaStr} | Total: Q${monto.toFixed(2)}</div>
+                        <div class="tiquete-info">
+                            <div class="tiquete-nombre">Tiquete #${index + 1} - 👤 ${clienteNom}</div>
+                            <div class="tiquete-detalles">Hora: ${horaStr} | Total: Q${monto.toFixed(2)}</div>
                         </div>
-                        <button class="btn-eliminar-tq" onclick="eliminarTicket('${id}')">Eliminar</button>
+                        <button class="btn-eliminar-tq" onclick="eliminarTicket('${id}')">❌ Eliminar</button>
                     </div>
                 `;
             });
@@ -470,20 +493,20 @@
 
                 <div class="caja-cuotas">
                     <div class="titulo-cuotas">🛵 JORGE - ESTADO DE CUOTAS</div>
-                    <div class="fila-cuota"><span>Ventas Acumuladas Mes:</span> <b>Q ${acumuladoMesTotal.toFixed(2)} / Q81,000.00</b></div>
-                    <div class="fila-cuota"><span>Tiquetes Emitidos:</span> <b>${tiquetesTotalMes} / 220 Tq Meta</b></div>
-                    <div class="fila-cuota"><span>Horas de Ruta:</span> <b>${baseHoras} / 135 Hrs Meta</b></div>
+                    <div class="fila-cuota"><span>💰 Ventas Acumuladas Mes:</span> <b>Q ${acumuladoMesTotal.toFixed(2)} / Q81,000.00</b></div>
+                    <div class="fila-cuota"><span>📄 Tiquetes Emitidos:</span> <b>${tiquetesTotalMes} / 220 Tq Meta</b></div>
+                    <div class="fila-cuota"><span>⏱️ Horas de Ruta:</span> <b>${baseHoras} / 135 Hrs Meta</b></div>
                     
                     <div class="texto-moto">
-                        🛵 ¡Aproveche la moto! Del 1 al 15 libre de descuentos. Del 16 en adelante se evalúa el rendimiento diario y su bono de moto de Q500 se paga íntegro a fin de mes.
+                        🛵 <b>¡Aproveche la moto!</b> Del 1 al 15 libre de descuentos. Del 16 en adelante se evalúa el rendimiento diario y su bono de moto de Q500 se paga íntegro a fin de mes.
                     </div>
                 </div>
 
                 <div class="titulo-historico">📝 Registro Histórico y Tiquetes de Hoy:</div>
 
                 <div class="caja-base">
-                    <div style="color:#3b82f6; font-weight:bold; font-size:0.82em;">📊 BASE DE INICIO (${baseTiquetes} Tq / ${baseHoras} Hrs)</div>
-                    <div style="color:var(--success-color); font-size:0.82em; margin-top:2px;">Ventas: Q${baseInicioMonto.toFixed(2)}</div>
+                    <div class="caja-base-titulo">📊 BASE DE INICIO (${baseTiquetes} Tq / ${baseHoras} Hrs)</div>
+                    <div class="caja-base-monto">Ventas: Q${baseInicioMonto.toFixed(2)}</div>
                 </div>
 
                 ${htmlTiquetes}
@@ -501,59 +524,20 @@
             let totalHoy = 0;
             entradas.forEach(([id, t]) => { totalHoy += parseFloat(t.total) || 0; });
 
-            let sueldoBaseMensual = 3500.00;
-            let baseQuincena = 1750.00;
-            let descuentoDeficit = 1225.00;
-            let pagoNeto2do = 525.00;
-            let bonoMoto = 500.00;
-            let totalFinDeMes = pagoNeto2do + bonoMoto;
-            let ventasMesTotal = 35000.00 + totalHoy;
-
             let html = `
                 <div class="modal-header-title">💵 Nómina Real en Tiempo Real</div>
                 <div class="modal-header-sub">⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)</div>
 
-                <div class="caja-cuotas">
-                    <div class="fila-cuota"><span>Sueldo Base Mensual:</span> <b>Q${sueldoBaseMensual.toFixed(2)}</b></div>
-                    <div class="fila-cuota" style="color:var(--success-color);"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
-                    <div class="fila-cuota" style="color:#3b82f6;"><span>Base 2da Quincena (16 al 30):</span> <b>Q ${baseQuincena.toFixed(2)}</b></div>
+                <div class="caja-cuotas" style="padding:10px;">
+                    <div class="fila-cuota"><span>Sueldo Base Mensual:</span> <b>Q3,500.00</b></div>
+                    <div class="fila-cuota" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
+                    <div class="fila-cuota" style="color:#3b82f6;"><span>Base 2da Quincena (16 al 30):</span> <b>Q 1,750.00</b></div>
                 </div>
 
-                <div style="background:rgba(30, 58, 138, 0.2); border:1px solid #1d4ed8; border-radius:8px; padding:10px; margin-bottom:10px;">
-                    <div class="fila-cuota" style="color:#60a5fa; font-weight:bold;">
+                <div style="background:#091d2e; border:1px solid #1e3a8a; border-radius:8px; padding:10px; margin-bottom:10px;">
+                    <div class="fila-cuota" style="color:#3b82f6; font-weight:bold;">
                         <span>☀️ Ventas de hoy:</span> 
                         <span>Q ${totalHoy.toFixed(2)} (${entradas.length} tiquetes)</span>
-                    </div>
-                </div>
-
-                <div style="background:rgba(127, 29, 29, 0.2); border:1px solid #b91c1c; border-radius:8px; padding:10px; margin-bottom:10px;">
-                    <div class="fila-cuota" style="color:#f87171; font-weight:bold;">
-                        <span>📉 Descuento por Déficit (Desde el 16):</span> 
-                        <span>-Q ${descuentoDeficit.toFixed(2)}</span>
-                    </div>
-                </div>
-
-                <div style="background:rgba(20, 83, 45, 0.2); border:1px solid #15803d; border-radius:8px; padding:10px; margin-bottom:10px;">
-                    <div class="fila-cuota" style="color:#4ade80; font-weight:bold;">
-                        <span>📅 2do Pago Neto (Sueldo del Mes):</span> 
-                        <span>Q ${pagoNeto2do.toFixed(2)}</span>
-                    </div>
-                </div>
-
-                <div style="font-size:0.75em; color:#94a3b8; margin: 8px 0;">
-                    • Ventas Totales Mes: Q${ventasMesTotal.toFixed(2)} / Q81,000<br>
-                    • 🛡️ Descuento aplicado desde el 16 (Déficit de ventas).
-                </div>
-
-                <div style="background:rgba(124, 45, 18, 0.2); border:1px solid #c2410c; border-radius:8px; padding:10px; margin-bottom:10px;">
-                    <div style="color:#fb923c; font-weight:bold; font-size:0.85em; margin-bottom:2px;">
-                        🛵 TOTAL A RECIBIR FIN DE MES (CON MOTO):
-                    </div>
-                    <div style="font-size:0.72em; color:#cbd5e1; margin-bottom:4px;">
-                        Incluye 2do pago neto + Bono de Moto Q500.00 íntegro
-                    </div>
-                    <div style="color:var(--success-color); font-size:1.15em; font-weight:bold;">
-                        Q ${totalFinDeMes.toFixed(2)}
                     </div>
                 </div>
 
@@ -621,7 +605,7 @@
             }
 
             let mensaje = `*DISTRIBUIDORA DIPROSA*%0A` +
-                          `📦 *Vendedor:* Jorge%0A` +
+                          `📦 *Vendedor:* JORGE%0A` +
                           `🕒 *Fecha y Hora:* ${fechaHoraCompleta}%0A` +
                           `👤 *Cliente:* ${clienteNom}%0A` +
                           `--------------------------------%0A` +
