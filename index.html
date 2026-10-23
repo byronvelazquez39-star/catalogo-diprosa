@@ -273,7 +273,7 @@
           return `
             <div class="ticket-historial-card">
               <div class="ticket-historial-head">
-                <span>Tiquete #${idx+1} - 👤 ${t.cliente || 'Cliente'}</span>
+                <span>Tiquete #${idx+1} (${t.fecha || 'Sin hora'}) - 👤 ${t.cliente || 'Cliente'}</span>
                 <button class="btn-eliminar-uno" onclick="eliminarTiquete(${idx})">❌ Eliminar</button>
               </div>
               <div style="color:#aaa;">Total: Q${t.total ? t.total.toFixed(2) : '0.00'}</div>
@@ -336,8 +336,10 @@
         itemsArray.push(item);
       }
 
+      let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
       let nuevoTiquete = {
-        fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        fecha: horaActual,
         cliente: receptor,
         items: itemsArray,
         total: subtotal
@@ -347,7 +349,7 @@
       tiquetesGuardados.push(nuevoTiquete);
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
-      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* ESTUARDO\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* ESTUARDO\n*Tiquete # ${String(numT).padStart(8,'0')}* (${horaActual})\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
       itemsArray.forEach(i => {
         msg += `${i.nombre} (x${i.cantidad}) = Q${(i.precio * i.cantidad).toFixed(2)}\n`;
       });
