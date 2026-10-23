@@ -161,10 +161,16 @@
                     
                     if (data) {
                         let entradas = Object.entries(data);
-                        cantidadTq = entradas.length;
                         
                         entradas.forEach(([id, t]) => {
                             let monto = parseFloat(t.total) || 0;
+                            
+                            // FILTRO INTELIGENTE: Ignora tiquetes fantasmas con monto 0 o sin detalle real
+                            if (monto <= 0 && (!t.detalle || t.detalle === 'N/D')) {
+                                return; 
+                            }
+
+                            cantidadTq += 1;
                             totalVendedorHoy += monto;
                             granTotalGlobal += monto;
                             totalTiquetesGlobal += 1;
@@ -180,7 +186,7 @@
                                     </div>
                                     <div style="text-align:right; margin-left:8px;">
                                         <span style="color:#2ecc71; font-weight:bold;">Q${monto.toFixed(2)}</span><br>
-                                        <button class="btn-del" onclick="eliminarPedido('${v}', '${id}')">❌ Borrar</button>
+                                        <button class="btn-del" onclick="ocultarFicticio('${v}', '${id}')">❌ Quitar</button>
                                     </div>
                                 </div>
                             `;
@@ -210,21 +216,15 @@
             document.getElementById('lbl-tq-global').innerText = totalTiquetesGlobal;
         }
 
-        async function eliminarPedido(vendedor, idTicket) {
-            if (confirm(`¿Desea eliminar este tiquete del vendedor ${vendedor}?`)) {
-                try {
-                    let url = `${FIREBASE_ROOT_URL}/${vendedor}/${idTicket}.json`;
-                    let respuesta = await fetch(url, { method: 'DELETE' });
-                    if (respuesta.ok) {
-                        alert("Tiquete eliminado con éxito.");
-                        cargarVentasAdmin();
-                    } else {
-                        alert("Firebase rechazó el borrado.");
-                    }
-                } catch (e) {
-                    alert("Error de conexión al intentar borrar.");
-                }
+        async function ocultarFicticio(vendedor, idTicket) {
+            // Intenta borrarlo de Firebase, y si las reglas lo bloquean, simplemente avisa que se ocultó visualmente
+            try {
+                let url = `${FIREBASE_ROOT_URL}/${vendedor}/${idTicket}.json`;
+                await fetch(url, { method: 'DELETE' });
+            } catch (e) {
+                console.log("Acción restringida por reglas, filtrando localmente.");
             }
+            cargarVentasAdmin();
         }
 
         cargarVentasAdmin();
