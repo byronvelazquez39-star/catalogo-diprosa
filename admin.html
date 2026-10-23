@@ -17,83 +17,84 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto 15px auto;
-            border-bottom: 1px solid #222;
-            padding-bottom: 10px;
         }
-        h2 {
+        .header-top h2 {
             color: #ff9800;
             margin: 0;
-            font-size: 1.1em;
+            font-size: 1.2em;
         }
         .btn-actualizar {
             background-color: #15803d;
             color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 8px 14px;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 0.8em;
             cursor: pointer;
+            font-size: 0.9em;
         }
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
         }
+        .resumen-global {
+            background-color: #051408;
+            border: 1px solid #166534;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .resumen-global h3 {
+            margin: 0 0 5px 0;
+            color: #2ecc71;
+            font-size: 1.0em;
+        }
+        .resumen-global p {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffffff;
+        }
         .vendedor-box {
-            background-color: #0d0d0d;
+            background-color: #0a0a0a;
             border: 1px solid #222;
             border-radius: 10px;
             padding: 12px;
             margin-bottom: 12px;
         }
         .vendedor-titulo {
-            color: #2ecc71;
-            font-size: 1em;
-            font-weight: bold;
-            border-bottom: 1px dashed #333;
-            padding-bottom: 6px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .tiquete-item {
-            background-color: #161616;
-            border: 1px solid #333;
-            border-radius: 6px;
-            padding: 8px 10px;
-            margin-bottom: 6px;
-            font-size: 0.82em;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 1.0em;
+            font-weight: bold;
+            color: #ff9800;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+        .tiquete-item {
+            background-color: #121212;
+            border: 1px solid #262626;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
         }
         .total-vendedor {
-            color: #fb923c;
-            font-weight: bold;
-            margin-top: 8px;
-            font-size: 0.9em;
             text-align: right;
-        }
-        .resumen-global {
-            background-color: #051408;
-            border: 1px solid #166534;
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .resumen-global h3 {
-            color: #2ecc71;
-            margin: 0 0 5px 0;
-            font-size: 1em;
-        }
-        .resumen-global p {
-            margin: 0;
-            font-size: 1.2em;
             font-weight: bold;
-            color: #ffffff;
+            color: #2ecc71;
+            font-size: 0.95em;
+            margin-top: 8px;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 6px;
         }
     </style>
 </head>
@@ -101,7 +102,7 @@
 
     <div class="header-top">
         <h2>📦 DIPROSA - ADMIN</h2>
-        <button onclick="cargarVentasAdmin()" class="btn-actualizar">🔄 Actualizar</button>
+        <button class="btn-actualizar" onclick="cargarVentasAdmin()">🔄 Actualizar</button>
     </div>
 
     <div class="container">
@@ -111,75 +112,82 @@
         </div>
 
         <div id="panel-admin">
-            <p style="text-align: center; color: #888;">Cargando tiquetes en tiempo real...</p>
+            <p style="text-align: center; color: #888;">Cargando tiquetes de rutas...</p>
         </div>
     </div>
 
     <script>
-        const FIREBASE_ROOT_URL = 'https://diprosa-ventas-default-rtdb.firebaseio.com/ventas.json';
+        const FIREBASE_ROOT_URL = 'https://diprosa-ventas-default-rtdb.firebaseio.com/ventas';
         const vendedores = ['JORGE', 'ELEAZAR', 'ESTUARDO', 'CRISTIAN'];
 
         async function cargarVentasAdmin() {
-            try {
-                const respuesta = await fetch(FIREBASE_ROOT_URL);
-                const datos = await respuesta.json();
-                
-                const panel = document.getElementById('panel-admin');
-                let htmlGlobal = '';
-                let granTotalGlobal = 0;
+            const panel = document.getElementById('panel-admin');
+            panel.innerHTML = '<p style="text-align: center; color: #888;">Actualizando datos...</p>';
 
-                vendedores.forEach(vendedor => {
-                    let ventasVendedor = (datos && datos[vendedor]) ? Object.entries(datos[vendedor]) : [];
-                    let totalVendedorHoy = 0;
-                    let htmlTiquetes = '';
+            let granTotalGlobal = 0;
+            let htmlGlobal = '';
 
-                    if (ventasVendedor.length > 0) {
-                        ventasVendedor.forEach(([id, t], index) => {
+            for (let v of vendedores) {
+                let totalVendedorHoy = 0;
+                let htmlTiquetes = '';
+                let cantidadTq = 0;
+
+                try {
+                    let res = await fetch(`${FIREBASE_ROOT_URL}/${v}.json`);
+                    let data = await res.json();
+                    
+                    if (data) {
+                        let entradas = Object.entries(data);
+                        cantidadTq = entradas.length;
+                        
+                        entradas.forEach(([id, t], index) => {
                             let monto = parseFloat(t.total) || 0;
                             totalVendedorHoy += monto;
                             granTotalGlobal += monto;
                             
                             let horaStr = t.fecha ? t.fecha.split('-')[1] || t.fecha : 'Hoy';
-                            let clienteNom = t.cliente || 'General';
+                            let clienteNom = t.cliente || t.nombreCliente || 'General';
+                            let detalleStr = t.detalle || 'Sin detalle';
 
                             htmlTiquetes += `
                                 <div class="tiquete-item">
-                                    <div style="flex-grow: 1; padding-right: 8px;">
+                                    <div style="flex-grow: 1;">
                                         <div style="color:#3b82f6; font-weight:bold;">Tiquete #${index + 1} - 👤 ${clienteNom}</div>
-                                        <div style="color:#aaa; font-size:0.75em; margin-top:2px;">Hora: ${horaStr} | Detalle: ${t.detalle || ''}</div>
+                                        <div style="color:#aaa; font-size:0.78em; margin-top:2px;">${detalleStr}</div>
+                                        <div style="color:#666; font-size:0.72em;">Hora: ${horaStr}</div>
                                     </div>
-                                    <div style="color:#2ecc71; font-weight:bold; font-size:0.95em; white-space:nowrap;">Q${monto.toFixed(2)}</div>
+                                    <div style="color:#2ecc71; font-weight:bold; font-size:1.0em; white-space:nowrap; margin-left:10px;">
+                                        Q ${monto.toFixed(2)}
+                                    </div>
                                 </div>
                             `;
                         });
-                    } else {
-                        htmlTiquetes = '<div style="color:#666; font-size:0.8em; padding:4px;">Sin tiquetes registrados.</div>';
                     }
+                } catch (e) {
+                    console.error(`Error cargando ${v}:`, e);
+                }
 
-                    htmlGlobal += `
-                        <div class="vendedor-box">
-                            <div class="vendedor-titulo">
-                                <span>👤 ${vendedor}</span>
-                                <span style="font-size:0.85em; color:#aaa;">(${ventasVendedor.length} tiquetes)</span>
-                            </div>
-                            ${htmlTiquetes}
-                            <div class="total-vendedor">Total ${vendedor}: Q ${totalVendedorHoy.toFixed(2)}</div>
+                if (htmlTiquetes === '') {
+                    htmlTiquetes = `<div style="color: #666; font-size: 0.85em; text-align: center; padding: 6px;">Sin tiquetes registrados hoy.</div>`;
+                }
+
+                htmlGlobal += `
+                    <div class="vendedor-box">
+                        <div class="vendedor-titulo">
+                            <span>👤 ${v}</span>
+                            <span style="font-size:0.85em; color:#888;">(${cantidadTq} tiquetes)</span>
                         </div>
-                    `;
-                });
-
-                panel.innerHTML = htmlGlobal;
-                document.getElementById('total-global').innerText = `Q ${granTotalGlobal.toFixed(2)}`;
-
-            } catch (error) {
-                console.error("Error al sincronizar datos:", error);
-                document.getElementById('panel-admin').innerHTML = '<p style="text-align:center; color:#ef4444;">Error al conectar con la base de datos.</p>';
+                        ${htmlTiquetes}
+                        <div class="total-vendedor">Total ${v}: Q ${totalVendedorHoy.toFixed(2)}</div>
+                    </div>
+                `;
             }
+
+            document.getElementById('total-global').innerText = `Q ${granTotalGlobal.toFixed(2)}`;
+            panel.innerHTML = htmlGlobal;
         }
 
-        // Cargar al abrir y actualizar automáticamente cada 5 segundos
         cargarVentasAdmin();
-        setInterval(cargarVentasAdmin, 5000);
     </script>
 </body>
 </html>
