@@ -30,7 +30,7 @@
             max-width: 600px;
             margin: 0 auto 20px auto;
             display: block;
-            padding: 10px;
+            padding: 12px;
             border-radius: 6px;
             border: 1px solid #333;
             background-color: #1a1a1a;
@@ -83,6 +83,9 @@
             cursor: pointer;
             font-size: 0.85em;
         }
+        .btn-add:active {
+            background-color: #2563eb;
+        }
         /* Barra flotante del carrito */
         .cart-bar {
             position: fixed;
@@ -114,81 +117,90 @@
 <body>
 
     <h1>📦 Catálogo DIPROSA</h1>
-    <div class="sub-header">Ruta Activa - Ventas</div>
+    <div class="sub-header" id="lbl-vendedor-ruta">Ruta Activa - Ventas</div>
 
-    <input type="text" id="buscador" class="search-box" placeholder="🔍 Buscar producto..." onkeyup="filtrarProductos()">
+    <input type="text" id="buscador" class="search-box" placeholder="🔍 Escriba para buscar producto..." onkeyup="filtrarProductos()">
     
-    <!-- Grilla de Productos -->
+    <!-- Grilla Dinámica de Productos -->
     <div class="grid" id="product-grid">
-        <div class="card" data-nombre="Detergente en Polvo 1kg">
-            <img src="https://via.placeholder.com/150?text=Detergente" alt="Producto" loading="lazy">
-            <h3>Detergente en Polvo 1kg</h3>
-            <p class="precio">Q 15.00</p>
-            <button class="btn-add" onclick="agregarAlCarro('Detergente en Polvo 1kg', 15.00)">Agregar</button>
-        </div>
-        <div class="card" data-nombre="Aceite Vegetal 800ml">
-            <img src="https://via.placeholder.com/150?text=Aceite" alt="Producto" loading="lazy">
-            <h3>Aceite Vegetal 800ml</h3>
-            <p class="precio">Q 22.50</p>
-            <button class="btn-add" onclick="agregarAlCarro('Aceite Vegetal 800ml', 22.50)">Agregar</button>
-        </div>
-        <div class="card" data-nombre="Arroz Blanco 5lbs">
-            <img src="https://via.placeholder.com/150?text=Arroz" alt="Producto" loading="lazy">
-            <h3>Arroz Blanco 5lbs</h3>
-            <p class="precio">Q 20.00</p>
-            <button class="btn-add" onclick="agregarAlCarro('Arroz Blanco 5lbs', 20.00)">Agregar</button>
-        </div>
-        <div class="card" data-nombre="Frijol Negro 5lbs">
-            <img src="https://via.placeholder.com/150?text=Frijol" alt="Producto" loading="lazy">
-            <h3>Frijol Negro 5lbs</h3>
-            <p class="precio">Q 25.00</p>
-            <button class="btn-add" onclick="agregarAlCarro('Frijol Negro 5lbs', 25.00)">Agregar</button>
-        </div>
+        <p style="text-align:center; color:#888; grid-column:1/-1;">Cargando inventario de productos...</p>
     </div>
 
     <!-- Barra Inferior del Carrito -->
     <div class="cart-bar">
         <div>
-            <span style="font-size: 0.8em; color: #aaa;">Total Carrito:</span><br>
+            <span style="font-size: 0.8em; color: #aaa;" id="lbl-contador-items">0 items (Ver Ticket)</span><br>
             <strong id="lbl-total" style="color: #2ecc71; font-size: 1.1em;">Q 0.00</strong>
         </div>
         <button class="btn-checkout" onclick="procesarPedido()">💬 Ver Ticket y Enviar</button>
     </div>
 
     <script>
-        // CAMBIE AQUÍ EL VENDEDOR SEGÚN CORRESPONDA (JORGE, ELEAZAR, ESTUARDO, CRISTIAN)
+        // CONFIGURACIÓN DE RUTA Y VENDEDOR (Puede cambiar a JORGE, ELEAZAR, ESTUARDO o CRISTIAN)
         const VENDEDOR_ACTUAL = 'JORGE'; 
         const FIREBASE_URL = `https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/${VENDEDOR_ACTUAL}.json`;
 
-        let carrito = [];
+        document.getElementById('lbl-vendedor-ruta').innerText = `Vendedor: ${VENDEDOR_ACTUAL} (Ruta Activa)`;
 
-        function agregarAlCarro(nombre, precio) {
-            carrito.push({ nombre, precio });
-            actualizarTotal();
+        let carrito = [];
+        let productosDisponibles = [];
+
+        // Simulación o carga de su base de productos completa
+        function cargarInventario() {
+            // Aquí puede integrar su archivo CSV o lista completa de productos
+            productosDisponibles = [
+                { nombre: "Detergente en Polvo 1kg", precio: 15.00, imagen: "https://via.placeholder.com/150?text=Detergente" },
+                { nombre: "Aceite Vegetal 800ml", precio: 22.50, imagen: "https://via.placeholder.com/150?text=Aceite" },
+                { nombre: "Arroz Blanco 5lbs", precio: 20.00, imagen: "https://via.placeholder.com/150?text=Arroz" },
+                { nombre: "Frijol Negro 5lbs", precio: 25.00, imagen: "https://via.placeholder.com/150?text=Frijol" },
+                { nombre: "Azúcar Morena 5lbs", precio: 23.00, imagen: "https://via.placeholder.com/150?text=Azucar" },
+                { nombre: "Pasta Spaghetti 200g", precio: 5.00, imagen: "https://via.placeholder.com/150?text=Pasta" }
+            ];
+            renderizarCatalogo(productosDisponibles);
         }
 
-        function actualizarTotal() {
-            let total = carrito.reduce((sum, item) => sum + item.precio, 0);
-            document.getElementById('lbl-total').innerText = `Q ${total.toFixed(2)}`;
+        function renderizarCatalogo(lista) {
+            const grid = document.getElementById('product-grid');
+            if (lista.length === 0) {
+                grid.innerHTML = '<p style="text-align:center; color:#888; grid-column:1/-1;">No se encontraron productos.</p>';
+                return;
+            }
+
+            grid.innerHTML = lista.map(p => `
+                <div class="card" data-nombre="${p.nombre.toLowerCase()}">
+                    <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=DIPROSA'">
+                    <h3>${p.nombre}</h3>
+                    <p class="precio">Q ${p.precio.toFixed(2)}</p>
+                    <button class="btn-add" onclick="agregarAlCarro('${p.nombre}', ${p.precio})">Agregar</button>
+                </div>
+            `).join('');
         }
 
         function filtrarProductos() {
             let filtro = document.getElementById('buscador').value.toLowerCase();
-            let tarjetas = document.querySelectorAll('.card');
-            tarjetas.forEach(card => {
-                let nombre = card.getAttribute('data-nombre').toLowerCase();
-                card.style.display = nombre.includes(filtro) ? 'flex' : 'none';
-            });
+            let filtrados = productosDisponibles.filter(p => p.nombre.toLowerCase().includes(filtro));
+            renderizarCatalogo(filtrados);
+        }
+
+        function agregarAlCarro(nombre, precio) {
+            carrito.push({ nombre, precio });
+            actualizarBarraCarrito();
+        }
+
+        function actualizarBarraCarrito() {
+            let total = carrito.reduce((sum, item) => sum + item.precio, 0);
+            document.getElementById('lbl-total').innerText = `Q ${total.toFixed(2)}`;
+            document.getElementById('lbl-contador-items').innerText = `${carrito.length} items (Ver Carrito)`;
         }
 
         async function procesarPedido() {
             if (carrito.length === 0) {
-                alert("El carrito está vacío.");
+                alert("El carrito está vacío. Agregue productos antes de enviar el tiquete.");
                 return;
             }
 
             let totalVenta = carrito.reduce((sum, item) => sum + item.precio, 0);
-            let detalleTexto = carrito.map(i => `${i.nombre} (Q${i.precio})`).join(', ');
+            let detalleTexto = carrito.map(i => `${i.nombre} (Q${i.precio.toFixed(2)})`).join(', ');
             let fechaHora = new Date().toLocaleString();
 
             let datosTicket = {
@@ -198,7 +210,7 @@
                 fecha: fechaHora
             };
 
-            // 1. Enviar los datos directo a Firebase para que el Admin los vea al instante
+            // Enviar a Firebase de forma inmediata para sincronización en Panel Admin
             try {
                 let respuesta = await fetch(FIREBASE_URL, {
                     method: 'POST',
@@ -206,20 +218,24 @@
                     body: JSON.stringify(datosTicket)
                 });
                 if (!respuesta.ok) {
-                    console.error("Firebase no confirmó el guardado.");
+                    console.error("Aviso: Firebase no confirmó el guardado automático.");
                 }
             } catch (e) {
-                console.error("Error de red con Firebase:", e);
+                console.error("Error de conexión con Firebase:", e);
             }
 
-            // 2. Armar mensaje y redirigir a WhatsApp
+            // Redirección a WhatsApp con formato de ticket oficial
             let mensaje = `*DISTRIBUIDORA DIPROSA*%0A*Vendedor:* ${VENDEDOR_ACTUAL}%0A*Fecha:* ${fechaHora}%0A*Detalle:* ${detalleTexto}%0A*Total:* Q${totalVenta.toFixed(2)}`;
             let urlWhatsApp = `https://wa.me/50248502382?text=${mensaje}`;
 
+            // Limpiar carrito tras el envío
             carrito = [];
-            actualizarTotal();
+            actualizarBarraCarrito();
             window.open(urlWhatsApp, '_blank');
         }
+
+        // Inicializar al cargar la página
+        cargarInventario();
     </script>
 </body>
 </html>
