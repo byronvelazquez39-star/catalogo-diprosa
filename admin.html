@@ -53,11 +53,21 @@
     <div id="lista-jorge">Cargando tiquetes...</div>
   </div>
 
+  <!-- SECCIÓN ELEAZAR -->
+  <div class="vendedor-section">
+    <div class="vendedor-header">
+      <h2>👤 Vendedor: ELEAZAR</h2>
+      <button class="btn-clear" onclick="limpiarTiquetes('eleazar')">Borrar Historial</button>
+    </div>
+    <div id="lista-eleazar">Cargando tiquetes...</div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       cargarReporte('estuardo');
       cargarReporte('cristian');
       cargarReporte('jorge');
+      cargarReporte('eleazar');
     });
 
     function cargarReporte(vendedor) {
