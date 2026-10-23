@@ -132,7 +132,6 @@
             border: none;
         }
 
-        /* DISEÑO MODAL IDÉNTICO AL DE ELEAZAR */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -237,6 +236,18 @@
             font-size: 0.75em;
             cursor: pointer;
         }
+        .btn-limpiar-todo {
+            background-color: #991b1b;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+        }
         .btn-enviar-byron {
             background-color: #15803d;
             color: white;
@@ -246,7 +257,7 @@
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 6px;
             font-size: 0.9em;
         }
         .btn-cerrar-modal {
@@ -419,14 +430,28 @@
         }
 
         async function eliminarTicket(idTicket) {
-            if (confirm("¿Desea eliminar este tiquete del historial de hoy?")) {
+            if (confirm("¿Desea eliminar este tiquete?")) {
                 try {
                     let urlEliminar = `https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/JORGE/${idTicket}.json`;
                     await fetch(urlEliminar, { method: 'DELETE' });
-                    cerrarModal();
                     setTimeout(mostrarMetas, 300);
                 } catch (e) {
-                    alert("No se pudo eliminar el tiquete.");
+                    alert("No se pudo eliminar.");
+                }
+            }
+        }
+
+        async function limpiarTodo() {
+            if (confirm("¿Desea limpiar todos los tiquetes acumulados y reiniciar la lista?")) {
+                try {
+                    await fetch(FIREBASE_URL, {
+                        method: 'PUT',
+                        body: JSON.stringify(null),
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    setTimeout(mostrarMetas, 300);
+                } catch (e) {
+                    alert("No se pudo limpiar la base de datos.");
                 }
             }
         }
@@ -460,12 +485,14 @@
             let acumuladoMesTotal = baseInicioMonto + totalVendidoHoy;
             let tiquetesTotalMes = baseTiquetes + entradas.length;
 
+            let botonLimpiarHtml = entradas.length > 0 ? `<button class="btn-limpiar-todo" onclick="limpiarTodo()">🗑️ Limpiar Todos los Tiquetes</button>` : '';
+
             let html = `
                 <div class="modal-header-title">📊 Control de Metas y Rendimiento</div>
                 <div class="modal-header-sub">Panel de Vendedor - Ruta Activa</div>
 
                 <div class="caja-cuotas">
-                    <div class="titulo-cuotas">📦 JORGE - ESTADO DE CUOTAS</div>
+                    <div class="titulo-cuotas">📦 JORGE - ESTADO DE CUOTas</div>
                     <div class="fila-cuota"><span>Ventas Acumuladas Mes:</span> <b>Q ${acumuladoMesTotal.toFixed(2)} / Q81,000.00</b></div>
                     <div class="fila-cuota"><span>Tiquetes Emitidos:</span> <b>${tiquetesTotalMes} / 220 Tq Meta</b></div>
                     <div class="fila-cuota"><span>Horas de Ruta:</span> <b>${baseHoras} / 135 Hrs Meta</b></div>
@@ -483,6 +510,9 @@
                 </div>
 
                 ${htmlTiquetes}
+                <div style="margin-top: 10px;">
+                    ${botonLimpiarHtml}
+                </div>
 
                 <button class="btn-enviar-byron" onclick="enviarReporteVoz()">📲 Enviar Reporte a don Byron</button>
                 <button class="btn-cerrar-modal" onclick="cerrarModal()">Cerrar Ventana</button>
@@ -536,7 +566,7 @@
 
                 <div style="font-size:0.75em; color:#94a3b8; margin: 8px 0;">
                     • Ventas Totales Mes: Q${ventasMesTotal.toFixed(2)} / Q81,000<br>
-                    • 🛡️ Descuento aplicado desde el 16 (Déficit de ventas).
+                    • 🛡️ Descuento aplicado desde el 1ened (Déficit de ventas).
                 </div>
 
                 <button class="btn-cerrar-modal" onclick="cerrarModal()">Cerrar Ventana</button>
@@ -593,7 +623,6 @@
             };
 
             try {
-                // Usamos POST directo hacia JORGE.json para garantizar compatibilidad con Firebase
                 await fetch(FIREBASE_URL, {
                     method: 'POST',
                     body: JSON.stringify(nuevoTicket),
