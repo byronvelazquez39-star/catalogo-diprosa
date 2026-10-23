@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo DIPROSA - Jorge</title>
     <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #0a0a0a;
+            --accent-color: #ff9800;
+            --success-color: #2ecc71;
+            --border-color: #222;
+        }
         body {
             font-family: Arial, sans-serif;
-            background-color: #000000;
+            background-color: var(--bg-color);
             color: #ffffff;
             margin: 0;
             padding: 10px;
@@ -21,7 +28,7 @@
             margin: 0 auto 10px auto;
         }
         .header-top h2 {
-            color: #ff9800;
+            color: var(--accent-color);
             margin: 0;
             font-size: 1.1em;
         }
@@ -31,7 +38,7 @@
         }
         .mini-btn {
             background-color: #121212;
-            color: #ff9800;
+            color: var(--accent-color);
             border: 1px solid #333;
             padding: 6px 12px;
             border-radius: 6px;
@@ -67,13 +74,13 @@
             }
         }
         .card {
-            background-color: #0a0a0a;
+            background-color: var(--card-bg);
             border-radius: 8px;
             padding: 10px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            border: 1px solid #222;
+            border: 1px solid var(--border-color);
         }
         .card h3 {
             font-size: 0.85em;
@@ -82,7 +89,7 @@
             line-height: 1.3;
         }
         .precio {
-            color: #2ecc71;
+            color: var(--success-color);
             font-weight: bold;
             font-size: 1.05em;
             margin: 0 0 8px 0;
@@ -103,8 +110,8 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #000000;
-            border-top: 2px solid #222;
+            background-color: var(--bg-color);
+            border-top: 2px solid var(--border-color);
             padding: 10px 15px;
             display: flex;
             justify-content: space-between;
@@ -117,7 +124,7 @@
             color: #fff;
         }
         .footer-info span {
-            color: #2ecc71;
+            color: var(--success-color);
             font-weight: bold;
         }
         .ver-ticket-btn {
@@ -178,7 +185,7 @@
             margin-bottom: 12px;
         }
         .titulo-cuotas {
-            color: #2ecc71;
+            color: var(--success-color);
             font-weight: bold;
             font-size: 0.95em;
             margin-bottom: 8px;
@@ -476,7 +483,7 @@
 
                 <div class="caja-base">
                     <div style="color:#3b82f6; font-weight:bold; font-size:0.82em;">📊 BASE DE INICIO (${baseTiquetes} Tq / ${baseHoras} Hrs)</div>
-                    <div style="color:#2ecc71; font-size:0.82em; margin-top:2px;">Ventas: Q${baseInicioMonto.toFixed(2)}</div>
+                    <div style="color:var(--success-color); font-size:0.82em; margin-top:2px;">Ventas: Q${baseInicioMonto.toFixed(2)}</div>
                 </div>
 
                 ${htmlTiquetes}
@@ -508,7 +515,7 @@
 
                 <div class="caja-cuotas">
                     <div class="fila-cuota"><span>Sueldo Base Mensual:</span> <b>Q${sueldoBaseMensual.toFixed(2)}</b></div>
-                    <div class="fila-cuota" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
+                    <div class="fila-cuota" style="color:var(--success-color);"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
                     <div class="fila-cuota" style="color:#3b82f6;"><span>Base 2da Quincena (16 al 30):</span> <b>Q ${baseQuincena.toFixed(2)}</b></div>
                 </div>
 
@@ -545,7 +552,7 @@
                     <div style="font-size:0.72em; color:#cbd5e1; margin-bottom:4px;">
                         Incluye 2do pago neto + Bono de Moto Q500.00 íntegro
                     </div>
-                    <div style="color:#4ade80; font-size:1.15em; font-weight:bold;">
+                    <div style="color:var(--success-color); font-size:1.15em; font-weight:bold;">
                         Q ${totalFinDeMes.toFixed(2)}
                     </div>
                 </div>
