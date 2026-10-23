@@ -17,103 +17,125 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto 15px auto;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
         }
         .header-top h2 {
-            color: #ff9800;
+            color: #3b82f6;
             margin: 0;
             font-size: 1.2em;
         }
-        .btn-actualizar {
+        .btn-refrescar {
             background-color: #15803d;
             color: white;
             border: none;
             padding: 8px 14px;
             border-radius: 6px;
             font-weight: bold;
+            font-size: 0.85em;
             cursor: pointer;
-            font-size: 0.9em;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
         }
         .resumen-global {
-            background-color: #051408;
-            border: 1px solid #166534;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .resumen-global h3 {
-            margin: 0 0 5px 0;
-            color: #2ecc71;
-            font-size: 1.0em;
-        }
-        .resumen-global p {
-            margin: 0;
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #ffffff;
-        }
-        .vendedor-box {
-            background-color: #0a0a0a;
+            background-color: #0d0d0d;
             border: 1px solid #222;
             border-radius: 10px;
             padding: 12px;
-            margin-bottom: 12px;
-        }
-        .vendedor-titulo {
+            max-width: 1200px;
+            margin: 0 auto 15px auto;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.0em;
-            font-weight: bold;
-            color: #ff9800;
-            border-bottom: 1px dashed #333;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
+            justify-content: space-around;
+            text-align: center;
         }
-        .tiquete-item {
-            background-color: #121212;
-            border: 1px solid #262626;
-            border-radius: 6px;
-            padding: 8px 10px;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85em;
+        .caja-metrica div:first-child {
+            font-size: 0.75em;
+            color: #888;
+            margin-bottom: 4px;
         }
-        .total-vendedor {
-            text-align: right;
+        .caja-metrica div:last-child {
+            font-size: 1.1em;
             font-weight: bold;
             color: #2ecc71;
-            font-size: 0.95em;
-            margin-top: 8px;
-            border-top: 1px solid #1a1a1a;
-            padding-top: 6px;
+        }
+        .grid-vendedores {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        @media (min-width: 768px) {
+            .grid-vendedores {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .tarjeta-vendedor {
+            background-color: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 10px;
+            padding: 14px;
+        }
+        .titulo-vendedor {
+            font-size: 1em;
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 6px;
+        }
+        .item-pedido {
+            background-color: #141414;
+            border: 1px solid #262626;
+            border-radius: 6px;
+            padding: 8px;
+            margin-bottom: 6px;
+            font-size: 0.82em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-del {
+            background-color: #b91c1c;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.7em;
+            cursor: pointer;
+        }
+        .sin-pedidos {
+            color: #666;
+            font-size: 0.82em;
+            text-align: center;
+            padding: 10px 0;
         }
     </style>
 </head>
 <body>
 
     <div class="header-top">
-        <h2>📦 DIPROSA - ADMIN</h2>
-        <button class="btn-actualizar" onclick="cargarVentasAdmin()">🔄 Actualizar</button>
+        <h2>🛠️ Panel Admin - DIPROSA</h2>
+        <button class="btn-refrescar" onclick="cargarVentasAdmin()">🔄 Actualizar</button>
     </div>
 
-    <div class="container">
-        <div class="resumen-global">
-            <h3>📊 VENTAS TOTALES DE HOY (TODAS LAS RUTAS)</h3>
-            <p id="total-global">Q 0.00</p>
+    <div class="resumen-global">
+        <div class="caja-metrica">
+            <div>VENTA GLOBAL HOY</div>
+            <div id="lbl-total-global">Q 0.00</div>
         </div>
+        <div class="caja-metrica">
+            <div>TOTAL TIQUETES</div>
+            <div id="lbl-tq-global" style="color: #3b82f6;">0</div>
+        </div>
+    </div>
 
-        <div id="panel-admin">
-            <p style="text-align: center; color: #888;">Cargando tiquetes de rutas...</p>
-        </div>
+    <div class="grid-vendedores" id="panel-vendedores">
+        <p style="text-align:center; color:#888; grid-column:1/-1;">Conectando con Firebase y cargando rutas...</p>
     </div>
 
     <script>
@@ -121,10 +143,11 @@
         const vendedores = ['JORGE', 'ELEAZAR', 'ESTUARDO', 'CRISTIAN'];
 
         async function cargarVentasAdmin() {
-            const panel = document.getElementById('panel-admin');
-            panel.innerHTML = '<p style="text-align: center; color: #888;">Actualizando datos...</p>';
+            const panel = document.getElementById('panel-vendedores');
+            panel.innerHTML = '<p style="text-align:center; color:#888; grid-column:1/-1;">Actualizando datos de rutas...</p>';
 
             let granTotalGlobal = 0;
+            let totalTiquetesGlobal = 0;
             let htmlGlobal = '';
 
             for (let v of vendedores) {
@@ -140,51 +163,68 @@
                         let entradas = Object.entries(data);
                         cantidadTq = entradas.length;
                         
-                        entradas.forEach(([id, t], index) => {
+                        entradas.forEach(([id, t]) => {
                             let monto = parseFloat(t.total) || 0;
                             totalVendedorHoy += monto;
                             granTotalGlobal += monto;
-                            
+                            totalTiquetesGlobal += 1;
+
+                            let clienteNom = t.cliente || 'General';
                             let horaStr = t.fecha ? t.fecha.split('-')[1] || t.fecha : 'Hoy';
-                            let clienteNom = t.cliente || t.nombreCliente || 'General';
-                            let detalleStr = t.detalle || 'Sin detalle';
 
                             htmlTiquetes += `
-                                <div class="tiquete-item">
-                                    <div style="flex-grow: 1;">
-                                        <div style="color:#3b82f6; font-weight:bold;">Tiquete #${index + 1} - 👤 ${clienteNom}</div>
-                                        <div style="color:#aaa; font-size:0.78em; margin-top:2px;">${detalleStr}</div>
-                                        <div style="color:#666; font-size:0.72em;">Hora: ${horaStr}</div>
+                                <div class="item-pedido">
+                                    <div>
+                                        <b style="color:#ffffff;">👤 ${clienteNom}</b><br>
+                                        <span style="color:#aaa;">🕒 ${horaStr} | Detalle: ${t.detalle || 'N/D'}</span>
                                     </div>
-                                    <div style="color:#2ecc71; font-weight:bold; font-size:1.0em; white-space:nowrap; margin-left:10px;">
-                                        Q ${monto.toFixed(2)}
+                                    <div style="text-align:right; margin-left:8px;">
+                                        <span style="color:#2ecc71; font-weight:bold;">Q${monto.toFixed(2)}</span><br>
+                                        <button class="btn-del" onclick="eliminarPedido('${v}', '${id}')">❌ Borrar</button>
                                     </div>
                                 </div>
                             `;
                         });
                     }
                 } catch (e) {
-                    console.error(`Error cargando ${v}:`, e);
+                    console.error(`Error cargando a ${v}:`, e);
                 }
 
-                if (htmlTiquetes === '') {
-                    htmlTiquetes = `<div style="color: #666; font-size: 0.85em; text-align: center; padding: 6px;">Sin tiquetes registrados hoy.</div>`;
+                if (!htmlTiquetes) {
+                    htmlTiquetes = `<div class="sin-pedidos">No hay tiquetes registrados hoy.</div>`;
                 }
 
                 htmlGlobal += `
-                    <div class="vendedor-box">
-                        <div class="vendedor-titulo">
-                            <span>👤 ${v}</span>
-                            <span style="font-size:0.85em; color:#888;">(${cantidadTq} tiquetes)</span>
+                    <div class="tarjeta-vendedor">
+                        <div class="titulo-vendedor">
+                            <span>📦 ${v}</span>
+                            <span style="color: #2ecc71;">Q ${totalVendedorHoy.toFixed(2)} (${cantidadTq} Tq)</span>
                         </div>
-                        ${htmlTiquetes}
-                        <div class="total-vendedor">Total ${v}: Q ${totalVendedorHoy.toFixed(2)}</div>
+                        <div>${htmlTiquetes}</div>
                     </div>
                 `;
             }
 
-            document.getElementById('total-global').innerText = `Q ${granTotalGlobal.toFixed(2)}`;
             panel.innerHTML = htmlGlobal;
+            document.getElementById('lbl-total-global').innerText = `Q ${granTotalGlobal.toFixed(2)}`;
+            document.getElementById('lbl-tq-global').innerText = totalTiquetesGlobal;
+        }
+
+        async function eliminarPedido(vendedor, idTicket) {
+            if (confirm(`¿Desea eliminar este tiquete del vendedor ${vendedor}?`)) {
+                try {
+                    let url = `${FIREBASE_ROOT_URL}/${vendedor}/${idTicket}.json`;
+                    let respuesta = await fetch(url, { method: 'DELETE' });
+                    if (respuesta.ok) {
+                        alert("Tiquete eliminado con éxito.");
+                        cargarVentasAdmin();
+                    } else {
+                        alert("Firebase rechazó el borrado.");
+                    }
+                } catch (e) {
+                    alert("Error de conexión al intentar borrar.");
+                }
+            }
         }
 
         cargarVentasAdmin();
