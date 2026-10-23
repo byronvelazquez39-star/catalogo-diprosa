@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA</title>
+    <title>Catálogo DIPROSA - Vendedor</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #ffffff;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
+            padding-bottom: 90px;
         }
         h1 {
             text-align: center;
             color: #f1c40f;
+            font-size: 1.4em;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -29,126 +31,153 @@
             padding: 10px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .card img {
             width: 100%;
-            height: 140px;
+            height: 120px;
             object-fit: cover;
             border-radius: 5px;
         }
         .card h3 {
-            font-size: 0.9em;
-            margin: 10px 0 5px 0;
-            height: 2.8em;
+            font-size: 0.85em;
+            margin: 8px 0 4px 0;
+            height: 2.5em;
             overflow: hidden;
         }
         .precio {
             color: #2ecc71;
             font-weight: bold;
-            font-size: 1.1em;
-            margin: 5px 0;
+            font-size: 1em;
+            margin: 4px 0;
         }
-        /* Botón flotante de WhatsApp */
-        .whatsapp-btn {
+        .btn-add {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+        /* Barra flotante del carrito */
+        .cart-bar {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #1a1a1a;
+            border-top: 2px solid #333;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .btn-checkout {
             background-color: #25d366;
             color: white;
-            padding: 14px 22px;
-            border-radius: 30px;
-            text-decoration: none;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 0.9em;
+            cursor: pointer;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .whatsapp-btn:hover {
-            background-color: #1ebc57;
         }
     </style>
 </head>
 <body>
 
-    <h1>Catálogo DIPROSA</h1>
+    <h1>📦 Catálogo DIPROSA</h1>
     
-    <div class="grid">
-        
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
+    <!-- Lista de productos de ejemplo (puede adaptarla a su CSV) -->
+    <div class="grid" id="product-grid">
+        <div class="card">
+            <img src="https://via.placeholder.com/150?text=Producto+1" alt="Producto">
+            <h3>Detergente en Polvo 1kg</h3>
+            <p class="precio">Q 15.00</p>
+            <button class="btn-add" onclick="agregarAlCarro('Detergente en Polvo 1kg', 15.00)">Agregar</button>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/150?text=Producto+2" alt="Producto">
+            <h3>Aceite Vegetal 800ml</h3>
+            <p class="precio">Q 22.50</p>
+            <button class="btn-add" onclick="agregarAlCarro('Aceite Vegetal 800ml', 22.50)">Agregar</button>
+        </div>
     </div>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-        💬 Pedir por WhatsApp
-    </a>
+    <!-- Barra Inferior del Carrito -->
+    <div class="cart-bar">
+        <div>
+            <span style="font-size: 0.8em; color: #aaa;">Total Carrito:</span><br>
+            <strong id="lbl-total" style="color: #2ecc71; font-size: 1.1em;">Q 0.00</strong>
+        </div>
+        <button class="btn-checkout" onclick="procesarPedido()">💬 Ver Ticket y Enviar</button>
+    </div>
 
+    <script>
+        // CAMBIE AQUÍ EL NOMBRE DEL VENDEDOR SEGÚN CORRESPONDA (JORGE, ELEAZAR, ESTUARDO, CRISTIAN)
+        const VENDEDOR_ACTUAL = 'JORGE'; 
+        const FIREBASE_URL = `https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/${VENDEDOR_ACTUAL}.json`;
+
+        let carrito = [];
+
+        function agregarAlCarro(nombre, precio) {
+            carrito.push({ nombre, precio });
+            actualizarTotal();
+        }
+
+        function actualizarTotal() {
+            let total = carrito.reduce((sum, item) => sum + item.precio, 0);
+            document.getElementById('lbl-total').innerText = `Q ${total.toFixed(2)}`;
+        }
+
+        async function procesarPedido() {
+            if (carrito.length === 0) {
+                alert("El carrito está vacío.");
+                return;
+            }
+
+            let totalVenta = carrito.reduce((sum, item) => sum + item.precio, 0);
+            let detalleTexto = carrito.map(i => `${i.nombre} (Q${i.precio})`).join(', ');
+            let fechaHora = new Date().toLocaleString();
+
+            let datosTicket = {
+                cliente: "Cliente General",
+                detalle: detalleTexto,
+                total: totalVenta,
+                fecha: fechaHora
+            };
+
+            // 1. Enviar los datos a Firebase para que caiga al Panel Admin de inmediato
+            try {
+                let respuesta = await fetch(FIREBASE_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosTicket)
+                });
+
+                if (!respuesta.ok) {
+                    console.error("Aviso: Firebase no confirmó el guardado, pero se procederá con WhatsApp.");
+                }
+            } catch (e) {
+                console.error("Error de red al conectar con Firebase:", e);
+            }
+
+            // 2. Armar mensaje de WhatsApp
+            let mensaje = `*DISTRIBUIDORA DIPROSA*%0A*Vendedor:* ${VENDEDOR_ACTUAL}%0A*Fecha:* ${fechaHora}%0A*Detalle:* ${detalleTexto}%0A*Total:* Q${totalVenta.toFixed(2)}`;
+            let urlWhatsApp = `https://wa.me/50248502382?text=${mensaje}`;
+
+            // Vaciar carrito y abrir WhatsApp
+            carrito = [];
+            actualizarTotal();
+            window.open(urlWhatsApp, '_blank');
+        }
+    </script>
 </body>
 </html>
