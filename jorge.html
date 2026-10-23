@@ -203,18 +203,21 @@
 
                         let precioNum = 0.00;
                         
-                        // Priorizar la columna de precio real (Columna E/Index 4 o D/Index 3)
-                        if (columnas[4] && columnas[4].trim()) {
-                            let matchCol = columnas[4].replace(/"/g, '').match(/(\d+(\.\d+)?)/);
-                            if (matchCol) precioNum = parseFloat(matchCol[1]);
-                        } else if (columnas[3] && columnas[3].trim()) {
-                            let matchCol = columnas[3].replace(/"/g, '').match(/(\d+(\.\d+)?)/);
-                            if (matchCol) precioNum = parseFloat(matchCol[1]);
+                        // Buscar el precio de caja/fardo en las columnas numéricas del CSV (Columnas D, E, F...)
+                        for (let c = 3; c < columnas.length; c++) {
+                            if (columnas[c]) {
+                                let valClean = columnas[c].replace(/"/g, '').replace('Q', '').trim();
+                                let valFloat = parseFloat(valClean);
+                                if (!isNaN(valFloat) && valFloat > 0) {
+                                    precioNum = valFloat;
+                                    break;
+                                }
+                            }
                         }
-                        
-                        // Si no hay precio en columna, buscar al inicio del texto
+
+                        // Si no encontró precio en las columnas, buscar al inicio del texto
                         if (precioNum === 0) {
-                            let matchPrecio = descripcion.match(/Q\.?\s*(\d+(\.\d+)?)/i);
+                            let matchPrecio = descripcion.match(/^Q\.?\s*(\d+(\.\d+)?)/i);
                             if (matchPrecio) precioNum = parseFloat(matchPrecio[1]);
                         }
 
