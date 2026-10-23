@@ -132,91 +132,93 @@
             border: none;
         }
 
-        /* DISEÑO EXACTO ORIGINAL DE ESTUARDO */
+        /* DISEÑO IDÉNTICO AL PANEL DE ESTUARDO */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 12px;
             box-sizing: border-box;
         }
         .modal-box {
-            background: #121212;
-            border: 1px solid #333;
+            background: #0d0d0d;
+            border: 1px solid #222;
             padding: 16px;
             border-radius: 12px;
             max-width: 420px;
             width: 100%;
             color: white;
             font-size: 0.85em;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.9);
-            max-height: 90vh;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.95);
+            max-height: 92vh;
             overflow-y: auto;
         }
-        .modal-title-main {
+        .modal-header-title {
             font-size: 1.15em;
             font-weight: bold;
             text-align: center;
             color: #ffffff;
             margin-bottom: 2px;
         }
-        .modal-subtitle-main {
+        .modal-header-sub {
             color: #888;
-            font-size: 0.78em;
+            font-size: 0.8em;
             text-align: center;
             margin-bottom: 12px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 8px;
         }
-        .caja-cuotas-estuardo {
+        .caja-cuotas {
             border: 1px solid #166534;
-            background-color: rgba(5, 20, 8, 0.6);
+            background-color: #051408;
             border-radius: 8px;
             padding: 12px;
             margin-bottom: 12px;
         }
-        .titulo-cuotas-estuardo {
+        .titulo-cuotas {
             color: #2ecc71;
             font-weight: bold;
             font-size: 0.95em;
             margin-bottom: 8px;
         }
-        .fila-cuota-estuardo {
+        .fila-cuota {
             display: flex;
             justify-content: space-between;
             margin: 6px 0;
             color: #aaa;
             font-size: 0.85em;
         }
-        .fila-cuota-estuardo b {
+        .fila-cuota b {
             color: #2ecc71;
         }
-        .texto-moto-estuardo {
+        .texto-moto {
             color: #fb923c;
-            font-size: 0.76em;
+            font-size: 0.78em;
             line-height: 1.35;
             margin-top: 10px;
-            border-top: 1px dashed #166534;
+            border-top: 1px solid #166534;
             padding-top: 8px;
         }
-        .titulo-historico-estuardo {
+        .titulo-historico {
             color: #fb923c;
             font-weight: bold;
             margin: 12px 0 8px 0;
             font-size: 0.9em;
         }
-        .caja-base-estuardo {
+        .caja-base {
             border: 1px solid #166534;
-            background-color: rgba(5, 20, 8, 0.4);
+            background-color: #051408;
             border-radius: 6px;
             padding: 8px 10px;
             margin-bottom: 8px;
         }
-        .item-tiquete-estuardo {
+        .item-tiquete {
             border: 1px solid #333;
-            background-color: #1a1a1a;
+            background-color: #161616;
             border-radius: 6px;
             padding: 8px 10px;
             margin-bottom: 6px;
@@ -224,7 +226,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        .btn-eliminar-estuardo {
+        .btn-eliminar-tq {
             background-color: #b91c1c;
             color: white;
             border: none;
@@ -234,7 +236,7 @@
             font-size: 0.75em;
             cursor: pointer;
         }
-        .btn-enviar-estuardo {
+        .btn-enviar-byron {
             background-color: #15803d;
             color: white;
             border: none;
@@ -246,7 +248,7 @@
             margin-top: 10px;
             font-size: 0.9em;
         }
-        .btn-cerrar-estuardo {
+        .btn-cerrar-modal {
             background-color: #262626;
             color: white;
             border: none;
@@ -436,15 +438,16 @@
             entradas.forEach(([id, t], index) => {
                 let monto = parseFloat(t.total) || 0;
                 totalVendidoHoy += monto;
-                let hora = t.fecha ? t.fecha.split('-')[1] || t.fecha : 'Hoy';
+                let horaStr = t.fecha ? t.fecha.split('-')[1] || t.fecha : 'Hoy';
+                let clienteNom = t.cliente || t.nombreCliente || 'General';
                 
                 htmlTiquetes += `
-                    <div class="item-tiquete-estuardo">
+                    <div class="item-tiquete">
                         <div style="font-size:0.82em;">
-                            <div style="color:#3b82f6; font-weight:bold;">Tiquete #${index + 1} - 👤 ${t.cliente || 'General'}</div>
-                            <div style="color:#888; font-size:0.78em; margin-top:2px;">Hora: ${hora} | Total: Q${monto.toFixed(2)}</div>
+                            <div style="color:#3b82f6; font-weight:bold;">Tiquete #${index + 1} - 👤 ${clienteNom}</div>
+                            <div style="color:#888; font-size:0.78em; margin-top:2px;">Hora: ${horaStr} | Total: Q${monto.toFixed(2)}</div>
                         </div>
-                        <button class="btn-eliminar-estuardo" onclick="eliminarTicket('${id}')">Eliminar</button>
+                        <button class="btn-eliminar-tq" onclick="eliminarTicket('${id}')">Eliminar</button>
                     </div>
                 `;
             });
@@ -457,31 +460,31 @@
             let tiquetesTotalMes = baseTiquetes + entradas.length;
 
             let html = `
-                <div class="modal-title-main">📊 Control de Metas y Rendimiento</div>
-                <div class="modal-subtitle-main">Panel de Motorista - Ruta Activa</div>
+                <div class="modal-header-title">📊 Control de Metas y Rendimiento</div>
+                <div class="modal-header-sub">Panel de Motorista - Ruta Activa</div>
 
-                <div class="caja-cuotas-estuardo">
-                    <div class="titulo-cuotas-estuardo">🛵 JORGE - ESTADO DE CUOTAS</div>
-                    <div class="fila-cuota-estuardo"><span>Ventas Acumuladas Mes:</span> <b>Q ${acumuladoMesTotal.toFixed(2)} / Q81,000.00</b></div>
-                    <div class="fila-cuota-estuardo"><span>Tiquetes Emitidos:</span> <b>${tiquetesTotalMes} / 220 Tq Meta</b></div>
-                    <div class="fila-cuota-estuardo"><span>Horas de Ruta:</span> <b>${baseHoras} / 135 Hrs Meta</b></div>
+                <div class="caja-cuotas">
+                    <div class="titulo-cuotas">🛵 JORGE - ESTADO DE CUOTAS</div>
+                    <div class="fila-cuota"><span>Ventas Acumuladas Mes:</span> <b>Q ${acumuladoMesTotal.toFixed(2)} / Q81,000.00</b></div>
+                    <div class="fila-cuota"><span>Tiquetes Emitidos:</span> <b>${tiquetesTotalMes} / 220 Tq Meta</b></div>
+                    <div class="fila-cuota"><span>Horas de Ruta:</span> <b>${baseHoras} / 135 Hrs Meta</b></div>
                     
-                    <div class="texto-moto-estuardo">
+                    <div class="texto-moto">
                         🛵 ¡Aproveche la moto! Del 1 al 15 libre de descuentos. Del 16 en adelante se evalúa el rendimiento diario y su bono de moto de Q500 se paga íntegro a fin de mes.
                     </div>
                 </div>
 
-                <div class="titulo-historico-estuardo">📝 Registro Histórico y Tiquetes de Hoy:</div>
+                <div class="titulo-historico">📝 Registro Histórico y Tiquetes de Hoy:</div>
 
-                <div class="caja-base-estuardo">
+                <div class="caja-base">
                     <div style="color:#3b82f6; font-weight:bold; font-size:0.82em;">📊 BASE DE INICIO (${baseTiquetes} Tq / ${baseHoras} Hrs)</div>
                     <div style="color:#2ecc71; font-size:0.82em; margin-top:2px;">Ventas: Q${baseInicioMonto.toFixed(2)}</div>
                 </div>
 
                 ${htmlTiquetes}
 
-                <button class="btn-enviar-estuardo" onclick="enviarReporteVoz()">📲 Enviar Reporte a don Byron</button>
-                <button class="btn-cerrar-estuardo" onclick="cerrarModal()">Cerrar Ventana</button>
+                <button class="btn-enviar-byron" onclick="enviarReporteVoz()">📲 Enviar Reporte a don Byron</button>
+                <button class="btn-cerrar-modal" onclick="cerrarModal()">Cerrar Ventana</button>
             `;
 
             document.getElementById('modal-box-body').innerHTML = html;
@@ -494,23 +497,23 @@
             entradas.forEach(([id, t]) => { totalHoy += parseFloat(t.total) || 0; });
 
             let html = `
-                <div class="modal-title-main">💵 Nómina Real en Tiempo Real</div>
-                <div class="modal-subtitle-main">⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)</div>
+                <div class="modal-header-title">💵 Nómina Real en Tiempo Real</div>
+                <div class="modal-header-sub">⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)</div>
 
-                <div class="caja-cuotas-estuardo">
-                    <div class="fila-cuota-estuardo"><span>Sueldo Base Mensual:</span> <b>Q3,500.00</b></div>
-                    <div class="fila-cuota-estuardo" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
-                    <div class="fila-cuota-estuardo" style="color:#3b82f6;"><span>Base 2da Quincena (16 al 30):</span> <b>Q 1,750.00</b></div>
+                <div class="caja-cuotas">
+                    <div class="fila-cuota"><span>Sueldo Base Mensual:</span> <b>Q3,500.00</b></div>
+                    <div class="fila-cuota" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
+                    <div class="fila-cuota" style="color:#3b82f6;"><span>Base 2da Quincena (16 al 30):</span> <b>Q 1,750.00</b></div>
                 </div>
 
                 <div style="background:rgba(30, 58, 138, 0.2); border:1px solid #1d4ed8; border-radius:8px; padding:10px; margin-bottom:10px;">
-                    <div class="fila-cuota-estuardo" style="color:#60a5fa; font-weight:bold;">
+                    <div class="fila-cuota" style="color:#60a5fa; font-weight:bold;">
                         <span>☀️ Ventas de hoy:</span> 
                         <span>Q ${totalHoy.toFixed(2)} (${entradas.length} tiquetes)</span>
                     </div>
                 </div>
 
-                <button class="btn-cerrar-estuardo" onclick="cerrarModal()">Cerrar Ventana</button>
+                <button class="btn-cerrar-modal" onclick="cerrarModal()">Cerrar Ventana</button>
             `;
 
             document.getElementById('modal-box-body').innerHTML = html;
