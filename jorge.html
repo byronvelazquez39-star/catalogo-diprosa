@@ -593,9 +593,9 @@
             };
 
             try {
-                let urlUnica = `https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/JORGE/${Date.now()}.json`;
-                await fetch(urlUnica, {
-                    method: 'PUT',
+                // Usamos POST directo hacia JORGE.json para garantizar compatibilidad con Firebase
+                await fetch(FIREBASE_URL, {
+                    method: 'POST',
                     body: JSON.stringify(nuevoTicket),
                     headers: { 'Content-Type': 'application/json' }
                 });
