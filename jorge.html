@@ -50,8 +50,11 @@
     .meta-resumen-box h4 { margin: 0 0 8px 0; color: #34d399; font-size: 13px; border-bottom: 1px dashed #059669; padding-bottom: 4px; }
     .kpi-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #234e38; padding-bottom: 3px; }
     .ticket-historial-card { background: #252525; border: 1px solid #444; border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 11px; }
+    .ticket-historial-head { display: flex; justify-content: space-between; font-weight: bold; color: #38bdf8; margin-bottom: 3px; align-items: center; }
+    .btn-eliminar-uno { background: #c0392b; color: white; border: none; padding: 3px 6px; border-radius: 3px; font-size: 10px; font-weight: bold; cursor: pointer; }
     .sueldo-card { background: #111827; border: 1px solid #374151; border-radius: 8px; padding: 12px; margin-bottom: 8px; font-size: 12px; }
     .sueldo-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; width: 100%; margin-top: 10px; }
   </style>
 </head>
 <body>
@@ -66,7 +69,7 @@
 
   <input type="text" id="buscar" class="search-box" placeholder="🔍 Escriba para buscar producto..." oninput="filtrarDebounce()">
   
-  <div id="catalogo" class="grid"></div>
+  <div id="catalogo" class="grid">Cargando inventario...</div>
   <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
 
   <div class="cart-bar">
@@ -114,8 +117,8 @@
         <div class="kpi-row"><span>⏱️ Horas de Ruta:</span><strong id="meta-horas-real">0 / 135 Hrs Meta</strong></div>
       </div>
       <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">📝 Registro Histórico:</div>
-      <div id="lista-tiquetes-eleazar" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;"></div>
-      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()" style="background-color: #059669; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: width: 100%;">📲 Enviar Reporte a don Byron</button>
+      <div id="lista-tiquetes" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;"></div>
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar Ventana</button>
     </div>
   </div>
@@ -142,25 +145,34 @@
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
 
-    // Productos cargados directamente para garantizar velocidad y estabilidad total
-    let productos = [
-      { nombre: "Detergente en Polvo 1kg", precio: 15.00 },
-      { nombre: "Aceite Vegetal 800ml", precio: 22.50 },
-      { nombre: "Arroz Blanco 5lbs", precio: 20.00 },
-      { nombre: "Frijol Negro 5lbs", precio: 25.00 },
-      { nombre: "Azúcar Morena 5lbs", precio: 23.00 },
-      { nombre: "Pasta Spaghetti 200g", precio: 5.00 },
-      { nombre: "(Salvavidas) en lata ROJA Caja de 24", precio: 84.00 },
-      { nombre: "Agua Pura Salvavidas 600ml Pack x12", precio: 36.00 }
-    ];
-
-    let productosFiltrados = productos, limiteActual = 40, carrito = {}, debounceTimer;
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      renderizarCatalogo();
-      actualizarUIResumen();
+      // Carga automática de productos desde productos.json o respaldo interno
+      fetch('productos.json?v=' + new Date().getTime())
+        .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
+        .then(data => {
+          productos = data;
+          productosFiltrados = data;
+          renderizarCatalogo();
+          actualizarUIResumen();
+        })
+        .catch(() => {
+          // Si productos.json no está disponible temporalmente, cargamos una base inicial de respaldo
+          productos = [
+            { nombre: "Detergente en Polvo 1kg", precio: 15.00 },
+            { nombre: "Aceite Vegetal 800ml", precio: 22.50 },
+            { nombre: "Arroz Blanco 5lbs", precio: 20.00 },
+            { nombre: "Frijol Negro 5lbs", precio: 25.00 },
+            { nombre: "Azúcar Morena 5lbs", precio: 23.00 },
+            { nombre: "Pasta Spaghetti 200g", precio: 5.00 }
+          ];
+          productosFiltrados = productos;
+          renderizarCatalogo();
+          actualizarUIResumen();
+        });
     });
 
     function renderizarCatalogo() {
@@ -227,14 +239,51 @@
     function abrirModalMetas() { actualizarVistaMetas(); abrirModal('modal-metas'); }
     function actualizarVistaMetas() {
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentasReal = 0;
-      tiquetesGuardados.forEach(t => { if (t.total) totalVentasReal += parseFloat(t.total); });
+      let totalVentasReal = 0, totalTq = 0;
+      tiquetesGuardados.forEach(t => {
+        if (t.total) { totalVentasReal += parseFloat(t.total); totalTq += 1; }
+      });
       document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 220 Tq Meta";
+
+      let contenedorLista = document.getElementById('lista-tiquetes');
+      if (tiquetesGuardados.length === 0) {
+        contenedorLista.innerHTML = '<p style="color:#888; font-size:11px;">No hay tiquetes registrados aún.</p>';
+        return;
+      }
+      contenedorLista.innerHTML = tiquetesGuardados.map((t, idx) => `
+        <div class="ticket-historial-card">
+          <div class="ticket-historial-head">
+            <span>Tiquete #${idx+1} - 👤 ${t.cliente || 'Cliente'}</span>
+            <button class="btn-eliminar-uno" onclick="eliminarTiquete(${idx})">❌</button>
+          </div>
+          <div style="color:#aaa;">Total: Q${t.total ? t.total.toFixed(2) : '0.00'}</div>
+        </div>
+      `).join('');
     }
 
-    function abrirModalSueldo() { abrirModal('modal-sueldo'); }
+    function eliminarTiquete(idx) {
+      if (confirm("¿Desea eliminar este tiquete del historial?")) {
+        let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+        tiquetesGuardados.splice(idx, 1);
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        actualizarVistaMetas();
+      }
+    }
+
+    function abrirModalSueldo() {
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let ventasHoy = 0;
+      tiquetesGuardados.forEach(t => { if (t.total) ventasHoy += parseFloat(t.total); });
+      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2);
+      abrirModal('modal-sueldo');
+    }
+
     function enviarCorteDiarioWA() {
-      let msg = `📊 *REPORTE VENTAS - JORGE*\n¡Hola don Byron! Mis ventas van al día.`;
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let totalVentas = 0;
+      tiquetesGuardados.forEach(t => { if (t.total) totalVentas += parseFloat(t.total); });
+      let msg = `📊 *REPORTE VENTAS - JORGE*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
     }
 
@@ -259,23 +308,29 @@
       let numT = (parseInt(localStorage.getItem('correlativo_ticket_jorge')) || 0) + 1;
       localStorage.setItem('correlativo_ticket_jorge', numT);
 
+      let subtotal = 0;
+      let itemsArray = [];
+      for (let k in carrito) {
+        let item = carrito[k], sub = item.cantidad * item.precio;
+        subtotal += sub;
+        itemsArray.push(item);
+      }
+
       let nuevoTiquete = {
         fecha: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         cliente: receptor,
-        items: Object.values(carrito),
-        total: Object.values(carrito).reduce((s, i) => s + (i.precio * i.cantidad), 0)
+        items: itemsArray,
+        total: subtotal
       };
+
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.push(nuevoTiquete);
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
-      let subtotal = 0;
       let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* JORGE\n*Tiquete # ${String(numT).padStart(8,'0')}*\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
-      for (let k in carrito) {
-        let item = carrito[k], sub = item.cantidad * item.precio;
-        subtotal += sub;
-        msg += `${item.nombre} (x${item.cantidad}) = Q${sub.toFixed(2)}\n`;
-      }
+      itemsArray.forEach(i => {
+        msg += `${i.nombre} (x${i.cantidad}) = Q${(i.precio * i.cantidad).toFixed(2)}\n`;
+      });
       msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
