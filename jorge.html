@@ -132,99 +132,125 @@
             border: none;
         }
 
-        /* MODAL IDENTICO AL ORIGINAL DE ELEAZAR */
+        /* DISEÑO EXACTO ORIGINAL DE ESTUARDO */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.88);
+            background: rgba(0, 0, 0, 0.85);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            padding: 12px;
+            padding: 10px;
             box-sizing: border-box;
         }
         .modal-box {
-            background: #050505;
-            border: 1px solid #1a1a1a;
+            background: #121212;
+            border: 1px solid #333;
             padding: 16px;
             border-radius: 12px;
-            max-width: 400px;
+            max-width: 420px;
             width: 100%;
             color: white;
             font-size: 0.85em;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.95);
-            max-height: 92vh;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.9);
+            max-height: 90vh;
             overflow-y: auto;
         }
-        .modal-title {
-            font-weight: bold;
+        .modal-title-main {
             font-size: 1.15em;
+            font-weight: bold;
             text-align: center;
             color: #ffffff;
             margin-bottom: 2px;
         }
-        .modal-subtitle {
-            color: #3b82f6;
+        .modal-subtitle-main {
+            color: #888;
             font-size: 0.78em;
             text-align: center;
-            margin-bottom: 14px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
+            margin-bottom: 12px;
         }
-        .contenedor-principal {
-            background-color: #040814;
-            border: 1px solid #101d36;
-            border-radius: 10px;
+        .caja-cuotas-estuardo {
+            border: 1px solid #166534;
+            background-color: rgba(5, 20, 8, 0.6);
+            border-radius: 8px;
             padding: 12px;
             margin-bottom: 12px;
         }
-        .caja-detalle {
-            border: 1px solid #1e293b;
+        .titulo-cuotas-estuardo {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 0.95em;
+            margin-bottom: 8px;
+        }
+        .fila-cuota-estuardo {
+            display: flex;
+            justify-content: space-between;
+            margin: 6px 0;
+            color: #aaa;
+            font-size: 0.85em;
+        }
+        .fila-cuota-estuardo b {
+            color: #2ecc71;
+        }
+        .texto-moto-estuardo {
+            color: #fb923c;
+            font-size: 0.76em;
+            line-height: 1.35;
+            margin-top: 10px;
+            border-top: 1px dashed #166534;
+            padding-top: 8px;
+        }
+        .titulo-historico-estuardo {
+            color: #fb923c;
+            font-weight: bold;
+            margin: 12px 0 8px 0;
+            font-size: 0.9em;
+        }
+        .caja-base-estuardo {
+            border: 1px solid #166534;
+            background-color: rgba(5, 20, 8, 0.4);
             border-radius: 6px;
             padding: 8px 10px;
             margin-bottom: 8px;
-            background-color: rgba(15, 23, 42, 0.6);
         }
-        .caja-detalle.azul {
-            border-color: #1d4ed8;
-            background-color: rgba(30, 58, 138, 0.2);
-        }
-        .caja-detalle.roja {
-            border-color: #b91c1c;
-            background-color: rgba(127, 29, 29, 0.2);
-        }
-        .caja-detalle.verde {
-            border-color: #15803d;
-            background-color: rgba(20, 83, 45, 0.2);
-        }
-        .caja-detalle.naranja {
-            border-color: #c2410c;
-            background-color: rgba(124, 45, 18, 0.2);
-        }
-        .fila-flex {
+        .item-tiquete-estuardo {
+            border: 1px solid #333;
+            background-color: #1a1a1a;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 3px 0;
         }
-        .btn-accion-cerrar {
-            background: #262626;
+        .btn-eliminar-estuardo {
+            background-color: #b91c1c;
             color: white;
             border: none;
-            padding: 11px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.75em;
+            cursor: pointer;
+        }
+        .btn-enviar-estuardo {
+            background-color: #15803d;
+            color: white;
+            border: none;
+            padding: 10px;
             border-radius: 8px;
             width: 100%;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 10px;
             font-size: 0.9em;
         }
-        .btn-accion-reporte {
-            background: #008000;
+        .btn-cerrar-estuardo {
+            background-color: #262626;
             color: white;
             border: none;
-            padding: 11px;
+            padding: 10px;
             border-radius: 8px;
             width: 100%;
             font-weight: bold;
@@ -262,7 +288,6 @@
         </button>
     </div>
 
-    <!-- MODAL -->
     <div id="modal-info" class="modal-overlay">
         <div class="modal-box" id="modal-box-body"></div>
     </div>
@@ -380,112 +405,112 @@
             document.getElementById('total-quetzales').innerText = `Q ${totalGeneral.toFixed(2)}`;
         }
 
-        async function obtenerVentasFirebase() {
-            let total = 0;
-            let tiquetes = 0;
+        async function obtenerTicketsFirebase() {
             try {
                 const res = await fetch(FIREBASE_URL);
                 const data = await res.json();
-                if (data) {
-                    let lista = Object.values(data);
-                    tiquetes = lista.length;
-                    lista.forEach(t => { total += parseFloat(t.total) || 0; });
-                }
-            } catch (e) { console.error(e); }
-            return { total, tiquetes };
+                return data ? Object.entries(data) : [];
+            } catch (e) {
+                return [];
+            }
         }
 
-        async function mostrarSueldo() {
-            const datosFB = await obtenerVentasFirebase();
-            let ventasHoy = datosFB.total;
-            let tiquetesHoy = datosFB.tiquetes;
+        async function eliminarTicket(idTicket) {
+            if (confirm("¿Desea eliminar este tiquete del historial de hoy?")) {
+                try {
+                    await fetch(`https://diprosa-ventas-default-rtdb.firebaseio.com/ventas/JORGE/${idTicket}.json`, {
+                        method: 'DELETE'
+                    });
+                    mostrarMetas();
+                } catch (e) {
+                    alert("Error al eliminar.");
+                }
+            }
+        }
 
-            let ventasTotalesMes = 37944.00 + ventasHoy;
+        async function mostrarMetas() {
+            const entradas = await obtenerTicketsFirebase();
+            let totalVendidoHoy = 0;
+            let htmlTiquetes = '';
+
+            entradas.forEach(([id, t], index) => {
+                let monto = parseFloat(t.total) || 0;
+                totalVendidoHoy += monto;
+                let hora = t.fecha ? t.fecha.split('-')[1] || t.fecha : 'Hoy';
+                
+                htmlTiquetes += `
+                    <div class="item-tiquete-estuardo">
+                        <div style="font-size:0.82em;">
+                            <div style="color:#3b82f6; font-weight:bold;">Tiquete #${index + 1} - 👤 ${t.cliente || 'General'}</div>
+                            <div style="color:#888; font-size:0.78em; margin-top:2px;">Hora: ${hora} | Total: Q${monto.toFixed(2)}</div>
+                        </div>
+                        <button class="btn-eliminar-estuardo" onclick="eliminarTicket('${id}')">Eliminar</button>
+                    </div>
+                `;
+            });
+
+            let baseInicioMonto = 35000.00;
+            let baseTiquetes = 100;
+            let baseHoras = 110;
+
+            let acumuladoMesTotal = baseInicioMonto + totalVendidoHoy;
+            let tiquetesTotalMes = baseTiquetes + entradas.length;
 
             let html = `
-                <div class="modal-title">💵 Nómina Real en Tiempo Real</div>
-                <div class="modal-subtitle">⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)</div>
+                <div class="modal-title-main">📊 Control de Metas y Rendimiento</div>
+                <div class="modal-subtitle-main">Panel de Motorista - Ruta Activa</div>
 
-                <div class="contenedor-principal">
-                    <div class="caja-detalle">
-                        <div class="fila-flex"><span>Sueldo Base Mensual:</span> <b>Q3,500.00</b></div>
-                        <div class="fila-flex" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
-                        <div class="fila-flex" style="color:#60a5fa;"><span>Base 2da Quincena (16 al 30):</span> <b>Q 1,750.00</b></div>
-                    </div>
-
-                    <div class="caja-detalle azul">
-                        <div class="fila-flex" style="color:#60a5fa; font-weight:bold;">
-                            <span>☀️ Ventas de hoy:</span> 
-                            <span>Q ${ventasHoy.toFixed(2)} (${tiquetesHoy} tiquetes)</span>
-                        </div>
-                    </div>
-
-                    <div class="caja-detalle roja">
-                        <div class="fila-flex" style="color:#f87171;">
-                            <span>📉 Descuento por Déficit (Desde el 16):</span> 
-                            <b>-Q 1225.00</b>
-                        </div>
-                    </div>
-
-                    <div class="caja-detalle verde">
-                        <div class="fila-flex" style="color:#4ade80; font-weight:bold; font-size:1em;">
-                            <span>📅 2do Pago Neto (Sueldo del Mes):</span> 
-                            <span>Q 525.00</span>
-                        </div>
-                    </div>
-
-                    <div style="font-size:0.75em; color:#94a3b8; margin: 8px 0;">
-                        • Ventas Totales Mes: Q${ventasTotalesMes.toFixed(2)} / Q81,000<br>
-                        • 🛡️ Descuento aplicado desde el 16 (Déficit de ventas).
-                    </div>
-
-                    <div class="caja-detalle naranja">
-                        <div style="color:#fb923c; font-weight:bold; font-size:0.85em; margin-bottom:2px;">
-                            🛵 TOTAL A RECIBIR FIN DE MES (CON MOTO):
-                        </div>
-                        <div style="font-size:0.72em; color:#cbd5e1; margin-bottom:4px;">
-                            Incluye 2do pago neto + Bono de Moto Q500.00 íntegro
-                        </div>
-                        <div style="color:#4ade80; font-size:1.15em; font-weight:bold;">
-                            Q 1025.00
-                        </div>
+                <div class="caja-cuotas-estuardo">
+                    <div class="titulo-cuotas-estuardo">🛵 JORGE - ESTADO DE CUOTAS</div>
+                    <div class="fila-cuota-estuardo"><span>Ventas Acumuladas Mes:</span> <b>Q ${acumuladoMesTotal.toFixed(2)} / Q81,000.00</b></div>
+                    <div class="fila-cuota-estuardo"><span>Tiquetes Emitidos:</span> <b>${tiquetesTotalMes} / 220 Tq Meta</b></div>
+                    <div class="fila-cuota-estuardo"><span>Horas de Ruta:</span> <b>${baseHoras} / 135 Hrs Meta</b></div>
+                    
+                    <div class="texto-moto-estuardo">
+                        🛵 ¡Aproveche la moto! Del 1 al 15 libre de descuentos. Del 16 en adelante se evalúa el rendimiento diario y su bono de moto de Q500 se paga íntegro a fin de mes.
                     </div>
                 </div>
 
-                <button class="btn-accion-cerrar" onclick="cerrarModal()">Cerrar Ventana</button>
+                <div class="titulo-historico-estuardo">📝 Registro Histórico y Tiquetes de Hoy:</div>
+
+                <div class="caja-base-estuardo">
+                    <div style="color:#3b82f6; font-weight:bold; font-size:0.82em;">📊 BASE DE INICIO (${baseTiquetes} Tq / ${baseHoras} Hrs)</div>
+                    <div style="color:#2ecc71; font-size:0.82em; margin-top:2px;">Ventas: Q${baseInicioMonto.toFixed(2)}</div>
+                </div>
+
+                ${htmlTiquetes}
+
+                <button class="btn-enviar-estuardo" onclick="enviarReporteVoz()">📲 Enviar Reporte a don Byron</button>
+                <button class="btn-cerrar-estuardo" onclick="cerrarModal()">Cerrar Ventana</button>
             `;
 
             document.getElementById('modal-box-body').innerHTML = html;
             document.getElementById('modal-info').style.display = 'flex';
         }
 
-        async function mostrarMetas() {
-            const datosFB = await obtenerVentasFirebase();
-            let ventasHoy = datosFB.total;
-            let tiquetesHoy = datosFB.tiquetes;
-
-            let ventasTotalesMes = 36933.50 + ventasHoy;
-            let tiquetesTotal = 114 + tiquetesHoy;
+        async function mostrarSueldo() {
+            const entradas = await obtenerTicketsFirebase();
+            let totalHoy = 0;
+            entradas.forEach(([id, t]) => { totalHoy += parseFloat(t.total) || 0; });
 
             let html = `
-                <div class="modal-title">📊 Control de Metas y Rendimiento</div>
-                <div class="modal-subtitle">Panel de Jorge - Ruta Activa</div>
+                <div class="modal-title-main">💵 Nómina Real en Tiempo Real</div>
+                <div class="modal-subtitle-main">⚡ NÓMINA REAL - 2DO PAGO (DESDE EL 16)</div>
 
-                <div class="caja-detalle verde" style="padding:10px;">
-                    <div style="color:#4ade80; font-weight:bold; margin-bottom:6px;">📦 JORGE - ESTADO DE CUOTAS</div>
-                    <div class="fila-flex"><span>💰 Ventas Acumuladas Mes:</span> <b>Q ${ventasTotalesMes.toFixed(2)} / Q81,000.00</b></div>
-                    <div class="fila-flex"><span>📄 Tiquetes Emitidos:</span> <b>${tiquetesTotal} / 220 Tq Meta</b></div>
-                    <div class="fila-flex"><span>⏱️ Horas de Ruta:</span> <b>119 / 135 Hrs Meta</b></div>
+                <div class="caja-cuotas-estuardo">
+                    <div class="fila-cuota-estuardo"><span>Sueldo Base Mensual:</span> <b>Q3,500.00</b></div>
+                    <div class="fila-cuota-estuardo" style="color:#2ecc71;"><span>1ra Quincena (1 al 15):</span> <b>Libre (Q1,750.00 pagados)</b></div>
+                    <div class="fila-cuota-estuardo" style="color:#3b82f6;"><span>Base 2da Quincena (16 al 30):</span> <b>Q 1,750.00</b></div>
                 </div>
 
-                <div class="caja-detalle azul" style="padding:10px; margin-top:8px;">
-                    <div style="color:#fb923c; font-weight:bold; margin-bottom:4px;">📝 Ventas Registradas Hoy:</div>
-                    <div class="fila-flex"><span>• Tiquetes Generados:</span> <b>${tiquetesHoy}</b></div>
-                    <div class="fila-flex"><span>• Total Vendido Hoy:</span> <b style="color:#4ade80;">Q ${ventasHoy.toFixed(2)}</b></div>
+                <div style="background:rgba(30, 58, 138, 0.2); border:1px solid #1d4ed8; border-radius:8px; padding:10px; margin-bottom:10px;">
+                    <div class="fila-cuota-estuardo" style="color:#60a5fa; font-weight:bold;">
+                        <span>☀️ Ventas de hoy:</span> 
+                        <span>Q ${totalHoy.toFixed(2)} (${entradas.length} tiquetes)</span>
+                    </div>
                 </div>
 
-                <button class="btn-accion-reporte" onclick="enviarReporteVoz()">📲 Enviar Reporte a don Byron</button>
-                <button class="btn-accion-cerrar" onclick="cerrarModal()">Cerrar Ventana</button>
+                <button class="btn-cerrar-estuardo" onclick="cerrarModal()">Cerrar Ventana</button>
             `;
 
             document.getElementById('modal-box-body').innerHTML = html;
