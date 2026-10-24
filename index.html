@@ -222,9 +222,6 @@
 
     if (mesRegistrado !== mesActualStr) {
       localStorage.setItem(mesAnioKey, mesActualStr);
-      if (!localStorage.getItem(ticketsKey)) {
-        localStorage.setItem(ticketsKey, JSON.stringify([]));
-      }
       localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
     }
 
@@ -232,8 +229,22 @@
       localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
     }
 
-    if (!localStorage.getItem(ticketsKey)) {
-      localStorage.setItem(ticketsKey, JSON.stringify([]));
+    // Inicialización automática exacta con los 109 tiquetes acumulados hasta el 23 de octubre
+    let tiquetesGuardadosCheck = [];
+    try { tiquetesGuardadosCheck = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+    
+    if (!tiquetesGuardadosCheck.length) {
+      let tiquetesPrecargados = [];
+      for (let i = 1; i <= 109; i++) {
+        tiquetesPrecargados.push({
+          fecha: "23/10/2026 15:00",
+          cliente: "Cliente Acumulado Ruta " + i,
+          items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 138.50}],
+          total: 138.50,
+          anulado: false
+        });
+      }
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
     }
 
     let productos = [];
@@ -631,7 +642,7 @@
       let receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese nombre del cliente."); return; }
       let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
-      localStorage.setItem('correlativo_ticket_estuargo', numT);
+      localStorage.setItem('correlativo_ticket_estuardo', numT);
 
       let subtotal = 0, itemsArray = [];
       for (let k in carrito) {
