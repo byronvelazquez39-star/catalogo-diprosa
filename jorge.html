@@ -211,16 +211,8 @@
     const ticketsKey = "diprosa_tickets_jorge";
     const SALDO_INICIAL_OCTUBRE = 71806.33;
 
-    const fechaHoy = new Date();
-    const mesYAnioActual = `${fechaHoy.getFullYear()}-${fechaHoy.getMonth() + 1}`;
-    if (localStorage.getItem("diprosa_mes_activo_jorge") !== mesYAnioActual) {
-      localStorage.setItem("diprosa_mes_activo_jorge", mesYAnioActual);
-      localStorage.setItem("ventas_base_mes_jorge", "0.00");
-    } else {
-      if (localStorage.getItem("ventas_base_mes_jorge") === null) {
-        localStorage.setItem("ventas_base_mes_jorge", SALDO_INICIAL_OCTUBRE.toString());
-      }
-    }
+    // FIJAR SALDO ACUMULADO DE OCTUBRE
+    localStorage.setItem("ventas_base_mes_jorge", SALDO_INICIAL_OCTUBRE.toString());
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
@@ -307,7 +299,7 @@
     function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
 
     function abrirModalMetas() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || 0;
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || SALDO_INICIAL_OCTUBRE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentasReal = baseMes;
       let totalTq = 0;
@@ -343,7 +335,7 @@
     }
 
     function abrirModalComisiones() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || 0;
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || SALDO_INICIAL_OCTUBRE;
       let ventasQ2 = 0;
       let totalVentasMes = baseMes;
 
@@ -386,7 +378,7 @@
     }
 
     function enviarCorteDiarioWA() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || 0;
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || SALDO_INICIAL_OCTUBRE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = baseMes;
       tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) totalVentas += parseFloat(t.total); });
