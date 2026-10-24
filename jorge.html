@@ -215,14 +215,15 @@
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
     
-    // Saldo acumulado oficial de Jorge y base de tiquetes
+    // Forzar base oficial de Jorge y limpiar cualquier residuo anterior
     const SALDO_INICIAL_JORGE = 71806.33;
     const TIQUETES_BASE_JORGE = 147;
 
     localStorage.setItem("ventas_base_mes_jorge", SALDO_INICIAL_JORGE.toString());
 
-    // Precarga automática de tiquetes históricos para que funcionen las búsquedas de la Lupita
-    if (!localStorage.getItem(ticketsKey) || JSON.parse(localStorage.getItem(ticketsKey)).length < TIQUETES_BASE_JORGE) {
+    // Precarga automática de los 147 tiquetes de Jorge para la Lupita
+    let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+    if (!tiquetesGuardados.length || tiquetesGuardados.length < TIQUETES_BASE_JORGE) {
       let tiquetesPrecargados = [];
       for (let i = 1; i <= TIQUETES_BASE_JORGE; i++) {
         tiquetesPrecargados.push({
@@ -322,11 +323,11 @@
     function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
 
     function abrirModalMetas() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || SALDO_INICIAL_JORGE;
+      let baseMes = SALDO_INICIAL_JORGE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentasReal = baseMes;
-      
       let totalTq = 0;
+      
       tiquetesGuardados.forEach(t => {
         if (!t.anulado) { 
           if (t.total > 0 && !t.historico) {
@@ -360,12 +361,11 @@
     }
 
     function abrirModalComisiones() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || SALDO_INICIAL_JORGE;
-      let ventasQ2 = 0;
+      let baseMes = SALDO_INICIAL_JORGE;
+      let ventasQ2 = baseMes * 0.55; 
       let totalVentasMes = baseMes;
 
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let proporcionBaseQ2 = baseMes * 0.55; 
       
       tiquetesGuardados.forEach(t => {
         if (t.total && !t.anulado && !t.historico) {
@@ -373,9 +373,6 @@
           ventasQ2 += parseFloat(t.total);
         }
       });
-      
-      ventasQ2 += proporcionBaseQ2;
-      totalVentasMes = baseMes + (ventasQ2 - proporcionBaseQ2);
 
       let sueldoQuincena = 1800, bonoMoto = 0, metaMes = 81000, cuotaDiaria = 3000;
       let diaHoy = new Date().getDate();
@@ -414,7 +411,7 @@
     }
 
     function enviarCorteDiarioWA() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || SALDO_INICIAL_JORGE;
+      let baseMes = SALDO_INICIAL_JORGE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = baseMes;
       tiquetesGuardados.forEach(t => { if (t.total && !t.anulado && !t.historico) totalVentas += parseFloat(t.total); });
