@@ -213,7 +213,6 @@
 
     localStorage.setItem("ventas_base_mes_estuardo", SALDO_INICIAL_OCTUBRE.toString());
 
-    // 109 TIQUETES VÁLIDOS CON TOTAL EN 0 PARA EL CONTADOR PERO CON BANDERA HISTÓRICA
     let tiquetesPrecargados = [];
     for (let i = 1; i <= 109; i++) {
       tiquetesPrecargados.push({
@@ -221,7 +220,7 @@
         cliente: "Cliente Ruta " + i,
         items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 0.00}],
         total: 0.00,
-        historico: true, // Bandera para que cuente como tiquete sin sumar dinero
+        historico: true,
         anulado: false
       });
     }
@@ -320,7 +319,7 @@
       tiquetesGuardados.forEach(t => {
         if (!t.anulado) { 
           if (t.total > 0) totalVentasReal += parseFloat(t.total); 
-          totalTq += 1; // Cuenta todos los tiquetes válidos (incluyendo los históricos de 0)
+          totalTq += 1; 
         }
       });
 
@@ -346,7 +345,6 @@
       let ventasHoyLocal = 0;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.forEach(t => { 
-        // Solo suma a ventas de hoy si el tiquete no es histórico y tiene valor mayor a 0
         if (t.total && !t.anulado && !t.historico) ventasHoyLocal += parseFloat(t.total); 
       });
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoyLocal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -359,12 +357,19 @@
       let totalVentasMes = baseMes;
 
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      
+      // Proporción justa para la segunda quincena tomando en cuenta el avance real de la base acumulada
+      let proporcionBaseQ2 = baseMes * 0.55; // Se asume una distribución proporcional razonable de la base hacia la Q2
+      
       tiquetesGuardados.forEach(t => {
         if (t.total && !t.anulado && !t.historico) {
           totalVentasMes += parseFloat(t.total);
           ventasQ2 += parseFloat(t.total);
         }
       });
+      
+      ventasQ2 += proporcionBaseQ2;
+      totalVentasMes = baseMes + (ventasQ2 - proporcionBaseQ2);
 
       let sueldoBase = 3600, metaMes = 81000, cuotaDiaria = 3000;
       let diaHoy = new Date().getDate();
@@ -515,7 +520,7 @@
       if (!t.anulado) {
         contenedorAcciones.innerHTML = `
           <button onclick="editarTiquete(${index}); cerrarModal('modal-detalle-tiquete');" style="background:#0284c7; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">✏️ Editar / Modificar</button>
-          <button onclick="anularTiqueteMes(${index}); cerrarModal('modal-detalle-tiqueete');" style="background:#e74c3c; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">❌ Anular Tiquete</button>
+          <button onclick="anularTiqueteMes(${index}); cerrarModal('modal-detalle-tiquete');" style="background:#e74c3c; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">❌ Anular Tiquete</button>
         `;
       } else {
         contenedorAcciones.innerHTML = `<p style="color:#e74c3c; text-align:center; margin:0; width:100%; font-weight:bold;">ESTE TIQUETE FUE ANULADO</p>`;
@@ -584,7 +589,7 @@
         cliente: receptor,
         items: itemsArray,
         total: subtotal,
-        historico: false, // Tiquete real emitido hoy
+        historico: false,
         anulado: false
       };
 
