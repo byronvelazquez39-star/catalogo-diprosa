@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Catálogo DIPROSA - JORGE</title>
-  <link rel="apple-touch-icon" href="logo.jpg">
-  <link rel="icon" type="image/jpeg" href="logo.jpg">
   <style>
     :root {
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
@@ -13,17 +11,24 @@
     }
     body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
     
-    /* PANTALLA DE SEGURIDAD PIN */
+    /* PANTALLA DE SEGURIDAD PIN CON LOGOTIPO CORPORATIVO */
     #lock-screen {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: #121212; z-index: 99999; display: flex; flex-direction: column;
       justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
     }
     .lock-card {
-      background: #1e1e1e; border: 1px solid #333; border-radius: 12px;
-      padding: 20px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+      background: #1e1e1e; border: 1px solid #444; border-radius: 12px;
+      padding: 24px 20px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
     }
-    .lock-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #ff9800; margin-bottom: 12px; }
+    .lock-logo-badge {
+      width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #2a2a2a, #111);
+      border: 2px solid #ff9800; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      margin: 0 auto 12px auto; box-shadow: 0 0 10px rgba(255,152,0,0.3);
+    }
+    .lock-logo-badge span:first-child { font-size: 13px; font-weight: bold; color: #ff9800; letter-spacing: 1px; }
+    .lock-logo-badge span:last-child { font-size: 8px; color: #aaa; margin-top: 2px; }
+
     .pin-input {
       width: 100%; background: #2a2a2a; border: 1px solid #555; color: white;
       font-size: 20px; text-align: center; padding: 10px; border-radius: 6px;
@@ -87,12 +92,15 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE ACCESO CON PIN Y LOGOTIPO -->
+  <!-- PANTALLA DE ACCESO CON PIN Y LOGO CORPORATIVO -->
   <div id="lock-screen">
     <div class="lock-card">
-      <img src="logo.jpg" alt="DIPROSA" class="lock-logo" onerror="this.src='https://via.placeholder.com/80?text=DIPROSA'">
-      <h3 style="color: #ff9800; margin: 0 0 4px 0; font-size: 14px;">DIPROSA / DIPROSTRIX</h3>
-      <p style="color: #aaa; font-size: 11px; margin: 0 0 15px 0;">Ingrese PIN de Acceso</p>
+      <div class="lock-logo-badge">
+        <span>DIPROSA</span>
+        <span>OFICIAL</span>
+      </div>
+      <h3 style="color: #ff9800; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DIPROSTRIX</h3>
+      <p style="color: #aaa; font-size: 11px; margin: 0 0 14px 0;">Ingrese PIN de Acceso</p>
       <input type="password" id="pin-code" class="pin-input" maxlength="4" placeholder="••••">
       <button class="btn-pin" onclick="verificarPin()">INGRESAR</button>
     </div>
@@ -246,7 +254,7 @@
 
   <script>
     /* SEGURIDAD Y BLOQUEO POR INACTIVIDAD (45 segundos) */
-    const PIN_SECRETO = "1234"; // Puede cambiar este PIN cuando guste
+    const PIN_SECRETO = "1234";
     let temporizadorInactividad;
 
     function verificarPin() {
@@ -267,11 +275,9 @@
 
     function reiniciarTemporizador() {
       clearTimeout(temporizadorInactividad);
-      // Se bloquea automáticamente tras 45 segundos de inactividad
       temporizadorInactividad = setTimeout(bloquearApp, 45000);
     }
 
-    // Detectar movimiento o toque en la pantalla para mantener activo
     ['click', 'touchstart', 'mousemove', 'keypress'].forEach(evt => {
       document.addEventListener(evt, () => {
         if (document.getElementById('lock-screen').style.display === 'none') {
