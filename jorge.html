@@ -215,15 +215,13 @@
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
     
-    // LIMPIEZA FORZADA DE CACHÉ: Sobrescribimos cualquier valor viejo de Estuardo con los datos correctos de Jorge
     const SALDO_INICIAL_JORGE = 71806.33;
     const TIQUETES_BASE_JORGE = 147;
 
     localStorage.setItem("ventas_base_mes_jorge", SALDO_INICIAL_JORGE.toString());
 
-    // Si la memoria tiene tiquetes erróneos o viejos, los reiniciamos con los 147 exactos de Jorge
     let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-    if (!tiquetesGuardados.length || tiquetesGuardados.length < TIQUETES_BASE_JORGE || tiquetesGuardados[0].cliente.includes("Estuardo")) {
+    if (!tiquetesGuardados.length || tiquetesGuardados.length < TIQUETES_BASE_JORGE) {
       let tiquetesPrecargados = [];
       for (let i = 1; i <= TIQUETES_BASE_JORGE; i++) {
         tiquetesPrecargados.push({
@@ -362,7 +360,7 @@
 
     function abrirModalComisiones() {
       let baseMes = SALDO_INICIAL_JORGE;
-      let ventasQ2 = baseMes * 0.55; 
+      let ventasQ2 = 0; // Inicia limpio en 0 como Estuardo, sumando únicamente lo vendido a partir del 16
       let totalVentasMes = baseMes;
 
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
