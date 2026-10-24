@@ -11,32 +11,42 @@
     }
     body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
     
-    /* PANTALLA DE SEGURIDAD PIN CON LOGOTIPO CORPORATIVO */
+    /* PANTALLA DE SEGURIDAD PIN CON FONDO GALÁCTICO ORIGINAL */
     #lock-screen {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: #121212; z-index: 99999; display: flex; flex-direction: column;
+      background: url('Screenshot_20261024_123015_Gallery.jpg') no-repeat center center fixed;
+      background-size: cover;
+      z-index: 99999; display: flex; flex-direction: column;
       justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
     }
+    /* Capa oscura semitransparente para que el cuadro del PIN resalte sobre los planetas */
+    #lock-screen::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.65); z-index: 1;
+    }
     .lock-card {
-      background: #1e1e1e; border: 1px solid #444; border-radius: 12px;
-      padding: 24px 20px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      position: relative; z-index: 2;
+      background: rgba(30, 30, 30, 0.85); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 14px;
+      padding: 24px 20px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.9);
     }
     .lock-logo-badge {
-      width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #2a2a2a, #111);
-      border: 2px solid #ff9800; display: flex; flex-direction: column; justify-content: center; align-items: center;
-      margin: 0 auto 12px auto; box-shadow: 0 0 10px rgba(255,152,0,0.3);
+      width: 75px; height: 75px; border-radius: 50%; background: linear-gradient(135deg, #2a2a2a, #111);
+      border: 2px solid #00bcd4; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      margin: 0 auto 12px auto; box-shadow: 0 0 15px rgba(0,188,212,0.4);
     }
-    .lock-logo-badge span:first-child { font-size: 13px; font-weight: bold; color: #ff9800; letter-spacing: 1px; }
+    .lock-logo-badge span:first-child { font-size: 11px; font-weight: bold; color: #00bcd4; letter-spacing: 1px; }
     .lock-logo-badge span:last-child { font-size: 8px; color: #aaa; margin-top: 2px; }
 
     .pin-input {
-      width: 100%; background: #2a2a2a; border: 1px solid #555; color: white;
+      width: 100%; background: rgba(20, 20, 20, 0.9); border: 1px solid #555; color: white;
       font-size: 20px; text-align: center; padding: 10px; border-radius: 6px;
       letter-spacing: 8px; margin-bottom: 12px; box-sizing: border-box;
     }
     .btn-pin {
-      background-color: #ff9800; color: #121212; border: none; width: 100%;
+      background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: none; width: 100%;
       padding: 10px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(2,132,199,0.4);
     }
 
     .header-bar { 
@@ -92,15 +102,15 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE ACCESO CON PIN Y LOGO CORPORATIVO -->
+  <!-- PANTALLA DE ACCESO CON FONDO GALÁCTICO Y PIN -->
   <div id="lock-screen">
     <div class="lock-card">
       <div class="lock-logo-badge">
         <span>DIPROSA</span>
         <span>OFICIAL</span>
       </div>
-      <h3 style="color: #ff9800; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DIPROSTRIX</h3>
-      <p style="color: #aaa; font-size: 11px; margin: 0 0 14px 0;">Ingrese PIN de Acceso</p>
+      <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DIPROSTRIX</h3>
+      <p style="color: #ccc; font-size: 11px; margin: 0 0 14px 0;">Ingrese PIN de Acceso</p>
       <input type="password" id="pin-code" class="pin-input" maxlength="4" placeholder="••••">
       <button class="btn-pin" onclick="verificarPin()">INGRESAR</button>
     </div>
