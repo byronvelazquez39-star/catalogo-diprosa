@@ -170,7 +170,7 @@
       <div class="compact-box">
         <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
         <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 81,000.00</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">147 / 324 Tq</strong></div>
         <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">127.0 / 189 Hrs</strong></div>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
@@ -199,13 +199,12 @@
       </div>
       <div class="compact-box">
         <div class="compact-row"><span>Base 2da Quincena:</span><strong>Q 1,800.00</strong></div>
-        <div class="compact-row"><span>Bono Moto:</span><strong style="color:#25d366;">+ Q 500.00</strong></div>
         <div class="compact-row"><span>Ventas Q2 (16+):</span><strong style="color:#38bdf8;" id="q2-ventas-real">Q 0.00</strong></div>
         <div class="compact-row"><span>Déficit / Faltante:</span><strong id="q2-deficit" style="color:#ef4444;">Q 0.00</strong></div>
         <div class="compact-row"><span>Descuento Aplicado:</span><strong id="q2-descuento" style="color:#ef4444;">- Q 0.00</strong></div>
         <div class="compact-row"><span>Bono Meta Q500:</span><strong id="q2-bono-meta" style="color:#27ae60;">+ Q 0.00</strong></div>
         <div class="compact-row"><span>Comisión 2.5%:</span><strong id="q2-comision" style="color:#27ae60;">+ Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;"><span>A RECIBIR (2DA Q.):</span><strong id="q2-total-neto" style="color:#27ae60;">Q 2,300.00</strong></div>
+        <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;"><span>A RECIBIR (2DA Q.):</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,800.00</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-comisiones')">Cerrar</button>
     </div>
@@ -216,26 +215,11 @@
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
     
-    // Saldo acumulado oficial de Jorge
+    // Saldo acumulado oficial de Jorge y base de tiquetes
     const SALDO_INICIAL_JORGE = 71806.33;
+    const TIQUETES_BASE_JORGE = 147;
 
     localStorage.setItem("ventas_base_mes_jorge", SALDO_INICIAL_JORGE.toString());
-
-    // Precargar 147 tiquetes base para Jorge
-    if (!localStorage.getItem(ticketsKey)) {
-      let tiquetesPrecargados = [];
-      for (let i = 1; i <= 147; i++) {
-        tiquetesPrecargados.push({
-          fecha: "24/10/2026 08:00",
-          cliente: "Cliente Ruta " + i,
-          items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 0.00}],
-          total: 0.00,
-          historico: true,
-          anulado: false
-        });
-      }
-      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
-    }
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
@@ -325,17 +309,18 @@
       let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || SALDO_INICIAL_JORGE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentasReal = baseMes;
-      let totalTq = 0;
       
+      let nuevosTq = 0;
       tiquetesGuardados.forEach(t => {
         if (!t.anulado) { 
           if (t.total > 0 && !t.historico) {
             totalVentasReal += parseFloat(t.total);
           }
-          totalTq += 1; 
+          if (!t.historico) nuevosTq += 1;
         }
       });
 
+      let totalTq = TIQUETES_BASE_JORGE + nuevosTq;
       let metaMes = 81000, faltanteMeta = metaMes - totalVentasReal;
       if (faltanteMeta < 0) faltanteMeta = 0;
 
@@ -377,7 +362,7 @@
       ventasQ2 += proporcionBaseQ2;
       totalVentasMes = baseMes + (ventasQ2 - proporcionBaseQ2);
 
-      let sueldoQuincena = 1800, bonoMoto = 500, metaMes = 81000, cuotaDiaria = 3000;
+      let sueldoQuincena = 1800, bonoMoto = 0, metaMes = 81000, cuotaDiaria = 3000;
       let diaHoy = new Date().getDate();
       let diasTranscurridosQ2 = diaHoy >= 16 ? (diaHoy - 15) : 1;
       let metaQ2Esperada = diasTranscurridosQ2 * cuotaDiaria; 
@@ -437,7 +422,7 @@
       document.getElementById('ticket-total').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let numT = tiquetesGuardados.length + 1;
+      let numT = TIQUETES_BASE_JORGE + tiquetesGuardados.length + 1;
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numT).padStart(8, '0');
       abrirModal('modal-ticket');
     }
@@ -450,8 +435,8 @@
       } else {
         contenedor.innerHTML = tiquetesGuardados.map((t, index) => `
           <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
-            <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${index + 1 <= 147 ? '#ff9800' : (t.anulado ? '#e74c3c' : '#34d399')};">
-              <span>Tiquete #${index + 1} - ${t.cliente}</span>
+            <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${t.anulado ? '#e74c3c' : '#34d399'};">
+              <span>Tiquete #${TIQUETES_BASE_JORGE + index + 1} - ${t.cliente}</span>
               <span>Q${t.total.toFixed(2)}</span>
             </div>
             <div style="font-size:10px; color:#aaa; margin: 3px 0;">Hora/Fecha: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
@@ -484,20 +469,20 @@
         if (!filtro) return true;
         let matchCliente = t.cliente.toLowerCase().includes(filtro);
         let matchFecha = t.fecha.toLowerCase().includes(filtro);
-        let matchNum = ("tiquete #" + (idx + 1)).includes(filtro) || String(t.total).includes(filtro);
+        let matchNum = ("tiquete #" + (TIQUETES_BASE_JORGE + idx + 1)).includes(filtro) || String(t.total).includes(filtro);
         let matchProd = t.items.some(i => i.nombre.toLowerCase().includes(filtro));
         return matchCliente || matchFecha || matchNum || matchProd;
       });
 
       if (!filtrados.length) {
-        contenedor.innerHTML = '<p style="text-align:center; color:#888;">No se encontraron tiquetes.</p>';
+        contenedor.innerHTML = '<p style="text-align:center; color:#888;">No se encontraron tiquetes emitidos hoy.</p>';
         return;
       }
 
       contenedor.innerHTML = filtrados.reverse().map(({ t, idx }) => `
         <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
-          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${idx + 1 <= 147 ? '#ff9800' : (t.anulado ? '#e74c3c' : '#34d399')};">
-            <span>Tiquete #${idx + 1} - ${t.cliente}</span>
+          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${t.anulado ? '#e74c3c' : '#34d399'};">
+            <span>Tiquete #${TIQUETES_BASE_JORGE + idx + 1} - ${t.cliente}</span>
             <span>Q${t.total.toFixed(2)}</span>
           </div>
           <div style="font-size:10px; color:#aaa; margin: 2px 0;">Emisión: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
@@ -513,7 +498,7 @@
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tiquetesGuardados[index];
       
-      document.getElementById('det-titulo').innerText = `🧾 TIQUETE #${index + 1} ${t.anulado ? '(ANULADO)' : ''}`;
+      document.getElementById('det-titulo').innerText = `🧾 TIQUETE #${TIQUETES_BASE_JORGE + index + 1} ${t.anulado ? '(ANULADO)' : ''}`;
       document.getElementById('det-cliente').innerText = `👤 Cliente: ${t.cliente}`;
       document.getElementById('det-fechahora').innerText = `⏱️ Hora/Fecha de Emisión: ${t.fecha}`;
       
@@ -601,7 +586,7 @@
       if (!receptor) { alert("Ingrese nombre del cliente."); return; }
       
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let numT = tiquetesGuardados.length + 1;
+      let numT = TIQUETES_BASE_JORGE + tiquetesGuardados.length + 1;
 
       let subtotal = 0, itemsArray = [];
       for (let k in carrito) {
