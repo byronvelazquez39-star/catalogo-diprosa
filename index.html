@@ -404,16 +404,13 @@
       abrirModal('modal-historial');
     }
 
-    /* CARGAR UN TIQUETE EMITIDO AL CARRITO PARA EDITARLO Y QUITARLE PRODUCTOS */
     function editarTiquete(index) {
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tiquetesGuardados[index];
       
-      // Marcar el tiquete viejo como anulado para que no duplique la venta mientras se edita
       t.anulado = true;
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
-      // Cargar los ítems del tiquete al carrito activo
       carrito = {};
       t.items.forEach(i => {
         let key = i.nombre + '_' + i.precio;
@@ -421,7 +418,6 @@
       });
       localStorage.setItem(storageKey, JSON.stringify(carrito));
 
-      // Actualizar interfaz y poner el nombre del cliente en el input
       actualizarUIResumen();
       renderizarCatalogo();
       document.getElementById('cliente-receptor').value = t.cliente;
@@ -471,7 +467,7 @@
       itemsArray.forEach(i => {
         msg += `${i.nombre} (x${i.cantidad}) = Q${(i.precio * i.cantidad).toFixed(2)}\n`;
       });
-      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido (Corregido/Actualizado).`;
+      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
       carrito = {};
