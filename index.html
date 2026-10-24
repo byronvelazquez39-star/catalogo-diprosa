@@ -264,7 +264,7 @@
       abrirModal('modal-sueldo');
     }
 
-    /* CÁLCULO EN TIEMPO REAL 16+ (DÉFICIT, DESCUENTOS Y PAGOS) */
+    /* CÁLCULO EN TIEMPO REAL 16+ (CON COMAS DE MILES) */
     function abrirModalComisiones() {
       let ventasQ2 = 7190.04;
       let totalVentasMes = 39706.03;
@@ -288,12 +288,15 @@
 
       let totalNeto = (sueldoBase - descuento) + bono + comision;
 
-      document.getElementById('q2-ventas-real').innerText = "Q " + ventasQ2.toFixed(2);
-      document.getElementById('q2-deficit').innerText = "Q " + deficitQ2.toFixed(2);
-      document.getElementById('q2-descuento').innerText = "Q " + descuento.toFixed(2);
-      document.getElementById('q2-bono').innerText = bono > 0 ? "Q 500.00" : "Pendiente";
-      document.getElementById('q2-comision').innerText = "Q " + comision.toFixed(2);
-      document.getElementById('q2-total-neto').innerText = "Q " + totalNeto.toFixed(2);
+      // Función para formatear con comas de miles
+      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+      document.getElementById('q2-ventas-real').innerText = f(ventasQ2);
+      document.getElementById('q2-deficit').innerText = f(deficitQ2);
+      document.getElementById('q2-descuento').innerText = f(descuento);
+      document.getElementById('q2-bono').innerText = bono > 0 ? f(bono) : "Pendiente";
+      document.getElementById('q2-comision').innerText = f(comision);
+      document.getElementById('q2-total-neto').innerText = f(totalNeto);
 
       abrirModal('modal-comisiones');
     }
