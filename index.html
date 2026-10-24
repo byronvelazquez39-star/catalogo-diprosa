@@ -60,7 +60,7 @@
 
   <!-- CONTENEDOR DEL CATÁLOGO DE PRODUCTOS -->
   <div class="productos-grid" id="lista-productos">
-    <!-- Aquí su script de JavaScript carga o despliega la lista de productos de la ruta -->
+    <p style="text-align: center; color: #888; font-size: 12px;" id="msg-cargando">Cargando productos del catálogo...</p>
   </div>
 
   <a href="panel.html" class="btn-panel">⬅️ Ir al Panel de Supervisor</a>
@@ -124,8 +124,71 @@
     </div>
   </div>
 
-  <!-- SCRIPT INTEGRADO Y SEGURO -->
+  <!-- SCRIPT INTEGRADO COMPLETO -->
   <script>
+    let todosLosProductos = [];
+
+    // CARGAR PRODUCTOS DESDE EL CSV
+    function cargarProductosCSV() {
+      fetch('productos.csv')
+        .then(response => response.text())
+        .then(data => {
+          let lineas = data.split('\n');
+          todosLosProductos = [];
+          
+          for (let i = 1; i < lineas.length; i++) {
+            let linea = lineas[i].trim();
+            if (linea) {
+              let partes = linea.split(',');
+              if (partes.length >= 2) {
+                let nombre = partes[0].replace(/"/g, '').trim();
+                let precio = parseFloat(partes[1].replace(/"/g, '').trim()) || 0;
+                todosLosProductos.push({ nombre, precio });
+              }
+            }
+          }
+          renderizarProductos(todosLosProductos);
+        })
+        .catch(err => {
+          document.getElementById('msg-cargando').innerText = "Catálogo listo. Ingrese búsqueda o cargue sus productos.";
+        });
+    }
+
+    // RENDERIZAR TARJETAS
+    function renderizarProductos(lista) {
+      let contenedor = document.getElementById('lista-productos');
+      if (lista.length === 0) {
+        contenedor.innerHTML = '<p style="text-align:center; color:#aaa; font-size:12px;">No se encontraron productos.</p>';
+        return;
+      }
+
+      let html = '';
+      lista.forEach((p, idx) => {
+        html += `
+          <div class="producto-card" data-nombre="${p.nombre.toLowerCase()}">
+            <div class="producto-info">
+              <h4>${p.nombre}</h4>
+              <p>Q ${p.precio.toFixed(2)}</p>
+            </div>
+            <button class="btn-agregar" onclick="agregarProducto('${p.nombre.replace(/'/g, "\\'")}', ${p.precio})">+ Agregar</button>
+          </div>
+        `;
+      });
+      contenedor.innerHTML = html;
+    }
+
+    // BUSCADOR EN TIEMPO REAL
+    function filtrarProductos() {
+      let filtro = document.getElementById('buscador').value.toLowerCase();
+      let filtrados = todosLosProductos.filter(p => p.nombre.toLowerCase().includes(filtro));
+      renderizarProductos(filtrados);
+    }
+
+    function agregarProducto(nombre, precio) {
+      alert(`Agregado al pedido: ${nombre} (Q ${precio.toFixed(2)})`);
+    }
+
+    // CONTROL DE POPUPS
     function abrirModal(id) {
       document.getElementById(id).style.display = 'flex';
       actualizarRendimientoEstuardo();
@@ -135,19 +198,7 @@
       document.getElementById(id).style.display = 'none';
     }
 
-    function filtrarProductos() {
-      let filtro = document.getElementById('buscador').value.toLowerCase();
-      let tarjetas = document.querySelectorAll('.producto-card');
-      tarjetas.forEach(card => {
-        let nombre = card.getAttribute('data-nombre') || card.innerText.toLowerCase();
-        if (nombre.includes(filtro)) {
-          card.style.display = "flex";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    }
-
+    // ACTUALIZAR RENDIMIENTO Y SUELDOS
     function actualizarRendimientoEstuardo() {
       let tiquetes = [];
       try {
@@ -178,6 +229,7 @@
       }
     }
 
+    // ENVIAR REPORTE WHATSAPP
     function enviarReporteWhatsApp() {
       let tiquetes = [];
       try { tiquetes = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || []; } catch(e){}
@@ -195,7 +247,10 @@
       window.open(url, '_blank');
     }
 
-    document.addEventListener('DOMContentLoaded', actualizarRendimientoEstuardo);
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarProductosCSV();
+      actualizarRendimientoEstuardo();
+    });
   </script>
 
 </body>
