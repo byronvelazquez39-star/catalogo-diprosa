@@ -94,6 +94,7 @@
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="cerrarModal('modal-menu-extra'); abrirModalComisiones();">📈 Estado Diario 16+</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="cerrarModal('modal-menu-extra'); abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
       <button class="btn-menu-opcion" style="background:#8b5cf6;" onclick="cerrarModal('modal-menu-extra'); abrirModalReporteMes();">🔍 Buscar Tiquetes (Fecha / Cliente)</button>
+      <button class="btn-menu-opcion" style="background:#27ae60; font-size:11px;" onclick="sincronizarHistorialForzado()">🔄 Sincronizar Historial y 109 Tiquetes</button>
       <button class="btn-close" onclick="cerrarModal('modal-menu-extra')" style="margin-top:4px;">Cerrar Menú</button>
     </div>
   </div>
@@ -211,40 +212,39 @@
     const NUMERO_WHATSAPP = "50248502382";
     const storageKey = "carrito_diprosa_estuardo";
     const ticketsKey = "diprosa_tickets_estuardo";
-    const mesAnioKey = "diprosa_mes_activo_estuardo";
     const baseVentasKey = "ventas_base_mes_estuardo";
     
     const SALDO_INICIAL_OCTUBRE = 39706.03; 
-
     let fechaActual = new Date();
-    let mesActualStr = fechaActual.getFullYear() + "-" + fechaActual.getMonth();
-    let mesRegistrado = localStorage.getItem(mesAnioKey);
-
-    if (mesRegistrado !== mesActualStr) {
-      localStorage.setItem(mesAnioKey, mesActualStr);
-      localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
-    }
 
     if (!localStorage.getItem(baseVentasKey)) {
       localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
     }
 
-    // Inicialización automática exacta con los 109 tiquetes acumulados hasta el 23 de octubre
-    let tiquetesGuardadosCheck = [];
-    try { tiquetesGuardadosCheck = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
-    
-    if (!tiquetesGuardadosCheck.length) {
+    // Forzar la carga de los 109 tiquetes en la memoria del teléfono al iniciar
+    function sincronizarHistorialForzado() {
       let tiquetesPrecargados = [];
       for (let i = 1; i <= 109; i++) {
         tiquetesPrecargados.push({
           fecha: "23/10/2026 15:00",
-          cliente: "Cliente Acumulado Ruta " + i,
-          items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 138.50}],
-          total: 138.50,
+          cliente: "Cliente Ruta " + i,
+          items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 100.00}],
+          total: 100.00,
           anulado: false
         });
       }
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
+      localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
+      alert("¡Historial sincronizado! Se han cargado los 109 tiquetes y la base de Q 39,706.03 correctamente.");
+      cerrarModal('modal-menu-extra');
+      abrirModalMetas();
+    }
+
+    // Auto-sincronizar si está vacío
+    let tiquetesCheck = [];
+    try { tiquetesCheck = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+    if (!tiquetesCheck.length) {
+      sincronizarHistorialForzado();
     }
 
     let productos = [];
