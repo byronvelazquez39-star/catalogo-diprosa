@@ -9,17 +9,21 @@
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
       --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
     }
-    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 12px; padding-bottom: 100px; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 10px; padding-bottom: 100px; box-sizing: border-box; }
     
-    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 2px; }
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #1a1a1a; padding: 6px 8px; border-radius: 6px; border: 1px solid #333; }
     h1 { text-align: left; margin: 0; font-size: 13px; color: #ff9800; }
     
-    .btn-group-header { display: flex; gap: 2px; }
-    .btn-action-header { border: none; padding: 5px 6px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 9px; color: #fff; }
+    .btn-group-header { display: flex; gap: 3px; }
+    .btn-action-header { border: none; padding: 5px 7px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 9px; color: #fff; }
     .btn-metas { background-color: #0284c7; }
     .btn-sueldo { background-color: #059669; }
-    .btn-comisiones { background-color: #d97706; }
-    .btn-historial-head { background-color: #4b5563; }
+    .btn-menu-extra { background-color: #d97706; }
+
+    /* MENÚ DESPLEGABLE COMPACTO PARA QUE NO ESTORBE */
+    .modal-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; padding: 12px; }
+    .menu-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 320px; border: 1px solid #555; display: flex; flex-direction: column; gap: 8px; }
+    .btn-menu-opcion { background: #374151; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px; }
 
     .search-box { width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px; border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; }
     
@@ -44,12 +48,11 @@
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
     .modal-content { background: #1e1e1e; border-radius: 10px; padding: 12px; width: 100%; max-width: 360px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 12px; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 4px; margin-bottom: 8px; }
-    .ticket-header h3 { margin: 0; font-size: 14px; color: #fff; }
+    .ticket-header h3 { margin: 0; font-size: 13px; color: #fff; }
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 12px; box-sizing: border-box; margin-bottom: 8px; }
     .btn-close { background: #444; color: white; border: none; padding: 7px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 6px; font-size: 12px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
 
-    /* CUADROS RESUMIDOS */
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; width: 100%; margin-top: 6px; }
@@ -62,8 +65,7 @@
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
-      <button class="btn-action-header btn-comisiones" onclick="abrirModalComisiones()">📈 16+</button>
-      <button class="btn-action-header btn-historial-head" onclick="abrirModalHistorial()">📂 Tiquetes</button>
+      <button class="btn-action-header btn-menu-extra" onclick="abrirModalMenuExtra()">⚙️ Menú ▾</button>
     </div>
   </div>
 
@@ -79,6 +81,19 @@
     </div>
     <div style="display: flex; gap: 5px;">
       <button class="btn-wa" onclick="abrirTicket()" style="padding: 8px 10px; font-size: 12px;">📋 Ver</button>
+    </div>
+  </div>
+
+  <!-- MODAL MENÚ EXTRA (PARA QUE NO SE SALGA NADA) -->
+  <div id="modal-menu-extra" class="modal-menu">
+    <div class="menu-content">
+      <div class="ticket-header">
+        <h3>⚙️ OPCIONES Y REPORTES</h3>
+      </div>
+      <button class="btn-menu-opcion" onclick="cerrarModal('modal-menu-extra'); abrirModalComisiones();">📈 Estado Diario 16+</button>
+      <button class="btn-menu-opcion" onclick="cerrarModal('modal-menu-extra'); abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
+      <button class="btn-menu-opcion" onclick="cerrarModal('modal-menu-extra'); abrirModalReporteMes();" style="background:#8b5cf6;">🔍 Buscar Tiquetes (Meses / Lupita)</button>
+      <button class="btn-close" onclick="cerrarModal('modal-menu-extra')">Cerrar</button>
     </div>
   </div>
 
@@ -104,14 +119,26 @@
     </div>
   </div>
 
-  <!-- MODAL HISTORIAL / EDITAR / ANULAR -->
+  <!-- MODAL HISTORIAL HOY -->
   <div id="modal-historial" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3>📂 TIQUETES EMITIDOS HOY</h3>
+        <h3>📂 TIQUETES DE HOY</h3>
       </div>
       <div id="lista-historial-tiquetes" style="max-height: 200px; overflow-y: auto;"></div>
       <button class="btn-close" onclick="cerrarModal('modal-historial')">Regresar</button>
+    </div>
+  </div>
+
+  <!-- MODAL REPORTE Y BUSCADOR DE MESES (LUPITA) -->
+  <div id="modal-reporte-mes" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3>🔍 BUSCADOR DE TIQUETES</h3>
+      </div>
+      <input type="text" id="input-buscar-mes" class="client-input" placeholder="🔍 Tienda, cliente o número..." oninput="filtrarTiquetesMes()">
+      <div id="lista-reporte-mes" style="max-height: 220px; overflow-y: auto; margin-top: 5px;"></div>
+      <button class="btn-close" onclick="cerrarModal('modal-reporte-mes')">Regresar</button>
     </div>
   </div>
 
@@ -264,6 +291,8 @@
     function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 
+    function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
+
     function abrirModalMetas() {
       let baseMesReporte = 39706.03;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
@@ -395,13 +424,68 @@
             </div>
             <div style="font-size:10px; color:#aaa; margin: 3px 0;">Hora: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
             <div style="display:flex; gap: 5px; margin-top: 5px;">
-              ${!t.anulado ? `<button onclick="editarTiquete(${index})" style="background:#0284c7; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">✏️ Editar / Quitar producto</button>` : ''}
-              ${!t.anulado ? `<button onclick="anularTiquete(${index})" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">❌ Anular Total</button>` : ''}
+              ${!t.anulado ? `<button onclick="editarTiquete(${index})" style="background:#0284c7; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">✏️ Editar</button>` : ''}
+              ${!t.anulado ? `<button onclick="anularTiquete(${index})" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">❌ Anular</button>` : ''}
             </div>
           </div>
         `).join('');
       }
       abrirModal('modal-historial');
+    }
+
+    function abrirModalReporteMes() {
+      document.getElementById('input-buscar-mes').value = '';
+      renderizarListaMes('');
+      abrirModal('modal-reporte-mes');
+    }
+
+    function filtrarTiquetesMes() {
+      let filtro = document.getElementById('input-buscar-mes').value.toLowerCase().trim();
+      renderizarListaMes(filtro);
+    }
+
+    function renderizarListaMes(filtro) {
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let contenedor = document.getElementById('lista-reporte-mes');
+
+      let filtrados = tiquetesGuardados.map((t, idx) => ({ t, idx })).filter(({ t }) => {
+        if (!filtro) return true;
+        let matchCliente = t.cliente.toLowerCase().includes(filtro);
+        let matchNum = ("tiquete #" + (t.idx + 1)).includes(filtro) || String(t.total).includes(filtro);
+        let matchProd = t.items.some(i => i.nombre.toLowerCase().includes(filtro));
+        return matchCliente || matchNum || matchProd;
+      });
+
+      if (!filtrados.length) {
+        contenedor.innerHTML = '<p style="text-align:center; color:#888;">No se encontraron tiquetes.</p>';
+        return;
+      }
+
+      contenedor.innerHTML = filtrados.reverse().map(({ t, idx }) => `
+        <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
+          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${t.anulado ? '#e74c3c' : '#34d399'};">
+            <span>Tiquete #${idx + 1} - ${t.cliente}</span>
+            <span>Q${t.total.toFixed(2)}</span>
+          </div>
+          <div style="font-size:10px; color:#aaa; margin: 2px 0;">Fecha/Hora: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
+          <div style="font-size:10px; color:#ddd; margin-bottom:4px;">
+            ${t.items.map(i => `• ${i.nombre} (x${i.cantidad})`).join('<br>')}
+          </div>
+          <div style="display:flex; gap: 5px;">
+            ${!t.anulado ? `<button onclick="editarTiquete(${idx}); cerrarModal('modal-reporte-mes');" style="background:#0284c7; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:9px; cursor:pointer; flex:1;">✏️ Editar</button>` : ''}
+            ${!t.anulado ? `<button onclick="anularTiqueteMes(${idx})" style="background:#e74c3c; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:9px; cursor:pointer; flex:1;">❌ Anular</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function anularTiqueteMes(index) {
+      if (confirm("¿Está seguro de anular este tiquete?")) {
+        let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+        tiquetesGuardados[index].anulado = true;
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        renderizarListaMes(document.getElementById('input-buscar-mes').value.toLowerCase().trim());
+      }
     }
 
     function editarTiquete(index) {
@@ -448,7 +532,7 @@
         itemsArray.push(item);
       }
 
-      let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " (" + new Date().toLocaleDateString('es-GT') + ")";
 
       let nuevoTiquete = {
         fecha: horaActual,
