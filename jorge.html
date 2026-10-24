@@ -11,43 +11,53 @@
     }
     body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
     
-    /* PANTALLA DE SEGURIDAD PIN CON FONDO GALÁCTICO ORIGINAL */
+    /* PANTALLA DE SEGURIDAD PIN - ESTILO GALÁCTICO ESPACIAL PROFESIONAL */
     #lock-screen {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: url('Screenshot_20261024_123015_Gallery.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: radial-gradient(circle at 30% 20%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
       z-index: 99999; display: flex; flex-direction: column;
       justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+      overflow: hidden;
     }
-    /* Capa oscura semitransparente para que el cuadro del PIN resalte sobre los planetas */
+    /* Estrellas y destellos de fondo simulando el espacio profundo */
     #lock-screen::before {
       content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.65); z-index: 1;
+      background-image: 
+        radial-gradient(white 1px, transparent 0),
+        radial-gradient(rgba(0,188,212,0.6) 1.5px, transparent 0),
+        radial-gradient(rgba(255,152,0,0.5) 1px, transparent 0);
+      background-size: 50px 50px, 80px 80px, 120px 120px;
+      background-position: 0 0, 20px 30px, 40px 10px;
+      opacity: 0.6; z-index: 1; pointer-events: none;
     }
     .lock-card {
       position: relative; z-index: 2;
-      background: rgba(30, 30, 30, 0.85); backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 14px;
-      padding: 24px 20px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.9);
+      background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 188, 212, 0.4); border-radius: 16px;
+      padding: 24px 20px; width: 100%; max-width: 300px; text-align: center; 
+      box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px rgba(0,188,212,0.15);
     }
     .lock-logo-badge {
-      width: 75px; height: 75px; border-radius: 50%; background: linear-gradient(135deg, #2a2a2a, #111);
+      width: 75px; height: 75px; border-radius: 50%; background: linear-gradient(135deg, #1e293b, #090d16);
       border: 2px solid #00bcd4; display: flex; flex-direction: column; justify-content: center; align-items: center;
-      margin: 0 auto 12px auto; box-shadow: 0 0 15px rgba(0,188,212,0.4);
+      margin: 0 auto 12px auto; box-shadow: 0 0 20px rgba(0,188,212,0.5);
     }
     .lock-logo-badge span:first-child { font-size: 11px; font-weight: bold; color: #00bcd4; letter-spacing: 1px; }
-    .lock-logo-badge span:last-child { font-size: 8px; color: #aaa; margin-top: 2px; }
+    .lock-logo-badge span:last-child { font-size: 8px; color: #94a3b8; margin-top: 2px; }
 
     .pin-input {
-      width: 100%; background: rgba(20, 20, 20, 0.9); border: 1px solid #555; color: white;
-      font-size: 20px; text-align: center; padding: 10px; border-radius: 6px;
-      letter-spacing: 8px; margin-bottom: 12px; box-sizing: border-box;
+      width: 100%; background: rgba(3, 7, 18, 0.9); border: 1px solid #334155; color: white;
+      font-size: 20px; text-align: center; padding: 10px; border-radius: 8px;
+      letter-spacing: 8px; margin-bottom: 12px; box-sizing: border-box; outline: none;
     }
+    .pin-input:focus { border-color: #00bcd4; box-shadow: 0 0 8px rgba(0,188,212,0.4); }
+
     .btn-pin {
       background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: none; width: 100%;
-      padding: 10px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(2,132,199,0.4);
+      padding: 11px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(2,132,199,0.4); transition: transform 0.1s;
     }
+    .btn-pin:active { transform: scale(0.98); }
 
     .header-bar { 
       position: sticky; top: 0; z-index: 900;
@@ -102,7 +112,7 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE ACCESO CON FONDO GALÁCTICO Y PIN -->
+  <!-- PANTALLA DE ACCESO GALÁCTICA PROFESIONAL -->
   <div id="lock-screen">
     <div class="lock-card">
       <div class="lock-logo-badge">
@@ -110,7 +120,7 @@
         <span>OFICIAL</span>
       </div>
       <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DIPROSTRIX</h3>
-      <p style="color: #ccc; font-size: 11px; margin: 0 0 14px 0;">Ingrese PIN de Acceso</p>
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 14px 0;">Ingrese PIN de Acceso</p>
       <input type="password" id="pin-code" class="pin-input" maxlength="4" placeholder="••••">
       <button class="btn-pin" onclick="verificarPin()">INGRESAR</button>
     </div>
