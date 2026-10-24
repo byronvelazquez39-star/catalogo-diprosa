@@ -71,7 +71,7 @@
 
   <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto..." oninput="filtrarDebounce()">
   
-  <div id="catalogo" class="grid">Cargando inventario...</div>
+  <div id="catalogo" class="grid">Cargando inventario oficial...</div>
   <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
 
   <div class="cart-bar">
@@ -94,7 +94,6 @@
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="cerrarModal('modal-menu-extra'); abrirModalComisiones();">📈 Estado Diario 16+</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="cerrarModal('modal-menu-extra'); abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
       <button class="btn-menu-opcion" style="background:#8b5cf6;" onclick="cerrarModal('modal-menu-extra'); abrirModalReporteMes();">🔍 Buscar Tiquetes (Fecha / Cliente)</button>
-      <button class="btn-menu-opcion" style="background:#059669; font-size:11px;" onclick="agregarTicketPrueba()">➕ Cargar Tiquete de Prueba (Q100)</button>
       <button class="btn-close" onclick="cerrarModal('modal-menu-extra')" style="margin-top:4px;">Cerrar Menú</button>
     </div>
   </div>
@@ -237,24 +236,8 @@
       localStorage.setItem(ticketsKey, JSON.stringify([]));
     }
 
-    // Catálogo integrado directo en el código para garantizar apertura inmediata
-    let productos = [
-      { nombre: "Arroz Gallo Dorado 25 lbs", precio: 184.00 },
-      { nombre: "Detergente 270 grs (fardo)", precio: 69.00 },
-      { nombre: "Panqueques caja grande", precio: 13.50 },
-      { nombre: "Tajín de 24 unidades", precio: 27.00 },
-      { nombre: "Almohadita fardo 4 onzas", precio: 110.00 },
-      { nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
-      { nombre: "(CARNAVAL) en lata SODA", precio: 3.50 },
-      { nombre: "(Salvavidas) en lata", precio: 4.00 },
-      { nombre: "Azúcar Sello Blanco 50 lbs", precio: 210.00 },
-      { nombre: "Aceite Mazola 800ml", precio: 22.00 },
-      { nombre: "Frijol Negro fardo 20 lbs", precio: 150.00 },
-      { nombre: "Pasta Incaparina caja 400g", precio: 15.00 },
-      { nombre: "Salsa de Tomate Del Fuerte sachet", precio: 32.00 }
-    ];
-    
-    let productosFiltrados = productos;
+    let productos = [];
+    let productosFiltrados = [];
     let limiteActual = 40;
     let carrito = {};
     let debounceTimer = null;
@@ -262,8 +245,17 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      renderizarCatalogo(); 
-      actualizarUIResumen();
+      fetch('productos.json?v=' + new Date().getTime())
+        .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
+        .then(data => {
+          productos = data; 
+          productosFiltrados = data;
+          renderizarCatalogo(); 
+          actualizarUIResumen();
+        })
+        .catch(() => {
+          document.getElementById('catalogo').innerHTML = '<p style="text-align:center; color:#e74c3c; grid-column: 1/-1;">Error: No se pudo cargar el archivo productos.json. Verifique que esté en su repositorio de GitHub.</p>';
+        });
     });
 
     function obtenerDiasHabilesMes() {
@@ -345,25 +337,6 @@
     function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
     function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
-
-    function agregarTicketPrueba() {
-      let tiquetesGuardados = [];
-      try {
-        tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      } catch(e) { tiquetesGuardados = []; }
-
-      let nuevoT = {
-        fecha: "24/10/2026 09:00",
-        cliente: "Tienda de Prueba Estuardo",
-        items: [{nombre: "Producto de Prueba", cantidad: 1, precio: 100}],
-        total: 100.00,
-        anulado: false
-      };
-      tiquetesGuardados.push(nuevoT);
-      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
-      alert("¡Tiquete de prueba cargado con éxito! Abra el menú de Metas para verificar.");
-      cerrarModal('modal-menu-extra');
-    }
 
     function abrirModalMetas() {
       let baseMes = parseFloat(localStorage.getItem(baseVentasKey)) || SALDO_INICIAL_OCTUBRE;
@@ -658,7 +631,7 @@
       let receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese nombre del cliente."); return; }
       let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
-      localStorage.setItem('correlativo_ticket_estuardo', numT);
+      localStorage.setItem('correlativo_ticket_estuargo', numT);
 
       let subtotal = 0, itemsArray = [];
       for (let k in carrito) {
