@@ -164,10 +164,10 @@
         <h3>📊 METAS - ESTUARDO</h3>
       </div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
-        <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 81,000.00</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
-        <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0 / 189 Hrs</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q0</strong></div>
+        <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 0.00</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 0 Tq</strong></div>
+        <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0 / 0 Hrs</strong></div>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar</button>
@@ -212,23 +212,22 @@
     const storageKey = "carrito_diprosa_estuardo";
     const ticketsKey = "diprosa_tickets_estuardo";
     const mesAnioKey = "diprosa_mes_activo_estuardo";
+    const baseVentasKey = "ventas_base_mes_estuardo";
     
-    // Saldo base inicial para octubre 2026 (Reporte oficial: Q 39,706.03)
     const SALDO_INICIAL_OCTUBRE = 39706.03; 
 
-    // Verificación de cambio de mes para reinicio automático a 0 y ajuste dinámico de días hábiles
     let fechaActual = new Date();
     let mesActualStr = fechaActual.getFullYear() + "-" + fechaActual.getMonth();
     let mesRegistrado = localStorage.getItem(mesAnioKey);
 
     if (mesRegistrado !== mesActualStr) {
       localStorage.setItem(mesAnioKey, mesActualStr);
-      localStorage.setItem(ticketsKey, JSON.stringify([])); // Reinicia tiquetes a cero
-      localStorage.setItem("ventas_base_mes_estuardo", "0"); // Nuevo mes inicia sin acumulado anterior
+      localStorage.setItem(ticketsKey, JSON.stringify([])); 
+      localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
     }
 
-    if (!localStorage.getItem("ventas_base_mes_estuardo")) {
-      localStorage.setItem("ventas_base_mes_estuardo", SALDO_INICIAL_OCTUBRE.toString());
+    if (!localStorage.getItem(baseVentasKey)) {
+      localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
     }
 
     let productos = [];
@@ -336,7 +335,7 @@
     function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
 
     function abrirModalMetas() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_estuardo")) || 0;
+      let baseMes = parseFloat(localStorage.getItem(baseVentasKey)) || SALDO_INICIAL_OCTUBRE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentasReal = baseMes;
       let totalTq = 0;
@@ -346,14 +345,14 @@
       });
 
       let diasHabilesMes = obtenerDiasHabilesMes();
-      let metaMes = diasHabilesMes * 3000; // 3000 diarios
-      let metaTqTotal = diasHabilesMes * 12; // 12 tiquetes diarios de ley
-      let metaHorasTotal = diasHabilesMes * 7; // 7 horas diarias
+      let metaMes = diasHabilesMes * 3000; 
+      let metaTqTotal = diasHabilesMes * 12; 
+      let metaHorasTotal = diasHabilesMes * 7; 
 
       let faltanteMeta = metaMes - totalVentasReal;
       if (faltanteMeta < 0) faltanteMeta = 0;
 
-      let diaHoy = new Date().getDate();
+      let diaHoy = fechaActual.getDate();
       let diasTranscurridos = Math.min(diaHoy, diasHabilesMes);
       let horasEsperadas = diasTranscurridos * 7;
       if (horasEsperadas > metaHorasTotal) horasEsperadas = metaHorasTotal;
@@ -377,7 +376,7 @@
     }
 
     function abrirModalComisiones() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_estuardo")) || 0;
+      let baseMes = parseFloat(localStorage.getItem(baseVentasKey)) || SALDO_INICIAL_OCTUBRE;
       let ventasQ2 = 0;
       let totalVentasMes = baseMes;
       let totalTqMes = 0;
@@ -393,8 +392,8 @@
         if (t.total && !t.anulado) {
           totalVentasMes += parseFloat(t.total);
           totalTqMes += 1;
-          horasRutaMes += 7; // Asignación de 7 horas por tiquete/día laborado registrado
-          let diaT = parseInt(t.fecha.split('/')[0]) || new Date().getDate();
+          horasRutaMes += 7; 
+          let diaT = parseInt(t.fecha.split('/')[0]) || fechaActual.getDate();
           if (diaT >= 16) {
             ventasQ2 += parseFloat(t.total);
           }
@@ -404,7 +403,7 @@
       let sueldoBase = 3600;
       let depreciacionMoto = 500;
       let cuotaDiaria = 3000;
-      let diaHoy = new Date().getDate();
+      let diaHoy = fechaActual.getDate();
       let diasTranscurridosQ2 = diaHoy >= 16 ? (diaHoy - 15) : 1;
       let metaQ2Esperada = diasTranscurridosQ2 * cuotaDiaria; 
 
@@ -419,7 +418,6 @@
 
       let comision = totalVentasMes > metaMes ? (totalVentasMes - metaMes) * 0.025 : 0;
       
-      // Validación de los tres pilares estrictos para liberar el bono de Q500
       let cumpleVentasBono = totalVentasMes >= metaMes;
       let cumpleTiquetesBono = totalTqMes >= metaTqTotal;
       let cumpleHorasBono = horasRutaMes >= metaHorasTotal;
@@ -440,7 +438,7 @@
     }
 
     function enviarCorteDiarioWA() {
-      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_estuardo")) || 0;
+      let baseMes = parseFloat(localStorage.getItem(baseVentasKey)) || SALDO_INICIAL_OCTUBRE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = baseMes;
       tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) totalVentas += parseFloat(t.total); });
