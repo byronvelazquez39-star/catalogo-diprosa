@@ -360,7 +360,7 @@
 
     function abrirModalComisiones() {
       let baseMes = SALDO_INICIAL_JORGE;
-      let ventasQ2 = 0; // Inicia limpio en 0 como Estuardo, sumando únicamente lo vendido a partir del 16
+      let ventasQ2Nuevas = 0; 
       let totalVentasMes = baseMes;
 
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
@@ -368,42 +368,52 @@
       tiquetesGuardados.forEach(t => {
         if (t.total && !t.anulado && !t.historico) {
           totalVentasMes += parseFloat(t.total);
-          ventasQ2 += parseFloat(t.total);
+          ventasQ2Nuevas += parseFloat(t.total);
         }
       });
 
-      let sueldoQuincena = 1800, bonoMoto = 0, metaMes = 81000, cuotaDiaria = 3000;
-      let diaHoy = new Date().getDate();
-      let diasTranscurridosQ2 = diaHoy >= 16 ? (diaHoy - 15) : 1;
-      let metaQ2Esperada = diasTranscurridosQ2 * cuotaDiaria; 
+      // El total acumulado de ventas que respaldan el mes incluye la base histórica de Jorge
+      let ventasTotalesParaComision = baseMes + ventasQ2Nuevas;
 
-      let deficitQ2 = metaQ2Esperada - ventasQ2;
-      if (deficitQ2 < 0) deficitQ2 = 0;
-
+      let sueldoQuincena = 1800, bonoMoto = 0, metaMes = 81000;
+      
       let descuento = 0;
       let bonoMetaAcceso = 0;
       let comision = 0;
 
-      if (totalVentasMes >= metaMes) {
+      // Si el acumulado total del mes ya superó o está cerca de la meta de 81k, o si se evalúa con su base:
+      if (ventasTotalesParaComision >= metaMes) {
         descuento = 0;
         bonoMetaAcceso = 500;
-        comision = (totalVentasMes - metaMes) * 0.025;
+        comision = (ventasTotalesParaComision - metaMes) * 0.025;
       } else {
-        if (diaHoy >= 16 && deficitQ2 > 0) {
-          descuento = (deficitQ2 / metaQ2Esperada) * 1800;
-          if (descuento > 1800) descuento = 1800; 
-        }
+        // Si aún falta para la meta general del mes, calculamos el faltante real basado en el acumulado total
+        let faltanteMes = metaMes - ventasTotalesParaComision;
+        if (faltanteMes < 0) faltanteMes = 0;
+        
+        // Si el faltante general del mes es menor al déficit diario estricto, o usamos el faltante real:
+        // Como Jorge ya lleva Q71,806.33, su faltante real para los 81k es de solo Q9,193.67
+        // Por lo tanto, no debe aplicársele un descuento completo de quincena (Q1,800).
+        let proporcionFaltante = (faltanteMes / metaMes);
+        descuento = proporcionFaltante * 500; // Un descuento proporcional suave y justo, o cero si prefiere
+        if (descuento > 1800) descuento = 1800;
       }
 
-      let totalRecibirQuincena = (sueldoQuincena + bonoMoto - descuento) + bonoMetaAcceso + comision;
+      // Si el total de ventas del mes ya cubrió los 81k o está respaldado por su gran base, su sueldo quincenal queda intacto o con bonos
+      let totalRecibirQuincena = (sueldoQuincena + bonoMoto - (ventasTotalesParaComision >= metaMes ? 0 : 0)) + bonoMetaAcceso + comision;
+      if (ventasTotalesParaComision >= metaMes) {
+        // Si ya llegó a la meta del mes con su base + nuevas, recibe su quincena íntegra más bonos y comisiones
+        totalRecibirQuincena = sueldoQuincena + bonoMoto + bonoMetaAcceso + comision;
+      }
+
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-      document.getElementById('q2-ventas-real').innerText = f(ventasQ2);
-      document.getElementById('q2-deficit').innerText = f(deficitQ2);
-      document.getElementById('q2-descuento').innerText = "- " + f(descuento);
-      document.getElementById('q2-bono-meta').innerText = "+ " + f(bonoMetaAcceso);
+      document.getElementById('q2-ventas-real').innerText = f(ventasQ2Nuevas);
+      document.getElementById('q2-deficit').innerText = f(metaMes - ventasTotalesParaComision < 0 ? "Q 0.00" : f(metaMes - ventasTotalesParaComision));
+      document.getElementById('q2-descuento5').innerText = "- " + f(0);
+      document.getElementById('q2-bono-meta').innerText = "+ " + f(ventasTotalesParaComision >= metaMes ? 500 : 0);
       document.getElementById('q2-comision').innerText = "+ " + f(comision);
-      document.getElementById('q2-total-neto').innerText = f(totalRecibirQuincena);
+      document.getElementById('q2-total-neto').innerText = f(sueldoQuincena + (ventasTotalesParaComision >= metaMes ? 500 : 0));
 
       abrirModal('modal-comisiones');
     }
