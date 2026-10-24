@@ -18,6 +18,7 @@
     .monto-vendedor { font-size: 16px; font-weight: bold; color: #27ae60; }
     .detalle-tiquetes { font-size: 11px; color: #888; margin-top: 2px; }
     
+    .btn-agregar { background: #ff9800; color: #121212; border: none; padding: 6px 10px; border-radius: 5px; font-weight: bold; font-size: 12px; cursor: pointer; margin-top: 5px; }
     .btn-volver { display: block; width: 100%; background: #333; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; text-decoration: none; margin-top: 25px; font-size: 14px; box-sizing: border-box; }
   </style>
 </head>
@@ -34,13 +35,12 @@
   </div>
 
   <div id="lista-vendedores" class="grid-vendedores">
-    <!-- Se llena automáticamente con los datos de todos -->
+    <!-- Se llena automáticamente -->
   </div>
 
   <a href="estuardo.html" class="btn-volver">⬅️ Volver al Catálogo</a>
 
   <script>
-    // Todos los códigos y llaves de almacenamiento de los 4 vendedores
     const vendedores = [
       { id: "estuardo", nombre: "Estuardo", keyTickets: "diprosa_tickets_estuardo" },
       { id: "jorge", nombre: "Jorge", keyTickets: "diprosa_tickets_jorge" },
@@ -67,9 +67,6 @@
           if (t.total) {
             subtotalVendedor += parseFloat(t.total);
             cantidadTiquetes += 1;
-          } else if (t.esAcumuladoBase && t.total) {
-            subtotalVendedor += parseFloat(t.total);
-            cantidadTiquetes += (t.tiquetesCount || 0);
           }
         });
 
@@ -79,7 +76,8 @@
           <div class="card-vendedor">
             <div>
               <div class="nombre-vendedor">📦 ${v.nombre}</div>
-              <div class="detalle-tiquetes">${cantidadTiquetes} tiquetes / pedidos emitidos</div>
+              <div class="detalle-tiquetes">${cantidadTiquetes} tiquetes registrados</div>
+              <button class="btn-agregar" onclick="agregarVentaManual('${v.keyTickets}', '${v.nombre}')">➕ Agregar Venta</button>
             </div>
             <div class="monto-vendedor">Q ${subtotalVendedor.toFixed(2)}</div>
           </div>
@@ -88,6 +86,32 @@
 
       document.getElementById('total-general').innerText = sumaTotalGeneral.toFixed(2);
       document.getElementById('lista-vendedores').innerHTML = htmlVendedores;
+    }
+
+    function agregarVentaManual(key, nombre) {
+      let montoStr = prompt(`Ingrese el monto de la venta para ${nombre} (Q):`);
+      if (montoStr !== null && montoStr.trim() !== "") {
+        let monto = parseFloat(montoStr);
+        if (!isNaN(monto) && monto > 0) {
+          let tiquetes = [];
+          try {
+            tiquetes = JSON.parse(localStorage.getItem(key)) || [];
+          } catch(e) {
+            tiquetes = [];
+          }
+
+          // Agregamos un tiquete simulado con el monto ingresado
+          tiquetes.push({
+            total: monto,
+            fecha: new Date().toLocaleString()
+          });
+
+          localStorage.setItem(key, JSON.stringify(tiquetes));
+          cargarPanel(); // Recarga la pantalla al instante
+        } else {
+          alert("Por favor ingrese un monto válido.");
+        }
+      }
     }
 
     document.addEventListener('DOMContentLoaded', cargarPanel);
