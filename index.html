@@ -131,7 +131,7 @@
     </div>
   </div>
 
-  <!-- MODAL 16+ (ESTADO DIARIO, DESCUENTOS Y PAGOS EN TIEMPO REAL) -->
+  <!-- MODAL 16+ -->
   <div id="modal-comisiones" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
@@ -142,7 +142,7 @@
         <div class="compact-row"><span>Déficit / Faltante:</span><strong id="q2-deficit" style="color:#ef4444;">Q 0.00</strong></div>
         <div class="compact-row"><span>Descuento Aplicado:</span><strong id="q2-descuento" style="color:#ef4444;">Q 0.00</strong></div>
         <div class="compact-row"><span>Bono Q500:</span><strong id="q2-bono" style="color:#eab308;">Pendiente</strong></div>
-        <div class="compact-row"><span>Comisión 2.5%:</span><strong id="q2-comision" style="color:#25d366;">Q 0.00</strong></div>
+        <div class="compact-row"><span>Comisión 2.5%:</span><strong id="q2-comision" style="color:#27ae60;">Q 0.00</strong></div>
         <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;"><span>TOTAL ESTIMADO:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 3,600.00</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-comisiones')">Cerrar</button>
@@ -264,20 +264,31 @@
       abrirModal('modal-sueldo');
     }
 
-    /* CÁLCULO EN TIEMPO REAL 16+ (CON COMAS DE MILES) */
+    /* CÁLCULO EN TIEMPO REAL 16+ (CUOTA Q3,000/DÍA Y COMAS) */
     function abrirModalComisiones() {
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasQ2 = 7190.04;
       let totalVentasMes = 39706.03;
 
+      tiquetesGuardados.forEach(t => {
+        if (t.total) {
+          totalVentasMes += parseFloat(t.total);
+          ventasQ2 += parseFloat(t.total);
+        }
+      });
+
       let sueldoBase = 3600;
       let metaMes = 81000;
+      let cuotaDiaria = 3000;
 
-      let metaQ2Esperada = 8 * 2700; 
+      let diaHoy = new Date().getDate();
+      let diasTranscurridosQ2 = diaHoy >= 16 ? (diaHoy - 15) : 1;
+      let metaQ2Esperada = diasTranscurridosQ2 * cuotaDiaria; 
+
       let deficitQ2 = metaQ2Esperada - ventasQ2;
       if (deficitQ2 < 0) deficitQ2 = 0;
 
       let descuento = 0;
-      let diaHoy = new Date().getDate();
       if (diaHoy >= 16 && deficitQ2 > 0) {
         descuento = (deficitQ2 / metaQ2Esperada) * 1800;
         if (descuento > 1800) descuento = 1800; 
@@ -288,7 +299,6 @@
 
       let totalNeto = (sueldoBase - descuento) + bono + comision;
 
-      // Función para formatear con comas de miles
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-ventas-real').innerText = f(ventasQ2);
