@@ -71,7 +71,7 @@
 
   <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto..." oninput="filtrarDebounce()">
   
-  <div id="catalogo" class="grid">Cargando inventario oficial...</div>
+  <div id="catalogo" class="grid">Cargando inventario...</div>
   <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
 
   <div class="cart-bar">
@@ -89,12 +89,11 @@
       <div class="ticket-header">
         <h3>⚙️ MENÚ DE OPCIONES</h3>
       </div>
-      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="cerrarModal('modal-menu-extra'); abrirModalMetas();">📊 Ver Metas del Mes</button>
+      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="cerrarModal('modal-menu-extra'); abrirModalMetas();">📊 Ver Metas de Venta</button>
       <button class="btn-menu-opcion" style="background:#059669;" onclick="cerrarModal('modal-menu-extra'); abrirModalSueldo();">💰 Consultar Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="cerrarModal('modal-menu-extra'); abrirModalComisiones();">📈 Estado Diario 16+</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="cerrarModal('modal-menu-extra'); abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
       <button class="btn-menu-opcion" style="background:#8b5cf6;" onclick="cerrarModal('modal-menu-extra'); abrirModalReporteMes();">🔍 Buscar Tiquetes (Fecha / Cliente)</button>
-      <button class="btn-menu-opcion" style="background:#27ae60; font-size:11px;" onclick="sincronizarHistorialForzado()">🔄 Sincronizar Historial y 109 Tiquetes</button>
       <button class="btn-close" onclick="cerrarModal('modal-menu-extra')" style="margin-top:4px;">Cerrar Menú</button>
     </div>
   </div>
@@ -165,10 +164,10 @@
         <h3>📊 METAS - ESTUARDO</h3>
       </div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q0</strong></div>
-        <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 0.00</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 0 Tq</strong></div>
-        <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0 / 0 Hrs</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
+        <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 81,000.00</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
+        <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0 / 189 Hrs</strong></div>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
       <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar</button>
@@ -183,7 +182,6 @@
       <div class="compact-box">
         <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
         <div class="compact-row" style="color:#25d366;"><span>1ra Quincena (1-15):</span><strong>Q 1,800.00 (Libre)</strong></div>
-        <div class="compact-row" style="color:#25d366;"><span>Depreciación Moto:</span><strong>Q 500.00 (Fijo)</strong></div>
         <div class="compact-row" style="color:#38bdf8; margin-bottom:0; border:none;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar</button>
@@ -201,8 +199,7 @@
         <div class="compact-row"><span>Descuento Aplicado:</span><strong id="q2-descuento" style="color:#ef4444;">Q 0.00</strong></div>
         <div class="compact-row"><span>Bono Q500:</span><strong id="q2-bono" style="color:#eab308;">Pendiente</strong></div>
         <div class="compact-row"><span>Comisión 2.5%:</span><strong id="q2-comision" style="color:#27ae60;">Q 0.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#25d366;">Q 500.00</strong></div>
-        <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;"><span>TOTAL ESTIMADO:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 4,100.00</strong></div>
+        <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;"><span>TOTAL ESTIMADO:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 3,600.00</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-comisiones')">Cerrar</button>
     </div>
@@ -212,17 +209,14 @@
     const NUMERO_WHATSAPP = "50248502382";
     const storageKey = "carrito_diprosa_estuardo";
     const ticketsKey = "diprosa_tickets_estuardo";
-    const baseVentasKey = "ventas_base_mes_estuardo";
-    
-    const SALDO_INICIAL_OCTUBRE = 39706.03; 
-    let fechaActual = new Date();
+    const SALDO_INICIAL_OCTUBRE = 39706.03;
 
-    if (!localStorage.getItem(baseVentasKey)) {
-      localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
-    }
+    // FIJAR SALDO ACUMULADO DE OCTUBRE Y 109 TIQUETES INICIALES AUTOMÁTICAMENTE
+    localStorage.setItem("ventas_base_mes_estuardo", SALDO_INICIAL_OCTUBRE.toString());
 
-    // Forzar la carga de los 109 tiquetes en la memoria del teléfono al iniciar
-    function sincronizarHistorialForzado() {
+    let tiquetesCheck = [];
+    try { tiquetesCheck = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+    if (!tiquetesCheck.length) {
       let tiquetesPrecargados = [];
       for (let i = 1; i <= 109; i++) {
         tiquetesPrecargados.push({
@@ -234,24 +228,9 @@
         });
       }
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
-      localStorage.setItem(baseVentasKey, SALDO_INICIAL_OCTUBRE.toString());
-      alert("¡Historial sincronizado! Se han cargado los 109 tiquetes y la base de Q 39,706.03 correctamente.");
-      cerrarModal('modal-menu-extra');
-      abrirModalMetas();
     }
 
-    // Auto-sincronizar si está vacío
-    let tiquetesCheck = [];
-    try { tiquetesCheck = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
-    if (!tiquetesCheck.length) {
-      sincronizarHistorialForzado();
-    }
-
-    let productos = [];
-    let productosFiltrados = [];
-    let limiteActual = 40;
-    let carrito = {};
-    let debounceTimer = null;
+    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
@@ -259,31 +238,18 @@
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
         .then(data => {
-          productos = data; 
-          productosFiltrados = data;
-          renderizarCatalogo(); 
-          actualizarUIResumen();
+          productos = data; productosFiltrados = data;
+          renderizarCatalogo(); actualizarUIResumen();
         })
         .catch(() => {
-          document.getElementById('catalogo').innerHTML = '<p style="text-align:center; color:#e74c3c; grid-column: 1/-1;">Error: No se pudo cargar el archivo productos.json. Verifique que esté en su repositorio de GitHub.</p>';
+          productos = [ { nombre: "Detergente en Polvo 1kg", precio: 15.00 }, { nombre: "Aceite Vegetal 800ml", precio: 22.50 } ];
+          productosFiltrados = productos; renderizarCatalogo(); actualizarUIResumen();
         });
     });
 
-    function obtenerDiasHabilesMes() {
-      let anio = fechaActual.getFullYear();
-      let mes = fechaActual.getMonth();
-      let totalDias = new Date(anio, mes + 1, 0).getDate();
-      let diasHabiles = 0;
-      for (let d = 1; d <= totalDias; d++) {
-        let diaSem = new Date(anio, mes, d).getDay();
-        if (diaSem !== 0) { diasHabiles++; }
-      }
-      return diasHabiles;
-    }
-
     function renderizarCatalogo() {
       let contenedor = document.getElementById('catalogo');
-      if (!productosFiltrados || !productosFiltrados.length) {
+      if (!productosFiltrados.length) {
         contenedor.innerHTML = '<p style="text-align:center; color:#888; grid-column: 1/-1;">No hay productos.</p>';
         document.getElementById('btn-mas').style.display = 'none'; return;
       }
@@ -309,9 +275,8 @@
     }
 
     function cargarMasProductos() { limiteActual += 40; renderizarCatalogo(); }
-
     function filtrarDebounce() {
-      if (debounceTimer) clearTimeout(debounceTimer);
+      clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         let q = document.getElementById('buscar').value.toLowerCase().trim();
         limiteActual = 40;
@@ -350,85 +315,56 @@
     function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
 
     function abrirModalMetas() {
-      let baseMes = parseFloat(localStorage.getItem(baseVentasKey)) || SALDO_INICIAL_OCTUBRE;
-      let tiquetesGuardados = [];
-      try {
-        tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      } catch(e) { tiquetesGuardados = []; }
-
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_estuardo")) || SALDO_INICIAL_OCTUBRE;
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentasReal = baseMes;
       let totalTq = 0;
       
       tiquetesGuardados.forEach(t => {
-        if (t && t.total && !t.anulado) { 
-          totalVentasReal += parseFloat(t.total); 
-          totalTq += 1; 
-        }
+        if (t.total && !t.anulado) { totalVentasReal += parseFloat(t.total); totalTq += 1; }
       });
 
-      let diasHabilesMes = obtenerDiasHabilesMes();
-      let metaMes = diasHabilesMes * 3000; 
-      let metaTqTotal = diasHabilesMes * 12; 
-      let metaHorasTotal = diasHabilesMes * 7; 
-
-      let faltanteMeta = metaMes - totalVentasReal;
+      let metaMes = 81000, faltanteMeta = metaMes - totalVentasReal;
       if (faltanteMeta < 0) faltanteMeta = 0;
 
-      let diaHoy = fechaActual.getDate();
-      let diasTranscurridos = Math.min(diaHoy, diasHabilesMes);
-      let horasEsperadas = diasTranscurridos * 7;
-      if (horasEsperadas > metaHorasTotal) horasEsperadas = metaHorasTotal;
+      let diaHoy = new Date().getDate();
+      let horasEsperadas = (diaHoy - 1) * (189 / 30);
+      if (horasEsperadas < 0) horasEsperadas = 0;
+      if (horasEsperadas > 189) horasEsperadas = 189;
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-      document.getElementById('meta-ventas-real').innerText = f(totalVentasReal) + " / Q" + metaMes.toLocaleString();
+      document.getElementById('meta-ventas-real').innerText = f(totalVentasReal) + " / Q81k";
       document.getElementById('meta-faltante').innerText = f(faltanteMeta);
-      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / " + metaTqTotal + " Tq";
-      document.getElementById('meta-horas-real').innerText = horasEsperadas.toFixed(1) + " / " + metaHorasTotal + " Hrs";
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
+      document.getElementById('meta-horas-real').innerText = horasEsperadas.toFixed(1) + " / 189 Hrs";
 
       abrirModal('modal-metas');
     }
 
     function abrirModalSueldo() {
       let ventasHoyLocal = 0;
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
-      tiquetesGuardados.forEach(t => { if (t && t.total && !t.anulado) ventasHoyLocal += parseFloat(t.total); });
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) ventasHoyLocal += parseFloat(t.total); });
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoyLocal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       abrirModal('modal-sueldo');
     }
 
     function abrirModalComisiones() {
-      let baseMes = parseFloat(localStorage.getItem(baseVentasKey)) || SALDO_INICIAL_OCTUBRE;
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_estuardo")) || SALDO_INICIAL_OCTUBRE;
       let ventasQ2 = 0;
       let totalVentasMes = baseMes;
-      let totalTqMes = 0;
-      let horasRutaMes = 0;
 
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
-
-      let diasHabilesMes = obtenerDiasHabilesMes();
-      let metaMes = diasHabilesMes * 3000;
-      let metaTqTotal = diasHabilesMes * 12;
-      let metaHorasTotal = diasHabilesMes * 7;
-
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.forEach(t => {
-        if (t && t.total && !t.anulado) {
+        if (t.total && !t.anulado) {
           totalVentasMes += parseFloat(t.total);
-          totalTqMes += 1;
-          horasRutaMes += 7; 
-          let diaT = parseInt(t.fecha.split('/')[0]) || fechaActual.getDate();
-          if (diaT >= 16) {
-            ventasQ2 += parseFloat(t.total);
-          }
+          ventasQ2 += parseFloat(t.total);
         }
       });
 
-      let sueldoBase = 3600;
-      let depreciacionMoto = 500;
-      let cuotaDiaria = 3000;
-      let diaHoy = fechaActual.getDate();
+      let sueldoBase = 3600, metaMes = 81000, cuotaDiaria = 3000;
+      let diaHoy = new Date().getDate();
       let diasTranscurridosQ2 = diaHoy >= 16 ? (diaHoy - 15) : 1;
       let metaQ2Esperada = diasTranscurridosQ2 * cuotaDiaria; 
 
@@ -442,20 +378,15 @@
       }
 
       let comision = totalVentasMes > metaMes ? (totalVentasMes - metaMes) * 0.025 : 0;
-      
-      let cumpleVentasBono = totalVentasMes >= metaMes;
-      let cumpleTiquetesBono = totalTqMes >= metaTqTotal;
-      let cumpleHorasBono = horasRutaMes >= metaHorasTotal;
-      
-      let bono = (cumpleVentasBono && cumpleTiquetesBono && cumpleHorasBono) ? 500 : 0;
+      let bono = totalVentasMes >= metaMes ? 500 : 0;
 
-      let totalNeto = (sueldoBase - descuento) + bono + comision + depreciacionMoto;
+      let totalNeto = (sueldoBase - descuento) + bono + comision;
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-ventas-real').innerText = f(ventasQ2);
       document.getElementById('q2-deficit').innerText = f(deficitQ2);
       document.getElementById('q2-descuento').innerText = f(descuento);
-      document.getElementById('q2-bono').innerText = bono > 0 ? f(bono) : "No aplica (Pilares incompletos)";
+      document.getElementById('q2-bono').innerText = bono > 0 ? f(bono) : "Pendiente";
       document.getElementById('q2-comision').innerText = f(comision);
       document.getElementById('q2-total-neto').innerText = f(totalNeto);
 
@@ -463,11 +394,10 @@
     }
 
     function enviarCorteDiarioWA() {
-      let baseMes = parseFloat(localStorage.getItem(baseVentasKey)) || SALDO_INICIAL_OCTUBRE;
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_estuardo")) || SALDO_INICIAL_OCTUBRE;
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = baseMes;
-      tiquetesGuardados.forEach(t => { if (t && t.total && !t.anulado) totalVentas += parseFloat(t.total); });
+      tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) totalVentas += parseFloat(t.total); });
       let msg = `📊 *REPORTE VENTAS - ESTUARDO*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
     }
@@ -492,11 +422,10 @@
     }
 
     function abrirModalHistorial() {
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let contenedor = document.getElementById('lista-historial-tiquetes');
       if (!tiquetesGuardados.length) {
-        contenedor.innerHTML = '<p style="text-align:center; color:#888;">No hay tiquetes emitidos.</p>';
+        contenedor.innerHTML = '<p style="text-align:center; color:#888;">No hay tiquetes emitidos hoy.</p>';
       } else {
         contenedor.innerHTML = tiquetesGuardados.map((t, index) => `
           <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
@@ -528,12 +457,10 @@
     }
 
     function renderizarListaMes(filtro) {
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let contenedor = document.getElementById('lista-reporte-mes');
 
       let filtrados = tiquetesGuardados.map((t, idx) => ({ t, idx })).filter(({ t, idx }) => {
-        if (!t) return false;
         if (!filtro) return true;
         let matchCliente = t.cliente.toLowerCase().includes(filtro);
         let matchFecha = t.fecha.toLowerCase().includes(filtro);
@@ -564,8 +491,7 @@
     }
 
     function verDetalleTiquete(index) {
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tiquetesGuardados[index];
       
       document.getElementById('det-titulo').innerText = `🧾 TIQUETE #${index + 1} ${t.anulado ? '(ANULADO)' : ''}`;
@@ -597,8 +523,7 @@
 
     function anularTiqueteMes(index) {
       if (confirm("¿Está seguro de anular este tiquete?")) {
-        let tiquetesGuardados = [];
-        try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+        let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
         tiquetesGuardados[index].anulado = true;
         localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
         renderizarListaMes(document.getElementById('input-buscar-mes').value.toLowerCase().trim());
@@ -606,8 +531,7 @@
     }
 
     function editarTiquete(index) {
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tiquetesGuardados[index];
       
       t.anulado = true;
@@ -630,8 +554,7 @@
 
     function anularTiquete(index) {
       if (confirm("¿Está seguro de anular este tiquete por completo?")) {
-        let tiquetesGuardados = [];
-        try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+        let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
         tiquetesGuardados[index].anulado = true;
         localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
         abrirModalHistorial();
@@ -661,8 +584,7 @@
         anulado: false
       };
 
-      let tiquetesGuardados = [];
-      try { tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.push(nuevoTiquete);
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
