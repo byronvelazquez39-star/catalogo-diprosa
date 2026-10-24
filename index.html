@@ -51,8 +51,8 @@
 
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
     .modal-content { background: #1e1e1e; border-radius: 10px; padding: 12px; width: 100%; max-width: 340px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 12px; }
-    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 4px; margin-bottom: 8px; }
-    .ticket-header h3 { margin: 0; font-size: 13px; color: #fff; }
+    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 8px; }
+    .ticket-header h3 { margin: 0; font-size: 12px; color: #fff; line-height: 1.3; }
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 12px; box-sizing: border-box; margin-bottom: 8px; }
     .btn-close { background: #444; color: white; border: none; padding: 7px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 6px; font-size: 12px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
@@ -101,11 +101,15 @@
   <div id="modal-ticket" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3>🧾 TICKET DE COMPRA</h3>
-        <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
-        <p style="font-size: 12px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
+        <h3 style="color:#ff9800; font-size:13px; margin-bottom:2px;">DISTRIBUIDORA DIPROSITRIX</h3>
+        <p style="font-size:10px; color:#ddd; margin:0 0 2px 0;">DIPROSA Distribuidora de Productos</p>
+        <p style="font-size:10px; color:#aaa; margin:0 0 2px 0;">NIT: 112201814 | Tel: 4569 5192</p>
+        <p style="font-size:9px; color:#888; margin:0 0 4px 0; line-height:1.2;">SECTOR 1 0-68 COMUNIDAD DE ZET PROYECTO LOS ENCINOS, SAN JUAN SACATEPÉQUEZ, GUATEMALA</p>
+        <p style="font-size: 11px; color: #34d399; font-weight:bold; margin: 4px 0 2px 0;">📦 Vendedor: ESTUARDO</p>
+        <p style="font-size: 10px; color: #888; margin:0;" id="ticket-fecha"></p>
+        <p style="font-size: 12px; font-weight: bold; color: #27ae60; margin-top:3px;" id="ticket-numero-label"></p>
       </div>
-      <div id="ticket-items" style="max-height: 150px; overflow-y: auto;"></div>
+      <div id="ticket-items" style="max-height: 140px; overflow-y: auto;"></div>
       <div style="margin-top: 8px;">
         <input type="text" id="cliente-receptor" class="client-input" placeholder="Nombre Cliente / Tienda">
       </div>
@@ -213,18 +217,21 @@
 
     localStorage.setItem("ventas_base_mes_estuardo", SALDO_INICIAL_OCTUBRE.toString());
 
-    let tiquetesPrecargados = [];
-    for (let i = 1; i <= 109; i++) {
-      tiquetesPrecargados.push({
-        fecha: "23/10/2026 15:00",
-        cliente: "Cliente Ruta " + i,
-        items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 0.00}],
-        total: 0.00,
-        historico: true,
-        anulado: false
-      });
+    // Inicializar los 109 tiquetes base si no existen en el dispositivo
+    if (!localStorage.getItem(ticketsKey)) {
+      let tiquetesPrecargados = [];
+      for (let i = 1; i <= 109; i++) {
+        tiquetesPrecargados.push({
+          fecha: "23/10/2026 15:00",
+          cliente: "Cliente Ruta " + i,
+          items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 0.00}],
+          total: 0.00,
+          historico: true,
+          anulado: false
+        });
+      }
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
     }
-    localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
@@ -318,7 +325,9 @@
       
       tiquetesGuardados.forEach(t => {
         if (!t.anulado) { 
-          if (t.total > 0) totalVentasReal += parseFloat(t.total); 
+          if (t.total > 0 && !t.historico) {
+            totalVentasReal += parseFloat(t.total);
+          }
           totalTq += 1; 
         }
       });
@@ -422,7 +431,8 @@
       }).join('');
       document.getElementById('ticket-total').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let numT = tiquetesGuardados.length + 1;
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numT).padStart(8, '0');
       abrirModal('modal-ticket');
     }
@@ -584,8 +594,9 @@
     function enviarWhatsAppYLimpiar() {
       let receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese nombre del cliente."); return; }
-      let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
-      localStorage.setItem('correlativo_ticket_estuardo', numT);
+      
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let numT = tiquetesGuardados.length + 1;
 
       let subtotal = 0, itemsArray = [];
       for (let k in carrito) {
@@ -605,7 +616,6 @@
         anulado: false
       };
 
-      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.push(nuevoTiquete);
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
