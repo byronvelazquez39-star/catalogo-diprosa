@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Catálogo DIPROSA - JORGE</title>
+  <link rel="apple-touch-icon" href="logo.jpg">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
   <style>
     :root {
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
@@ -11,6 +13,27 @@
     }
     body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
     
+    /* PANTALLA DE SEGURIDAD PIN */
+    #lock-screen {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: #121212; z-index: 99999; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+    }
+    .lock-card {
+      background: #1e1e1e; border: 1px solid #333; border-radius: 12px;
+      padding: 20px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+    }
+    .lock-logo { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #ff9800; margin-bottom: 12px; }
+    .pin-input {
+      width: 100%; background: #2a2a2a; border: 1px solid #555; color: white;
+      font-size: 20px; text-align: center; padding: 10px; border-radius: 6px;
+      letter-spacing: 8px; margin-bottom: 12px; box-sizing: border-box;
+    }
+    .btn-pin {
+      background-color: #ff9800; color: #121212; border: none; width: 100%;
+      padding: 10px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer;
+    }
+
     .header-bar { 
       position: sticky; top: 0; z-index: 900;
       display: flex; justify-content: space-between; align-items: center; 
@@ -63,6 +86,17 @@
   </style>
 </head>
 <body>
+
+  <!-- PANTALLA DE ACCESO CON PIN Y LOGOTIPO -->
+  <div id="lock-screen">
+    <div class="lock-card">
+      <img src="logo.jpg" alt="DIPROSA" class="lock-logo" onerror="this.src='https://via.placeholder.com/80?text=DIPROSA'">
+      <h3 style="color: #ff9800; margin: 0 0 4px 0; font-size: 14px;">DIPROSA / DIPROSTRIX</h3>
+      <p style="color: #aaa; font-size: 11px; margin: 0 0 15px 0;">Ingrese PIN de Acceso</p>
+      <input type="password" id="pin-code" class="pin-input" maxlength="4" placeholder="••••">
+      <button class="btn-pin" onclick="verificarPin()">INGRESAR</button>
+    </div>
+  </div>
 
   <div class="header-bar">
     <h1>📦 JORGE</h1>
@@ -211,6 +245,41 @@
   </div>
 
   <script>
+    /* SEGURIDAD Y BLOQUEO POR INACTIVIDAD (45 segundos) */
+    const PIN_SECRETO = "1234"; // Puede cambiar este PIN cuando guste
+    let temporizadorInactividad;
+
+    function verificarPin() {
+      let ingreso = document.getElementById('pin-code').value;
+      if (ingreso === PIN_SECRETO) {
+        document.getElementById('lock-screen').style.display = 'none';
+        reiniciarTemporizador();
+      } else {
+        alert("PIN Incorrecto");
+        document.getElementById('pin-code').value = '';
+      }
+    }
+
+    function bloquearApp() {
+      document.getElementById('lock-screen').style.display = 'flex';
+      document.getElementById('pin-code').value = '';
+    }
+
+    function reiniciarTemporizador() {
+      clearTimeout(temporizadorInactividad);
+      // Se bloquea automáticamente tras 45 segundos de inactividad
+      temporizadorInactividad = setTimeout(bloquearApp, 45000);
+    }
+
+    // Detectar movimiento o toque en la pantalla para mantener activo
+    ['click', 'touchstart', 'mousemove', 'keypress'].forEach(evt => {
+      document.addEventListener(evt, () => {
+        if (document.getElementById('lock-screen').style.display === 'none') {
+          reiniciarTemporizador();
+        }
+      }, true);
+    });
+
     const NUMERO_WHATSAPP = "50248502382";
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
@@ -359,59 +428,63 @@
     }
 
     function abrirModalComisiones() {
-      let baseMes = SALDO_INICIAL_JORGE;
-      let ventasQ2Nuevas = 0; 
-      let totalVentasMes = baseMes;
+      try {
+        let baseMes = SALDO_INICIAL_JORGE;
+        let ventasQ2Nuevas = 0; 
+        let totalVentasMes = baseMes;
 
-      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      
-      tiquetesGuardados.forEach(t => {
-        if (t.total && !t.anulado && !t.historico) {
-          totalVentasMes += parseFloat(t.total);
-          ventasQ2Nuevas += parseFloat(t.total);
-        }
-      });
+        let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+        
+        tiquetesGuardados.forEach(t => {
+          if (t && t.total && !t.anulado && !t.historico) {
+            totalVentasMes += parseFloat(t.total);
+            ventasQ2Nuevas += parseFloat(t.total);
+          }
+        });
 
-      let ventasTotalesParaComision = baseMes + ventasQ2Nuevas;
-      let sueldoQuincena = 1800, bonoMoto = 0, metaMes = 81000;
-      
-      let descuento = 0;
-      let bonoMetaAcceso = 0;
-      let comision = 0;
+        let ventasTotalesParaComision = baseMes + ventasQ2Nuevas;
+        let sueldoQuincena = 1800, bonoMoto = 0, metaMes = 81000;
+        
+        let descuento = 0;
+        let bonoMetaAcceso = 0;
+        let comision = 0;
 
-      if (ventasTotalesParaComision >= metaMes) {
-        descuento = 0;
-        bonoMetaAcceso = 500;
-        comision = (ventasTotalesParaComision - metaMes) * 0.025;
-      } else {
-        let faltanteMes = metaMes - ventasTotalesParaComision;
-        if (faltanteMes < 0) faltanteMes = 0;
-        // Faltante real de Jorge (Q9,193.67), por lo que el déficit y descuento son mínimos o cero protegiendo su sueldo
-        if (faltanteMes > 10000) {
-          let proporcionFaltante = (faltanteMes / metaMes);
-          descuento = proporcionFaltante * 500;
-          if (descuento > 1800) descuento = 1800;
+        if (ventasTotalesParaComision >= metaMes) {
+          descuento = 0;
+          bonoMetaAcceso = 500;
+          comision = (ventasTotalesParaComision - metaMes) * 0.025;
         } else {
-          descuento = 0; // Al estar tan cerca de la meta con sus 71k, no hay descuento de sueldo
+          let faltanteMes = metaMes - ventasTotalesParaComision;
+          if (faltanteMes < 0) faltanteMes = 0;
+          if (faltanteMes > 10000) {
+            let proporcionFaltante = (faltanteMes / metaMes);
+            descuento = proporcionFaltante * 500;
+            if (descuento > 1800) descuento = 1800;
+          } else {
+            descuento = 0;
+          }
         }
+
+        let totalRecibirQuincena = (sueldoQuincena + bonoMoto - descuento) + bonoMetaAcceso + comision;
+        if (ventasTotalesParaComision >= metaMes) {
+          totalRecibirQuincena = sueldoQuincena + bonoMoto + bonoMetaAcceso + comision;
+        }
+
+        let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+        document.getElementById('q2-ventas-real').innerText = f(ventasQ2Nuevas);
+        let deficitReal = metaMes - ventasTotalesParaComision;
+        document.getElementById('q2-deficit').innerText = deficitReal < 0 ? "Q 0.00" : f(deficitReal);
+        document.getElementById('q2-descuento').innerText = "- " + f(descuento);
+        document.getElementById('q2-bono-meta').innerText = "+ " + f(bonoMetaAcceso);
+        document.getElementById('q2-comision').innerText = "+ " + f(comision);
+        document.getElementById('q2-total-neto').innerText = f(totalRecibirQuincena);
+
+        abrirModal('modal-comisiones');
+      } catch (e) {
+        console.error("Error al abrir comisiones:", e);
+        alert("Ocurrió un error al cargar el estado diario.");
       }
-
-      let totalRecibirQuincena = (sueldoQuincena + bonoMoto - descuento) + bonoMetaAcceso + comision;
-      if (ventasTotalesParaComision >= metaMes) {
-        totalRecibirQuincena = sueldoQuincena + bonoMoto + bonoMetaAcceso + comision;
-      }
-
-      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-      document.getElementById('q2-ventas-real').innerText = f(ventasQ2Nuevas);
-      let deficitReal = metaMes - ventasTotalesParaComision;
-      document.getElementById('q2-deficit').innerText = deficitReal < 0 ? "Q 0.00" : f(deficitReal);
-      document.getElementById('q2-descuento').innerText = "- " + f(descuento);
-      document.getElementById('q2-bono-meta').innerText = "+ " + f(bonoMetaAcceso);
-      document.getElementById('q2-comision').innerText = "+ " + f(comision);
-      document.getElementById('q2-total-neto').innerText = f(totalRecibirQuincena);
-
-      abrirModal('modal-comisiones');
     }
 
     function enviarCorteDiarioWA() {
