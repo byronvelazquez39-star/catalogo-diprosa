@@ -9,19 +9,17 @@
     .header { text-align: center; margin-bottom: 15px; }
     h1 { color: #ff9800; font-size: 18px; margin: 0; }
     
-    /* Botones de Acceso Rápido a Metas y Sueldos en el Catálogo */
     .menu-rendimiento { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-    .btn-menu { background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 13px; text-align: center; cursor: pointer; }
+    .btn-menu { background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; text-align: center; cursor: pointer; }
     .btn-menu.sueldo { border-color: #27ae60; color: #27ae60; }
     
-    /* Estilos del Catálogo (ejemplo de contenedor) */
     .seccion-catalogo { background: #181818; border: 1px solid #333; border-radius: 10px; padding: 15px; margin-bottom: 20px; }
     .seccion-catalogo h3 { color: #ff9800; margin-top: 0; font-size: 15px; border-bottom: 1px solid #333; padding-bottom: 5px; }
     
-    /* Ventanas Modales (Popups) para Metas y Sueldos */
+    /* Ventanas Modales */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; padding: 15px; box-sizing: border-box; overflow-y: auto; }
     .modal-content { background: #1e1e1e; border: 1px solid #444; border-radius: 10px; padding: 15px; max-width: 500px; margin: 30px auto; position: relative; }
-    .close-btn { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 5px; float: right; font-weight: bold; cursor: pointer; }
+    .close-btn { background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 5px; float: right; font-weight: bold; cursor: pointer; }
     
     .card { background: #252525; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
     .card h2 { color: #38bdf8; font-size: 15px; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 6px; }
@@ -32,7 +30,6 @@
     .alert-red { color: #ef4444 !important; font-weight: bold; }
     .success-green { color: #27ae60 !important; font-weight: bold; }
     
-    .badge { background: #333; padding: 2px 6px; border-radius: 4px; font-size: 11px; }
     .info-box { background: #1a2e26; border-left: 4px solid #27ae60; padding: 8px; font-size: 11px; color: #a7f3d0; margin-top: 8px; border-radius: 4px; }
     .warning-box { background: #2e1a1a; border-left: 4px solid #ef4444; padding: 8px; font-size: 11px; color: #fca5a5; margin-top: 8px; border-radius: 4px; }
     
@@ -46,17 +43,16 @@
     <p style="font-size: 11px; color: #aaa; margin: 3px 0 0 0;">Vendedor: Estuardo</p>
   </div>
 
-  <!-- BOTONES DE ACCESO A METAS Y SUELDOS -->
+  <!-- BOTONES DE ACCESO DIRECTO -->
   <div class="menu-rendimiento">
-    <div class="btn-menu" onclick="abrirModal('modal-metas')">🎯 Ver Mis Metas</div>
-    <div class="btn-menu sueldo" onclick="abrirModal('modal-sueldos')">💰 Ver Mi Sueldo</div>
+    <div class="btn-menu" id="btn-metas">🎯 Ver Mis Metas</div>
+    <div class="btn-menu sueldo" id="btn-sueldo">💰 Ver Mi Sueldo</div>
   </div>
 
-  <!-- CATÁLOGO DE PRODUCTOS (Su catálogo normal sigue aquí intacto) -->
+  <!-- CATÁLOGO DE PRODUCTOS -->
   <div class="seccion-catalogo">
     <h3>🛒 Productos Disponibles en Ruta</h3>
     <p style="font-size: 12px; color: #888;">(Aquí se despliega el listado de productos de su catálogo habitual para generar los pedidos y tiquetes de los clientes).</p>
-    <!-- Los productos de su catálogo se quedan operando con normalidad abajo -->
   </div>
 
   <a href="panel.html" class="btn-panel">⬅️ Ir al Panel de Supervisor</a>
@@ -64,7 +60,7 @@
   <!-- VENTANA MODAL: METAS Y PARALELOS -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
-      <button class="close-btn" onclick="cerrarModal('modal-metas')">X Cerrar</button>
+      <button class="close-btn" id="cerrar-metas">X Cerrar</button>
       <h2 style="color: #ff9800; margin-top:0;">🎯 Control de Metas y Paralelos</h2>
       
       <div class="card">
@@ -92,7 +88,7 @@
   <!-- VENTANA MODAL: SUELDOS Y DESCUENTOS -->
   <div id="modal-sueldos" class="modal">
     <div class="modal-content">
-      <button class="close-btn" onclick="cerrarModal('modal-sueldos')">X Cerrar</button>
+      <button class="close-btn" id="cerrar-sueldos">X Cerrar</button>
       <h2 style="color: #27ae60; margin-top:0;">💰 Cálculo de Sueldo y Descuentos</h2>
       
       <div class="card">
@@ -114,10 +110,28 @@
   </div>
 
   <script>
-    function abrirModal(id) { document.getElementById(id).style.display = 'block'; }
-    function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
+    // Conectar eventos directamente al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+      // Abrir modales
+      document.getElementById('btn-metas').addEventListener('click', function() {
+        document.getElementById('modal-metas').style.display = 'block';
+      });
+      document.getElementById('btn-sueldo').addEventListener('click', function() {
+        document.getElementById('modal-sueldos').style.display = 'block';
+      });
 
-    // Función de cálculo en tiempo real conectada a los tiquetes guardados
+      // Cerrar modales
+      document.getElementById('cerrar-metas').addEventListener('click', function() {
+        document.getElementById('modal-metas').style.display = 'none';
+      });
+      document.getElementById('cerrar-sueldos').addEventListener('click', function() {
+        document.getElementById('modal-sueldos').style.display = 'none';
+      });
+
+      // Ejecutar cálculos en tiempo real
+      calcularRendimientoEstuardo();
+    });
+
     function calcularRendimientoEstuardo() {
       let keyTickets = "diprosa_tickets_estuardo";
       let tiquetes = [];
@@ -200,7 +214,7 @@
 
       if (totalVendido >= metaMensualVentas) {
         document.getElementById('sueldo-bono').innerText = "¡Ganado! (+Q 500)";
-        document.getElementById('sueldo-bonoclassName'] = "value success-green";
+        document.getElementById('sueldo-bono').className = "value success-green";
       } else {
         let faltaBono = metaMensualVentas - totalVendido;
         document.getElementById('sueldo-bono').innerText = `En riesgo (Faltan Q ${faltaBono.toFixed(2)})`;
@@ -210,8 +224,6 @@
       document.getElementById('sueldo-comision').innerText = `Q ${comisionExcedente.toFixed(2)}`;
       document.getElementById('sueldo-liquido').innerText = `Q ${sueldoLiquido.toFixed(2)}`;
     }
-
-    document.addEventListener('DOMContentLoaded', calcularRendimientoEstuardo);
   </script>
 
 </body>
