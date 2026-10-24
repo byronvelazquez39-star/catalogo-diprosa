@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo DIPROSA - JORGE</title>
+  <title>Catálogo DIPROSA - ESTUARDO</title>
   <style>
     :root {
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
@@ -60,7 +60,7 @@
 <body>
 
   <div class="header-bar">
-    <h1>📦 JORGE (VENDEDOR)</h1>
+    <h1>📦 ESTUARDO (VENDEDOR)</h1>
     <div class="btn-group-header">
       <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
       <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
@@ -111,10 +111,10 @@
         <p style="font-size: 11px; color: #888;">Panel de Vendedor - Ruta Activa</p>
       </div>
       <div class="meta-resumen-box">
-        <h4>📦 JORGE - ESTADO DE CUOTAS</h4>
+        <h4>📦 ESTUARDO - ESTADO DE CUOTAS</h4>
         <div class="kpi-row"><span>💰 Ventas Acumuladas Mes:</span><strong>Q <span id="meta-ventas-real">0.00</span> / Q81,000.00</strong></div>
-        <div class="kpi-row"><span>🧾 Tiquetes Emitidos:</span><strong id="meta-tiquetes-real">0 / 220 Tq Meta</strong></div>
-        <div class="kpi-row"><span>⏱️ Horas de Ruta:</span><strong id="meta-horas-real">0 / 135 Hrs Meta</strong></div>
+        <div class="kpi-row"><span>🧾 Tiquetes Emitidos:</span><strong id="meta-tiquetes-real">0 / 324 Tq Meta</strong></div>
+        <div class="kpi-row"><span>⏱️ Horas de Ruta:</span><strong id="meta-horas-real">0 / 189 Hrs Meta</strong></div>
       </div>
       <div style="margin-top: 10px; margin-bottom: 5px; font-weight: bold; font-size: 12px; color: #ff9800;">📝 Registro Histórico:</div>
       <div id="lista-tiquetes" style="max-height: 180px; overflow-y: auto; margin-bottom: 10px;"></div>
@@ -130,8 +130,8 @@
         <h3>💵 Nómina Real en Tiempo Real</h3>
       </div>
       <div class="sueldo-card">
-        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,500.00</strong></div>
-        <div class="sueldo-row" style="color:#25d366;"><span>1ra Quincena (1 al 15):</span><strong>Libre (Q1,750.00)</strong></div>
+        <div class="sueldo-row"><span>Sueldo Base Mensual:</span><strong>Q3,600.00</strong></div>
+        <div class="sueldo-row" style="color:#25d366;"><span>1ra Quincena (1 al 15):</span><strong>Libre (Q1,800.00)</strong></div>
         <div class="sueldo-row" style="background:#1e293b; padding:8px; border-radius:6px; border:1px solid #0284c7; margin-top:6px;">
           <span style="color:#38bdf8; font-weight:bold;">☀️ Ventas de hoy:</span><strong style="color:#38bdf8; font-size:14px;" id="sueldo-dia-hoy">Q 0.00</strong>
         </div>
@@ -142,8 +142,8 @@
 
   <script>
     const NUMERO_WHATSAPP = "50248502382";
-    const storageKey = "carrito_diprosa_jorge";
-    const ticketsKey = "diprosa_tickets_jorge";
+    const storageKey = "carrito_diprosa_estuardo";
+    const ticketsKey = "diprosa_tickets_estuardo";
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
@@ -247,10 +247,9 @@
       });
       
       document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
-      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 220 Tq Meta";
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq Meta";
 
       let contenedorLista = document.getElementById('lista-tiquetes');
-      if (!contenedorLista) contenedorLista = document.getElementById('lista-tiquetes-eleazar');
       if (!contenedorLista) return;
 
       if (tiquetesGuardados.length === 0) {
@@ -304,7 +303,7 @@
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = 0;
       tiquetesGuardados.forEach(t => { if (t.total) totalVentas += parseFloat(t.total); });
-      let msg = `📊 *REPORTE VENTAS - JORGE*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
+      let msg = `📊 *REPORTE VENTAS - ESTUARDO*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
     }
 
@@ -318,7 +317,7 @@
       }).join('');
       document.getElementById('ticket-total').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
-      let numT = (parseInt(localStorage.getItem('correlativo_ticket_jorge')) || 0) + 1;
+      let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numT).padStart(8, '0');
       abrirModal('modal-ticket');
     }
@@ -326,8 +325,8 @@
     function enviarWhatsAppYLimpiar() {
       let receptor = document.getElementById('cliente-receptor').value.trim();
       if (!receptor) { alert("Ingrese el nombre del cliente."); return; }
-      let numT = (parseInt(localStorage.getItem('correlativo_ticket_jorge')) || 0) + 1;
-      localStorage.setItem('correlativo_ticket_jorge', numT);
+      let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
+      localStorage.setItem('correlativo_ticket_estuardo', numT);
 
       let subtotal = 0, itemsArray = [];
       for (let k in carrito) {
@@ -349,7 +348,7 @@
       tiquetesGuardados.push(nuevoTiquete);
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
-      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* JORGE\n*Tiquete # ${String(numT).padStart(8,'0')}* (${horaActual})\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* ESTUARDO\n*Tiquete # ${String(numT).padStart(8,'0')}* (${horaActual})\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
       itemsArray.forEach(i => {
         msg += `${i.nombre} (x${i.cantidad}) = Q${(i.precio * i.cantidad).toFixed(2)}\n`;
       });
