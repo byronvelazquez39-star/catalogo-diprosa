@@ -237,8 +237,24 @@
       localStorage.setItem(ticketsKey, JSON.stringify([]));
     }
 
-    let productos = [];
-    let productosFiltrados = [];
+    // Catálogo integrado directo en el código para garantizar apertura inmediata
+    let productos = [
+      { nombre: "Arroz Gallo Dorado 25 lbs", precio: 184.00 },
+      { nombre: "Detergente 270 grs (fardo)", precio: 69.00 },
+      { nombre: "Panqueques caja grande", precio: 13.50 },
+      { nombre: "Tajín de 24 unidades", precio: 27.00 },
+      { nombre: "Almohadita fardo 4 onzas", precio: 110.00 },
+      { nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50 },
+      { nombre: "(CARNAVAL) en lata SODA", precio: 3.50 },
+      { nombre: "(Salvavidas) en lata", precio: 4.00 },
+      { nombre: "Azúcar Sello Blanco 50 lbs", precio: 210.00 },
+      { nombre: "Aceite Mazola 800ml", precio: 22.00 },
+      { nombre: "Frijol Negro fardo 20 lbs", precio: 150.00 },
+      { nombre: "Pasta Incaparina caja 400g", precio: 15.00 },
+      { nombre: "Salsa de Tomate Del Fuerte sachet", precio: 32.00 }
+    ];
+    
+    let productosFiltrados = productos;
     let limiteActual = 40;
     let carrito = {};
     let debounceTimer = null;
@@ -246,27 +262,8 @@
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     document.addEventListener('DOMContentLoaded', () => {
-      fetch('productos.json?v=' + new Date().getTime())
-        .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
-        .then(data => {
-          productos = data; 
-          productosFiltrados = data;
-          renderizarCatalogo(); 
-          actualizarUIResumen();
-        })
-        .catch(() => {
-          // Respaldo automático de emergencia por si productos.json no carga en GitHub Pages
-          productos = [
-            { nombre: "Arroz Gallo Dorado 25 lbs", precio: 184.00 },
-            { nombre: "Detergente 270 grs (fardo)", precio: 69.00 },
-            { nombre: "Panqueques caja grande", precio: 13.50 },
-            { nombre: "Tajín de 24 unidades", precio: 27.00 },
-            { nombre: "Almohadita fardo 4 onzas", precio: 110.00 }
-          ];
-          productosFiltrados = productos;
-          renderizarCatalogo();
-          actualizarUIResumen();
-        });
+      renderizarCatalogo(); 
+      actualizarUIResumen();
     });
 
     function obtenerDiasHabilesMes() {
@@ -605,7 +602,7 @@
       if (!t.anulado) {
         contenedorAcciones.innerHTML = `
           <button onclick="editarTiquete(${index}); cerrarModal('modal-detalle-tiquete');" style="background:#0284c7; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">✏️ Editar / Modificar</button>
-          <button onclick="anularTiqueteMes(${index}); cerrarModal('modal-detalle-tique');" style="background:#e74c3c; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">❌ Anular Tiquete</button>
+          <button onclick="anularTiqueteMes(${index}); cerrarModal('modal-detalle-tiquete');" style="background:#e74c3c; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">❌ Anular Tiquete</button>
         `;
       } else {
         contenedorAcciones.innerHTML = `<p style="color:#e74c3c; text-align:center; margin:0; width:100%; font-weight:bold;">ESTE TIQUETE FUE ANULADO</p>`;
