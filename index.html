@@ -185,7 +185,7 @@
       </div>
       <div class="compact-box">
         <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
-        <div class="compact-row" style="color:#25d366;"><span>1ra Quincena (1-15):</span><strong>Q 1,800.00 (Libre)</strong></div>
+        <div class="compact-row" style="color:#25d366;"><span>1ra Quincena (1-15):</span><strong>Q 1,800.00 (Liquidado)</strong></div>
         <div class="compact-row" style="color:#38bdf8; margin-bottom:0; border:none;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar</button>
@@ -195,15 +195,17 @@
   <div id="modal-comisiones" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3>📈 ESTADO DIARIO - 16+</h3>
+        <h3>📈 ESTADO DIARIO - 2DA QUINCENA</h3>
       </div>
       <div class="compact-box">
+        <div class="compact-row"><span>Base 2da Quincena:</span><strong>Q 1,800.00</strong></div>
+        <div class="compact-row"><span>Bono Moto:</span><strong style="color:#25d366;">+ Q 500.00</strong></div>
         <div class="compact-row"><span>Ventas Q2 (16+):</span><strong style="color:#38bdf8;" id="q2-ventas-real">Q 0.00</strong></div>
         <div class="compact-row"><span>Déficit / Faltante:</span><strong id="q2-deficit" style="color:#ef4444;">Q 0.00</strong></div>
-        <div class="compact-row"><span>Descuento Aplicado:</span><strong id="q2-descuento" style="color:#ef4444;">Q 0.00</strong></div>
-        <div class="compact-row"><span>Bono Q500:</span><strong id="q2-bono" style="color:#eab308;">Pendiente</strong></div>
-        <div class="compact-row"><span>Comisión 2.5%:</span><strong id="q2-comision" style="color:#27ae60;">Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;"><span>TOTAL ESTIMADO:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 3,600.00</strong></div>
+        <div class="compact-row"><span>Descuento Aplicado:</span><strong id="q2-descuento" style="color:#ef4444;">- Q 0.00</strong></div>
+        <div class="compact-row"><span>Bono Meta Q500:</span><strong id="q2-bono-meta" style="color:#27ae60;">+ Q 0.00</strong></div>
+        <div class="compact-row"><span>Comisión 2.5%:</span><strong id="q2-comision" style="color:#27ae60;">+ Q 0.00</strong></div>
+        <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;"><span>A RECIBIR (2DA Q.):</span><strong id="q2-total-neto" style="color:#27ae60;">Q 2,300.00</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-comisiones')">Cerrar</button>
     </div>
@@ -217,7 +219,6 @@
 
     localStorage.setItem("ventas_base_mes_estuardo", SALDO_INICIAL_OCTUBRE.toString());
 
-    // Inicializar los 109 tiquetes base si no existen en el dispositivo
     if (!localStorage.getItem(ticketsKey)) {
       let tiquetesPrecargados = [];
       for (let i = 1; i <= 109; i++) {
@@ -378,7 +379,7 @@
       ventasQ2 += proporcionBaseQ2;
       totalVentasMes = baseMes + (ventasQ2 - proporcionBaseQ2);
 
-      let sueldoBase = 3600, metaMes = 81000, cuotaDiaria = 3000;
+      let sueldoQuincena = 1800, bonoMoto = 500, metaMes = 81000, cuotaDiaria = 3000;
       let diaHoy = new Date().getDate();
       let diasTranscurridosQ2 = diaHoy >= 16 ? (diaHoy - 15) : 1;
       let metaQ2Esperada = diasTranscurridosQ2 * cuotaDiaria; 
@@ -387,23 +388,31 @@
       if (deficitQ2 < 0) deficitQ2 = 0;
 
       let descuento = 0;
-      if (diaHoy >= 16 && deficitQ2 > 0) {
-        descuento = (deficitQ2 / metaQ2Esperada) * 1800;
-        if (descuento > 1800) descuento = 1800; 
+      let bonoMetaAcceso = 0;
+      let comision = 0;
+
+      // Evaluación si supera la meta completa del mes
+      if (totalVentasMes >= metaMes) {
+        descuento = 0;
+        bonoMetaAcceso = 500;
+        comision = (totalVentasMes - metaMes) * 0.025;
+      } else {
+        if (diaHoy >= 16 && deficitQ2 > 0) {
+          descuento = (deficitQ2 / metaQ2Esperada) * 1800;
+          if (descuento > 1800) descuento = 1800; 
+        }
       }
 
-      let comision = totalVentasMes > metaMes ? (totalVentasMes - metaMes) * 0.025 : 0;
-      let bono = totalVentasMes >= metaMes ? 500 : 0;
-
-      let totalNeto = (sueldoBase - descuento) + bono + comision;
+      // Cálculo exacto a recibir en 2da quincena
+      let totalRecibirQuincena = (sueldoQuincena + bonoMoto - descuento) + bonoMetaAcceso + comision;
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-ventas-real').innerText = f(ventasQ2);
       document.getElementById('q2-deficit').innerText = f(deficitQ2);
-      document.getElementById('q2-descuento').innerText = f(descuento);
-      document.getElementById('q2-bono').innerText = bono > 0 ? f(bono) : "Pendiente";
-      document.getElementById('q2-comision').innerText = f(comision);
-      document.getElementById('q2-total-neto').innerText = f(totalNeto);
+      document.getElementById('q2-descuento').innerText = "- " + f(descuento);
+      document.getElementById('q2-bono-meta').innerText = "+ " + f(bonoMetaAcceso);
+      document.getElementById('q2-comision').innerText = "+ " + f(comision);
+      document.getElementById('q2-total-neto').innerText = f(totalRecibirQuincena);
 
       abrirModal('modal-comisiones');
     }
@@ -491,7 +500,7 @@
 
       contenedor.innerHTML = filtrados.reverse().map(({ t, idx }) => `
         <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
-          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${t.anulado ? '#e74c3c' : '#34d399'};">
+          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${idx + 1 <= 109 ? '#ff9800' : (t.anulado ? '#e74c3c' : '#34d399')};">
             <span>Tiquete #${idx + 1} - ${t.cliente}</span>
             <span>Q${t.total.toFixed(2)}</span>
           </div>
