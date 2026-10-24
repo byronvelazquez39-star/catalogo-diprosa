@@ -107,8 +107,8 @@
         <h3>📊 METAS - ESTUARDO</h3>
       </div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;">Q <span id="meta-ventas-real">0.00</span> / Q81k</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 39,706.03 / Q81k</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">123 / 324 Tq</strong></div>
         <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real">0 / 189 Hrs</strong></div>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a don Byron</button>
@@ -125,7 +125,7 @@
       <div class="compact-box">
         <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
         <div class="compact-row" style="color:#25d366;"><span>1ra Quincena (1-15):</span><strong>Q 1,800.00 (Libre)</strong></div>
-        <div class="compact-row" style="color:#38bdf8; margin-bottom:0; border:none;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
+        <div class="compact-row" style="color:#38bdf8; margin-bottom:0; border:none;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 1,967.54</strong></div>
       </div>
       <button class="btn-close" onclick="cerrarModal('modal-sueldo')">Cerrar</button>
     </div>
@@ -239,11 +239,11 @@
     function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
     function cerrarModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    function abrirModalMetas() { actualizarVistaMetas(); abrirModal('modal-metas'); }
-    
-    function actualizarVistaMetas() {
+    function abrirModalMetas() {
+      let baseMesReporte = 39706.03;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentasReal = 0, totalTq = 0;
+      let totalVentasReal = baseMesReporte;
+      let totalTq = 123; // 123 tiquetes oficiales del reporte
       
       tiquetesGuardados.forEach(t => {
         if (t.total) { 
@@ -252,24 +252,28 @@
         }
       });
       
-      document.getElementById('meta-ventas-real').innerText = totalVentasReal.toFixed(2);
+      document.getElementById('meta-ventas-real').innerText = "Q " + totalVentasReal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " / Q81k";
       document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
+      abrirModal('modal-metas');
     }
 
     function abrirModalSueldo() {
+      let ventasHoyBase = 1967.54; // Ventas oficiales de hoy según reporte
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let ventasHoy = 0;
-      tiquetesGuardados.forEach(t => { if (t.total) ventasHoy += parseFloat(t.total); });
-      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2);
+      let ventasHoyLocal = 0;
+      tiquetesGuardados.forEach(t => { if (t.total) ventasHoyLocal += parseFloat(t.total); });
+      
+      let ventasHoyTotal = ventasHoyBase + ventasHoyLocal;
+      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoyTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       abrirModal('modal-sueldo');
     }
 
     /* CÁLCULO EN TIEMPO REAL 16+ (CUOTA Q3,000/DÍA Y COMAS) */
     function abrirModalComisiones() {
-      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasQ2 = 7190.04;
       let totalVentasMes = 39706.03;
 
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.forEach(t => {
         if (t.total) {
           totalVentasMes += parseFloat(t.total);
@@ -312,8 +316,9 @@
     }
 
     function enviarCorteDiarioWA() {
+      let baseMesReporte = 39706.03;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentas = 0;
+      let totalVentas = baseMesReporte;
       tiquetesGuardados.forEach(t => { if (t.total) totalVentas += parseFloat(t.total); });
       let msg = `📊 *REPORTE VENTAS - ESTUARDO*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
