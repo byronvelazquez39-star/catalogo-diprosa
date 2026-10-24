@@ -5,32 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo y Rendimiento - DIPROSA</title>
   <style>
+    /* Estilos base para la pantalla oscura */
     body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 15px; box-sizing: border-box; }
     .header { text-align: center; margin-bottom: 15px; }
     h1 { color: #ff9800; font-size: 18px; margin: 0; }
     
-    /* Botones de Rendimiento */
+    /* 1. Botones Principales de Rendimiento */
     .menu-rendimiento { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
     .btn-menu { background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; text-align: center; cursor: pointer; }
     .btn-menu.sueldo { border-color: #27ae60; color: #27ae60; }
     
-    /* Buscador del Catálogo */
+    /* 2. Buscador del Catálogo */
     .search-box { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #1e1e1e; color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
     
-    /* Listado de Productos */
+    /* 3. Tarjetas de Productos */
     .productos-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px; }
     .producto-card { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
     .producto-info h4 { margin: 0 0 5px 0; font-size: 14px; color: #fff; }
     .producto-info p { margin: 0; font-size: 12px; color: #38bdf8; font-weight: bold; }
     .btn-agregar { background: #ff9800; color: #121212; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
 
-    /* Ventanas Modales (Popups) */
+    /* 4. Ventanas Emergentes (Modales) */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; padding: 15px; box-sizing: border-box; overflow-y: auto; }
     .modal-content { background: #1e1e1e; border: 1px solid #444; border-radius: 10px; padding: 15px; max-width: 500px; margin: 30px auto; position: relative; }
-    .close-btn { background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 5px; float: right; font-weight: bold; cursor: pointer; }
+    .close-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; float: right; font-weight: bold; cursor: pointer; }
     
-    .card { background: #252525; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-    .card h2 { color: #38bdf8; font-size: 15px; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 6px; }
+    .card-info { background: #252525; border: 1px solid #333; border-radius: 8px; padding: 10px; margin-bottom: 10px; }
+    .card-info h3 { color: #38bdf8; font-size: 14px; margin: 0 0 8px 0; border-bottom: 1px solid #333; padding-bottom: 4px; }
     
     .row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
     .label { color: #aaa; }
@@ -39,83 +40,83 @@
     .success-green { color: #27ae60 !important; font-weight: bold; }
     
     .info-box { background: #1a2e26; border-left: 4px solid #27ae60; padding: 8px; font-size: 11px; color: #a7f3d0; margin-top: 8px; border-radius: 4px; }
-    
     .btn-panel { display: block; width: 100%; background: #333; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; text-decoration: none; margin-top: 15px; font-size: 13px; box-sizing: border-box; }
   </style>
 </head>
 <body>
 
+  <!-- ENCABEZADO -->
   <div class="header">
     <h1>📦 CATÁLOGO DIPROSA</h1>
     <p style="font-size: 11px; color: #aaa; margin: 3px 0 0 0;">Vendedor: Estuardo</p>
   </div>
 
-  <!-- BOTONES DE ACCESO A RENDIMIENTO -->
+  <!-- BOTONES DE ACCESO A METAS Y SUELDOS -->
   <div class="menu-rendimiento">
-    <div class="btn-menu" id="btn-metas">🎯 Ver Mis Metas</div>
-    <div class="btn-menu sueldo" id="btn-sueldo">💰 Ver Mi Sueldo</div>
+    <div class="btn-menu" onclick="abrirModal('modal-metas')">🎯 Ver Mis Metas</div>
+    <div class="btn-menu sueldo" onclick="abrirModal('modal-sueldos')">💰 Ver Mi Sueldo</div>
   </div>
 
-  <!-- BUSCADOR DE PRODUCTOS -->
-  <input type="text" class="search-box" placeholder="🔍 Buscar productos en el catálogo..." id="buscador" onkeyup="filtrarProductos()">
+  <!-- BUSCADOR EN TIEMPO REAL -->
+  <input type="text" class="search-box" placeholder="🔍 Buscar productos..." id="buscador" onkeyup="filtrarProductos()">
 
-  <!-- CATÁLOGO DE PRODUCTOS (LISTADO) -->
+  <!-- LISTADO DE PRODUCTOS DEL CATÁLOGO -->
   <div class="productos-grid" id="lista-productos">
-    <div class="producto-card" data-nombre="producto ejemplo 1">
+    <div class="producto-card" data-nombre="producto de prueba 1">
       <div class="producto-info">
-        <h4>Producto de Ejemplo 1</h4>
-        <p>Q 150.00</p>
+        <h4>Producto de Prueba 1</h4>
+        <p>Q 100.00</p>
       </div>
-      <button class="btn-agregar" onclick="agregarAlCarrito('Producto de Ejemplo 1', 150)">Agregar</button>
+      <button class="btn-agregar" onclick="alert('Producto seleccionado')">Agregar</button>
     </div>
-    <div class="producto-card" data-nombre="producto ejemplo 2">
+    <div class="producto-card" data-nombre="producto de prueba 2">
       <div class="producto-info">
-        <h4>Producto de Ejemplo 2</h4>
-        <p>Q 300.00</p>
+        <h4>Producto de Prueba 2</h4>
+        <p>Q 250.00</p>
       </div>
-      <button class="btn-agregar" onclick="agregarAlCarrito('Producto de Ejemplo 2', 300)">Agregar</button>
+      <button class="btn-agregar" onclick="alert('Producto seleccionado')">Agregar</button>
     </div>
   </div>
 
   <a href="panel.html" class="btn-panel">⬅️ Ir al Panel de Supervisor</a>
 
-  <!-- VENTANA MODAL: METAS Y PARALELOS -->
+  <!-- VENTANA EMERGENTE: METAS Y PARALELOS -->
   <div id="modal-metas" class="modal">
     <div class="modal-content">
-      <button class="close-btn" id="cerrar-metas">X Cerrar</button>
-      <h2 style="color: #ff9800; margin-top:0;">🎯 Control de Metas y Paralelos</h2>
+      <button class="close-btn" onclick="cerrarModal('modal-metas')">X Cerrar</button>
+      <h2 style="color: #ff9800; margin-top:0; font-size: 16px;">🎯 Control de Metas y Paralelos</h2>
       
-      <div class="card">
-        <h2>📊 Ventas</h2>
+      <div class="card-info">
+        <h3>📊 Ventas</h3>
         <div class="row"><span class="label">Meta Mensual Fija:</span><span class="value">Q 81,000.00</span></div>
-        <div class="row"><span class="label">Ventas Acumuladas:</span><span class="value success-green" id="meta-ventas-real">Q 0.00</span></div>
-        <div class="row"><span class="label">Déficit Actual:</span><span class="value alert-red" id="meta-ventas-deficit">Pendiente de reporte inicial</span></div>
+        <div class="row"><span class="label">Ventas Acumuladas:</span><span class="value success-green" id="meta-v-real">Q 0.00</span></div>
+        <div class="row"><span class="label">Déficit Actual:</span><span class="value alert-red" id="meta-v-def">Pendiente de reporte inicial</span></div>
       </div>
 
-      <div class="card">
-        <h2>🧾 Tiquetes (12 diarios)</h2>
+      <div class="card-info">
+        <h3>🧾 Tiquetes (12/día)</h3>
         <div class="row"><span class="label">Meta Total del Mes:</span><span class="value">324 tiquetes</span></div>
-        <div class="row"><span class="label">Emitidos a la fecha:</span><span class="value" id="meta-tiquetes-real">0</span></div>
-        <div class="row"><span class="label">Déficit Tiquetes:</span><span class="value alert-red" id="meta-tiquetes-deficit">0</span></div>
+        <div class="row"><span class="label">Emitidos a la fecha:</span><span class="value" id="meta-t-real">0</span></div>
+        <div class="row"><span class="label">Déficit Tiquetes:</span><span class="value alert-red" id="meta-t-def">324</span></div>
       </div>
 
-      <div class="card">
-        <h2>⏱️ Horas (7h / L-S)</h2>
+      <div class="card-info">
+        <h3>⏱️ Horas (7h / L-S)</h3>
         <div class="row"><span class="label">Meta Total del Mes:</span><span class="value">189 horas</span></div>
-        <div class="row"><span class="label">Horas Registradas:</span><span class="value" id="meta-horas-real">0 h</span></div>
-        <div class="row"><span class="label">Déficit Horas:</span><span class="value alert-red" id="meta-horas-deficit">0 h</span></div>
+        <div class="row"><span class="label">Horas Registradas:</span><span class="value" id="meta-h-real">0 h</span></div>
+        <div class="row"><span class="label">Déficit Horas:</span><span class="value alert-red" id="meta-h-def">189 h</span></div>
       </div>
     </div>
   </div>
 
-  <!-- VENTANA MODAL: SUELDOS Y DESCUENTOS -->
+  <!-- VENTANA EMERGENTE: SUELDOS Y DESCUENTOS -->
   <div id="modal-sueldos" class="modal">
     <div class="modal-content">
-      <button class="close-btn" id="cerrar-sueldos">X Cerrar</button>
-      <h2 style="color: #27ae60; margin-top:0;">💰 Cálculo de Sueldo y Descuentos</h2>
+      <button class="close-btn" onclick="cerrarModal('modal-sueldos')">X Cerrar</button>
+      <h2 style="color: #27ae60; margin-top:0; font-size: 16px;">💰 Cálculo de Sueldo y Descuentos</h2>
       
-      <div class="card">
-        <h2>💵 Desglose Financiero</h2>
+      <div class="card-info">
+        <h3>💵 Desglose Financiero</h3>
         <div class="row"><span class="label">Sueldo Base:</span><span class="value">Q 3,600.00</span></div>
         <div class="row"><span class="label">Regla Quincenal:</span><span class="value" style="color: #38bdf8;" id="txt-quincena-estado">1ra Quincena (Libre)</span></div>
         <div class="row"><span class="label">Descuento Acumulado:</span><span class="value alert-red" id="sueldo-descuento">Q 0.00</span></div>
@@ -125,34 +126,25 @@
         <hr style="border:0; border-top:1px solid #444; margin:8px 0;">
         <div class="row" style="font-size: 15px;"><span class="label" style="color:#fff; font-weight:bold;">Sueldo Líquido:</span><span class="value success-green" id="sueldo-liquido" style="font-size: 16px;">Q 3,600.00</span></div>
         
-        <div id="aviso-quincena" class="info-box">
+        <div class="info-box">
           ℹ️ Del 1 al 15 el sueldo base se paga completo sin descuentos. A partir del 16 el descuento se calcula netamente en base a las ventas reales ingresadas.
         </div>
       </div>
     </div>
   </div>
 
+  <!-- SCRIPT DE FUNCIONAMIENTO SEGURO -->
   <script>
-    // Control de Apertura y Cierre de Modales
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('btn-metas').addEventListener('click', function() {
-        document.getElementById('modal-metas').style.display = 'block';
-      });
-      document.getElementById('btn-sueldo').addEventListener('click', function() {
-        document.getElementById('modal-sueldos').style.display = 'block';
-      });
+    // Funciones simples para abrir y cerrar cuadros
+    function abrirModal(id) {
+      document.getElementById(id).style.display = 'block';
+    }
+    
+    function cerrarModal(id) {
+      document.getElementById(id).style.display = 'none';
+    }
 
-      document.getElementById('cerrar-metas').addEventListener('click', function() {
-        document.getElementById('modal-metas').style.display = 'none';
-      });
-      document.getElementById('cerrar-sueldos').addEventListener('click', function() {
-        document.getElementById('modal-sueldos').style.display = 'none';
-      });
-
-      calcularRendimientoEstuardo();
-    });
-
-    // Buscador del Catálogo
+    // Buscador interactivo
     function filtrarProductos() {
       let filtro = document.getElementById('buscador').value.toLowerCase();
       let tarjetas = document.querySelectorAll('.producto-card');
@@ -166,84 +158,26 @@
       });
     }
 
-    // Simulación de tiquetes para el carrito
-    function agregarAlCarrito(nombre, precio) {
-      alert(`Producto agregado: ${nombre} - Q ${precio}`);
-      // Aquí se conecta con su lógica de tiquetes actual
-    }
-
-    // Cálculo dinámico de Rendimiento y Sueldos
-    function calcularRendimientoEstuardo() {
-      let keyTickets = "diprosa_tickets_estuardo";
+    // Cálculo inicial automático
+    document.addEventListener('DOMContentLoaded', function() {
       let tiquetes = [];
       try {
-        tiquetes = JSON.parse(localStorage.getItem(keyTickets)) || [];
+        tiquetes = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || [];
       } catch(e) {
         tiquetes = [];
       }
-
-      let totalVendido = 0;
-      let cantidadTiquetes = tiquetes.length;
       
+      let totalVendido = 0;
       tiquetes.forEach(t => {
         if (t.total) totalVendido += parseFloat(t.total);
       });
-
-      const metaMensualVentas = 81000;
-      const metaTotalTiquetes = 324; // 12 x 27 días
-      const metaTotalHoras = 189;    // 7 x 27 días
       
-      let deficitVentas = metaMensualVentas - totalVendido;
-      if (deficitVentas < 0) deficitVentas = 0;
-
-      let deficitTiquetes = metaTotalTiquetes - cantidadTiquetes;
-      if (deficitTiquetes < 0) deficitTiquetes = 0;
-
-      let horasTrabajadas = 0; 
-      let deficitHoras = metaTotalHoras - horasTrabajadas;
-
-      // Actualizar Metas
-      document.getElementById('meta-ventas-real').innerText = `Q ${totalVendido.toFixed(2)}`;
-      document.getElementById('meta-ventas-deficit').innerText = totalVendido > 0 ? `Q ${deficitVentas.toFixed(2)} faltantes` : "Pendiente de reporte inicial";
+      let emitidos = tiquetes.length;
       
-      document.getElementById('meta-tiquetes-real').innerText = cantidadTiquetes;
-      document.getElementById('meta-tiquetes-deficit').innerText = deficitTiquetes;
-      
-      document.getElementById('meta-horas-real').innerText = `${horasTrabajadas} h`;
-      document.getElementById('meta-horas-deficit').innerText = `${deficitHoras} h`;
-
-      // Actualizar Sueldos
-      let sueldoBase = 3600;
-      let descuentoSueldo = 0;
-      let hoy = new Date();
-      let diaMes = hoy.getDate();
-
-      if (diaMes >= 16 && totalVendido > 0) {
-        document.getElementById('txt-quincena-estado').innerText = "2da Quincena (Día 16+)";
-      } else {
-        document.getElementById('txt-quincena-estado').innerText = diaMes < 16 ? "1ra Quincena (Libre)" : "2da Quincena (A la espera de reportes)";
-      }
-
-      let comisionExcedente = 0;
-      if (totalVendido > metaMensualVentas) {
-        comisionExcedente = (totalVendido - metaMensualVentas) * 0.025;
-      }
-
-      let sueldoLiquido = sueldoBase - descuentoSueldo + comisionExcedente;
-
-      document.getElementById('sueldo-descuento').innerText = `Q ${descuentoSueldo.toFixed(2)}`;
-      
-      if (totalVendido >= metaMensualVentas) {
-        document.getElementById('sueldo-bono').innerText = "¡Ganado! (+Q 500)";
-        document.getElementById('sueldo-bono'].className = "value success-green";
-      } else {
-        document.getElementById('sueldo-bono').innerText = "Pendiente de ventas";
-        document.getElementById('sueldo-bono').className = "value";
-      }
-
-      document.getElementById('sueldo-comision').innerText = `Q ${comisionExcedente.toFixed(2)}`;
-      document.getElementById('sueldo-liquido').innerText = `Q ${sueldoLiquido.toFixed(2)}`;
-    }
+      document.getElementById('meta-v-real').innerText = "Q " + totalVendido.toFixed(2);
+      document.getElementById('meta-t-real').innerText = emitidos;
+      document.getElementById('meta-t-def').innerText = 324 - emitidos;
+    });
   </script>
 
 </body>
