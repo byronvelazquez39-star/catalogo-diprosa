@@ -211,7 +211,7 @@
     const ticketsKey = "diprosa_tickets_estuardo";
     const SALDO_INICIAL_OCTUBRE = 39706.03;
 
-    // FORZAR SALDO BASE Y LOS 109 TIQUETES OBLIGATORIAMENTE AL ARRANCAR
+    // FORZAR SALDO BASE Y LOS 109 TIQUETES (CON TOTAL Q0.00 PARA MANTENER LA BASE LIMPIA)
     localStorage.setItem("ventas_base_mes_estuardo", SALDO_INICIAL_OCTUBRE.toString());
 
     let tiquetesPrecargados = [];
@@ -219,8 +219,8 @@
       tiquetesPrecargados.push({
         fecha: "23/10/2026 15:00",
         cliente: "Cliente Ruta " + i,
-        items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 100.00}],
-        total: 100.00,
+        items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 0.00}],
+        total: 0.00,
         anulado: false
       });
     }
