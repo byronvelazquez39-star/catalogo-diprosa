@@ -52,6 +52,7 @@
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
     .btn-corte-diario { background-color: #059669; color: white; border: none; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; width: 100%; margin-top: 6px; }
+    .btn-historial { background-color: #374151; color: white; border: none; padding: 6px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; width: 100%; margin-top: 6px; }
   </style>
 </head>
 <body>
@@ -75,7 +76,9 @@
       <div>🛒 <span id="cant-items">0</span> ítems</div>
       <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
     </div>
-    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Ticket</button>
+    <div style="display: flex; gap: 5px;">
+      <button class="btn-wa" onclick="abrirTicket()" style="padding: 8px 10px; font-size: 12px;">📋 Ver</button>
+    </div>
   </div>
 
   <!-- MODAL TICKET -->
@@ -86,7 +89,7 @@
         <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
         <p style="font-size: 12px; font-weight: bold; color: #27ae60;" id="ticket-numero-label"></p>
       </div>
-      <div id="ticket-items"></div>
+      <div id="ticket-items" style="max-height: 150px; overflow-y: auto;"></div>
       <div style="margin-top: 8px;">
         <input type="text" id="cliente-receptor" class="client-input" placeholder="Nombre Cliente / Tienda">
       </div>
@@ -96,7 +99,19 @@
         </div>
       </div>
       <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido</button>
+      <button class="btn-historial" onclick="abrirModalHistorial()">📂 Ver / Editar / Anular Tiquetes</button>
       <button class="btn-close" onclick="cerrarModal('modal-ticket')">Seguir Comprando</button>
+    </div>
+  </div>
+
+  <!-- MODAL HISTORIAL / EDITAR / ANULAR -->
+  <div id="modal-historial" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3>📂 TIQUETES EMITIDOS HOY</h3>
+      </div>
+      <div id="lista-historial-tiquetes" style="max-height: 200px; overflow-y: auto;"></div>
+      <button class="btn-close" onclick="cerrarModal('modal-historial')">Regresar</button>
     </div>
   </div>
 
@@ -228,6 +243,14 @@
       renderizarCatalogo();
     }
 
+    function eliminarItemCarrito(key) {
+      delete carrito[key];
+      localStorage.setItem(storageKey, JSON.stringify(carrito));
+      actualizarUIResumen();
+      renderizarCatalogo();
+      abrirTicket();
+    }
+
     function actualizarUIResumen() {
       let totalCant = 0, totalMonto = 0;
       for (let k in carrito) {
@@ -248,7 +271,7 @@
       let totalTq = 123;
       
       tiquetesGuardados.forEach(t => {
-        if (t.total) { 
+        if (t.total && !t.anulado) { 
           totalVentasReal += parseFloat(t.total); 
           totalTq += 1; 
         }
@@ -277,21 +300,20 @@
       let ventasHoyBase = 1967.54;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasHoyLocal = 0;
-      tiquetesGuardados.forEach(t => { if (t.total) ventasHoyLocal += parseFloat(t.total); });
+      tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) ventasHoyLocal += parseFloat(t.total); });
       
       let ventasHoyTotal = ventasHoyBase + ventasHoyLocal;
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoyTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       abrirModal('modal-sueldo');
     }
 
-    /* CÁLCULO EN TIEMPO REAL 16+ (CUOTA Q3,000/DÍA Y COMAS) */
     function abrirModalComisiones() {
       let ventasQ2 = 7190.04;
       let totalVentasMes = 39706.03;
 
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.forEach(t => {
-        if (t.total) {
+        if (t.total && !t.anulado) {
           totalVentasMes += parseFloat(t.total);
           ventasQ2 += parseFloat(t.total);
         }
@@ -335,7 +357,7 @@
       let baseMesReporte = 39706.03;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = baseMesReporte;
-      tiquetesGuardados.forEach(t => { if (t.total) totalVentas += parseFloat(t.total); });
+      tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) totalVentas += parseFloat(t.total); });
       let msg = `📊 *REPORTE VENTAS - ESTUARDO*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
     }
@@ -346,13 +368,76 @@
       contenedor.innerHTML = Object.keys(carrito).map(k => {
         let item = carrito[k], sub = item.cantidad * item.precio;
         subtotal += sub;
-        return `<div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:3px;"><span>${item.nombre} (x${item.cantidad})</span><span>Q${sub.toFixed(2)}</span></div>`;
+        return `
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; margin-bottom:5px; border-bottom: 1px solid #333; padding-bottom:3px;">
+            <span>${item.nombre} (x${item.cantidad}) - Q${sub.toFixed(2)}</span>
+            <button onclick="eliminarItemCarrito('${k}')" style="background:#e74c3c; color:white; border:none; border-radius:3px; padding:2px 6px; cursor:pointer; font-size:10px;" title="Eliminar producto">🗑️</button>
+          </div>`;
       }).join('');
       document.getElementById('ticket-total').innerText = subtotal.toFixed(2);
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT');
       let numT = (parseInt(localStorage.getItem('correlativo_ticket_estuardo')) || 0) + 1;
       document.getElementById('ticket-numero-label').innerText = "Tiquete # " + String(numT).padStart(8, '0');
       abrirModal('modal-ticket');
+    }
+
+    function abrirModalHistorial() {
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let contenedor = document.getElementById('lista-historial-tiquetes');
+      if (!tiquetesGuardados.length) {
+        contenedor.innerHTML = '<p style="text-align:center; color:#888;">No hay tiquetes emitidos hoy.</p>';
+      } else {
+        contenedor.innerHTML = tiquetesGuardados.map((t, index) => `
+          <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
+            <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${t.anulado ? '#e74c3c' : '#34d399'};">
+              <span>Tiquete #${index + 1} - ${t.cliente}</span>
+              <span>Q${t.total.toFixed(2)}</span>
+            </div>
+            <div style="font-size:10px; color:#aaa; margin: 3px 0;">Hora: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
+            <div style="display:flex; gap: 5px; margin-top: 5px;">
+              ${!t.anulado ? `<button onclick="editarTiquete(${index})" style="background:#0284c7; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">✏️ Editar / Quitar producto</button>` : ''}
+              ${!t.anulado ? `<button onclick="anularTiquete(${index})" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">❌ Anular Total</button>` : ''}
+            </div>
+          </div>
+        `).join('');
+      }
+      abrirModal('modal-historial');
+    }
+
+    /* CARGAR UN TIQUETE EMITIDO AL CARRITO PARA EDITARLO Y QUITARLE PRODUCTOS */
+    function editarTiquete(index) {
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let t = tiquetesGuardados[index];
+      
+      // Marcar el tiquete viejo como anulado para que no duplique la venta mientras se edita
+      t.anulado = true;
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+
+      // Cargar los ítems del tiquete al carrito activo
+      carrito = {};
+      t.items.forEach(i => {
+        let key = i.nombre + '_' + i.precio;
+        carrito[key] = { nombre: i.nombre, precio: parseFloat(i.precio), cantidad: i.cantidad };
+      });
+      localStorage.setItem(storageKey, JSON.stringify(carrito));
+
+      // Actualizar interfaz y poner el nombre del cliente en el input
+      actualizarUIResumen();
+      renderizarCatalogo();
+      document.getElementById('cliente-receptor').value = t.cliente;
+
+      cerrarModal('modal-historial');
+      cerrarModal('modal-ticket');
+      alert("Tiquete cargado al carrito. Ya puede quitar o modificar los productos que el cliente indicó y volver a enviarlo.");
+    }
+
+    function anularTiquete(index) {
+      if (confirm("¿Está seguro de anular este tiquete por completo?")) {
+        let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+        tiquetesGuardados[index].anulado = true;
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        abrirModalHistorial();
+      }
     }
 
     function enviarWhatsAppYLimpiar() {
@@ -374,7 +459,8 @@
         fecha: horaActual,
         cliente: receptor,
         items: itemsArray,
-        total: subtotal
+        total: subtotal,
+        anulado: false
       };
 
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
@@ -385,7 +471,7 @@
       itemsArray.forEach(i => {
         msg += `${i.nombre} (x${i.cantidad}) = Q${(i.precio * i.cantidad).toFixed(2)}\n`;
       });
-      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
+      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido (Corregido/Actualizado).`;
 
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
       carrito = {};
