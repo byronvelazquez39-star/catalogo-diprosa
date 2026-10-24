@@ -9,44 +9,48 @@
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
       --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
     }
-    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 10px; padding-bottom: 100px; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
     
-    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #1a1a1a; padding: 6px 8px; border-radius: 6px; border: 1px solid #333; }
-    h1 { text-align: left; margin: 0; font-size: 13px; color: #ff9800; }
+    .header-bar { 
+      position: sticky; top: 0; z-index: 900;
+      display: flex; justify-content: space-between; align-items: center; 
+      background: #1a1a1a; padding: 4px 8px; border-radius: 6px; border: 1px solid #333; margin-bottom: 6px;
+    }
+    h1 { margin: 0; font-size: 13px; color: #ff9800; }
     
-    .btn-group-header { display: flex; gap: 3px; }
-    .btn-action-header { border: none; padding: 5px 7px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 9px; color: #fff; }
-    .btn-metas { background-color: #0284c7; }
-    .btn-sueldo { background-color: #059669; }
-    .btn-menu-extra { background-color: #d97706; }
+    .btn-menu-top { 
+      background-color: #d97706; color: #fff; border: none; padding: 5px 10px; 
+      border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px; 
+    }
 
-    /* MENÚ DESPLEGABLE COMPACTO */
-    .modal-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; padding: 12px; }
-    .menu-content { background: #1e1e1e; border-radius: 10px; padding: 15px; width: 100%; max-width: 320px; border: 1px solid #555; display: flex; flex-direction: column; gap: 8px; }
-    .btn-menu-opcion { background: #374151; color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px; }
-
-    .search-box { width: 100%; padding: 10px; font-size: 14px; margin-bottom: 15px; border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; }
+    .search-box { 
+      width: 100%; padding: 8px 10px; font-size: 13px; margin-bottom: 8px; 
+      border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; 
+    }
     
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; width: 100%; box-sizing: border-box; }
-    .card { background: var(--card-bg); padding: 10px; border-radius: 8px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; overflow: hidden; }
-    .nombre { font-size: 13px; font-weight: bold; margin-bottom: 6px; word-break: break-word; }
-    .precio { font-size: 14px; color: var(--accent-color); font-weight: bold; margin-bottom: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 8px; width: 100%; box-sizing: border-box; }
+    .card { background: var(--card-bg); padding: 8px; border-radius: 8px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; overflow: hidden; }
+    .nombre { font-size: 12px; font-weight: bold; margin-bottom: 4px; word-break: break-word; line-height: 1.2; }
+    .precio { font-size: 13px; color: var(--accent-color); font-weight: bold; margin-bottom: 6px; }
     
-    .qty-controls { display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 28px; height: 28px; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer; }
-    .qty-num { font-size: 14px; font-weight: bold; min-width: 18px; text-align: center; }
-    .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 12px; }
+    .qty-controls { display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 26px; height: 26px; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; }
+    .qty-num { font-size: 13px; font-weight: bold; min-width: 16px; text-align: center; }
+    .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 6px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; font-size: 11px; }
     
-    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 10px; border-radius: 6px; width: 100%; margin-top: 15px; font-weight: bold; cursor: pointer; display: none; }
+    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 8px; border-radius: 6px; width: 100%; margin-top: 10px; font-weight: bold; cursor: pointer; display: none; font-size: 12px; }
 
-    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
-    .cart-info { font-size: 14px; cursor: pointer; }
-    .cart-total { font-size: 16px; color: var(--accent-color); font-weight: bold; }
-    .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; }
+    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
+    .cart-info { font-size: 13px; cursor: pointer; }
+    .cart-total { font-size: 15px; color: var(--accent-color); font-weight: bold; }
+    .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 7px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
 
-    /* MODALES COMPACTOS */
+    .modal-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 12px; }
+    .menu-content { background: #1e1e1e; border-radius: 10px; padding: 12px; width: 100%; max-width: 300px; border: 1px solid #555; display: flex; flex-direction: column; gap: 8px; }
+    .btn-menu-opcion { color: white; border: none; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; text-align: left; display: flex; align-items: center; gap: 8px; }
+
     .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
-    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 12px; width: 100%; max-width: 360px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 12px; }
+    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 12px; width: 100%; max-width: 340px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; box-sizing: border-box; font-size: 12px; }
     .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 4px; margin-bottom: 8px; }
     .ticket-header h3 { margin: 0; font-size: 13px; color: #fff; }
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 12px; box-sizing: border-box; margin-bottom: 8px; }
@@ -62,11 +66,7 @@
 
   <div class="header-bar">
     <h1>📦 JORGE</h1>
-    <div class="btn-group-header">
-      <button class="btn-action-header btn-metas" onclick="abrirModalMetas()">📊 Metas</button>
-      <button class="btn-action-header btn-sueldo" onclick="abrirModalSueldo()">💰 Sueldo</button>
-      <button class="btn-action-header btn-menu-extra" onclick="abrirModalMenuExtra()">⚙️ Menú ▾</button>
-    </div>
+    <button class="btn-menu-top" onclick="abrirModalMenuExtra()">⚙️ Menú ▾</button>
   </div>
 
   <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto..." oninput="filtrarDebounce()">
@@ -80,24 +80,24 @@
       <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
     </div>
     <div style="display: flex; gap: 5px;">
-      <button class="btn-wa" onclick="abrirTicket()" style="padding: 8px 10px; font-size: 12px;">📋 Ver</button>
+      <button class="btn-wa" onclick="abrirTicket()">📋 Ver Pedido</button>
     </div>
   </div>
 
-  <!-- MODAL MENÚ EXTRA -->
   <div id="modal-menu-extra" class="modal-menu">
     <div class="menu-content">
       <div class="ticket-header">
-        <h3>⚙️ OPCIONES Y REPORTES</h3>
+        <h3>⚙️ MENÚ DE OPCIONES</h3>
       </div>
-      <button class="btn-menu-opcion" onclick="cerrarModal('modal-menu-extra'); abrirModalComisiones();">📈 Estado Diario 16+</button>
-      <button class="btn-menu-opcion" onclick="cerrarModal('modal-menu-extra'); abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
-      <button class="btn-menu-opcion" onclick="cerrarModal('modal-menu-extra'); abrirModalReporteMes();" style="background:#8b5cf6;">🔍 Buscar Tiquetes (Meses / Lupita)</button>
-      <button class="btn-close" onclick="cerrarModal('modal-menu-extra')">Cerrar</button>
+      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="cerrarModal('modal-menu-extra'); abrirModalMetas();">📊 Ver Metas de Venta</button>
+      <button class="btn-menu-opcion" style="background:#059669;" onclick="cerrarModal('modal-menu-extra'); abrirModalSueldo();">💰 Consultar Sueldo y Día</button>
+      <button class="btn-menu-opcion" style="background:#d97706;" onclick="cerrarModal('modal-menu-extra'); abrirModalComisiones();">📈 Estado Diario 16+</button>
+      <button class="btn-menu-opcion" style="background:#4b5563;" onclick="cerrarModal('modal-menu-extra'); abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
+      <button class="btn-menu-opcion" style="background:#8b5cf6;" onclick="cerrarModal('modal-menu-extra'); abrirModalReporteMes();">🔍 Buscar Tiquetes (Fecha / Cliente)</button>
+      <button class="btn-close" onclick="cerrarModal('modal-menu-extra')" style="margin-top:4px;">Cerrar Menú</button>
     </div>
   </div>
 
-  <!-- MODAL TICKET -->
   <div id="modal-ticket" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
@@ -119,7 +119,6 @@
     </div>
   </div>
 
-  <!-- MODAL HISTORIAL HOY -->
   <div id="modal-historial" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
@@ -130,27 +129,43 @@
     </div>
   </div>
 
-  <!-- MODAL BUSCADOR DE MESES (LUPITA) -->
   <div id="modal-reporte-mes" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3>🔍 BUSCADOR DE TIQUETES</h3>
+        <h3>🔍 BUSCADOR HISTÓRICO</h3>
       </div>
-      <input type="text" id="input-buscar-mes" class="client-input" placeholder="🔍 Tienda, cliente o número..." oninput="filtrarTiquetesMes()">
+      <input type="text" id="input-buscar-mes" class="client-input" placeholder="🔍 Buscar por fecha, cliente o #..." oninput="filtrarTiquetesMes()">
       <div id="lista-reporte-mes" style="max-height: 220px; overflow-y: auto; margin-top: 5px;"></div>
       <button class="btn-close" onclick="cerrarModal('modal-reporte-mes')">Regresar</button>
     </div>
   </div>
 
-  <!-- MODAL METAS -->
+  <div id="modal-detalle-tiquete" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3 id="det-titulo">🧾 DETALLE DE TIQUETE</h3>
+        <p style="font-size: 11px; color: #ff9800; font-weight:bold; margin-top:2px;" id="det-cliente"></p>
+        <p style="font-size: 10px; color: #aaa;" id="det-fechahora"></p>
+      </div>
+      <div id="det-items-lista" style="max-height: 180px; overflow-y: auto; background:#111827; padding:8px; border-radius:6px; margin-bottom:8px;"></div>
+      <div class="compact-box">
+        <div class="compact-row" style="border:none; margin-bottom:0; font-size:13px;">
+          <span>TOTAL COMPRA:</span><strong id="det-total" style="color:#27ae60;">Q 0.00</strong>
+        </div>
+      </div>
+      <div id="det-acciones" style="display:flex; gap:5px;"></div>
+      <button class="btn-close" onclick="cerrarModal('modal-detalle-tiquete')" style="margin-top:8px;">Cerrar Detalle</button>
+    </div>
+  </div>
+
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
         <h3>📊 METAS - JORGE</h3>
       </div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 71,806.33 / Q81k</strong></div>
-        <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 9,193.67</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
+        <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 81,000.00</strong></div>
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
         <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0 / 189 Hrs</strong></div>
       </div>
@@ -159,7 +174,6 @@
     </div>
   </div>
 
-  <!-- MODAL SUELDO -->
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
@@ -174,7 +188,6 @@
     </div>
   </div>
 
-  <!-- MODAL 16+ -->
   <div id="modal-comisiones" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
@@ -196,6 +209,18 @@
     const NUMERO_WHATSAPP = "50248502382";
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
+    const SALDO_INICIAL_OCTUBRE = 71806.33;
+
+    const fechaHoy = new Date();
+    const mesYAnioActual = `${fechaHoy.getFullYear()}-${fechaHoy.getMonth() + 1}`;
+    if (localStorage.getItem("diprosa_mes_activo_jorge") !== mesYAnioActual) {
+      localStorage.setItem("diprosa_mes_activo_jorge", mesYAnioActual);
+      localStorage.setItem("ventas_base_mes_jorge", "0.00");
+    } else {
+      if (localStorage.getItem("ventas_base_mes_jorge") === null) {
+        localStorage.setItem("ventas_base_mes_jorge", SALDO_INICIAL_OCTUBRE.toString());
+      }
+    }
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
@@ -205,19 +230,12 @@
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
         .then(data => {
-          productos = data;
-          productosFiltrados = data;
-          renderizarCatalogo();
-          actualizarUIResumen();
+          productos = data; productosFiltrados = data;
+          renderizarCatalogo(); actualizarUIResumen();
         })
         .catch(() => {
-          productos = [
-            { nombre: "Detergente en Polvo 1kg", precio: 15.00 },
-            { nombre: "Aceite Vegetal 800ml", precio: 22.50 }
-          ];
-          productosFiltrados = productos;
-          renderizarCatalogo();
-          actualizarUIResumen();
+          productos = [ { nombre: "Detergente en Polvo 1kg", precio: 15.00 }, { nombre: "Aceite Vegetal 800ml", precio: 22.50 } ];
+          productosFiltrados = productos; renderizarCatalogo(); actualizarUIResumen();
         });
     });
 
@@ -265,16 +283,13 @@
       carrito[key].cantidad += delta;
       if (carrito[key].cantidad <= 0) delete carrito[key];
       localStorage.setItem(storageKey, JSON.stringify(carrito));
-      actualizarUIResumen();
-      renderizarCatalogo();
+      actualizarUIResumen(); renderizarCatalogo();
     }
 
     function eliminarItemCarrito(key) {
       delete carrito[key];
       localStorage.setItem(storageKey, JSON.stringify(carrito));
-      actualizarUIResumen();
-      renderizarCatalogo();
-      abrirTicket();
+      actualizarUIResumen(); renderizarCatalogo(); abrirTicket();
     }
 
     function actualizarUIResumen() {
@@ -292,20 +307,16 @@
     function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
 
     function abrirModalMetas() {
-      let baseMesReporte = 71806.33;
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || 0;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentasReal = baseMesReporte;
+      let totalVentasReal = baseMes;
       let totalTq = 0;
       
       tiquetesGuardados.forEach(t => {
-        if (t.total && !t.anulado) { 
-          totalVentasReal += parseFloat(t.total); 
-          totalTq += 1; 
-        }
+        if (t.total && !t.anulado) { totalVentasReal += parseFloat(t.total); totalTq += 1; }
       });
 
-      let metaMes = 81000;
-      let faltanteMeta = metaMes - totalVentasReal;
+      let metaMes = 81000, faltanteMeta = metaMes - totalVentasReal;
       if (faltanteMeta < 0) faltanteMeta = 0;
 
       let diaHoy = new Date().getDate();
@@ -327,14 +338,14 @@
       let ventasHoyLocal = 0;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) ventasHoyLocal += parseFloat(t.total); });
-      
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoyLocal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       abrirModal('modal-sueldo');
     }
 
     function abrirModalComisiones() {
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || 0;
       let ventasQ2 = 0;
-      let totalVentasMes = 71806.33;
+      let totalVentasMes = baseMes;
 
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tiquetesGuardados.forEach(t => {
@@ -344,10 +355,7 @@
         }
       });
 
-      let sueldoBase = 3600;
-      let metaMes = 81000;
-      let cuotaDiaria = 3000;
-
+      let sueldoBase = 3600, metaMes = 81000, cuotaDiaria = 3000;
       let diaHoy = new Date().getDate();
       let diasTranscurridosQ2 = diaHoy >= 16 ? (diaHoy - 15) : 1;
       let metaQ2Esperada = diasTranscurridosQ2 * cuotaDiaria; 
@@ -365,7 +373,6 @@
       let bono = totalVentasMes >= metaMes ? 500 : 0;
 
       let totalNeto = (sueldoBase - descuento) + bono + comision;
-
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-ventas-real').innerText = f(ventasQ2);
@@ -379,9 +386,9 @@
     }
 
     function enviarCorteDiarioWA() {
-      let baseMesReporte = 71806.33;
+      let baseMes = parseFloat(localStorage.getItem("ventas_base_mes_jorge")) || 0;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentas = baseMesReporte;
+      let totalVentas = baseMes;
       tiquetesGuardados.forEach(t => { if (t.total && !t.anulado) totalVentas += parseFloat(t.total); });
       let msg = `📊 *REPORTE VENTAS - JORGE*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
@@ -418,10 +425,11 @@
               <span>Tiquete #${index + 1} - ${t.cliente}</span>
               <span>Q${t.total.toFixed(2)}</span>
             </div>
-            <div style="font-size:10px; color:#aaa; margin: 3px 0;">Hora: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
+            <div style="font-size:10px; color:#aaa; margin: 3px 0;">Hora/Fecha: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
             <div style="display:flex; gap: 5px; margin-top: 5px;">
-              ${!t.anulado ? `<button onclick="editarTiquete(${index})" style="background:#0284c7; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">✏️ Editar</button>` : ''}
-              ${!t.anulado ? `<button onclick="anularTiquete(${index})" style="background:#e74c3c; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">❌ Anular</button>` : ''}
+              <button onclick="verDetalleTiquete(${index})" style="background:#8b5cf6; color:white; border:none; padding:4px 6px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">👁️ Ver Detalle</button>
+              ${!t.anulado ? `<button onclick="editarTiquete(${index})" style="background:#0284c7; color:white; border:none; padding:4px 6px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">✏️ Editar</button>` : ''}
+              ${!t.anulado ? `<button onclick="anularTiquete(${index})" style="background:#e74c3c; color:white; border:none; padding:4px 6px; border-radius:4px; font-size:10px; cursor:pointer; flex:1;">❌ Anular</button>` : ''}
             </div>
           </div>
         `).join('');
@@ -444,12 +452,13 @@
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let contenedor = document.getElementById('lista-reporte-mes');
 
-      let filtrados = tiquetesGuardados.map((t, idx) => ({ t, idx })).filter(({ t }) => {
+      let filtrados = tiquetesGuardados.map((t, idx) => ({ t, idx })).filter(({ t, idx }) => {
         if (!filtro) return true;
         let matchCliente = t.cliente.toLowerCase().includes(filtro);
-        let matchNum = ("tiquete #" + (t.idx + 1)).includes(filtro) || String(t.total).includes(filtro);
+        let matchFecha = t.fecha.toLowerCase().includes(filtro);
+        let matchNum = ("tiquete #" + (idx + 1)).includes(filtro) || String(t.total).includes(filtro);
         let matchProd = t.items.some(i => i.nombre.toLowerCase().includes(filtro));
-        return matchCliente || matchNum || matchProd;
+        return matchCliente || matchFecha || matchNum || matchProd;
       });
 
       if (!filtrados.length) {
@@ -463,16 +472,45 @@
             <span>Tiquete #${idx + 1} - ${t.cliente}</span>
             <span>Q${t.total.toFixed(2)}</span>
           </div>
-          <div style="font-size:10px; color:#aaa; margin: 2px 0;">Fecha/Hora: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
-          <div style="font-size:10px; color:#ddd; margin-bottom:4px;">
-            ${t.items.map(i => `• ${i.nombre} (x${i.cantidad})`).join('<br>')}
-          </div>
-          <div style="display:flex; gap: 5px;">
+          <div style="font-size:10px; color:#aaa; margin: 2px 0;">Emisión: ${t.fecha} ${t.anulado ? '*(ANULADO)*' : ''}</div>
+          <div style="display:flex; gap: 5px; margin-top:4px;">
+            <button onclick="verDetalleTiquete(${idx}); cerrarModal('modal-reporte-mes');" style="background:#8b5cf6; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:9px; cursor:pointer; flex:1;">👁️ Ver Detalle</button>
             ${!t.anulado ? `<button onclick="editarTiquete(${idx}); cerrarModal('modal-reporte-mes');" style="background:#0284c7; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:9px; cursor:pointer; flex:1;">✏️ Editar</button>` : ''}
             ${!t.anulado ? `<button onclick="anularTiqueteMes(${idx})" style="background:#e74c3c; color:white; border:none; padding:3px 6px; border-radius:4px; font-size:9px; cursor:pointer; flex:1;">❌ Anular</button>` : ''}
           </div>
         </div>
       `).join('');
+    }
+
+    function verDetalleTiquete(index) {
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let t = tiquetesGuardados[index];
+      
+      document.getElementById('det-titulo').innerText = `🧾 TIQUETE #${index + 1} ${t.anulado ? '(ANULADO)' : ''}`;
+      document.getElementById('det-cliente').innerText = `👤 Cliente: ${t.cliente}`;
+      document.getElementById('det-fechahora').innerText = `⏱️ Hora/Fecha de Emisión: ${t.fecha}`;
+      
+      let listaHtml = t.items.map(i => `
+        <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px dotted #333;">
+          <span>• ${i.nombre} (x${i.cantidad})</span>
+          <strong>Q${(i.cantidad * i.precio).toFixed(2)}</strong>
+        </div>
+      `).join('');
+      
+      document.getElementById('det-items-lista').innerHTML = listaHtml;
+      document.getElementById('det-total').innerText = `Q ${t.total.toFixed(2)}`;
+
+      let contenedorAcciones = document.getElementById('det-acciones');
+      if (!t.anulado) {
+        contenedorAcciones.innerHTML = `
+          <button onclick="editarTiquete(${index}); cerrarModal('modal-detalle-tiquete');" style="background:#0284c7; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">✏️ Editar / Modificar</button>
+          <button onclick="anularTiqueteMes(${index}); cerrarModal('modal-detalle-tiquete');" style="background:#e74c3c; color:white; border:none; padding:8px; border-radius:5px; font-weight:bold; font-size:11px; cursor:pointer; flex:1;">❌ Anular Tiquete</button>
+        `;
+      } else {
+        contenedorAcciones.innerHTML = `<p style="color:#e74c3c; text-align:center; margin:0; width:100%; font-weight:bold;">ESTE TIQUETE FUE ANULADO</p>`;
+      }
+
+      abrirModal('modal-detalle-tiquete');
     }
 
     function anularTiqueteMes(index) {
@@ -503,7 +541,7 @@
       document.getElementById('cliente-receptor').value = t.cliente;
 
       cerrarModal('modal-historial');
-      alert("Tiquete cargado al carrito. Ya puede quitar o modificar los productos que el cliente indicó y volver a enviarlo.");
+      alert("Tiquete cargado al carrito. Ya puede modificar los productos que el cliente indicó y volver a enviarlo.");
     }
 
     function anularTiquete(index) {
