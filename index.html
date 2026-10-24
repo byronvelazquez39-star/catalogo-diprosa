@@ -14,7 +14,12 @@
     .menu-rendimiento { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
     .btn-menu { background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; text-align: center; cursor: pointer; }
     .btn-menu.sueldo { border-color: #27ae60; color: #27ae60; }
-    
+    <!-- BOTONES DE ACCESO A METAS Y SUELDOS -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+  <button onclick="document.getElementById('modal-metas').style.display='block'" style="background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;">🎯 Ver Mis Metas</button>
+  <button onclick="document.getElementById('modal-sueldo').style.display='block'" style="background: #1e1e1e; border: 1px solid #27ae60; color: #27ae60; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;">💰 Ver Mi Sueldo</button>
+</div>
+
     /* 2. Buscador del Catálogo */
     .search-box { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #1e1e1e; color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
     
@@ -179,6 +184,66 @@
       document.getElementById('meta-t-def').innerText = 324 - emitidos;
     });
   </script>
+<!-- VENTANA EMERGENTE METAS -->
+<div id="modal-metas" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; padding:15px; box-sizing:border-box; overflow-y:auto;">
+  <div style="background:#1e1e1e; border:1px solid #444; border-radius:10px; padding:15px; max-width:500px; margin:30px auto; color:#fff;">
+    <button onclick="document.getElementById('modal-metas').style.display='none'" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:5px; float:right; font-weight:bold;">X Cerrar</button>
+    <h2 style="color:#ff9800; margin-top:0; font-size:16px;">🎯 Control de Metas y Paralelos</h2>
+    
+    <div style="background:#252525; padding:10px; border-radius:8px; margin-bottom:10px;">
+      <h3 style="color:#38bdf8; margin:0 0 5px 0; font-size:14px;">📊 Ventas</h3>
+      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Meta Mensual Fija:</span><b>Q 81,000.00</b></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Ventas Acumuladas:</span><b id="meta-v-real" style="color:#27ae60;">Q 0.00</b></div>
+      <div style="display:flex; justify-content:space-between;"><span>Déficit Actual:</span><b id="meta-v-def" style="color:#ef4444;">Pendiente de reporte inicial</b></div>
+    </div>
+
+    <div style="background:#252525; padding:10px; border-radius:8px; margin-bottom:10px;">
+      <h3 style="color:#38bdf8; margin:0 0 5px 0; font-size:14px;">🧾 Tiquetes (12/día)</h3>
+      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Meta Total del Mes:</span><b>324 tiquetes</b></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Emitidos a la fecha:</span><b id="meta-t-real">0</b></div>
+      <div style="display:flex; justify-content:space-between;"><span>Déficit Tiquetes:</span><b id="meta-t-def" style="color:#ef4444;">324</b></div>
+    </div>
+
+    <div style="background:#252525; padding:10px; border-radius:8px;">
+      <h3 style="color:#38bdf8; margin:0 0 5px 0; font-size:14px;">⏱️ Horas (7h / L-S)</h3>
+      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Meta Total del Mes:</span><b>189 horas</b></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Horas Registradas:</span><b id="meta-h-real">0 h</b></div>
+      <div style="display:flex; justify-content:space-between;"><span>Déficit Horas:</span><b id="meta-h-def" style="color:#ef4444;">189 h</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- VENTANA EMERGENTE SUELDOS -->
+<div id="modal-sueldo" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; padding:15px; box-sizing:border-box; overflow-y:auto;">
+  <div style="background:#1e1e1e; border:1px solid #444; border-radius:10px; padding:15px; max-width:500px; margin:30px auto; color:#fff;">
+    <button onclick="document.getElementById('modal-sueldo').style.display='none'" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:5px; float:right; font-weight:bold;">X Cerrar</button>
+    <h2 style="color:#27ae60; margin-top:0; font-size:16px;">💰 Cálculo de Sueldo y Descuentos</h2>
+    
+    <div style="background:#252525; padding:12px; border-radius:8px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Sueldo Base:</span><b>Q 3,600.00</b></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Descuento Acumulado:</span><b style="color:#ef4444;">Q 0.00</b></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Bono Meta (Q500):</span><span>Pendiente de ventas</span></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Comisión (2.5%):</span><b style="color:#27ae60;">Q 0.00</b></div>
+      <hr style="border:0; border-top:1px solid #444; margin:8px 0;">
+      <div style="display:flex; justify-content:space-between; font-size:16px;"><span>Sueldo Líquido:</span><b style="color:#27ae60;">Q 3,600.00</b></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    let tiquetes = [];
+    try { tiquetes = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || []; } catch(e){}
+    
+    let total = 0;
+    tiquetes.forEach(t => { if(t.total) total += parseFloat(t.total); });
+    
+    let emitidos = tiquetes.length;
+    document.getElementById('meta-v-real').innerText = "Q " + total.toFixed(2);
+    document.getElementById('meta-t-real').innerText = emitidos;
+    document.getElementById('meta-t-def').innerText = 324 - emitidos;
+  });
+</script>
 
 </body>
 </html>
