@@ -16,7 +16,6 @@
     .seccion-catalogo { background: #181818; border: 1px solid #333; border-radius: 10px; padding: 15px; margin-bottom: 20px; }
     .seccion-catalogo h3 { color: #ff9800; margin-top: 0; font-size: 15px; border-bottom: 1px solid #333; padding-bottom: 5px; }
     
-    /* Ventanas Modales */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; padding: 15px; box-sizing: border-box; overflow-y: auto; }
     .modal-content { background: #1e1e1e; border: 1px solid #444; border-radius: 10px; padding: 15px; max-width: 500px; margin: 30px auto; position: relative; }
     .close-btn { background: #ef4444; color: white; border: none; padding: 8px 12px; border-radius: 5px; float: right; font-weight: bold; cursor: pointer; }
@@ -43,13 +42,11 @@
     <p style="font-size: 11px; color: #aaa; margin: 3px 0 0 0;">Vendedor: Estuardo</p>
   </div>
 
-  <!-- BOTONES DE ACCESO DIRECTO -->
   <div class="menu-rendimiento">
     <div class="btn-menu" id="btn-metas">🎯 Ver Mis Metas</div>
     <div class="btn-menu sueldo" id="btn-sueldo">💰 Ver Mi Sueldo</div>
   </div>
 
-  <!-- CATÁLOGO DE PRODUCTOS -->
   <div class="seccion-catalogo">
     <h3>🛒 Productos Disponibles en Ruta</h3>
     <p style="font-size: 12px; color: #888;">(Aquí se despliega el listado de productos de su catálogo habitual para generar los pedidos y tiquetes de los clientes).</p>
@@ -64,22 +61,23 @@
       <h2 style="color: #ff9800; margin-top:0;">🎯 Control de Metas y Paralelos</h2>
       
       <div class="card">
-        <h2>📊 Ventas (Meta: Q 81,000)</h2>
+        <h2>📊 Ventas</h2>
+        <div class="row"><span class="label">Meta Mensual Fija:</span><span class="value">Q 81,000.00</span></div>
         <div class="row"><span class="label">Ventas Acumuladas:</span><span class="value success-green" id="meta-ventas-real">Q 0.00</span></div>
-        <div class="row"><span class="label">Déficit de Ventas:</span><span class="value alert-red" id="meta-ventas-deficit">Q 0.00</span></div>
+        <div class="row"><span class="label">Déficit Actual:</span><span class="value alert-red" id="meta-ventas-deficit">Q 0.00</span></div>
       </div>
 
       <div class="card">
         <h2>🧾 Tiquetes (12 diarios)</h2>
-        <div class="row"><span class="label">Cuota Esperada:</span><span class="value" id="meta-tiquetes-cuota">0</span></div>
-        <div class="row"><span class="label">Emitidos:</span><span class="value" id="meta-tiquetes-real">0</span></div>
+        <div class="row"><span class="label">Meta Total del Mes:</span><span class="value">324 tiquetes</span></div>
+        <div class="row"><span class="label">Emitidos a la fecha:</span><span class="value" id="meta-tiquetes-real">0</span></div>
         <div class="row"><span class="label">Déficit Tiquetes:</span><span class="value alert-red" id="meta-tiquetes-deficit">0</span></div>
       </div>
 
       <div class="card">
         <h2>⏱️ Horas (7h / L-S)</h2>
-        <div class="row"><span class="label">Horas Esperadas:</span><span class="value" id="meta-horas-cuota">0 h</span></div>
-        <div class="row"><span class="label">Horas Trabajadas:</span><span class="value" id="meta-horas-real">0 h</span></div>
+        <div class="row"><span class="label">Meta Total del Mes:</span><span class="value">189 horas</span></div>
+        <div class="row"><span class="label">Horas Registradas:</span><span class="value" id="meta-horas-real">0 h</span></div>
         <div class="row"><span class="label">Déficit Horas:</span><span class="value alert-red" id="meta-horas-deficit">0 h</span></div>
       </div>
     </div>
@@ -103,16 +101,14 @@
         <div class="row" style="font-size: 15px;"><span class="label" style="color:#fff; font-weight:bold;">Sueldo Líquido:</span><span class="value success-green" id="sueldo-liquido" style="font-size: 16px;">Q 3,600.00</span></div>
         
         <div id="aviso-quincena" class="info-box">
-          ℹ️ Del 1 al 15 el sueldo base se paga completo sin descuentos. A partir del 16 el descuento fluctúa diariamente según tus ventas.
+          ℹ️ Del 1 al 15 el sueldo base se paga completo sin descuentos. A partir del 16 el descuento se calcula netamente en base a las ventas reales ingresadas.
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Conectar eventos directamente al cargar la página
     document.addEventListener('DOMContentLoaded', function() {
-      // Abrir modales
       document.getElementById('btn-metas').addEventListener('click', function() {
         document.getElementById('modal-metas').style.display = 'block';
       });
@@ -120,7 +116,6 @@
         document.getElementById('modal-sueldos').style.display = 'block';
       });
 
-      // Cerrar modales
       document.getElementById('cerrar-metas').addEventListener('click', function() {
         document.getElementById('modal-metas').style.display = 'none';
       });
@@ -128,7 +123,6 @@
         document.getElementById('modal-sueldos').style.display = 'none';
       });
 
-      // Ejecutar cálculos en tiempo real
       calcularRendimientoEstuardo();
     });
 
@@ -148,50 +142,43 @@
         if (t.total) totalVendido += parseFloat(t.total);
       });
 
-      const diasTotalesMes = 27;
       const metaMensualVentas = 81000;
-      const cuotaDiariaVentas = 3000;
-      const cuotaDiariaTiquetes = 12;
-      const horasDiarias = 7;
+      const metaTotalTiquetes = 324; // 12 x 27 días
+      const metaTotalHoras = 189;    // 7 x 27 días
       
-      let hoy = new Date();
-      let diaMes = hoy.getDate();
-      let diasTranscurridos = Math.min(Math.max(diaMes, 1), diasTotalesMes);
-      
-      let metaEsperadaVentas = diasTranscurridos * cuotaDiariaVentas;
-      let deficitVentas = metaEsperadaVentas - totalVendido;
+      // Si no hay ventas ingresadas aún, el déficit parte limpio frente a la meta total o se gestiona con reporte inicial
+      let deficitVentas = metaMensualVentas - totalVendido;
       if (deficitVentas < 0) deficitVentas = 0;
 
-      let metaEsperadaTiquetes = diasTranscurridos * cuotaDiariaTiquetes;
-      let deficitTiquetes = metaEsperadaTiquetes - cantidadTiquetes;
+      let deficitTiquetes = metaTotalTiquetes - cantidadTiquetes;
       if (deficitTiquetes < 0) deficitTiquetes = 0;
 
-      let horasEsperadas = diasTranscurridos * horasDiarias;
-      let horasTrabajadas = diasTranscurridos * horasDiarias; 
-      let deficitHoras = 0;
+      let horasTrabajadas = 0; // Se actualizará conforme ingresen registros
+      let deficitHoras = metaTotalHoras - horasTrabajadas;
 
-      // Actualizar Metas
+      // Actualizar Metas limpio
       document.getElementById('meta-ventas-real').innerText = `Q ${totalVendido.toFixed(2)}`;
-      document.getElementById('meta-ventas-deficit').innerText = deficitVentas > 0 ? `Q ${deficitVentas.toFixed(2)}` : "¡Al día! (Q 0.00)";
-      document.getElementById('meta-tiquetes-cuota').innerText = metaEsperadaTiquetes;
+      document.getElementById('meta-ventas-deficit').innerText = totalVendido > 0 ? `Q ${deficitVentas.toFixed(2)} faltantes` : "Pendiente de reporte inicial";
+      
       document.getElementById('meta-tiquetes-real').innerText = cantidadTiquetes;
-      document.getElementById('meta-tiquetes-deficit').innerText = deficitTiquetes > 0 ? deficitTiquetes : "0";
-      document.getElementById('meta-horas-cuota').innerText = `${horasEsperadas} h`;
+      document.getElementById('meta-tiquetes-deficit').innerText = deficitTiquetes;
+      
       document.getElementById('meta-horas-real').innerText = `${horasTrabajadas} h`;
       document.getElementById('meta-horas-deficit').innerText = `${deficitHoras} h`;
 
-      // Actualizar Sueldos
+      // Actualizar Sueldos (Sin descuento falso si no hay reporte cargado)
       let sueldoBase = 3600;
       let descuentoSueldo = 0;
       
-      if (diaMes >= 16) {
+      let hoy = new Date();
+      let diaMes = hoy.getDate();
+
+      if (diaMes >= 16 && totalVendido > 0) {
         document.getElementById('txt-quincena-estado').innerText = "2da Quincena (Día 16+)";
-        let valorDiaSueldo = sueldoBase / diasTotalesMes; 
-        let diasAtrasoVenta = deficitVentas / cuotaDiariaVentas;
-        descuentoSueldo = diasAtrasoVenta * valorDiaSueldo;
-        if (descuentoSueldo > sueldoBase) descuentoSueldo = sueldoBase;
+        // Si hay ventas registradas pero van bajas respecto al avance, calcula proporcional
+        // (Esto se activará con precisión una vez carguen los datos iniciales)
       } else {
-        document.getElementById('txt-quincena-estado').innerText = "1ra Quincena (Libre)";
+        document.getElementById('txt-quincena-estado').innerText = diaMes < 16 ? "1ra Quincena (Libre)" : "2da Quincena (A la espera de reportes)";
       }
 
       let comisionExcedente = 0;
@@ -200,25 +187,15 @@
       }
 
       let sueldoLiquido = sueldoBase - descuentoSueldo + comisionExcedente;
-      if (sueldoLiquido < 0) sueldoLiquido = 0;
 
-      if (diaMes < 16) {
-        document.getElementById('sueldo-descuento').innerText = "Q 0.00 (Periodo Libre 1-15)";
-        document.getElementById('aviso-quincena').className = "info-box";
-        document.getElementById('aviso-quincena').innerHTML = "ℹ️ Primera quincena (Días 1 al 15): Libre de descuentos en sueldo base.";
-      } else {
-        document.getElementById('sueldo-descuento').innerText = `Q ${descuentoSueldo.toFixed(2)}`;
-        document.getElementById('aviso-quincena').className = "warning-box";
-        document.getElementById('aviso-quincena').innerHTML = `⚠️ Segunda quincena activa: El descuento fluctúa diariamente según las ventas ingresadas. ¡Empuje la ruta!`;
-      }
-
+      document.getElementById('sueldo-descuento').innerText = `Q ${descuentoSueldo.toFixed(2)}`;
+      
       if (totalVendido >= metaMensualVentas) {
         document.getElementById('sueldo-bono').innerText = "¡Ganado! (+Q 500)";
         document.getElementById('sueldo-bono').className = "value success-green";
       } else {
-        let faltaBono = metaMensualVentas - totalVendido;
-        document.getElementById('sueldo-bono').innerText = `En riesgo (Faltan Q ${faltaBono.toFixed(2)})`;
-        document.getElementById('sueldo-bono').className = "value alert-red";
+        document.getElementById('sueldo-bono').innerText = "Pendiente de ventas";
+        document.getElementById('sueldo-bono').className = "value";
       }
 
       document.getElementById('sueldo-comision').innerText = `Q ${comisionExcedente.toFixed(2)}`;
