@@ -5,151 +5,149 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catálogo y Rendimiento - DIPROSA</title>
   <style>
-    /* Estilos base para la pantalla oscura */
-    body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 15px; box-sizing: border-box; }
-    .header { text-align: center; margin-bottom: 15px; }
-    h1 { color: #ff9800; font-size: 18px; margin: 0; }
+    body { font-family: Arial, sans-serif; background-color: #0d0d0d; color: #ffffff; margin: 0; padding: 12px; box-sizing: border-box; }
     
-    /* 1. Botones Principales de Rendimiento */
-    .menu-rendimiento { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-    .btn-menu { background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; text-align: center; cursor: pointer; }
-    .btn-menu.sueldo { border-color: #27ae60; color: #27ae60; }
-    <!-- BOTONES DE ACCESO A METAS Y SUELDOS -->
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-  <button onclick="document.getElementById('modal-metas').style.display='block'" style="background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;">🎯 Ver Mis Metas</button>
-  <button onclick="document.getElementById('modal-sueldo').style.display='block'" style="background: #1e1e1e; border: 1px solid #27ae60; color: #27ae60; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer;">💰 Ver Mi Sueldo</button>
-</div>
+    /* ENCABEZADO Y BOTONES DE RENDIMIENTO SUPERIORES */
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #222; padding-bottom: 8px; }
+    .header-title h1 { color: #ff9800; font-size: 16px; margin: 0; text-align: left; }
+    .header-title p { font-size: 11px; color: #aaa; margin: 2px 0 0 0; }
+    
+    .btn-top-container { display: flex; gap: 6px; }
+    .btn-top { background: #1e1e1e; border: 1px solid #38bdf8; color: #38bdf8; padding: 6px 10px; border-radius: 6px; font-weight: bold; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .btn-top.sueldo { border-color: #27ae60; color: #27ae60; }
 
-    /* 2. Buscador del Catálogo */
-    .search-box { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #1e1e1e; color: #fff; font-size: 14px; margin-bottom: 15px; box-sizing: border-box; }
-    
-    /* 3. Tarjetas de Productos */
+    /* BUSCADOR DEL CATÁLOGO */
+    .search-box { width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #333; background: #181818; color: #fff; font-size: 13px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+    .search-box:focus { border-color: #ff9800; }
+
+    /* LISTADO DE PRODUCTOS */
     .productos-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px; }
-    .producto-card { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
-    .producto-info h4 { margin: 0 0 5px 0; font-size: 14px; color: #fff; }
+    .producto-card { background: #181818; border: 1px solid #282828; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .producto-info h4 { margin: 0 0 4px 0; font-size: 13px; color: #fff; }
     .producto-info p { margin: 0; font-size: 12px; color: #38bdf8; font-weight: bold; }
-    .btn-agregar { background: #ff9800; color: #121212; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
+    .btn-agregar { background: #059669; color: #ffffff; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 12px; }
 
-    /* 4. Ventanas Emergentes (Modales) */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; padding: 15px; box-sizing: border-box; overflow-y: auto; }
-    .modal-content { background: #1e1e1e; border: 1px solid #444; border-radius: 10px; padding: 15px; max-width: 500px; margin: 30px auto; position: relative; }
-    .close-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 5px; float: right; font-weight: bold; cursor: pointer; }
+    /* POPUPS Y VENTANAS FLOTANTES (ESTILO ELEAZAR) */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; align-items: center; justify-content: center; padding: 15px; box-sizing: border-box; }
+    .modal-card { background: #0d0d0d; border: 1px solid #333; border-radius: 12px; padding: 18px; width: 100%; max-width: 420px; color: #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.8); box-sizing: border-box; }
     
-    .card-info { background: #252525; border: 1px solid #333; border-radius: 8px; padding: 10px; margin-bottom: 10px; }
-    .card-info h3 { color: #38bdf8; font-size: 14px; margin: 0 0 8px 0; border-bottom: 1px solid #333; padding-bottom: 4px; }
-    
-    .row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
-    .label { color: #aaa; }
-    .value { font-weight: bold; color: #fff; }
-    .alert-red { color: #ef4444 !important; font-weight: bold; }
-    .success-green { color: #27ae60 !important; font-weight: bold; }
-    
-    .info-box { background: #1a2e26; border-left: 4px solid #27ae60; padding: 8px; font-size: 11px; color: #a7f3d0; margin-top: 8px; border-radius: 4px; }
-    .btn-panel { display: block; width: 100%; background: #333; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; text-decoration: none; margin-top: 15px; font-size: 13px; box-sizing: border-box; }
+    .box-green { border: 1px dashed #27ae60; background: #05140a; border-radius: 8px; padding: 12px; margin-bottom: 15px; }
+    .box-blue { border: 1px solid #1e293b; background: #090d16; border-radius: 8px; padding: 12px; margin-bottom: 15px; }
+    .box-highlight { border: 1px solid #1d4ed8; background: #0284c71a; border-radius: 6px; padding: 8px; display: flex; justify-content: space-between; font-size: 13px; }
+
+    .btn-action-green { width: 100%; background: #059669; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; margin-bottom: 8px; }
+    .btn-action-close { width: 100%; background: #333; color: #fff; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 12px; cursor: pointer; }
+
+    .btn-panel { display: block; width: 100%; background: #222; color: #aaa; border: 1px solid #333; padding: 10px; border-radius: 8px; font-weight: bold; text-align: center; text-decoration: none; margin-top: 15px; font-size: 12px; box-sizing: border-box; }
   </style>
 </head>
 <body>
 
-  <!-- ENCABEZADO -->
-  <div class="header">
-    <h1>📦 CATÁLOGO DIPROSA</h1>
-    <p style="font-size: 11px; color: #aaa; margin: 3px 0 0 0;">Vendedor: Estuardo</p>
-  </div>
-
-  <!-- BOTONES DE ACCESO A METAS Y SUELDOS -->
-  <div class="menu-rendimiento">
-    <div class="btn-menu" onclick="abrirModal('modal-metas')">🎯 Ver Mis Metas</div>
-    <div class="btn-menu sueldo" onclick="abrirModal('modal-sueldos')">💰 Ver Mi Sueldo</div>
-  </div>
-
-  <!-- BUSCADOR EN TIEMPO REAL -->
-  <input type="text" class="search-box" placeholder="🔍 Buscar productos..." id="buscador" onkeyup="filtrarProductos()">
-
-  <!-- LISTADO DE PRODUCTOS DEL CATÁLOGO -->
-  <div class="productos-grid" id="lista-productos">
-    <div class="producto-card" data-nombre="producto de prueba 1">
-      <div class="producto-info">
-        <h4>Producto de Prueba 1</h4>
-        <p>Q 100.00</p>
-      </div>
-      <button class="btn-agregar" onclick="alert('Producto seleccionado')">Agregar</button>
+  <!-- ENCABEZADO CON TITULO Y BOTONES EN LÍNEA -->
+  <div class="header-bar">
+    <div class="header-title">
+      <h1>📦 ESTUARDO (RUTA)</h1>
+      <p>Catálogo y Pedidos DIPROSA</p>
     </div>
-    <div class="producto-card" data-nombre="producto de prueba 2">
+    <div class="btn-top-container">
+      <button class="btn-top" onclick="abrirModal('modal-metas-estuardo')">📊 Metas</button>
+      <button class="btn-top sueldo" onclick="abrirModal('modal-sueldo-estuardo')">💰 Sueldo</button>
+    </div>
+  </div>
+
+  <!-- BUSCADOR -->
+  <input type="text" class="search-box" placeholder="🔍 Escriba para buscar producto..." id="buscador" onkeyup="filtrarProductos()">
+
+  <!-- CONTENEDOR DEL CATÁLOGO DE PRODUCTOS -->
+  <div class="productos-grid" id="lista-productos">
+    <div class="producto-card" data-nombre="(almohadita) 4 onzas por docena para dar q.3.00">
       <div class="producto-info">
-        <h4>Producto de Prueba 2</h4>
-        <p>Q 250.00</p>
+        <h4>(almohadita) 4 onzas por docena para dar Q.3.00</h4>
+        <p>Q 29.50</p>
       </div>
-      <button class="btn-agregar" onclick="alert('Producto seleccionado')">Agregar</button>
+      <button class="btn-agregar" onclick="alert('Producto agregado al pedido')">+ Agregar</button>
+    </div>
+    <div class="producto-card" data-nombre="1 arroba arroz gallo dorado precocido 25 libras">
+      <div class="producto-info">
+        <h4>1 arroba Arroz Gallo Dorado Precocido 25 libras</h4>
+        <p>Q 110.00</p>
+      </div>
+      <button class="btn-agregar" onclick="alert('Producto agregado al pedido')">+ Agregar</button>
     </div>
   </div>
 
   <a href="panel.html" class="btn-panel">⬅️ Ir al Panel de Supervisor</a>
 
-  <!-- VENTANA EMERGENTE: METAS Y PARALELOS -->
-  <div id="modal-metas" class="modal">
-    <div class="modal-content">
-      <button class="close-btn" onclick="cerrarModal('modal-metas')">X Cerrar</button>
-      <h2 style="color: #ff9800; margin-top:0; font-size: 16px;">🎯 Control de Metas y Paralelos</h2>
+  <!-- VENTANA POPUP: CONTROL DE METAS Y RENDIMIENTO (ESTILO ELEAZAR) -->
+  <div id="modal-metas-estuardo" class="modal-overlay">
+    <div class="modal-card">
+      <h3 style="text-align:center; margin:0 0 4px 0; font-size:16px; color:#fff;">📊 Control de Metas y Rendimiento</h3>
+      <p style="text-align:center; margin:0 0 15px 0; font-size:11px; color:#aaa;">Panel de Vendedor - Ruta Activa</p>
       
-      <div class="card-info">
-        <h3>📊 Ventas</h3>
-        <div class="row"><span class="label">Meta Mensual Fija:</span><span class="value">Q 81,000.00</span></div>
-        <div class="row"><span class="label">Ventas Acumuladas:</span><span class="value success-green" id="meta-v-real">Q 0.00</span></div>
-        <div class="row"><span class="label">Déficit Actual:</span><span class="value alert-red" id="meta-v-def">Pendiente de reporte inicial</span></div>
-      </div>
-
-      <div class="card-info">
-        <h3>🧾 Tiquetes (12/día)</h3>
-        <div class="row"><span class="label">Meta Total del Mes:</span><span class="value">324 tiquetes</span></div>
-        <div class="row"><span class="label">Emitidos a la fecha:</span><span class="value" id="meta-t-real">0</span></div>
-        <div class="row"><span class="label">Déficit Tiquetes:</span><span class="value alert-red" id="meta-t-def">324</span></div>
-      </div>
-
-      <div class="card-info">
-        <h3>⏱️ Horas (7h / L-S)</h3>
-        <div class="row"><span class="label">Meta Total del Mes:</span><span class="value">189 horas</span></div>
-        <div class="row"><span class="label">Horas Registradas:</span><span class="value" id="meta-h-real">0 h</span></div>
-        <div class="row"><span class="label">Déficit Horas:</span><span class="value alert-red" id="meta-h-def">189 h</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- VENTANA EMERGENTE: SUELDOS Y DESCUENTOS -->
-  <div id="modal-sueldos" class="modal">
-    <div class="modal-content">
-      <button class="close-btn" onclick="cerrarModal('modal-sueldos')">X Cerrar</button>
-      <h2 style="color: #27ae60; margin-top:0; font-size: 16px;">💰 Cálculo de Sueldo y Descuentos</h2>
-      
-      <div class="card-info">
-        <h3>💵 Desglose Financiero</h3>
-        <div class="row"><span class="label">Sueldo Base:</span><span class="value">Q 3,600.00</span></div>
-        <div class="row"><span class="label">Regla Quincenal:</span><span class="value" style="color: #38bdf8;" id="txt-quincena-estado">1ra Quincena (Libre)</span></div>
-        <div class="row"><span class="label">Descuento Acumulado:</span><span class="value alert-red" id="sueldo-descuento">Q 0.00</span></div>
-        <div class="row"><span class="label">Bono Meta (Q500):</span><span class="value" id="sueldo-bono">Pendiente de ventas</span></div>
-        <div class="row"><span class="label">Comisiones (2.5%):</span><span class="value success-green" id="sueldo-comision">Q 0.00</span></div>
+      <div class="box-green">
+        <h4 style="margin:0 0 10px 0; font-size:13px; color:#27ae60; border-bottom:1px dotted #27ae60; padding-bottom:4px;">🛵 ESTUARDO - ESTADO DE CUOTAS</h4>
         
-        <hr style="border:0; border-top:1px solid #444; margin:8px 0;">
-        <div class="row" style="font-size: 15px;"><span class="label" style="color:#fff; font-weight:bold;">Sueldo Líquido:</span><span class="value success-green" id="sueldo-liquido" style="font-size: 16px;">Q 3,600.00</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:12px;">
+          <span style="color:#27ae60;">💰 Ventas Acumuladas Mes:</span>
+          <b style="color:#27ae60;" id="st-ventas">Q 0.00 / Q81,000.00</b>
+        </div>
         
-        <div class="info-box">
-          ℹ️ Del 1 al 15 el sueldo base se paga completo sin descuentos. A partir del 16 el descuento se calcula netamente en base a las ventas reales ingresadas.
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:12px;">
+          <span style="color:#27ae60;">🧾 Tiquetes Emitidos:</span>
+          <b style="color:#27ae60;" id="st-tiquetes">0 / 324 Tq Meta</b>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; font-size:12px;">
+          <span style="color:#27ae60;">⏱️ Horas de Ruta:</span>
+          <b style="color:#27ae60;" id="st-horas">0 / 189 Hrs Meta</b>
         </div>
       </div>
+
+      <div style="font-size:12px; color:#ff9800; font-weight:bold; margin-bottom:6px;">📝 Registro Histórico:</div>
+      <div style="font-size:11px; color:#aaa; margin-bottom:20px;" id="st-historico">No hay tiquetes registrados aún.</div>
+
+      <button class="btn-action-green" onclick="enviarReporteWhatsApp()">📲 Enviar Reporte a don Byron</button>
+      <button class="btn-action-close" onclick="cerrarModal('modal-metas-estuardo')">Cerrar Ventana</button>
     </div>
   </div>
 
-  <!-- SCRIPT DE FUNCIONAMIENTO SEGURO -->
+  <!-- VENTANA POPUP: NÓMINA EN TIEMPO REAL (ESTILO ELEAZAR) -->
+  <div id="modal-sueldo-estuardo" class="modal-overlay">
+    <div class="modal-card">
+      <h3 style="text-align:center; margin:0 0 15px 0; font-size:16px; color:#fff;">💵 Nómina Real en Tiempo Real</h3>
+      
+      <div class="box-blue">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px;">
+          <span>Sueldo Base Mensual:</span>
+          <b>Q3,600.00</b>
+        </div>
+        
+        <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:12px;">
+          <span style="color:#27ae60;">1ra Quincena (1 al 15):</span>
+          <b style="color:#27ae60;">Libre (Q1,800.00)</b>
+        </div>
+        
+        <div class="box-highlight">
+          <span style="color:#38bdf8;">☀️ Ventas de hoy:</span>
+          <b style="color:#38bdf8;" id="st-ventas-hoy">Q 0.00</b>
+        </div>
+      </div>
+
+      <button class="btn-action-close" onclick="cerrarModal('modal-sueldo-estuardo')">Cerrar Ventana</button>
+    </div>
+  </div>
+
+  <!-- SCRIPT SEGURO -->
   <script>
-    // Funciones simples para abrir y cerrar cuadros
     function abrirModal(id) {
-      document.getElementById(id).style.display = 'block';
+      document.getElementById(id).style.display = 'flex';
+      actualizarRendimientoEstuardo();
     }
     
     function cerrarModal(id) {
       document.getElementById(id).style.display = 'none';
     }
 
-    // Buscador interactivo
     function filtrarProductos() {
       let filtro = document.getElementById('buscador').value.toLowerCase();
       let tarjetas = document.querySelectorAll('.producto-card');
@@ -163,91 +161,55 @@
       });
     }
 
-    // Cálculo inicial automático
-    document.addEventListener('DOMContentLoaded', function() {
+    function actualizarRendimientoEstuardo() {
       let tiquetes = [];
       try {
         tiquetes = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || [];
-      } catch(e) {
-        tiquetes = [];
+      } catch(e) { tiquetes = []; }
+
+      let totalVendido = 0;
+      let totalHoy = 0;
+      let fechaHoy = new Date().toLocaleDateString();
+
+      tiquetes.forEach(t => {
+        let monto = parseFloat(t.total) || 0;
+        totalVendido += monto;
+        if (t.fecha === fechaHoy) {
+          totalHoy += monto;
+        }
+      });
+
+      let numTiquetes = tiquetes.length;
+
+      document.getElementById('st-ventas').innerText = "Q " + totalVendido.toFixed(2) + " / Q81,000.00";
+      document.getElementById('st-tiquetes').innerText = numTiquetes + " / 324 Tq Meta";
+      document.getElementById('st-horas').innerText = "0 / 189 Hrs Meta";
+      document.getElementById('st-ventas-hoy').innerText = "Q " + totalHoy.toFixed(2);
+
+      if (numTiquetes > 0) {
+        document.getElementById('st-historico').innerText = "Total de tiquetes registrados en el teléfono: " + numTiquetes;
       }
+    }
+
+    function enviarReporteWhatsApp() {
+      let tiquetes = [];
+      try { tiquetes = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || []; } catch(e){}
       
       let totalVendido = 0;
-      tiquetes.forEach(t => {
-        if (t.total) totalVendido += parseFloat(t.total);
-      });
-      
-      let emitidos = tiquetes.length;
-      
-      document.getElementById('meta-v-real').innerText = "Q " + totalVendido.toFixed(2);
-      document.getElementById('meta-t-real').innerText = emitidos;
-      document.getElementById('meta-t-def').innerText = 324 - emitidos;
-    });
+      tiquetes.forEach(t => { totalVendido += (parseFloat(t.total) || 0); });
+
+      let texto = `📊 *REPORTE DE RENDIMIENTO - ESTUARDO*\n` +
+                  `💰 Ventas Acumuladas: Q ${totalVendido.toFixed(2)} / Q81,000.00\n` +
+                  `🧾 Tiquetes Emitidos: ${tiquetes.length} / 324\n` +
+                  `⏱️ Horas de Ruta: 0 / 189 Hrs Meta\n\n` +
+                  `_Reporte generado automáticamente desde el catálogo._`;
+                  
+      let url = "https://api.whatsapp.com/send?phone=50248502382&text=" + encodeURIComponent(texto);
+      window.open(url, '_blank');
+    }
+
+    document.addEventListener('DOMContentLoaded', actualizarRendimientoEstuardo);
   </script>
-<!-- VENTANA EMERGENTE METAS -->
-<div id="modal-metas" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; padding:15px; box-sizing:border-box; overflow-y:auto;">
-  <div style="background:#1e1e1e; border:1px solid #444; border-radius:10px; padding:15px; max-width:500px; margin:30px auto; color:#fff;">
-    <button onclick="document.getElementById('modal-metas').style.display='none'" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:5px; float:right; font-weight:bold;">X Cerrar</button>
-    <h2 style="color:#ff9800; margin-top:0; font-size:16px;">🎯 Control de Metas y Paralelos</h2>
-    
-    <div style="background:#252525; padding:10px; border-radius:8px; margin-bottom:10px;">
-      <h3 style="color:#38bdf8; margin:0 0 5px 0; font-size:14px;">📊 Ventas</h3>
-      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Meta Mensual Fija:</span><b>Q 81,000.00</b></div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Ventas Acumuladas:</span><b id="meta-v-real" style="color:#27ae60;">Q 0.00</b></div>
-      <div style="display:flex; justify-content:space-between;"><span>Déficit Actual:</span><b id="meta-v-def" style="color:#ef4444;">Pendiente de reporte inicial</b></div>
-    </div>
-
-    <div style="background:#252525; padding:10px; border-radius:8px; margin-bottom:10px;">
-      <h3 style="color:#38bdf8; margin:0 0 5px 0; font-size:14px;">🧾 Tiquetes (12/día)</h3>
-      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Meta Total del Mes:</span><b>324 tiquetes</b></div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Emitidos a la fecha:</span><b id="meta-t-real">0</b></div>
-      <div style="display:flex; justify-content:space-between;"><span>Déficit Tiquetes:</span><b id="meta-t-def" style="color:#ef4444;">324</b></div>
-    </div>
-
-    <div style="background:#252525; padding:10px; border-radius:8px;">
-      <h3 style="color:#38bdf8; margin:0 0 5px 0; font-size:14px;">⏱️ Horas (7h / L-S)</h3>
-      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Meta Total del Mes:</span><b>189 horas</b></div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span>Horas Registradas:</span><b id="meta-h-real">0 h</b></div>
-      <div style="display:flex; justify-content:space-between;"><span>Déficit Horas:</span><b id="meta-h-def" style="color:#ef4444;">189 h</b></div>
-    </div>
-  </div>
-</div>
-
-<!-- VENTANA EMERGENTE SUELDOS -->
-<div id="modal-sueldo" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:1000; padding:15px; box-sizing:border-box; overflow-y:auto;">
-  <div style="background:#1e1e1e; border:1px solid #444; border-radius:10px; padding:15px; max-width:500px; margin:30px auto; color:#fff;">
-    <button onclick="document.getElementById('modal-sueldo').style.display='none'" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:5px; float:right; font-weight:bold;">X Cerrar</button>
-    <h2 style="color:#27ae60; margin-top:0; font-size:16px;">💰 Cálculo de Sueldo y Descuentos</h2>
-    
-    <div style="background:#252525; padding:12px; border-radius:8px;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Sueldo Base:</span><b>Q 3,600.00</b></div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Descuento Acumulado:</span><b style="color:#ef4444;">Q 0.00</b></div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Bono Meta (Q500):</span><span>Pendiente de ventas</span></div>
-      <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Comisión (2.5%):</span><b style="color:#27ae60;">Q 0.00</b></div>
-      <hr style="border:0; border-top:1px solid #444; margin:8px 0;">
-      <div style="display:flex; justify-content:space-between; font-size:16px;"><span>Sueldo Líquido:</span><b style="color:#27ae60;">Q 3,600.00</b></div>
-    </div>
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    let tiquetes = [];
-    try { tiquetes = JSON.parse(localStorage.getItem('diprosa_tickets_estuardo')) || []; } catch(e){}
-    
-    let total = 0;
-    tiquetes.forEach(t => { if(t.total) total += parseFloat(t.total); });
-    
-    let emitidos = tiquetes.length;
-    document.getElementById('meta-v-real').innerText = "Q " + total.toFixed(2);
-    document.getElementById('meta-t-real').innerText = emitidos;
-    document.getElementById('meta-t-def').innerText = 324 - emitidos;
-  });
-</script>
 
 </body>
 </html>
-<div class="menu-rendimiento">
-  <div class="btn-menu" onclick="abrirModal('modal-metas')">🎯 Ver Mis Metas</div>
-  <div class="btn-menu sueldo" onclick="abrirModal('modal-sueldos')">💰 Ver Mi Sueldo</div>
-</div>
