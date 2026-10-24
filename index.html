@@ -211,24 +211,20 @@
     const ticketsKey = "diprosa_tickets_estuardo";
     const SALDO_INICIAL_OCTUBRE = 39706.03;
 
-    // FIJAR SALDO ACUMULADO DE OCTUBRE Y 109 TIQUETES INICIALES AUTOMÁTICAMENTE
+    // FORZAR SALDO BASE Y LOS 109 TIQUETES OBLIGATORIAMENTE AL ARRANCAR
     localStorage.setItem("ventas_base_mes_estuardo", SALDO_INICIAL_OCTUBRE.toString());
 
-    let tiquetesCheck = [];
-    try { tiquetesCheck = JSON.parse(localStorage.getItem(ticketsKey)) || []; } catch(e) {}
-    if (!tiquetesCheck.length) {
-      let tiquetesPrecargados = [];
-      for (let i = 1; i <= 109; i++) {
-        tiquetesPrecargados.push({
-          fecha: "23/10/2026 15:00",
-          cliente: "Cliente Ruta " + i,
-          items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 100.00}],
-          total: 100.00,
-          anulado: false
-        });
-      }
-      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
+    let tiquetesPrecargados = [];
+    for (let i = 1; i <= 109; i++) {
+      tiquetesPrecargados.push({
+        fecha: "23/10/2026 15:00",
+        cliente: "Cliente Ruta " + i,
+        items: [{nombre: "Surtido General Ruta", cantidad: 1, precio: 100.00}],
+        total: 100.00,
+        anulado: false
+      });
     }
+    localStorage.setItem(ticketsKey, JSON.stringify(tiquetesPrecargados));
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {}, debounceTimer;
 
