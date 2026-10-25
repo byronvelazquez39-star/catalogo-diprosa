@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo DIPROSA</title>
+<title>Catálogo DIPROSA - Estuardo</title>
 <style>
 :root {
   --bg-color: #0f172a;
@@ -20,7 +20,8 @@
 body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; padding-bottom: 140px; }
 .container { max-width: 1200px; margin: 0 auto; }
 header { margin-bottom: 24px; text-align: center; }
-h1 { font-size: 1.8rem; margin-bottom: 12px; color: #f1c40f; }
+h1 { font-size: 1.8rem; margin-bottom: 6px; color: #f1c40f; }
+.subtitle { font-size: 0.95rem; color: var(--accent-color); margin-bottom: 12px; font-weight: bold; }
 .search-box {
   width: 100%; max-width: 600px; padding: 12px 20px; border-radius: 8px;
   border: 1px solid var(--border-color); background-color: var(--card-bg);
@@ -47,7 +48,7 @@ h1 { font-size: 1.8rem; margin-bottom: 12px; color: #f1c40f; }
 }
 .btn-add:hover { background-color: var(--accent-hover); }
 
-/* Ticket Flotante */
+/* Carrito Flotante */
 .cart-float {
   position: fixed; bottom: 20px; right: 20px; left: 20px; max-width: 400px; margin-left: auto;
   background-color: var(--card-bg); border: 1px solid var(--border-color);
@@ -75,6 +76,7 @@ h1 { font-size: 1.8rem; margin-bottom: 12px; color: #f1c40f; }
 <div class="container">
   <header>
     <h1>Catálogo DIPROSA</h1>
+    <div class="subtitle">Asesor: Estuardo</div>
     <input type="text" id="searchInput" class="search-box" placeholder="Buscar productos por nombre...">
     <div id="stats" class="stats">Cargando productos...</div>
   </header>
@@ -95,13 +97,14 @@ h1 { font-size: 1.8rem; margin-bottom: 12px; color: #f1c40f; }
       <span id="cartTotal" style="color: #2ecc71;">Q0.00</span>
     </div>
     <button id="btnWhatsapp" class="btn-whatsapp" onclick="sendWhatsApp()" disabled>
-      💬 Enviar a WhatsApp
+      💬 Enviar Pedido a WhatsApp
     </button>
   </div>
 </div>
 
 <script>
 const WHATSAPP_NUMBER = "50248502382";
+const VENDEDOR = "Estuardo";
 
 const productos = [
   { id: 1, nombre: "Frijol Ducal Bolsita 4 oz (24 unid)", precio: 66.00 },
@@ -235,15 +238,14 @@ function updateCartUI() {
 
 function sendWhatsApp() {
   if (cart.length === 0) return;
-  let message = "Hola DIPROSA, me gustaría realizar el siguiente pedido:\n\n";
+  let message = `Hola DIPROSA, soy el asesor *${VENDEDOR}* y me interesa realizar el siguiente pedido:\n\n`;
   let total = 0;
-  cart.cache = true;
   cart.forEach(item => {
     const subtotal = item.precio * item.qty;
     total += subtotal;
     message += `• ${item.nombre} (x${item.qty}) - Q ${subtotal.toFixed(2)}\n`;
   });
-  message += `\n*Total a pagar: Q ${total.toFixed(2)}*`;
+  message += `\n*Total del pedido: Q ${total.toFixed(2)}*`;
   const encodedMessage = encodeURIComponent(message);
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
 }
