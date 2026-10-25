@@ -1,124 +1,245 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-            padding-bottom: 100px;
-        }
-        h1 {
-            text-align: center;
-            color: #f1c40f;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card {
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .card h3 {
-            font-size: 0.9em;
-            margin: 10px 0 5px 0;
-            height: 2.8em;
-            overflow: hidden;
-        }
-        .precio {
-            color: #2ecc71;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin: 5px 0;
-        }
-        .btn-pedido {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.85em;
-            font-weight: bold;
-            width: 100%;
-            margin-top: 5px;
-        }
-        .btn-pedido:hover {
-            background-color: #2563eb;
-        }
-        /* Botón flotante de WhatsApp */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25d366;
-            color: white;
-            padding: 14px 22px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .whatsapp-btn:hover {
-            background-color: #1ebc57;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo DIPROSA</title>
+<style>
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --accent-color: #f1c40f;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --success-color: #25d366;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-main); padding: 20px; padding-bottom: 140px; }
+.container { max-width: 1200px; margin: 0 auto; }
+header { margin-bottom: 24px; text-align: center; }
+h1 { font-size: 1.8rem; margin-bottom: 12px; color: var(--accent-color); }
+.search-box {
+  width: 100%; max-width: 500px; padding: 12px 20px; border-radius: 8px;
+  border: 1px solid var(--border-color); background-color: var(--card-bg);
+  color: var(--text-main); font-size: 1rem; outline: none; margin: 0 auto; display: block;
+}
+.search-box:focus { border-color: var(--accent-color); }
+.stats { margin-top: 8px; font-size: 0.85rem; color: var(--text-muted); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+.card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-img {
+  width: 100%; height: 130px; object-fit: cover; border-radius: 5px; background-color: #2a2a2a;
+  display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem;
+}
+.card-title {
+  font-size: 0.9em; margin: 10px 0 5px 0; height: 2.8em; overflow: hidden; font-weight: bold;
+}
+.card-price { color: #2ecc71; font-weight: bold; font-size: 1.1em; margin: 5px 0; }
+.btn-add {
+  background-color: #3b82f6; color: white; border: none; padding: 8px;
+  border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 0.9em;
+}
+.btn-add:hover { background-color: #2563eb; }
+
+/* Carrito Flotante */
+.cart-float {
+  position: fixed; bottom: 15px; right: 15px; left: 15px; max-width: 450px; margin: 0 auto;
+  background-color: var(--card-bg); border: 1px solid var(--border-color);
+  border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.7); display: flex; flex-direction: column; max-height: 400px; z-index: 1000;
+}
+.cart-header { padding: 10px 15px; border-bottom: 1px solid var(--border-color); font-weight: bold; display: flex; justify-content: space-between; font-size: 0.95rem; }
+.cart-items { overflow-y: auto; padding: 10px 15px; max-height: 180px; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 0.85rem; border-bottom: 1px solid #2a2a2a; padding-bottom: 6px; }
+.cart-footer { padding: 10px 15px; border-top: 1px solid var(--border-color); background-color: rgba(0,0,0,0.3); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.cart-total { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 8px; font-size: 1rem; }
+.btn-whatsapp {
+  background-color: var(--success-color); color: white; border: none; padding: 10px;
+  border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
+}
+.btn-whatsapp:disabled { opacity: 0.4; cursor: not-allowed; }
+</style>
 </head>
 <body>
 
+<div class="container">
+  <header>
     <h1>Catálogo DIPROSA</h1>
-    
-    <div class="grid">
-        <!-- Ejemplo de tarjeta de producto lista para usar -->
-        <div class="card">
-            <div>
-                <img src="imagenes/producto1.jpg" alt="Producto" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3>Nombre del Producto Ejemplo</h3>
-                <p class="precio">Q 0.00</p>
-            </div>
-            <button class="btn-pedido" onclick="pedirProducto('Nombre del Producto Ejemplo', '0.00')">Pedir</button>
-        </div>
+    <input type="text" id="searchInput" class="search-box" placeholder="Buscar productos...">
+    <div id="stats" class="stats">Cargando productos...</div>
+  </header>
+  <div id="productGrid" class="grid"></div>
+</div>
 
-        <!-- Copie y pegue más bloques .card aquí abajo según necesite sus productos -->
+<div class="cart-float">
+  <div class="cart-header">
+    <span>Pedido Actual</span>
+    <span id="cartCount">0 productos</span>
+  </div>
+  <div id="cartItems" class="cart-items">
+    <div style="color: var(--text-muted); text-align: center; padding: 10px;">Su carrito está vacío</div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total:</span>
+      <span id="cartTotal" style="color: #2ecc71;">Q0.00</span>
     </div>
-
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-        💬 Pedir por WhatsApp
-    </a>
+    <button id="btnWhatsApp" class="btn-whatsapp" disabled onclick="enviarPedidoWhatsApp()">
+      💬 Pedir por WhatsApp
+    </button>
+  </div>
+</div>
 
 <script>
-function pedirProducto(nombre, precio) {
-    const telefono = "50248502382";
-    const mensaje = `Hola, me interesa pedir: *${nombre}* (Precio: Q ${precio})`;
-    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+let productos = [];
+let carrito = [];
+const telefonoWhatsApp = "50248502382";
+
+async function cargarProductos() {
+  try {
+    const respuesta = await fetch('productos.csv');
+    const texto = await respuesta.text();
+    parsearCSV(texto);
+  } catch (error) {
+    document.getElementById('stats').innerText = "Error al cargar los datos del catálogo.";
+    console.error(error);
+  }
 }
+
+function parsearCSV(texto) {
+  const lineas = texto.split('\n');
+  productos = [];
+  for (let i = 1; i < lineas.length; i++) {
+    const linea = lineas[i].trim();
+    if (!linea) continue;
+    const columnas = linea.split(',');
+    if (columnas.length >= 2) {
+      productos.push({
+        nombre: columnas[0].replace(/^"|"$/g, '').trim(),
+        precio: parseFloat(columnas[1].replace(/^"|"$/g, '').trim()) || 0,
+        imagen: columnas[2] ? columnas[2].replace(/^"|"$/g, '').trim() : ''
+      });
+    }
+  }
+  document.getElementById('stats').innerText = `${productos.length} productos cargados`;
+  renderizarProductos(productos);
+}
+
+function normalizar(t) {
+  return t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function renderizarProductos(lista) {
+  const grid = document.getElementById('productGrid');
+  if (lista.length === 0) {
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 30px;">No se encontraron productos</div>';
+    return;
+  }
+  
+  grid.innerHTML = lista.map(p => `
+    <div class="card">
+      <div>
+        ${p.imagen ? `<img class="card-img" src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'card-img\'>Sin Imagen</div>';">` : `<div class="card-img">Sin Imagen</div>`}
+        <div class="card-title">${p.nombre}</div>
+        <div class="card-price">Q ${p.precio.toFixed(2)}</div>
+      </div>
+      <button class="btn-add" onclick="agregarAlCarrito('${p.nombre.replace(/'/g, "\\'")}', ${p.precio})">Agregar</button>
+    </div>
+  `).join('');
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const busqueda = normalizar(e.target.value);
+  const filtrados = productos.filter(p => normalizar(p.nombre).includes(busqueda));
+  renderizarProductos(filtrados);
+});
+
+function agregarAlCarrito(nombre, precio) {
+  const item = carrito.find(i => i.nombre === nombre);
+  if (item) { item.cantidad += 1; } 
+  else { carrito.push({ nombre, precio, cantidad: 1 }); }
+  actualizarCarrito();
+}
+
+function cambiarCantidad(nombre, cambio) {
+  const item = carrito.find(i => i.nombre === nombre);
+  if (item) {
+    item.cantidad += cambio;
+    if (item.cantidad <= 0) { carrito = carrito.filter(i => i.nombre !== nombre); }
+  }
+  actualizarCarrito();
+}
+
+function actualizarCarrito() {
+  const contenedor = document.getElementById('cartItems');
+  const totalSpan = document.getElementById('cartTotal');
+  const countSpan = document.getElementById('cartCount');
+  const btnWhatsApp = document.getElementById('btnWhatsApp');
+
+  if (carrito.length === 0) {
+    contenedor.innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 10px;">Su carrito está vacío</div>';
+    totalSpan.innerText = 'Q0.00';
+    countSpan.innerText = '0 productos';
+    btnWhatsApp.disabled = true;
+    return;
+  }
+
+  let total = 0;
+  let totalItems = 0;
+
+  contenedor.innerHTML = carrito.map(item => {
+    let subtotal = item.precio * item.cantidad;
+    total += subtotal;
+    totalItems += item.cantidad;
+    return `
+      <div class="cart-item">
+        <div style="flex-grow: 1; margin-right: 5px;">
+          <div>${item.nombre}</div>
+          <div style="color: #2ecc71; font-size: 0.75rem;">Q ${item.precio.toFixed(2)} x ${item.cantidad}</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 4px;">
+          <button style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:4px; font-weight:bold;" onclick="cambiarCantidad('${item.nombre.replace(/'/g, "\\'")}', -1)">-</button>
+          <span>${item.cantidad}</span>
+          <button style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:4px; font-weight:bold;" onclick="cambiarCantidad('${item.nombre.replace(/'/g, "\\'")}', 1)">+</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  totalSpan.innerText = `Q ${total.toFixed(2)}`;
+  countSpan.innerText = `${totalItems} producto(s)`;
+  btnWhatsApp.disabled = false;
+}
+
+function enviarPedidoWhatsApp() {
+  if (carrito.length === 0) return;
+  let mensaje = "Hola DIPROSA, me interesa realizar el siguiente pedido:\n\n";
+  let total = 0;
+  carrito.forEach(i => {
+    let sub = i.precio * i.cantidad;
+    total += sub;
+    mensaje += `• ${i.cantidad}x ${i.nombre} (Q ${sub.toFixed(2)})\n`;
+  });
+  mensaje += `\n*Total a Pagar: Q ${total.toFixed(2)}*`;
+  window.open(`https://wa.me/${telefonoWhatsApp}?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+
+cargarProductos();
 </script>
 
 </body>
