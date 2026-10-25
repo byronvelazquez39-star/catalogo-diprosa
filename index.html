@@ -11,7 +11,7 @@
     }
     body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
     
-    /* PANTALLA DE ACCESO CON UN CLIC - ESTILO GALÁCTICO ESPACIAL */
+    /* PANTALLA DE BIENVENIDA DE UN SOLO CLIC */
     #lock-screen {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background: radial-gradient(circle at 30% 20%, #1e1b4b 0%, #0f172a 50%, #020617 100%);
@@ -265,7 +265,8 @@
 
   <script>
     function entrarAlSistema() {
-      document.getElementById('lock-screen').style.display = 'none';
+      let pantalla = document.getElementById('lock-screen');
+      if (pantalla) pantalla.style.display = 'none';
     }
 
     const NUMERO_WHATSAPP = "50248502382";
@@ -587,7 +588,7 @@
       let listaHtml = t.items.map((i, iIdx) => `
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; padding:3px 0; border-bottom:1px dotted #333;">
           <span>• <strong>(x${i.cantidad})</strong> ${i.nombre} - Q${(i.cantidad * i.precio).toFixed(2)}</span>
-          ${!t.anulado ? `<button onclick="eliminarItemDeTiquete(${index},${iIdx})" style="background:#e74c3c; color:white; border:none; border-radius:3px; padding:2px 5px; cursor:pointer; font-size:9px;" title="Quitar producto">🗑️</button>` : ''}
+          ${!t.anulado ? `<button onclick="eliminarItemDeTiquete(${index}, ${iIdx})" style="background:#e74c3c; color:white; border:none; border-radius:3px; padding:2px 5px; cursor:pointer; font-size:9px;" title="Quitar producto">🗑️</button>` : ''}
         </div>
       `).join('');
       
@@ -620,4 +621,90 @@
         cerrarModal('modal-detalle-tiquete');
       } else {
         let nuevoTotal = 0;
-        t.items.forEach(i => { nuevoTotal
+        t.items.forEach(i => { nuevoTotal += i.cantidad * i.precio; });
+        t.total = nuevoTotal;
+        alert("Producto eliminado del tiquete.");
+        verDetalleTiquete(tIndex);
+      }
+      
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+    }
+
+    function anularTiqueteSeguro(index) {
+      if (confirm("¿Está SEGURO de anular este tiquete por completo? Esta acción retirará su valor de las ventas.")) {
+        let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+        tiquetesGuardados[index].anulado = true;
+        tiquetesGuardados[index].total = 0;
+        localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+        cerrarModal('modal-detalle-tiquete');
+        alert("Tiquete anulado correctamente.");
+      }
+    }
+
+    function editarTiquete(index) {
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let t = tiquetesGuardados[index];
+      
+      t.anulado = true;
+      t.total = 0;
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+
+      carrito = {};
+      t.items.forEach(i => {
+        let key = i.nombre + '_' + i.precio;
+        carrito[key] = { nombre: i.nombre, precio: parseFloat(i.precio), cantidad: i.cantidad };
+      });
+      localStorage.setItem(storageKey, JSON.stringify(carrito));
+
+      actualizarUIResumen();
+      renderizarCatalogo();
+      document.getElementById('cliente-receptor').value = t.cliente;
+
+      cerrarModal('modal-historial');
+      alert("Tiquete cargado al carrito para edición. Ya puede modificar los productos y reenviarlo.");
+    }
+
+    function enviarWhatsAppYLimpiar() {
+      let receptor = document.getElementById('cliente-receptor').value.trim();
+      if (!receptor) { alert("Ingrese nombre del cliente."); return; }
+      
+      let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let numT = tiquetesGuardados.length + 1;
+
+      let subtotal = 0, itemsArray = [];
+      for (let k in carrito) {
+        let item = carrito[k], sub = item.cantidad * item.precio;
+        subtotal += sub;
+        itemsArray.push(item);
+      }
+
+      let horaActual = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + " (" + new Date().toLocaleDateString('es-GT') + ")";
+
+      let nuevoTiquete = {
+        fecha: horaActual,
+        cliente: receptor,
+        items: itemsArray,
+        total: subtotal,
+        historico: false,
+        anulado: false
+      };
+
+      tiquetesGuardados.push(nuevoTiquete);
+      localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
+
+      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Catálogo:* Principal\n*Tiquete # ${String(numT).padStart(8,'0')}* (${horaActual})\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
+      itemsArray.forEach(i => {
+        msg += `(x${i.cantidad}) ${i.nombre} = Q${(i.precio * i.cantidad).toFixed(2)}\n`;
+      });
+      msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
+
+      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
+      carrito = {};
+      localStorage.removeItem(storageKey);
+      cerrarModal('modal-ticket');
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+  </script>
+</body>
+</html>
