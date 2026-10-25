@@ -41,9 +41,6 @@ h1 { font-size: 1.8rem; margin-bottom: 12px; color: var(--accent-color); }
   flex-direction: column;
   justify-content: space-between;
 }
-.card-img {
-  width: 100%; height: 130px; object-fit: cover; border-radius: 5px; background-color: #2a2a2a;
-}
 .sin-imagen {
   width: 100%; height: 130px; border-radius: 5px; background-color: #2a2a2a;
   display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem;
@@ -87,26 +84,78 @@ h1 { font-size: 1.8rem; margin-bottom: 12px; color: var(--accent-color); }
   </header>
   
   <div id="productGrid" class="grid">
-    <!-- ========================================== -->
-    <!-- ZONA DE PRODUCTOS: Puede copiar y pegar bloques .card para agregar más -->
-    <!-- ========================================== -->
+    <!-- PRODUCTOS DIPROSA -->
 
-    <div class="card" data-nombre="producto de ejemplo 1">
+    <div class="card" data-nombre="frijol ducal bolsita 4 oz">
       <div>
         <div class="sin-imagen">Sin Imagen</div>
-        <div class="card-title">Producto de Ejemplo 1</div>
-        <div class="card-price">Q 25.00</div>
+        <div class="card-title">Frijol Ducal Bolsita 4 oz (24 unid)</div>
+        <div class="card-price">Q 66.00</div>
       </div>
-      <button class="btn-add" onclick="agregarAlCarrito('Producto de Ejemplo 1', 25.00)">Agregar</button>
+      <button class="btn-add" onclick="agregarAlCarrito('Frijol Ducal Bolsita 4 oz (24 unid)', 66.00)">Agregar</button>
     </div>
 
-    <div class="card" data-nombre="producto de ejemplo 2">
+    <div class="card" data-nombre="leche formos caja litro">
       <div>
         <div class="sin-imagen">Sin Imagen</div>
-        <div class="card-title">Producto de Ejemplo 2</div>
-        <div class="card-price">Q 50.00</div>
+        <div class="card-title">Leche Formos Caja Litro (12 unid)</div>
+        <div class="card-price">Q 108.00</div>
       </div>
-      <button class="btn-add" onclick="agregarAlCarrito('Producto de Ejemplo 2', 50.00)">Agregar</button>
+      <button class="btn-add" onclick="agregarAlCarrito('Leche Formos Caja Litro (12 unid)', 108.00)">Agregar</button>
+    </div>
+
+    <div class="card" data-nombre="incaparina sobre pequeño">
+      <div>
+        <div class="sin-imagen">Sin Imagen</div>
+        <div class="card-title">Incaparina Sobre Pequeño (12 unid)</div>
+        <div class="card-price">Q 26.00</div>
+      </div>
+      <button class="btn-add" onclick="agregarAlCarrito('Incaparina Sobre Pequeño (12 unid)', 26.00)">Agregar</button>
+    </div>
+
+    <div class="card" data-nombre="detergente blanca nieves 1 kl">
+      <div>
+        <div class="sin-imagen">Sin Imagen</div>
+        <div class="card-title">Detergente Blanca Nieves 1 KL (10 unid)</div>
+        <div class="card-price">Q 195.00</div>
+      </div>
+      <button class="btn-add" onclick="agregarAlCarrito('Detergente Blanca Nieves 1 KL (10 unid)', 195.00)">Agregar</button>
+    </div>
+
+    <div class="card" data-nombre="sardina picante sirena">
+      <div>
+        <div class="sin-imagen">Sin Imagen</div>
+        <div class="card-title">Sardina Picante Ovalada Sirena (3 unid)</div>
+        <div class="card-price">Q 63.00</div>
+      </div>
+      <button class="btn-add" onclick="agregarAlCarrito('Sardina Picante Ovalada Sirena (3 unid)', 63.00)">Agregar</button>
+    </div>
+
+    <div class="card" data-nombre="chocolate rico 1 libra">
+      <div>
+        <div class="sin-imagen">Sin Imagen</div>
+        <div class="card-title">Chocolate Rico (1 Libra)</div>
+        <div class="card-price">Q 15.00</div>
+      </div>
+      <button class="btn-add" onclick="agregarAlCarrito('Chocolate Rico (1 Libra)', 15.00)">Agregar</button>
+    </div>
+
+    <div class="card" data-nombre="deporade grande fresa">
+      <div>
+        <div class="sin-imagen">Sin Imagen</div>
+        <div class="card-title">Deporade Grande Fresa Botella (12 unid)</div>
+        <div class="card-price">Q 57.00</div>
+      </div>
+      <button class="btn-add" onclick="agregarAlCarrito('Deporade Grande Fresa Botella (12 unid)', 57.00)">Agregar</button>
+    </div>
+
+    <div class="card" data-nombre="papel nube blanca 12 paquetes">
+      <div>
+        <div class="sin-imagen">Sin Imagen</div>
+        <div class="card-title">Papel Nube Blanca (12 paquetes)</div>
+        <div class="card-price">Q 240.00</div>
+      </div>
+      <button class="btn-add" onclick="agregarAlCarrito('Papel Nube Blanca (12 paquetes)', 240.00)">Agregar</button>
     </div>
 
   </div>
@@ -152,7 +201,6 @@ function filtrarProductos() {
   document.getElementById('stats').innerText = `${visibles} productos disponibles`;
 }
 
-// Inicializar contador
 filtrarProductos();
 
 function agregarAlCarrito(nombre, precio) {
