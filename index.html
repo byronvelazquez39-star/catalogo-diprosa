@@ -11,6 +11,7 @@
             color: #ffffff;
             margin: 0;
             padding: 20px;
+            padding-bottom: 100px;
         }
         h1 {
             text-align: center;
@@ -29,6 +30,9 @@
             padding: 10px;
             text-align: center;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .card img {
             width: 100%;
@@ -47,6 +51,21 @@
             font-weight: bold;
             font-size: 1.1em;
             margin: 5px 0;
+        }
+        .btn-pedido {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 5px;
+        }
+        .btn-pedido:hover {
+            background-color: #2563eb;
         }
         /* Botón flotante de WhatsApp */
         .whatsapp-btn {
@@ -76,79 +95,31 @@
     <h1>Catálogo DIPROSA</h1>
     
     <div class="grid">
-        
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
+        <!-- Ejemplo de tarjeta de producto lista para usar -->
+        <div class="card">
+            <div>
+                <img src="imagenes/producto1.jpg" alt="Producto" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3>Nombre del Producto Ejemplo</h3>
+                <p class="precio">Q 0.00</p>
             </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
+            <button class="btn-pedido" onclick="pedirProducto('Nombre del Producto Ejemplo', '0.00')">Pedir</button>
+        </div>
+
+        <!-- Copie y pegue más bloques .card aquí abajo según necesite sus productos -->
     </div>
 
     <!-- Botón de WhatsApp -->
     <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
         💬 Pedir por WhatsApp
     </a>
+
+<script>
+function pedirProducto(nombre, precio) {
+    const telefono = "50248502382";
+    const mensaje = `Hola, me interesa pedir: *${nombre}* (Precio: Q ${precio})`;
+    window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+</script>
 
 </body>
 </html>
