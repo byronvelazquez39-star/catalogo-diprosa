@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo DIPROSA - Estuardo</title>
+  <title>Catálogo DIPROSA - Jorge</title>
   <style>
     :root {
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
@@ -85,16 +85,16 @@
     <div class="lock-card">
       <div class="lock-logo-badge">
         <span>DIPROSA</span>
-        <span>ESTUARDO</span>
+        <span>JORGE</span>
       </div>
       <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DISTRIBUIDORA</h3>
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Estuardo</p>
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Jorge</p>
       <button class="btn-pin" onclick="document.getElementById('lock-screen').style.display='none'">INGRESAR AL CATÁLOGO</button>
     </div>
   </div>
 
   <div class="header-bar">
-    <h1>📦 CATÁLOGO ESTUARDO</h1>
+    <h1>📦 CATÁLOGO JORGE</h1>
     <button class="btn-menu-top" onclick="document.getElementById('modal-menu-extra').style.display='flex'">⚙️ Menú ▾</button>
   </div>
 
@@ -114,7 +114,7 @@
   <div id="modal-menu-extra" class="modal-menu">
     <div class="menu-content">
       <div class="ticket-header"><h3>⚙️ MENÚ DE OPCIONES</h3></div>
-      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalMetas();">📊 Ver Metas - Estuardo</button>
+      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalMetas();">📊 Ver Metas - Jorge</button>
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Diario 16+</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes Emitidos (Ver/Editar)</button>
@@ -126,7 +126,7 @@
     <div class="modal-content">
       <div class="ticket-header">
         <h3 style="color:#ff9800; font-size:13px;">DIPROSA</h3>
-        <p style="font-size: 11px; color: #34d399; font-weight:bold;">👤 Vendedor: Estuardo</p>
+        <p style="font-size: 11px; color: #34d399; font-weight:bold;">👤 Vendedor: Jorge</p>
         <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
       </div>
       <div id="ticket-items" style="max-height: 140px; overflow-y: auto;"></div>
@@ -168,12 +168,12 @@
   
   <div id="modal-metas" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>📊 METAS - ESTUARDO</h3></div>
+      <div class="ticket-header"><h3>📊 METAS - JORGE</h3></div>
       <div class="compact-box">
         <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
         <div class="compact-row"><span>📉 Déficit / Faltante:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
-        <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
+        <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">127.0 / 189 Hrs</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
     </div>
@@ -181,7 +181,7 @@
 
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>💵 SUELDO (ESTUARDO)</h3></div>
+      <div class="ticket-header"><h3>💵 SUELDO (JORGE)</h3></div>
       <div class="compact-box">
         <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
         <div class="compact-row"><span>Premio Meta (Bono):</span><strong style="color:#27ae60;">Q 500.00</strong></div>
@@ -197,7 +197,6 @@
       <div class="compact-box">
         <div class="compact-row"><span>Base Quincena:</span><strong>Q 1,800.00</strong></div>
         <div class="compact-row"><span>Ventas Nuevas:</span><strong style="color:#38bdf8;" id="q2-ventas-real">Q 0.00</strong></div>
-        <div class="compact-row"><span>Bono Meta (Q500):</span><strong id="q2-bono-meta" style="color:#27ae60;">Q 0.00</strong></div>
         <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>A RECIBIR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,800.00</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
@@ -205,19 +204,19 @@
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_estuardo_v1";
-    const ticketsKey = "diprosa_tickets_estuardo_v1";
+    const storageKey = "carrito_diprosa_jorge_v8";
+    const ticketsKey = "diprosa_tickets_jorge_v8";
     const telefonoCorporativo = "50248502382";
     
-    // Parámetros base para Estuardo
-    const SALDO_INICIAL_ESTUARDO = 0.00;
-    const TIQUETES_BASE_ESTUARDO = 0;
-    const HORAS_BASE_ESTUARDO = 0.0;
-    const META_VENTAS_ESTUARDO = 81000.00;
-    const META_TIQUETES_ESTUARDO = 324;
-    const META_HORAS_ESTUARDO = 189;
-    const SUELDO_BASE_ESTUARDO = 3600.00;
-    const PREMIO_META_ESTUARDO = 500.00;
+    // VALORES OFICIALES ACTUALIZADOS A LA FECHA
+    const SALDO_INICIAL_JORGE = 73839.83;
+    const TIQUETES_BASE_JORGE = 152;
+    const HORAS_BASE_JORGE = 127.0;
+    const META_VENTAS_JORGE = 81000.00;
+    const META_TIQUETES_JORGE = 324;
+    const META_HORAS_JORGE = 189;
+    const SUELDO_BASE_JORGE = 3600.00;
+    const PREMIO_META_JORGE = 500.00;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
@@ -282,6 +281,7 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let sub = 0, arr = [], detalleTexto = "";
       let fechaHoraActual = new Date().toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
+      let hoyStr = new Date().toLocaleDateString('es-GT');
       
       for(let k in carrito) { 
         let item = carrito[k];
@@ -291,10 +291,10 @@
         detalleTexto += `• (x${item.cantidad}) ${item.nombre} - Q${s.toFixed(2)}\n`;
       }
       
-      tks.push({ id: Date.now(), fecha: fechaHoraActual, cliente: r, items: arr, total: sub, anulado: false });
+      tks.push({ id: Date.now(), fecha: fechaHoraActual, fechaSolo: hoyStr, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Estuardo\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
+      let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Jorge\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeWsp), '_blank');
       
@@ -308,8 +308,8 @@
 
     function abrirModalMetas() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentas = SALDO_INICIAL_ESTUARDO;
-      let totalTq = TIQUETES_BASE_ESTUARDO;
+      let totalVentas = SALDO_INICIAL_JORGE;
+      let totalTq = TIQUETES_BASE_JORGE;
 
       tks.forEach(t => { 
         if (!t.anulado) {
@@ -318,22 +318,27 @@
         }
       });
 
-      let deficit = META_VENTAS_ESTUARDO - totalVentas; 
+      let deficit = META_VENTAS_JORGE - totalVentas; 
       if (deficit < 0) deficit = 0;
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
       document.getElementById('meta-deficit').innerText = f(deficit);
-      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / " + META_TIQUETES_ESTUARDO + " Tq";
-      document.getElementById('meta-horas-real').innerText = HORAS_BASE_ESTUARDO.toFixed(1) + " / " + META_HORAS_ESTUARDO + " Hrs";
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / " + META_TIQUETES_JORGE + " Tq";
+      document.getElementById('meta-horas-real').innerText = HORAS_BASE_JORGE.toFixed(1) + " / " + META_HORAS_JORGE + " Hrs";
       
       document.getElementById('modal-metas').style.display = 'flex';
     }
 
     function abrirModalSueldo() {
       let ventasHoy = 0, tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], hoyStr = new Date().toLocaleDateString('es-GT');
-      tks.forEach(t => { if (!t.anulado && t.total && t.fecha && t.fecha.includes(hoyStr)) ventasHoy += parseFloat(t.total); });
+      tks.forEach(t => { 
+        // Solo suma las ventas del día actual (comparando la fecha formateada)
+        if (!t.anulado && t.total && t.fecha && t.fecha.includes(hoyStr)) {
+          ventasHoy += parseFloat(t.total); 
+        }
+      });
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toLocaleString('en-US', {minimumFractionDigits: 2});
       document.getElementById('modal-sueldo').style.display = 'flex';
     }
@@ -343,19 +348,13 @@
       let ventasNuevas = 0;
       tks.forEach(t => { if (!t.anulado && t.total) ventasNuevas += parseFloat(t.total); });
 
-      let ventasTotalesMes = SALDO_INICIAL_ESTUARDO + ventasNuevas;
-      let quincenaBase = SUELDO_BASE_ESTUARDO / 2;
-      let bonoMetaAcceso = 0;
+      let ventasTotalesMes = SALDO_INICIAL_JORGE + ventasNuevas;
+      let quincenaBase = SUELDO_BASE_JORGE / 2; // Q1,800
+      let totalRecibirQ2 = quincenaBase; // Sin adelantar bono hasta cumplir las 3 metas
 
-      if (ventasTotalesMes >= META_VENTAS_ESTUARDO) {
-        bonoMetaAcceso = PREMIO_META_ESTUARDO;
-      }
-
-      let totalRecibirQ2 = quincenaBase + bonoMetaAcceso;
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-ventas-real').innerText = f(ventasNuevas);
-      document.getElementById('q2-bono-meta').innerText = f(bonoMetaAcceso);
       document.getElementById('q2-total-neto').innerText = f(totalRecibirQ2);
 
       document.getElementById('modal-comisiones').style.display = 'flex';
@@ -483,6 +482,8 @@
     function cerrarEdicionTiquete() {
       guardarEdicionTiquete();
     }
+
+    function anularTiqueo(id) {} // Placeholder
 
     function anularTiquete(id) {
       if (!confirm("¿Está seguro de anular este tiquete? Se restará del acumulado.")) return;
