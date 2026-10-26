@@ -168,15 +168,26 @@
     </div>
   </div>
 
-  <div id="modal-comisiones" class="modal"><div class="modal-content"><div class="ticket-header"><h3>📈 ESTADO DIARIO</h3></div><div class="compact-box"><div class="compact-row" style="border:none; margin:0;"><span>A RECIBIR:</span><strong style="color:#27ae60;" id="q2-total-neto">Q 1,800.00</strong></div></div><button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button></div></div>
+  <div id="modal-comisiones" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header"><h3>📈 ESTADO DIARIO 16+</h3></div>
+      <div class="compact-box">
+        <div class="compact-row"><span>Base Quincena:</span><strong>Q 1,800.00</strong></div>
+        <div class="compact-row"><span>Ventas Nuevas:</span><strong style="color:#38bdf8;" id="q2-ventas-real">Q 0.00</strong></div>
+        <div class="compact-row"><span>Bono Meta (Q500):</span><strong id="q2-bono-meta" style="color:#27ae60;">Q 0.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>A RECIBIR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,800.00</strong></div>
+      </div>
+      <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
+    </div>
+  </div>
 
   <script>
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
     
-    // Valores reales configurados para Jorge (Sueldo Q3,600 + Q500 premio)
-    const SALDO_INICIAL_JORGE = 71806.33;
-    const TIQUETES_BASE_JORGE = 147;
+    // Valores reales actualizados para Jorge
+    const SALDO_INICIAL_JORGE = 73839.83;
+    const TIQUETES_BASE_JORGE = 152;
     const HORAS_BASE_JORGE = 127.0;
     const META_VENTAS_JORGE = 81000.00;
     const META_TIQUETES_JORGE = 324;
@@ -276,7 +287,29 @@
       document.getElementById('modal-sueldo').style.display = 'flex';
     }
 
-    function abrirModalComisiones() { document.getElementById('modal-comisiones').style.display = 'flex'; }
+    function abrirModalComisiones() {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let ventasNuevas = 0;
+      tks.forEach(t => { if (!t.anulado && t.total && !t.historico) ventasNuevas += parseFloat(t.total); });
+
+      let ventasTotalesMes = SALDO_INICIAL_JORGE + ventasNuevas;
+      let quincenaBase = SUELDO_BASE_JORGE / 2; // Q1,800
+      let bonoMetaAcceso = 0;
+
+      if (ventasTotalesMes >= META_VENTAS_JORGE) {
+        bonoMetaAcceso = PREMIO_META_JORGE;
+      }
+
+      let totalRecibirQ2 = quincenaBase + bonoMetaAcceso;
+      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+      document.getElementById('q2-ventas-real').innerText = f(ventasNuevas);
+      document.getElementById('q2-bono-meta').innerText = f(bonoMetaAcceso);
+      document.getElementById('q2-total-neto').innerText = f(totalRecibirQ2);
+
+      document.getElementById('modal-comisiones').style.display = 'flex';
+    }
+
     function abrirModalHistorial() { document.getElementById('modal-historial').style.display = 'flex'; }
   </script>
 </body>
