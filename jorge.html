@@ -143,8 +143,19 @@
 
   <div id="modal-historial" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>📂 GESTIÓN DE TIQUETES</h3></div>
-      <div id="lista-historial-tiquetes" style="max-height: 220px; overflow-y: auto;"></div>
+      <div class="ticket-header">
+        <h3>📂 GESTIÓN DE TIQUETES</h3>
+        <div style="margin-top: 6px; display: flex; gap: 4px; align-items: center; justify-content: center;">
+          <span style="font-size: 10px; color: #9ca3af;">Mes:</span>
+          <select id="filtro-mes" onchange="abrirModalHistorial()" style="background:#333; color:white; border:1px solid #555; padding:3px; border-radius:4px; font-size:11px;">
+            <option value="10/2026">Octubre 2026 (Actual)</option>
+            <option value="09/2026">Septiembre 2026</option>
+            <option value="11/2026">Noviembre 2026</option>
+            <option value="12/2026">Diciembre 2026</option>
+          </select>
+        </div>
+      </div>
+      <div id="lista-historial-tiquetes" style="max-height: 200px; overflow-y: auto;"></div>
       <button class="btn-close" onclick="document.getElementById('modal-historial').style.display='none'">Regresar</button>
     </div>
   </div>
@@ -175,7 +186,7 @@
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
         <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">127.0 / 189 Hrs</strong></div>
       </div>
-      <button class="btn-close" onclick="document.getElementById('meta-metas').style.display='none'">Cerrar</button>
+      <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
     </div>
   </div>
 
@@ -204,9 +215,10 @@
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_jorge_v9";
-    const ticketsKey = "diprosa_tickets_jorge_v9";
+    const storageKey = "carrito_diprosa_jorge_v12";
+    const ticketsKey = "diprosa_tickets_jorge_v12";
     const telefonoCorporativo = "50248502382";
+    const MES_ACTUAL_CLAVE = "10/2026"; // Mes activo de metas
     
     const SALDO_INICIAL_JORGE = 73839.83;
     const TIQUETES_BASE_JORGE = 152;
@@ -318,8 +330,11 @@
       
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let sub = 0, arr = [], detalleTexto = "";
-      let fechaHoraActual = new Date().toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
-      let hoyStr = new Date().toLocaleDateString('es-GT');
+      let now = new Date();
+      let fechaHoraActual = now.toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
+      let mesNum = String(now.getMonth() + 1).padStart(2, '0');
+      let anioNum = now.getFullYear();
+      let mesAnioKey = mesNum + '/' + anioNum;
       
       for(let k in carrito) { 
         let item = carrito[k];
@@ -329,7 +344,7 @@
         detalleTexto += `• (x${item.cantidad}) ${item.nombre} - Q${s.toFixed(2)}\n`;
       }
       
-      tks.push({ id: Date.now(), fecha: fechaHoraActual, fechaSolo: hoyStr, cliente: r, items: arr, total: sub, anulado: false });
+      tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Jorge\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
@@ -350,7 +365,9 @@
       let totalTq = TIQUETES_BASE_JORGE;
 
       tks.forEach(t => { 
-        if (!t.anulado) {
+        // ATENCIÓN: Solo se suman al cálculo del mes actual los tiquetes que pertenezcan al mes activo (10/2026)
+        let m = t.mesAnio || MES_ACTUAL_CLAVE;
+        if (!t.anulado && m === MES_ACTUAL_CLAVE) {
           if (t.total) totalVentas += parseFloat(t.total);
           totalTq += 1;
         }
@@ -372,7 +389,8 @@
     function abrirModalSueldo() {
       let ventasHoy = 0, tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], hoyStr = new Date().toLocaleDateString('es-GT');
       tks.forEach(t => { 
-        if (!t.anulado && t.total && t.fecha && t.fecha.includes(hoyStr)) {
+        let m = t.mesAnio || MES_ACTUAL_CLAVE;
+        if (!t.anulado && m === MES_ACTUAL_CLAVE && t.total && t.fecha && t.fecha.includes(hoyStr)) {
           ventasHoy += parseFloat(t.total); 
         }
       });
@@ -383,9 +401,13 @@
     function abrirModalComisiones() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasNuevas = 0;
-      tks.forEach(t => { if (!t.anulado && t.total) ventasNuevas += parseFloat(t.total); });
+      tks.forEach(t => { 
+        let m = t.mesAnio || MES_ACTUAL_CLAVE;
+        if (!t.anulado && m === MES_ACTUAL_CLAVE && t.total) {
+          ventasNuevas += parseFloat(t.total);
+        }
+      });
 
-      let ventasTotalesMes = SALDO_INICIAL_JORGE + ventasNuevas;
       let quincenaBase = SUELDO_BASE_JORGE / 2;
       let totalRecibirQ2 = quincenaBase;
 
@@ -399,19 +421,27 @@
 
     function abrirModalHistorial() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let mesFiltroSeleccionado = document.getElementById('filtro-mes').value;
       let contenedor = document.getElementById('lista-historial-tiquetes');
       
-      if (tks.length === 0) {
-        contenedor.innerHTML = '<p style="text-align:center; color:#888; font-size:11px;">No hay tiquetes registrados aún.</p>';
+      let tksFiltrados = tks.filter(t => {
+        let m = t.mesAnio || MES_ACTUAL_CLAVE;
+        return m === mesFiltroSeleccionado;
+      });
+
+      if (tksFiltrados.length === 0) {
+        contenedor.innerHTML = `<p style="text-align:center; color:#888; font-size:11px;">No hay tiquetes registrados para este período.</p>`;
       } else {
         let html = '';
-        tks.slice().reverse().forEach((t, index) => {
-          let realId = t.id || index;
+        tksFiltrados.slice().reverse().forEach((t) => {
+          let realId = t.id;
           let estadoEstilo = t.anulado ? 'text-decoration: line-through; color: #ef4444;' : 'color: #34d399;';
+          let esMesActual = (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE;
+          let etiquetaMesPasado = !esMesActual ? ' <span style="font-size:8px; background:#475569; padding:1px 3px; border-radius:3px;">Mes Anterior</span>' : '';
           
           html += `<div style="background:#111827; border:1px solid #374151; padding:6px; border-radius:5px; margin-bottom:6px; font-size:11px;">
             <div style="display:flex; justify-content:space-between; font-weight:bold;">
-              <span>👤 ${t.cliente}</span>
+              <span>👤 ${t.cliente} ${etiquetaMesPasado}</span>
               <span style="${estadoEstilo}">Q ${t.total.toFixed(2)}</span>
             </div>
             <div style="font-size:9px; color:#9ca3af; margin:2px 0;">📅 ${t.fecha}</div>
@@ -431,11 +461,13 @@
 
     function abrirEditarTiquete(id) {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => (x.id && x.id === id) || (tks.indexOf(x) === id));
+      let t = tks.find(x => x.id === id);
       if (!t) return;
 
       tiqueteEditandoId = id;
-      document.getElementById('editar-cliente-info').innerText = `Cliente: ${t.cliente} (${t.fecha})`;
+      let esMesActual = (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE;
+      let avisoExtra = !esMesActual ? " (⚠️ Ajuste de Mes Anterior - No altera metas actuales)" : "";
+      document.getElementById('editar-cliente-info').innerText = `Cliente: ${t.cliente} (${t.fecha})${avisoExtra}`;
       
       renderizarItemsEdicion(t.items);
       document.getElementById('modal-editar-tiquete').style.display = 'flex';
@@ -464,7 +496,7 @@
       });
 
       if (items.length === 0) {
-        html = '<p style="text-align:center; color:#ef4444; font-size:11px;">El tiquete se quedará sin productos. Si sale, se anulará automáticamente.</p>';
+        html = '<p style="text-align:center; color:#ef4444; font-size:11px;">El tiquete se quedará sin productos. Si guarda, se anulará.</p>';
       }
 
       contenedor.innerHTML = html;
@@ -473,7 +505,7 @@
 
     function cambiarCantItemEdicion(index, delta) {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => (x.id && x.id === tiqueteEditandoId) || (tks.indexOf(x) === tiqueteEditandoId));
+      let t = tks.find(x => x.id === tiqueteEditandoId);
       if (!t) return;
 
       t.items[index].cantidad += delta;
@@ -485,7 +517,7 @@
 
     function eliminarItemEdicion(index) {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => (x.id && x.id === tiqueteEditandoId) || (tks.indexOf(x) === tiqueteEditandoId));
+      let t = tks.find(x => x.id === tiqueteEditandoId);
       if (!t) return;
 
       t.items.splice(index, 1);
@@ -494,7 +526,7 @@
 
     function guardarEdicionTiquete() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let tIndex = tks.findIndex(x => (x.id && x.id === tiqueteEditandoId) || (tks.indexOf(x) === tiqueteEditandoId));
+      let tIndex = tks.findIndex(x => x.id === tiqueteEditandoId);
       if (tIndex === -1) return;
 
       let t = tks[tIndex];
@@ -511,7 +543,7 @@
       }
 
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
-      alert("¡Cambios guardados automáticamente!");
+      alert("¡Cambios guardados con éxito!");
       document.getElementById('modal-editar-tiquete').style.display = 'none';
       abrirModalHistorial();
     }
@@ -521,10 +553,10 @@
     }
 
     function anularTiquete(id) {
-      if (!confirm("¿Está seguro de anular este tiquete? Se restará del acumulado.")) return;
+      if (!confirm("¿Está seguro de anular este tiquete?")) return;
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tks = tks.map(t => {
-        if ((t.id && t.id === id) || (!t.id && tks.indexOf(t) === id)) {
+        if (t.id === id) {
           t.anulado = true;
           t.total = 0;
         }
