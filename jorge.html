@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo DIPROSA</title>
+  <title>Catálogo DIPROSA - Jorge</title>
   <style>
     :root {
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
@@ -109,16 +109,16 @@
     <div class="lock-card">
       <div class="lock-logo-badge">
         <span>DIPROSA</span>
-        <span>OFICIAL</span>
+        <span>JORGE</span>
       </div>
-      <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DIPROSTRIX</h3>
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo Principal</p>
+      <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DISTRIBUIDORA</h3>
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Jorge</p>
       <button class="btn-pin" onclick="entrarAlSistema()">INGRESAR AL CATÁLOGO</button>
     </div>
   </div>
 
   <div class="header-bar">
-    <h1>📦 CATÁLOGO DIPROSA</h1>
+    <h1>📦 CATÁLOGO JORGE</h1>
     <button class="btn-menu-top" onclick="abrirModalMenuExtra()">⚙️ Menú ▾</button>
   </div>
 
@@ -142,8 +142,8 @@
       <div class="ticket-header">
         <h3>⚙️ MENÚ DE OPCIONES</h3>
       </div>
-      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="cerrarModal('modal-menu-extra'); abrirModalMetas();">📊 Ver Metas de Venta</button>
-      <button class="btn-menu-opcion" style="background:#059669;" onclick="cerrarModal('modal-menu-extra'); abrirModalSueldo();">💰 Consultar Sueldo y Día</button>
+      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="cerrarModal('modal-menu-extra'); abrirModalMetas();">📊 Ver Metas - Jorge</button>
+      <button class="btn-menu-opcion" style="background:#059669;" onclick="cerrarModal('modal-menu-extra'); abrirModalSueldo();">💰 Sueldo y Día (Jorge)</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="cerrarModal('modal-menu-extra'); abrirModalComisiones();">📈 Estado Diario 16+</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="cerrarModal('modal-menu-extra'); abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
       <button class="btn-menu-opcion" style="background:#8b5cf6;" onclick="cerrarModal('modal-menu-extra'); abrirModalReporteMes();">🔍 Buscar Tiquetes (Fecha / Cliente)</button>
@@ -158,7 +158,7 @@
         <p style="font-size:10px; color:#ddd; margin:0 0 2px 0;">DIPROSA Distribuidora de Productos</p>
         <p style="font-size:10px; color:#aaa; margin:0 0 2px 0;">NIT: 112201814 | Tel: 4850 2382</p>
         <p style="font-size:9px; color:#888; margin:0 0 4px 0; line-height:1.2;">SECTOR 1 0-68 COMUNIDAD DE ZET PROYECTO LOS ENCINOS, SAN JUAN SACATEPÉQUEZ, GUATEMALA</p>
-        <p style="font-size: 11px; color: #34d399; font-weight:bold; margin: 4px 0 2px 0;">📦 Principal / General</p>
+        <p style="font-size: 11px; color: #34d399; font-weight:bold; margin: 4px 0 2px 0;">👤 Vendedor: Jorge</p>
         <p style="font-size: 10px; color: #888; margin:0;" id="ticket-fecha"></p>
         <p style="font-size: 12px; font-weight: bold; color: #27ae60; margin-top:3px;" id="ticket-numero-label"></p>
       </div>
@@ -218,12 +218,12 @@
   <div id="modal-metas" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3>📊 METAS - GENERAL</h3>
+        <h3>📊 METAS - JORGE</h3>
       </div>
       <div class="compact-box">
         <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
         <div class="compact-row"><span>Faltante Meta:</span><strong style="color:#ef4444;" id="meta-faltante">Q 81,000.00</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">92 / 324 Tq</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
         <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">127.0 / 189 Hrs</strong></div>
       </div>
       <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte</button>
@@ -234,7 +234,7 @@
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3>💵 SUELDO Y NÓMINA</h3>
+        <h3>💵 SUELDO Y NÓMINA (JORGE)</h3>
       </div>
       <div class="compact-box">
         <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
@@ -269,23 +269,23 @@
       if (pantalla) pantalla.style.display = 'none';
     }
 
-    const storageKey = "carrito_diprosa_general";
-    const ticketsKey = "diprosa_tickets_general";
+    const storageKey = "carrito_diprosa_jorge";
+    const ticketsKey = "diprosa_tickets_jorge";
     
-    const SALDO_INICIAL_GENERAL = 39706.03;
-    const TIQUETES_BASE_GENERAL = 92;
-    const HORAS_BASE_GENERAL = 127.0;
-    const HORAS_META_GENERAL = 189;
+    const SALDO_INICIAL_JORGE = 39706.03;
+    const TIQUETES_BASE_JORGE = 92;
+    const HORAS_BASE_JORGE = 127.0;
+    const HORAS_META_JORGE = 189;
 
-    localStorage.setItem("ventas_base_mes_general", SALDO_INICIAL_GENERAL.toString());
+    localStorage.setItem("ventas_base_mes_jorge", SALDO_INICIAL_JORGE.toString());
 
     let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-    if (!tiquetesGuardados.length || tiquetesGuardados.length < TIQUETES_BASE_GENERAL) {
+    if (!tiquetesGuardados.length || tiquetesGuardados.length < TIQUETES_BASE_JORGE) {
       let tiquetesPrecargados = [];
-      for (let i = 1; i <= TIQUETES_BASE_GENERAL; i++) {
+      for (let i = 1; i <= TIQUETES_BASE_JORGE; i++) {
         tiquetesPrecargados.push({
           fecha: "24/10/2026",
-          cliente: "Cliente Ruta General " + i,
+          cliente: "Cliente Ruta Jorge " + i,
           items: [{nombre: "Surtido General", cantidad: 1, precio: 0.00}],
           total: 0.00,
           historico: true,
@@ -380,7 +380,7 @@
     function abrirModalMenuExtra() { abrirModal('modal-menu-extra'); }
 
     function abrirModalMetas() {
-      let baseMes = SALDO_INICIAL_GENERAL;
+      let baseMes = SALDO_INICIAL_JORGE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentasReal = baseMes;
       let totalTq = 0;
@@ -402,7 +402,7 @@
       document.getElementById('meta-ventas-real').innerText = f(totalVentasReal) + " / Q81k";
       document.getElementById('meta-faltante').innerText = f(faltanteMeta);
       document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
-      document.getElementById('meta-horas-real').innerText = HORAS_BASE_GENERAL.toFixed(1) + " / " + HORAS_META_GENERAL + " Hrs";
+      document.getElementById('meta-horas-real').innerText = HORAS_BASE_JORGE.toFixed(1) + " / " + HORAS_META_JORGE + " Hrs";
 
       abrirModal('modal-metas');
     }
@@ -425,7 +425,7 @@
 
     function abrirModalComisiones() {
       try {
-        let baseMes = SALDO_INICIAL_GENERAL;
+        let baseMes = SALDO_INICIAL_JORGE;
         let ventasQ2Nuevas = 0; 
         let totalVentasMes = baseMes;
 
@@ -484,7 +484,7 @@
     }
 
     function enviarCorteDiarioWA() {
-      let baseMes = SALDO_INICIAL_GENERAL;
+      let baseMes = SALDO_INICIAL_JORGE;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = baseMes;
       let totalTq = 0;
@@ -502,12 +502,12 @@
       let faltante = metaMes - totalVentas;
       if (faltante < 0) faltante = 0;
 
-      let msg = `📊 *REPORTE ACUMULADO - RUTAS*\n` +
+      let msg = `📊 *REPORTE ACUMULADO - JORGE*\n` +
                 `--------------------------------\n` +
                 `💰 *Ventas Totales:* Q${totalVentas.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} / Q81k\n` +
                 `📉 *Faltante Meta:* Q${faltante.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n` +
                 `🧾 *Tiquetes Totales:* ${totalTq} / 324 Tq\n` +
-                `⏱️ *Horas Trabajadas:* ${HORAS_BASE_GENERAL.toFixed(1)} / ${HORAS_META_GENERAL} Hrs\n` +
+                `⏱️ *Horas Trabajadas:* ${HORAS_BASE_JORGE.toFixed(1)} / ${HORAS_META_JORGE} Hrs\n` +
                 `--------------------------------\n` +
                 `📅 Reporte desde el inicio de mes a la fecha.`;
 
@@ -594,7 +594,7 @@
 
       contenedor.innerHTML = filtrados.reverse().map(({ t, idx }) => `
         <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
-          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${idx + 1 <= TIQUETES_BASE_GENERAL ? '#ff9800' : (t.anulado ? '#e74c3c' : '#34d399')};">
+          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:bold; color:${idx + 1 <= TIQUETES_BASE_JORGE ? '#ff9800' : (t.anulado ? '#e74c3c' : '#34d399')};">
             <span>Tiquete #${idx + 1} - ${t.cliente}</span>
             <span>Q${t.total.toFixed(2)}</span>
           </div>
@@ -722,7 +722,7 @@
       tiquetesGuardados.push(nuevoTiquete);
       localStorage.setItem(ticketsKey, JSON.stringify(tiquetesGuardados));
 
-      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Catálogo:* Principal\n*Tiquete # ${String(numT).padStart(8,'0')}* (${horaActual})\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
+      let msg = `*DISTRIBUIDORA DIPROSA*\n📦 *Catálogo:* Jorge\n*Tiquete # ${String(numT).padStart(8,'0')}* (${horaActual})\n👤 *Cliente:* ${receptor}\n--------------------------------\n`;
       itemsArray.forEach(i => {
         msg += `(x${i.cantidad}) ${i.nombre} = Q${(i.precio * i.cantidad).toFixed(2)}\n`;
       });
