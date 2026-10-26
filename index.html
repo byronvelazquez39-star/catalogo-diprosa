@@ -482,8 +482,30 @@
       let baseMes = SALDO_INICIAL_GENERAL;
       let tiquetesGuardados = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = baseMes;
-      tiquetesGuardados.forEach(t => { if (t.total && !t.anulado && !t.historico) totalVentas += parseFloat(t.total); });
-      let msg = `📊 *REPORTE VENTAS - GENERAL*\nVentas acumuladas: Q${totalVentas.toFixed(2)}`;
+      let totalTq = 0;
+
+      tiquetesGuardados.forEach(t => {
+        if (!t.anulado) {
+          if (t.total > 0 && !t.historico) {
+            totalVentas += parseFloat(t.total);
+          }
+          totalTq += 1;
+        }
+      });
+
+      let metaMes = 81000;
+      let faltante = metaMes - totalVentas;
+      if (faltante < 0) faltante = 0;
+
+      let msg = `📊 *REPORTE ACUMULADO - GENERAL*\n` +
+                `--------------------------------\n` +
+                `💰 *Ventas Totales:* Q${totalVentas.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} / Q81k\n` +
+                `📉 *Faltante Meta:* Q${faltante.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n` +
+                `🧾 *Tiquetes Totales:* ${totalTq} / 324 Tq\n` +
+                `⏱️ *Horas Trabajadas:* ${HORAS_BASE_GENERAL.toFixed(1)} / ${HORAS_META_GENERAL} Hrs\n` +
+                `--------------------------------\n` +
+                `📅 Reporte desde el inicio de mes a la fecha.`;
+
       window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
     }
 
@@ -515,7 +537,9 @@
       if (!deHoy.length) {
         contenedor.innerHTML = '<p style="text-align:center; color:#888;">No hay tiquetes emitidos hoy.</p>';
       } else {
-        contenedor.innerHTML = tiquetesGuardados.map((t, index) => {
+        // Creamos una lista mapeando el índice real y la invertimos para mostrar los más nuevos arriba
+        let listaInvertida = tiquetesGuardados.map((t, idx) => ({ t, index: idx })).reverse();
+        contenedor.innerHTML = listaInvertida.map(({ t, index }) => {
           if (t.historico) return '';
           return `
             <div style="background:#111827; padding:8px; border-radius:6px; margin-bottom:6px; border:1px solid ${t.anulado ? '#e74c3c' : '#374151'};">
