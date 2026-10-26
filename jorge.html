@@ -117,7 +117,7 @@
       <button class="btn-menu-opcion" style="background:#0284c7;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalMetas();">📊 Ver Metas - Jorge</button>
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Diario 16+</button>
-      <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes Emitidos Hoy</button>
+      <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes Emitidos (Ver/Anular)</button>
       <button class="btn-close" onclick="document.getElementById('modal-menu-extra').style.display='none'">Cerrar Menú</button>
     </div>
   </div>
@@ -141,7 +141,13 @@
     </div>
   </div>
 
-  <div id="modal-historial" class="modal"><div class="modal-content"><div class="ticket-header"><h3>📂 TIQUETES DE HOY</h3></div><div id="lista-historial-tiquetes" style="max-height: 200px; overflow-y: auto;"></div><button class="btn-close" onclick="document.getElementById('modal-historial').style.display='none'">Regresar</button></div></div>
+  <div id="modal-historial" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header"><h3>📂 GESTIÓN DE TIQUETES</h3></div>
+      <div id="lista-historial-tiquetes" style="max-height: 220px; overflow-y: auto;"></div>
+      <button class="btn-close" onclick="document.getElementById('modal-historial').style.display='none'">Regresar</button>
+    </div>
+  </div>
   
   <div id="modal-metas" class="modal">
     <div class="modal-content">
@@ -160,27 +166,42 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>💵 SUELDO (JORGE)</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,500.00</strong></div>
+        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
+        <div class="compact-row"><span>Premio Meta (Bono):</span><strong style="color:#27ae60;">Q 500.00</strong></div>
         <div class="compact-row" style="color:#38bdf8; border:none; margin:0;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-sueldo').style.display='none'">Cerrar</button>
     </div>
   </div>
 
-  <div id="modal-comisiones" class="modal"><div class="modal-content"><div class="ticket-header"><h3>📈 ESTADO DIARIO</h3></div><div class="compact-box"><div class="compact-row" style="border:none; margin:0;"><span>A RECIBIR:</span><strong style="color:#27ae60;" id="q2-total-neto">Q 1,750.00</strong></div></div><button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button></div></div>
+  <div id="modal-comisiones" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header"><h3>📈 ESTADO DIARIO 16+</h3></div>
+      <div class="compact-box">
+        <div class="compact-row"><span>Base Quincena:</span><strong>Q 1,800.00</strong></div>
+        <div class="compact-row"><span>Ventas Nuevas:</span><strong style="color:#38bdf8;" id="q2-ventas-real">Q 0.00</strong></div>
+        <div class="compact-row"><span>Bono Meta (Q500):</span><strong id="q2-bono-meta" style="color:#27ae60;">Q 0.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>A RECIBIR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,800.00</strong></div>
+      </div>
+      <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
+    </div>
+  </div>
 
   <script>
-    const storageKey = "carrito_diprosa_jorge";
-    const ticketsKey = "diprosa_tickets_jorge";
+    // Llaves oficiales fijas y definitivas
+    const storageKey = "carrito_diprosa_jorge_oficial";
+    const ticketsKey = "diprosa_tickets_jorge_oficial";
+    const telefonoCorporativo = "50248502382";
     
-    // Valores reales configurados para Jorge (Sueldo base Q3,500)
-    const SALDO_INICIAL_JORGE = 71806.33;
-    const TIQUETES_BASE_JORGE = 147;
+    // DATOS OFICIALES EXACTOS QUE INDICÓ
+    const SALDO_INICIAL_JORGE = 73839.83;
+    const TIQUETES_BASE_JORGE = 152;
     const HORAS_BASE_JORGE = 127.0;
     const META_VENTAS_JORGE = 81000.00;
     const META_TIQUETES_JORGE = 324;
     const META_HORAS_JORGE = 189;
-    const SUELDO_BASE_JORGE = 3500.00;
+    const SUELDO_BASE_JORGE = 3600.00;
+    const PREMIO_META_JORGE = 500.00;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
@@ -228,18 +249,33 @@
     }
 
     function enviarWhatsAppYLimpiar() {
-      let r = document.getElementById('cliente-receptor').value.trim(); if(!r) { alert("Ingrese cliente."); return; }
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], sub = 0, arr = [];
-      for(let k in carrito) { sub += carrito[k].cantidad * carrito[k].precio; arr.push(carrito[k]); }
+      let r = document.getElementById('cliente-receptor').value.trim(); 
+      if(!r) { alert("Por favor ingrese el nombre del cliente o tienda."); return; }
       
-      tks.push({ fecha: new Date().toLocaleString('es-GT'), cliente: r, items: arr, total: sub, anulado: false });
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let sub = 0, arr = [], detalleTexto = "";
+      
+      for(let k in carrito) { 
+        let item = carrito[k];
+        let s = item.cantidad * item.precio; 
+        sub += s; 
+        arr.push(item);
+        detalleTexto += `• (x${item.cantidad}) ${item.nombre} - Q${s.toFixed(2)}\n`;
+      }
+      
+      tks.push({ id: Date.now(), fecha: new Date().toLocaleString('es-GT'), cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      window.open(`https://api.whatsapp.com/send?text=` + encodeURIComponent(`*DISTRIBUIDORA DIPROSA*\n📦 *Catálogo:* Jorge\n👤 *Cliente:* ${r}\n--------------------------------\nTotal: Q${sub.toFixed(2)}\n¡Hola! Confirmo este pedido.`), '_blank');
+      let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Jorge\n👤 *Cliente:* ${r}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
+
+      window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeWsp), '_blank');
       
-      carrito = {}; localStorage.removeItem(storageKey);
+      carrito = {}; 
+      localStorage.removeItem(storageKey);
+      document.getElementById('cliente-receptor').value = '';
       document.getElementById('modal-ticket').style.display = 'none';
-      actualizarUIResumen(); renderizarCatalogo();
+      actualizarUIResumen(); 
+      renderizarCatalogo();
     }
 
     function abrirModalMetas() {
@@ -274,8 +310,71 @@
       document.getElementById('modal-sueldo').style.display = 'flex';
     }
 
-    function abrirModalComisiones() { document.getElementById('modal-comisiones').style.display = 'flex'; }
-    function abrirModalHistorial() { document.getElementById('modal-historial').style.display = 'flex'; }
+    function abrirModalComisiones() {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let ventasNuevas = 0;
+      tks.forEach(t => { if (!t.anulado && t.total) ventasNuevas += parseFloat(t.total); });
+
+      let ventasTotalesMes = SALDO_INICIAL_JORGE + ventasNuevas;
+      let quincenaBase = SUELDO_BASE_JORGE / 2; // Q1,800
+      let bonoMetaAcceso = 0;
+
+      if (ventasTotalesMes >= META_VENTAS_JORGE) {
+        bonoMetaAcceso = PREMIO_META_JORGE;
+      }
+
+      let totalRecibirQ2 = quincenaBase + bonoMetaAcceso;
+      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+      document.getElementById('q2-ventas-real').innerText = f(ventasNuevas);
+      document.getElementById('q2-bono-meta').innerText = f(bonoMetaAcceso);
+      document.getElementById('q2-total-neto').innerText = f(totalRecibirQ2);
+
+      document.getElementById('modal-comisiones').style.display = 'flex';
+    }
+
+    function abrirModalHistorial() {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let contenedor = document.getElementById('lista-historial-tiquetes');
+      
+      if (tks.length === 0) {
+        contenedor.innerHTML = '<p style="text-align:center; color:#888; font-size:11px;">No hay tiquetes nuevos registrados hoy.</p>';
+      } else {
+        let html = '';
+        tks.slice().reverse().forEach((t, index) => {
+          let estadoEstilo = t.anulado ? 'text-decoration: line-through; color: #ef4444;' : 'color: #34d399;';
+          let textoBoton = t.anulado ? 'Anulado' : '❌ Anular';
+          let colorBoton = t.anulado ? '#333' : '#b91c1c';
+          
+          html += `<div style="background:#111827; border:1px solid #374151; padding:6px; border-radius:5px; margin-bottom:6px; font-size:11px;">
+            <div style="display:flex; justify-content:space-between; font-weight:bold;">
+              <span>👤 ${t.cliente}</span>
+              <span style="${estadoEstilo}">Q ${t.total.toFixed(2)}</span>
+            </div>
+            <div style="font-size:9px; color:#9ca3af; margin:2px 0;">📅 ${t.fecha}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <span style="font-size:10px; color:#d1d5db;">Items: ${t.items.length}</span>
+              <button onclick="anularTiquete(${t.id || index})" style="background:${colorBoton}; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;" ${t.anulado ? 'disabled' : ''}>${textoBoton}</button>
+            </div>
+          </div>`;
+        });
+        contenedor.innerHTML = html;
+      }
+      document.getElementById('modal-historial').style.display = 'flex';
+    }
+
+    function anularTiquete(id) {
+      if (!confirm("¿Está seguro de anular este tiquete? Se restará del acumulado.")) return;
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      tks = tks.map(t => {
+        if ((t.id && t.id === id) || (!t.id && tks.indexOf(t) === id)) {
+          t.anulado = true;
+        }
+        return t;
+      });
+      localStorage.setItem(ticketsKey, JSON.stringify(tks));
+      abrirModalHistorial();
+    }
   </script>
 </body>
 </html>
