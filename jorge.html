@@ -75,8 +75,25 @@
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 12px; box-sizing: border-box; margin-bottom: 8px; }
     .btn-close { background: #444; color: white; border: none; padding: 7px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 6px; font-size: 12px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
+    .btn-modal-print { background: #0284c7; color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
+
+    /* CONFIGURACIÓN ESPECIAL PARA IMPRESORA TÉRMICA (58mm / 80mm) */
+    @media print {
+      body * { visibility: hidden; }
+      #modal-ticket, #modal-ticket *, #modal-imprimir-reporte, #modal-imprimir-reporte * { visibility: visible; }
+      #modal-ticket, #modal-imprimir-reporte {
+        position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important;
+        display: flex !important; justify-content: flex-start; align-items: flex-start; padding: 0;
+      }
+      .modal-content {
+        background: white !important; color: black !important; border: none !important; width: 100% !important;
+        max-width: 100% !important; box-shadow: none !important; padding: 5px !important; font-size: 11px !important;
+      }
+      .ticket-header h3, .ticket-header p, #ticket-items div, #reporte-imprimir-contenido div, span, strong { color: black !important; }
+      .client-input, .btn-modal-wa, .btn-modal-print, .btn-close, .cart-bar, .header-bar, #buscar, .no-print { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -117,7 +134,7 @@
       <button class="btn-menu-opcion" style="background:#0284c7;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalMetas();">📊 Ver Metas - Jorge</button>
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Diario 16+</button>
-      <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes Emitidos (Ver/Editar)</button>
+      <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes y Reportes Mes</button>
       <button class="btn-menu-opcion" style="background:#25d366; color:#000; font-weight:bold;" onclick="document.getElementById('modal-menu-extra').style.display='none'; enviarReporteCierreWsp();">📤 Enviar Cierre a Don Byron</button>
       <button class="btn-close" onclick="document.getElementById('modal-menu-extra').style.display='none'">Cerrar Menú</button>
     </div>
@@ -137,7 +154,8 @@
           <span>Total:</span><span>Q <span id="ticket-total">0.00</span></span>
         </div>
       </div>
-      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido</button>
+      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido por WhatsApp</button>
+      <button class="btn-modal-print" onclick="window.print()">🖨️ Imprimir Recibo Térmico</button>
       <button class="btn-close" onclick="document.getElementById('modal-ticket').style.display='none'">Seguir Comprando</button>
     </div>
   </div>
@@ -145,7 +163,7 @@
   <div id="modal-historial" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3>📂 GESTIÓN DE TIQUETES</h3>
+        <h3>📂 TIQUETES Y REPORTE</h3>
         <div style="margin-top: 6px; display: flex; gap: 4px; align-items: center; justify-content: center;">
           <span style="font-size: 10px; color: #9ca3af;">Mes:</span>
           <select id="filtro-mes" onchange="abrirModalHistorial()" style="background:#333; color:white; border:1px solid #555; padding:3px; border-radius:4px; font-size:11px;">
@@ -156,8 +174,21 @@
           </select>
         </div>
       </div>
-      <div id="lista-historial-tiquetes" style="max-height: 200px; overflow-y: auto;"></div>
+      <button class="btn-modal-print" style="margin-bottom:8px;" onclick="imprimirReporteMesActual()">🖨️ Imprimir Consolidado de Compras</button>
+      <div id="lista-historial-tiquetes" style="max-height: 180px; overflow-y: auto;"></div>
       <button class="btn-close" onclick="document.getElementById('modal-historial').style.display='none'">Regresar</button>
+    </div>
+  </div>
+
+  <div id="modal-imprimir-reporte" class="modal">
+    <div class="modal-content">
+      <div class="ticket-header">
+        <h3 style="color:#ff9800;">CONSOLIDADO DE COMPRAS</h3>
+        <p style="font-size:10px; color:#aaa;" id="rep-mes-txt"></p>
+      </div>
+      <div id="reporte-imprimir-contenido" style="font-size:11px; margin-bottom:8px; max-height:220px; overflow-y:auto;"></div>
+      <button class="btn-modal-print no-print" onclick="window.print()">🖨️ Imprimir en Térmica</button>
+      <button class="btn-close no-print" onclick="document.getElementById('modal-imprimir-reporte').style.display='none'">Cerrar</button>
     </div>
   </div>
 
@@ -185,7 +216,7 @@
         <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
         <div class="compact-row"><span>📉 Déficit / Faltante:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
-        <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">127.0 / 189 Hrs</strong></div>
+        <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
     </div>
@@ -197,6 +228,7 @@
       <div class="compact-box">
         <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
         <div class="compact-row"><span>Premio Meta (Bono):</span><strong style="color:#27ae60;">Q 500.00</strong></div>
+        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 0.00 (Sin moto)</strong></div>
         <div class="compact-row" style="color:#38bdf8; border:none; margin:0;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-sueldo').style.display='none'">Cerrar</button>
@@ -229,48 +261,25 @@
     const META_HORAS_JORGE = 189;
     const SUELDO_BASE_JORGE = 3600.00;
     const PREMIO_META_JORGE = 500.00;
+    const DEPRECIACION_MOTO_JORGE = 0.00;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
-    // Respaldo de emergencia integrado para que nunca se quede en blanco "Cargando inventario..."
     const productosRespaldo = [
       {nombre: "Frijol Ducal (24 unid)", precio: 66.00},
       {nombre: "1 ciento bolsa para basura # 1 para dar Q.1.00", precio: 76.00},
       {nombre: "1 caja mazola margarina de 5 unidades para dar Q.3.00", precio: 11.50},
-      {nombre: "1 ciento bolsa para basura # 2 para dar Q.1.00", precio: 50.00},
-      {nombre: "1 heinz de manzana para dar Q.6.00", precio: 5.50},
-      {nombre: "1 heinz de melocoton para dar Q.6.00", precio: 5.50},
-      {nombre: "1 heinz de pera para dar Q.6.00", precio: 5.50},
-      {nombre: "1 libra de chocolate rico para dar Q.16.00", precio: 16.00},
-      {nombre: "1 libra de gelatina 'CHICLE' castilla para dar Q.16.50", precio: 16.50},
-      {nombre: "1 libra de gelatina 'FRESA' castilla para dar Q.16.50", precio: 16.50},
-      {nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50},
-      {nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00},
-      {nombre: "(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50", precio: 67.00},
-      {nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50", precio: 67.00},
-      {nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50", precio: 67.00},
-      {nombre: "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50", precio: 67.00}
+      {nombre: "1 ciento bolsa para basura # 2 para dar Q.1.00", precio: 50.00}
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
-        .then(data => { 
-          productos = data; 
-          productosFiltrados = data; 
-          renderizarCatalogo(); 
-          actualizarUIResumen(); 
-        })
-        .catch(() => { 
-          // Si falla el archivo externo, usa el respaldo integrado de inmediato
-          productos = productosRespaldo; 
-          productosFiltrados = productos; 
-          renderizarCatalogo(); 
-          actualizarUIResumen(); 
-        });
+        .then(data => { productos = data; productosFiltrados = data; renderizarCatalogo(); actualizarUIResumen(); })
+        .catch(() => { productos = productosRespaldo; productosFiltrados = productos; renderizarCatalogo(); actualizarUIResumen(); });
     });
 
     function renderizarCatalogo() {
@@ -326,11 +335,6 @@
           </div>
         </div>`; 
       }
-
-      if (Object.keys(carrito).length === 0) {
-        h = '<p style="text-align:center; color:#ef4444; font-size:11px;">El carrito está vacío.</p>';
-      }
-
       document.getElementById('ticket-items').innerHTML = h; 
       document.getElementById('ticket-total').innerText = sub.toFixed(2);
       actualizarUIResumen();
@@ -395,9 +399,7 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasMes = SALDO_INICIAL_JORGE;
       let tqMes = TIQUETES_BASE_JORGE;
-      let ventasHoy = 0;
-      let tqHoy = 0;
-      let hoyStr = new Date().toLocaleDateString('es-GT');
+      let ventasHoy = 0, tqHoy = 0, hoyStr = new Date().toLocaleDateString('es-GT');
       let fechaActualStr = new Date().toLocaleDateString('es-GT', { dateStyle: 'medium' });
 
       tks.forEach(t => {
@@ -405,73 +407,45 @@
         if (!t.anulado && m === MES_ACTUAL_CLAVE) {
           if (t.total) ventasMes += parseFloat(t.total);
           tqMes += 1;
-          
-          if (t.fecha && t.fecha.includes(hoyStr)) {
-            ventasHoy += parseFloat(t.total);
-            tqHoy += 1;
-          }
+          if (t.fecha && t.fecha.includes(hoyStr)) { ventasHoy += parseFloat(t.total); tqHoy += 1; }
         }
       });
 
-      let deficitVentas = META_VENTAS_JORGE - ventasMes;
-      if (deficitVentas < 0) deficitVentas = 0;
-      let deficitTq = META_TIQUETES_JORGE - tqMes;
-      if (deficitTq < 0) deficitTq = 0;
+      let deficitVentas = Math.max(0, META_VENTAS_JORGE - ventasMes);
+      let superavitVentas = Math.max(0, ventasMes - META_VENTAS_JORGE);
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n` +
-                          `👤 *Vendedor:* Jorge\n` +
-                          `📅 *Fecha:* ${fechaActualStr}\n` +
-                          `----------------------------------------\n` +
-                          `☀️ *RESUMEN DE HOY:* \n` +
-                          `• Ventas del día: *Q ${ventasHoy.toLocaleString('en-US', {minimumFractionDigits: 2})}*\n` +
-                          `• Tiquetes de hoy: *${tqHoy} tiquetes*\n` +
-                          `----------------------------------------\n` +
-                          `📈 *ACUMULADO DEL MES:* \n` +
-                          `• Ventas Totales: Q ${ventasMes.toLocaleString('en-US', {minimumFractionDigits: 2})} / Q81,000\n` +
-                          `• Faltante (Déficit): Q ${deficitVentas.toLocaleString('en-US', {minimumFractionDigits: 2})}\n` +
-                          `• Tiquetes Mes: ${tqMes} / 324 Tq (Faltan: ${deficitTq})\n` +
-                          `• Horas Ruta: ${HORAS_BASE_JORGE.toFixed(1)} / ${META_HORAS_JORGE} Hrs\n` +
-                          `----------------------------------------\n` +
-                          `¡Cierre de jornada enviado con éxito!`;
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Jorge\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k\n• Superávit: Q ${superavitVentas.toFixed(2)}\n• Tiquetes: ${tqMes} / 324 Tq\n• Horas: ${HORAS_BASE_JORGE.toFixed(1)} / 189 Hrs\n----------------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
 
     function abrirModalMetas() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentas = SALDO_INICIAL_JORGE;
-      let totalTq = TIQUETES_BASE_JORGE;
-
+      let totalVentas = SALDO_INICIAL_JORGE, totalTq = TIQUETES_BASE_JORGE;
       tks.forEach(t => { 
-        let m = t.mesAnio || MES_ACTUAL_CLAVE;
-        if (!t.anulado && m === MES_ACTUAL_CLAVE) {
+        if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE) {
           if (t.total) totalVentas += parseFloat(t.total);
           totalTq += 1;
         }
       });
-
-      let deficit = META_VENTAS_JORGE - totalVentas; 
-      if (deficit < 0) deficit = 0;
-
-      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      let deficit = Math.max(0, META_VENTAS_JORGE - totalVentas);
+      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2});
 
       document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
       document.getElementById('meta-deficit').innerText = f(deficit);
-      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / " + META_TIQUETES_JORGE + " Tq";
-      document.getElementById('meta-horas-real').innerText = HORAS_BASE_JORGE.toFixed(1) + " / " + META_HORAS_JORGE + " Hrs";
-      
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
+      document.getElementById('meta-horas-real').innerText = HORAS_BASE_JORGE.toFixed(1) + " / 189 Hrs";
       document.getElementById('modal-metas').style.display = 'flex';
     }
 
     function abrirModalSueldo() {
       let ventasHoy = 0, tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], hoyStr = new Date().toLocaleDateString('es-GT');
       tks.forEach(t => { 
-        let m = t.mesAnio || MES_ACTUAL_CLAVE;
-        if (!t.anulado && m === MES_ACTUAL_CLAVE && t.total && t.fecha && t.fecha.includes(hoyStr)) {
+        if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE && t.total && t.fecha && t.fecha.includes(hoyStr)) {
           ventasHoy += parseFloat(t.total); 
         }
       });
-      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toLocaleString('en-US', {minimumFractionDigits: 2});
+      document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2);
       document.getElementById('modal-sueldo').style.display = 'flex';
     }
 
@@ -479,20 +453,12 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasNuevas = 0;
       tks.forEach(t => { 
-        let m = t.mesAnio || MES_ACTUAL_CLAVE;
-        if (!t.anulado && m === MES_ACTUAL_CLAVE && t.total) {
+        if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE && t.total) {
           ventasNuevas += parseFloat(t.total);
         }
       });
-
-      let quincenaBase = SUELDO_BASE_JORGE / 2;
-      let totalRecibirQ2 = quincenaBase;
-
-      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-      document.getElementById('q2-ventas-real').innerText = f(ventasNuevas);
-      document.getElementById('q2-total-neto').innerText = f(totalRecibirQ2);
-
+      document.getElementById('q2-ventas-real').innerText = "Q " + ventasNuevas.toFixed(2);
+      document.getElementById('q2-total-neto').innerText = "Q " + (SUELDO_BASE_JORGE / 2).toFixed(2);
       document.getElementById('modal-comisiones').style.display = 'flex';
     }
 
@@ -500,11 +466,7 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let mesFiltroSeleccionado = document.getElementById('filtro-mes').value;
       let contenedor = document.getElementById('lista-historial-tiquetes');
-      
-      let tksFiltrados = tks.filter(t => {
-        let m = t.mesAnio || MES_ACTUAL_CLAVE;
-        return m === mesFiltroSeleccionado;
-      });
+      let tksFiltrados = tks.filter(t => (t.mesAnio || MES_ACTUAL_CLAVE) === mesFiltroSeleccionado);
 
       if (tksFiltrados.length === 0) {
         contenedor.innerHTML = `<p style="text-align:center; color:#888; font-size:11px;">No hay tiquetes registrados para este período.</p>`;
@@ -513,20 +475,19 @@
         tksFiltrados.slice().reverse().forEach((t) => {
           let realId = t.id;
           let estadoEstilo = t.anulado ? 'text-decoration: line-through; color: #ef4444;' : 'color: #34d399;';
-          let esMesActual = (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE;
-          let etiquetaMesPasado = !esMesActual ? ' <span style="font-size:8px; background:#475569; padding:1px 3px; border-radius:3px;">Mes Anterior</span>' : '';
           
           html += `<div style="background:#111827; border:1px solid #374151; padding:6px; border-radius:5px; margin-bottom:6px; font-size:11px;">
             <div style="display:flex; justify-content:space-between; font-weight:bold;">
-              <span>👤 ${t.cliente} ${etiquetaMesPasado}</span>
+              <span>👤 ${t.cliente}</span>
               <span style="${estadoEstilo}">Q ${t.total.toFixed(2)}</span>
             </div>
             <div style="font-size:9px; color:#9ca3af; margin:2px 0;">📅 ${t.fecha}</div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
               <span style="font-size:10px; color:#d1d5db;">Items: ${t.items.length}</span>
               <div>
-                ${!t.anulado ? `<button onclick="abrirEditarTiquete(${realId})" style="background:#0284c7; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer; margin-right:4px;" title="Ver o Editar productos">✏️ Editar</button>` : ''}
-                <button onclick="anularTiquete(${realId})" style="background:${t.anulado ? '#333' : '#b91c1c'}; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;" ${t.anulado ? 'disabled' : ''}>${t.anulado ? 'Anulado' : '❌ Anular'}</button>
+                ${!t.anulado ? `<button onclick="imprimirUnTiquete(${realId})" style="background:#0284c7; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer; margin-right:4px;">🖨️ Imprimir</button>` : ''}
+                ${!t.anulado ? `<button onclick="abrirEditarTiquete(${realId})" style="background:#334155; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer; margin-right:4px;">✏️ Editar</button>` : ''}
+                <button onclick="anularTiquete(${realId})" style="background:${t.anulado ? '#333' : '#b91c1c'}; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;" ${t.anulado ? 'disabled' : ''}>${t.anulado ? 'Anulado' : '❌'}</button>
               </div>
             </div>
           </div>`;
@@ -536,46 +497,100 @@
       document.getElementById('modal-historial').style.display = 'flex';
     }
 
-    function abrirEditarTiquete(id) {
+    function imprimirUnTiquete(id) {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tks.find(x => x.id === id);
       if (!t) return;
 
+      let detalleHtml = '';
+      t.items.forEach(i => {
+        detalleHtml += `<div style="display:flex; justify-content:space-between; border-bottom:1px dotted #ccc; padding:2px 0;"><span>${i.cantidad}x ${i.nombre}</span><span>Q${(i.cantidad*i.precio).toFixed(2)}</span></div>`;
+      });
+
+      document.getElementById('rep-mes-txt').innerText = `Cliente: ${t.cliente} - ${t.fecha}`;
+      document.getElementById('reporte-imprimir-contenido').innerHTML = `
+        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - JORGE</div>
+        <div style="text-align:center; font-size:10px; margin-bottom:6px;">Comprobante de Venta</div>
+        ${detalleHtml}
+        <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:6px; border-top:1px dashed #000; padding-top:4px;">
+          <span>TOTAL:</span><span>Q ${t.total.toFixed(2)}</span>
+        </div>
+      `;
+      document.getElementById('modal-imprimir-reporte').style.display = 'flex';
+    }
+
+    function imprimirReporteMesActual() {
+      let mesSel = document.getElementById('filtro-mes').value;
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let tksFiltrados = tks.filter(t => !t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === mesSel);
+
+      let totalVentasTiquetes = 0;
+      let totalTqMes = 0;
+      let productosConsolidados = {};
+
+      tksFiltrados.forEach(t => {
+        totalVentasTiquetes += parseFloat(t.total);
+        totalTqMes += 1;
+        if (t.items && Array.isArray(t.items)) {
+          t.items.forEach(i => {
+            let nombreProd = i.nombre;
+            if (!productosConsolidados[nombreProd]) {
+              productosConsolidados[nombreProd] = 0;
+            }
+            productosConsolidados[nombreProd] += parseInt(i.cantidad);
+          });
+        }
+      });
+
+      let listaProductosHtml = '';
+      for (let prod in productosConsolidados) {
+        listaProductosHtml += `<div style="display:flex; justify-content:space-between; border-bottom:1px dotted #ccc; padding:2px 0;"><span>${prod}</span><strong>x${productosConsolidados[prod]}</strong></div>`;
+      }
+
+      if (listaProductosHtml === '') {
+        listaProductosHtml = '<div style="text-align:center; color:#555;">No hay productos vendidos en este período.</div>';
+      }
+
+      document.getElementById('rep-mes-txt').innerText = `Consolidado Compras - Período: ${mesSel}`;
+      document.getElementById('reporte-imprimir-contenido').innerHTML = `
+        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - CONSOLIDADO</div>
+        <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: Jorge</div>
+        <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-bottom:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
+        ${listaProductosHtml}
+        <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px;">
+          <div style="display:flex; justify-content:space-between;"><span>Total Tiquetes:</span><strong>${totalTqMes}</strong></div>
+          <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold; margin-top:2px;"><span>VENTA TOTAL:</span><span>Q ${totalVentasTiquetes.toFixed(2)}</span></div>
+        </div>
+      `;
+      document.getElementById('modal-imprimir-reporte').style.display = 'flex';
+    }
+
+    function abrirEditarTiquete(id) {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let t = tks.find(x => x.id === id);
+      if (!t) return;
       tiqueteEditandoId = id;
-      let esMesActual = (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE;
-      let avisoExtra = !esMesActual ? " (⚠️ Ajuste de Mes Anterior - No altera metas actuales)" : "";
-      document.getElementById('editar-cliente-info').innerText = `Cliente: ${t.cliente} (${t.fecha})${avisoExtra}`;
-      
+      document.getElementById('editar-cliente-info').innerText = `Cliente: ${t.cliente} (${t.fecha})`;
       renderizarItemsEdicion(t.items);
       document.getElementById('modal-editar-tiquete').style.display = 'flex';
     }
 
     function renderizarItemsEdicion(items) {
       let contenedor = document.getElementById('editar-items-lista');
-      let html = '';
-      let total = 0;
-
+      let html = '', total = 0;
       items.forEach((item, idx) => {
-        let subItem = item.cantidad * item.precio;
-        total += subItem;
+        let sub = item.cantidad * item.precio;
+        total += sub;
         html += `<div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; padding:5px; border-radius:4px; margin-bottom:4px; font-size:11px;">
-          <div>
-            <div style="font-weight:bold;">${item.nombre}</div>
-            <div style="color:#34d399; font-size:10px;">Q${item.precio.toFixed(2)} c/u</div>
-          </div>
+          <div><div style="font-weight:bold;">${item.nombre}</div><div style="color:#34d399; font-size:10px;">Q${item.precio.toFixed(2)} c/u</div></div>
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-weight:bold;">x${item.cantidad}</span>
             <button onclick="cambiarCantItemEdicion(${idx}, -1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
             <button onclick="cambiarCantItemEdicion(${idx}, 1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
-            <button onclick="eliminarItemEdicion(${idx})" style="background:#b91c1c; color:white; border:none; padding:2px 5px; border-radius:3px; font-size:10px; cursor:pointer;" title="Quitar producto">🗑️</button>
+            <button onclick="eliminarItemEdicion(${idx})" style="background:#b91c1c; color:white; border:none; padding:2px 5px; border-radius:3px; font-size:10px; cursor:pointer;">🗑️</button>
           </div>
         </div>`;
       });
-
-      if (items.length === 0) {
-        html = '<p style="text-align:center; color:#ef4444; font-size:11px;">El tiquete se quedó sin productos. Si guarda, se anulará.</p>';
-      }
-
       contenedor.innerHTML = html;
       document.getElementById('editar-total-val').innerText = total.toFixed(2);
     }
@@ -584,11 +599,8 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tks.find(x => x.id === tiqueteEditandoId);
       if (!t) return;
-
       t.items[index].cantidad += delta;
-      if (t.items[index].cantidad <= 0) {
-        t.items.splice(index, 1);
-      }
+      if (t.items[index].cantidad <= 0) t.items.splice(index, 1);
       renderizarItemsEdicion(t.items);
     }
 
@@ -596,7 +608,6 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tks.find(x => x.id === tiqueteEditandoId);
       if (!t) return;
-
       t.items.splice(index, 1);
       renderizarItemsEdicion(t.items);
     }
@@ -605,40 +616,20 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let tIndex = tks.findIndex(x => x.id === tiqueteEditandoId);
       if (tIndex === -1) return;
-
-      let t = tks[tIndex];
-      let nuevoTotal = 0;
+      let t = tks[tIndex], nuevoTotal = 0;
       t.items.forEach(i => { nuevoTotal += i.cantidad * i.precio; });
-
-      if (t.items.length === 0 || nuevoTotal <= 0) {
-        if (confirm("El tiquete se quedó sin productos. ¿Desea anularlo por completo?")) {
-          t.anulado = true;
-          t.total = 0;
-        }
-      } else {
-        t.total = nuevoTotal;
-      }
-
+      if (t.items.length === 0 || nuevoTotal <= 0) { t.anulado = true; t.total = 0; } else { t.total = nuevoTotal; }
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
-      alert("¡Cambios guardados con éxito!");
       document.getElementById('modal-editar-tiquete').style.display = 'none';
       abrirModalHistorial();
     }
 
-    function cerrarEdicionTiquete() {
-      guardarEdicionTiquete();
-    }
+    function cerrarEdicionTiquete() { guardarEdicionTiquete(); }
 
     function anularTiquete(id) {
       if (!confirm("¿Está seguro de anular este tiquete?")) return;
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      tks = tks.map(t => {
-        if (t.id === id) {
-          t.anulado = true;
-          t.total = 0;
-        }
-        return t;
-      });
+      tks = tks.map(t => { if (t.id === id) { t.anulado = true; t.total = 0; } return t; });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
       abrirModalHistorial();
     }
