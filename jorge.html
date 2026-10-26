@@ -118,6 +118,8 @@
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Diario 16+</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes Emitidos (Ver/Editar)</button>
+      <!-- NUEVO: Botón directo para enviar reporte de cierre vespertino a Don Byron -->
+      <button class="btn-menu-opcion" style="background:#25d366; color:#000; font-weight:bold;" onclick="document.getElementById('modal-menu-extra').style.display='none'; enviarReporteCierreWsp();">📤 Enviar Cierre a Don Byron</button>
       <button class="btn-close" onclick="document.getElementById('modal-menu-extra').style.display='none'">Cerrar Menú</button>
     </div>
   </div>
@@ -215,10 +217,10 @@
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_jorge_v12";
-    const ticketsKey = "diprosa_tickets_jorge_v12";
+    const storageKey = "carrito_diprosa_jorge_v13";
+    const ticketsKey = "diprosa_tickets_jorge_v13";
     const telefonoCorporativo = "50248502382";
-    const MES_ACTUAL_CLAVE = "10/2026"; // Mes activo de metas
+    const MES_ACTUAL_CLAVE = "10/2026";
     
     const SALDO_INICIAL_JORGE = 73839.83;
     const TIQUETES_BASE_JORGE = 152;
@@ -359,13 +361,59 @@
       renderizarCatalogo();
     }
 
+    // FUNCIÓN PARA GENERAR Y ENVIAR EL REPORTE DE CIERRE VESPERTINO COMPLETO
+    function enviarReporteCierreWsp() {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let ventasMes = SALDO_INICIAL_JORGE;
+      let tqMes = TIQUETES_BASE_JORGE;
+      let ventasHoy = 0;
+      let tqHoy = 0;
+      let hoyStr = new Date().toLocaleDateString('es-GT');
+      let fechaActualStr = new Date().toLocaleDateString('es-GT', { dateStyle: 'medium' });
+
+      tks.forEach(t => {
+        let m = t.mesAnio || MES_ACTUAL_CLAVE;
+        if (!t.anulado && m === MES_ACTUAL_CLAVE) {
+          if (t.total) ventasMes += parseFloat(t.total);
+          tqMes += 1;
+          
+          if (t.fecha && t.fecha.includes(hoyStr)) {
+            ventasHoy += parseFloat(t.total);
+            tqHoy += 1;
+          }
+        }
+      });
+
+      let deficitVentas = META_VENTAS_JORGE - ventasMes;
+      if (deficitVentas < 0) deficitVentas = 0;
+      let deficitTq = META_TIQUETES_JORGE - tqMes;
+      if (deficitTq < 0) deficitTq = 0;
+
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n` +
+                          `👤 *Vendedor:* Jorge\n` +
+                          `📅 *Fecha:* ${fechaActualStr}\n` +
+                          `----------------------------------------\n` +
+                          `☀️ *RESUMEN DE HOY:* \n` +
+                          `• Ventas del día: *Q ${ventasHoy.toLocaleString('en-US', {minimumFractionDigits: 2})}*\n` +
+                          `• Tiquetes de hoy: *${tqHoy} tiquetes*\n` +
+                          `----------------------------------------\n` +
+                          `📈 *ACUMULADO DEL MES:* \n` +
+                          `• Ventas Totales: Q ${ventasMes.toLocaleString('en-US', {minimumFractionDigits: 2})} / Q81,000\n` +
+                          `• Faltante (Déficit): Q ${deficitVentas.toLocaleString('en-US', {minimumFractionDigits: 2})` +
+                          `• Tiquetes Mes: ${tqMes} / 324 Tq (Faltan: ${deficitTq})\n` +
+                          `• Horas Ruta: ${HORAS_BASE_JORGE.toFixed(1)} / ${META_HORAS_JORGE} Hrs\n` +
+                          `----------------------------------------\n` +
+                          `¡Cierre de jornada enviado con éxito!`;
+
+      window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
+    }
+
     function abrirModalMetas() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let totalVentas = SALDO_INICIAL_JORGE;
       let totalTq = TIQUETES_BASE_JORGE;
 
       tks.forEach(t => { 
-        // ATENCIÓN: Solo se suman al cálculo del mes actual los tiquetes que pertenezcan al mes activo (10/2026)
         let m = t.mesAnio || MES_ACTUAL_CLAVE;
         if (!t.anulado && m === MES_ACTUAL_CLAVE) {
           if (t.total) totalVentas += parseFloat(t.total);
@@ -496,7 +544,7 @@
       });
 
       if (items.length === 0) {
-        html = '<p style="text-align:center; color:#ef4444; font-size:11px;">El tiquete se quedará sin productos. Si guarda, se anulará.</p>';
+        html = '<p style="text-align:center; color:#ef4444; font-size:11px;">El tiquete se quedó sin productos. Si guarda, se anulará.</p>';
       }
 
       contenedor.innerHTML = html;
