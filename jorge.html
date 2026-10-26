@@ -185,7 +185,7 @@
     const storageKey = "carrito_diprosa_jorge";
     const ticketsKey = "diprosa_tickets_jorge";
     
-    // Valores reales actualizados para Jorge
+    // Valores fijos oficiales actualizados para Jorge
     const SALDO_INICIAL_JORGE = 73839.83;
     const TIQUETES_BASE_JORGE = 152;
     const HORAS_BASE_JORGE = 127.0;
@@ -245,7 +245,7 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], sub = 0, arr = [];
       for(let k in carrito) { sub += carrito[k].cantidad * carrito[k].precio; arr.push(carrito[k]); }
       
-      tks.push({ fecha: new Date().toLocaleString('es-GT'), cliente: r, items: arr, total: sub, anulado: false });
+      tks.push({ fecha: new Date().toLocaleString('es-GT'), cliente: r, items: arr, total: sub, anulado: false, baseHistorica: true });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
       window.open(`https://api.whatsapp.com/send?text=` + encodeURIComponent(`*DISTRIBUIDORA DIPROSA*\n📦 *Catálogo:* Jorge\n👤 *Cliente:* ${r}\n--------------------------------\nTotal: Q${sub.toFixed(2)}\n¡Hola! Confirmo este pedido.`), '_blank');
@@ -261,7 +261,7 @@
       let totalTq = TIQUETES_BASE_JORGE;
 
       tks.forEach(t => { 
-        if (!t.anulado) {
+        if (!t.anulado && !t.baseHistorica) {
           if (t.total) totalVentas += parseFloat(t.total);
           totalTq += 1;
         }
@@ -282,7 +282,7 @@
 
     function abrirModalSueldo() {
       let ventasHoy = 0, tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], hoyStr = new Date().toLocaleDateString('es-GT');
-      tks.forEach(t => { if (!t.anulado && t.total && t.fecha && t.fecha.includes(hoyStr)) ventasHoy += parseFloat(t.total); });
+      tks.forEach(t => { if (!t.anulado && t.total && t.fecha && t.fecha.includes(hoyStr) && !t.baseHistorica) ventasHoy += parseFloat(t.total); });
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toLocaleString('en-US', {minimumFractionDigits: 2});
       document.getElementById('modal-sueldo').style.display = 'flex';
     }
@@ -290,7 +290,7 @@
     function abrirModalComisiones() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasNuevas = 0;
-      tks.forEach(t => { if (!t.anulado && t.total && !t.historico) ventasNuevas += parseFloat(t.total); });
+      tks.forEach(t => { if (!t.anulado && t.total && !t.historico && !t.baseHistorica) ventasNuevas += parseFloat(t.total); });
 
       let ventasTotalesMes = SALDO_INICIAL_JORGE + ventasNuevas;
       let quincenaBase = SUELDO_BASE_JORGE / 2; // Q1,800
