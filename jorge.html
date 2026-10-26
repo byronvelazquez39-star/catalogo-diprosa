@@ -129,8 +129,8 @@
         <p style="font-size: 11px; color: #34d399; font-weight:bold;">👤 Vendedor: Jorge</p>
         <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
       </div>
-      <div id="ticket-items" style="max-height: 140px; overflow-y: auto;"></div>
-      <input type="text" id="cliente-receptor" class="client-input" placeholder="Nombre Cliente / Tienda" style="margin-top:8px;">
+      <div id="ticket-items" style="max-height: 150px; overflow-y: auto; margin-bottom: 8px;"></div>
+      <input type="text" id="cliente-receptor" class="client-input" placeholder="Nombre Cliente / Tienda" style="margin-top:4px;">
       <div style="border-top: 1px dashed #555; padding-top: 6px;">
         <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: var(--accent-color);">
           <span>Total:</span><span>Q <span id="ticket-total">0.00</span></span>
@@ -175,7 +175,7 @@
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
         <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">127.0 / 189 Hrs</strong></div>
       </div>
-      <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
+      <button class="btn-close" onclick="document.getElementById('meta-metas').style.display='none'">Cerrar</button>
     </div>
   </div>
 
@@ -204,11 +204,10 @@
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_jorge_v8";
-    const ticketsKey = "diprosa_tickets_jorge_v8";
+    const storageKey = "carrito_diprosa_jorge_v9";
+    const ticketsKey = "diprosa_tickets_jorge_v9";
     const telefonoCorporativo = "50248502382";
     
-    // VALORES OFICIALES ACTUALIZADOS A LA FECHA
     const SALDO_INICIAL_JORGE = 73839.83;
     const TIQUETES_BASE_JORGE = 152;
     const HORAS_BASE_JORGE = 127.0;
@@ -259,22 +258,61 @@
 
     function abrirTicket() {
       if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
-      let h = '', sub = 0; 
-      for(let k in carrito) { 
-        let i = carrito[k], s = i.cantidad * i.precio; 
-        sub += s; 
-        h += `<div style="font-size:11px; margin-bottom:4px; border-bottom:1px solid #333; padding-bottom:2px; display:flex; justify-content:space-between;">
-          <span>(x${i.cantidad}) ${i.nombre}</span>
-          <span style="color:#34d399;">Q${s.toFixed(2)}</span>
-        </div>`; 
-      }
-      document.getElementById('ticket-items').innerHTML = h; 
-      document.getElementById('ticket-total').innerText = sub.toFixed(2);
+      renderizarVistaPreviaCarrito();
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
       document.getElementById('modal-ticket').style.display = 'flex';
     }
 
+    function renderizarVistaPreviaCarrito() {
+      let h = '', sub = 0; 
+      for(let k in carrito) { 
+        let i = carrito[k], s = i.cantidad * i.precio; 
+        sub += s; 
+        let b64 = btoa(unescape(encodeURIComponent(i.nombre)));
+        h += `<div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; padding:5px; border-radius:4px; margin-bottom:4px; font-size:11px;">
+          <div>
+            <div style="font-weight:bold;">${i.nombre}</div>
+            <div style="color:#34d399; font-size:10px;">Q${i.precio.toFixed(2)} c/u (Sub: Q${s.toFixed(2)})</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:5px;">
+            <span style="font-weight:bold;">x${i.cantidad}</span>
+            <button onclick="cambiarCantCarritoPrevia('${b64}', ${i.precio}, -1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
+            <button onclick="cambiarCantCarritoPrevia('${b64}', ${i.precio}, 1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
+            <button onclick="eliminarItemCarritoPrevia('${k}')" style="background:#b91c1c; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;" title="Quitar producto">🗑️</button>
+          </div>
+        </div>`; 
+      }
+
+      if (Object.keys(carrito).length === 0) {
+        h = '<p style="text-align:center; color:#ef4444; font-size:11px;">El carrito está vacío.</p>';
+      }
+
+      document.getElementById('ticket-items').innerHTML = h; 
+      document.getElementById('ticket-total').innerText = sub.toFixed(2);
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
+
+    function cambiarCantCarritoPrevia(b64, precio, delta) {
+      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
+      if (carrito[key]) {
+        carrito[key].cantidad += delta;
+        if (carrito[key].cantidad <= 0) delete carrito[key];
+        localStorage.setItem(storageKey, JSON.stringify(carrito));
+        renderizarVistaPreviaCarrito();
+      }
+    }
+
+    function eliminarItemCarritoPrevia(key) {
+      if (carrito[key]) {
+        delete carrito[key];
+        localStorage.setItem(storageKey, JSON.stringify(carrito));
+        renderizarVistaPreviaCarrito();
+      }
+    }
+
     function enviarWhatsAppYLimpiar() {
+      if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
       let r = document.getElementById('cliente-receptor').value.trim(); 
       if(!r) { alert("Por favor ingrese el nombre del cliente o tienda."); return; }
       
@@ -334,7 +372,6 @@
     function abrirModalSueldo() {
       let ventasHoy = 0, tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], hoyStr = new Date().toLocaleDateString('es-GT');
       tks.forEach(t => { 
-        // Solo suma las ventas del día actual (comparando la fecha formateada)
         if (!t.anulado && t.total && t.fecha && t.fecha.includes(hoyStr)) {
           ventasHoy += parseFloat(t.total); 
         }
@@ -349,8 +386,8 @@
       tks.forEach(t => { if (!t.anulado && t.total) ventasNuevas += parseFloat(t.total); });
 
       let ventasTotalesMes = SALDO_INICIAL_JORGE + ventasNuevas;
-      let quincenaBase = SUELDO_BASE_JORGE / 2; // Q1,800
-      let totalRecibirQ2 = quincenaBase; // Sin adelantar bono hasta cumplir las 3 metas
+      let quincenaBase = SUELDO_BASE_JORGE / 2;
+      let totalRecibirQ2 = quincenaBase;
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
@@ -482,8 +519,6 @@
     function cerrarEdicionTiquete() {
       guardarEdicionTiquete();
     }
-
-    function anularTiqueo(id) {} // Placeholder
 
     function anularTiquete(id) {
       if (!confirm("¿Está seguro de anular este tiquete? Se restará del acumulado.")) return;
