@@ -75,8 +75,25 @@
     .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 12px; box-sizing: border-box; margin-bottom: 8px; }
     .btn-close { background: #444; color: white; border: none; padding: 7px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 6px; font-size: 12px; }
     .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
+    .btn-modal-print { background: #0284c7; color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
+
+    /* CONFIGURACIÓN ESPECIAL PARA IMPRESORA TÉRMICA (58mm / 80mm) */
+    @media print {
+      body * { visibility: hidden; }
+      #modal-ticket, #modal-ticket * { visibility: visible; }
+      #modal-ticket {
+        position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important;
+        display: flex !important; justify-content: flex-start; align-items: flex-start; padding: 0;
+      }
+      .modal-content {
+        background: white !important; color: black !important; border: none !important; width: 100% !important;
+        max-width: 100% !important; box-shadow: none !important; padding: 5px !important; font-size: 11px !important;
+      }
+      .ticket-header h3, .ticket-header p, #ticket-items div, span, strong { color: black !important; }
+      .client-input, .btn-modal-wa, .btn-modal-print, .btn-close, .cart-bar, .header-bar, #buscar { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -137,7 +154,8 @@
           <span>Total:</span><span>Q <span id="ticket-total">0.00</span></span>
         </div>
       </div>
-      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido</button>
+      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido por WhatsApp</button>
+      <button class="btn-modal-print" onclick="window.print()">🖨️ Imprimir Recibo Térmico</button>
       <button class="btn-close" onclick="document.getElementById('modal-ticket').style.display='none'">Seguir Comprando</button>
     </div>
   </div>
