@@ -174,7 +174,7 @@
           </select>
         </div>
       </div>
-      <button class="btn-modal-print" style="margin-bottom:8px;" onclick="imprimirReporteMesActual()">🖨️ Imprimir Resumen del Mes</button>
+      <button class="btn-modal-print" style="margin-bottom:8px;" onclick="imprimirReporteMesActual()">🖨️ Imprimir Consolidado de Compras</button>
       <div id="lista-historial-tiquetes" style="max-height: 180px; overflow-y: auto;"></div>
       <button class="btn-close" onclick="document.getElementById('modal-historial').style.display='none'">Regresar</button>
     </div>
@@ -183,10 +183,10 @@
   <div id="modal-imprimir-reporte" class="modal">
     <div class="modal-content">
       <div class="ticket-header">
-        <h3 style="color:#ff9800;">RESUMEN DE VENTAS</h3>
+        <h3 style="color:#ff9800;">CONSOLIDADO DE COMPRAS</h3>
         <p style="font-size:10px; color:#aaa;" id="rep-mes-txt"></p>
       </div>
-      <div id="reporte-imprimir-contenido" style="font-size:11px; margin-bottom:8px;"></div>
+      <div id="reporte-imprimir-contenido" style="font-size:11px; margin-bottom:8px; max-height:220px; overflow-y:auto;"></div>
       <button class="btn-modal-print no-print" onclick="window.print()">🖨️ Imprimir en Térmica</button>
       <button class="btn-close no-print" onclick="document.getElementById('modal-imprimir-reporte').style.display='none'">Cerrar</button>
     </div>
@@ -487,7 +487,7 @@
               <div>
                 ${!t.anulado ? `<button onclick="imprimirUnTiquete(${realId})" style="background:#0284c7; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer; margin-right:4px;">🖨️ Imprimir</button>` : ''}
                 ${!t.anulado ? `<button onclick="abrirEditarTiquete(${realId})" style="background:#334155; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer; margin-right:4px;">✏️ Editar</button>` : ''}
-                <button onclick="anularTiquete(${realId})" style="background:${t.anulado ? '#333' : '#b91c1c'}; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;" ${t.anulado ? 'disabled' : ''}>${t.anulado ? 'Anulado' : '❌'}</button>
+                <button onclick="anularTiquete(${realId})" style="background:${t.anulado ? '-333' : '#b91c1c'}; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;" ${t.anulado ? 'disabled' : ''}>${t.anulado ? 'Anulado' : '❌'}</button>
               </div>
             </div>
           </div>`;
@@ -527,20 +527,41 @@
       let totalVentasMes = (mesSel === MES_ACTUAL_CLAVE ? SALDO_INICIAL_ESTUARDO : 0);
       let totalTqMes = (mesSel === MES_ACTUAL_CLAVE ? TIQUETES_BASE_ESTUARDO : 0);
 
+      // CONSOLIDADO DE PRODUCTOS (Suma cantidades de todos los tiquetes del mes)
+      let productosConsolidados = {};
       tksFiltrados.forEach(t => {
         totalVentasMes += parseFloat(t.total);
         totalTqMes += 1;
+        if (t.items && Array.isArray(t.items)) {
+          t.items.forEach(i => {
+            let nombreProd = i.nombre;
+            if (!productosConsolidados[nombreProd]) {
+              productosConsolidados[nombreProd] = 0;
+            }
+            productosConsolidados[nombreProd] += parseInt(i.cantidad);
+          });
+        }
       });
 
-      document.getElementById('rep-mes-txt').innerText = `Reporte Período: ${mesSel}`;
+      let listaProductosHtml = '';
+      for (let prod in productosConsolidados) {
+        listaProductosHtml += `<div style="display:flex; justify-content:space-between; border-bottom:1px dotted #ccc; padding:2px 0;"><span>${prod}</span><strong>x${productosConsolidados[prod]}</strong></div>`;
+      }
+
+      if (listaProductosHtml === '') {
+        listaProductosHtml = '<div style="text-align:center; color:#555;">No hay productos vendidos en este período.</div>';
+      }
+
+      document.getElementById('rep-mes-txt').innerText = `Consolidado Compras - Período: ${mesSel}`;
       document.getElementById('reporte-imprimir-contenido').innerHTML = `
-        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - RESUMEN RUTA</div>
+        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - CONSOLIDADO</div>
         <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: Estuardo</div>
-        <div style="border-top:1px dashed #000; border-bottom:1px dashed #000; padding:6px 0; margin-bottom:6px;">
+        <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-bottom:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
+        ${listaProductosHtml}
+        <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px;">
           <div style="display:flex; justify-content:space-between;"><span>Total Tiquetes:</span><strong>${totalTqMes}</strong></div>
-          <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold; margin-top:4px;"><span>VENTA TOTAL:</span><span>Q ${totalVentasMes.toFixed(2)}</span></div>
+          <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold; margin-top:2px;"><span>VENTA TOTAL:</span><span>Q ${totalVentasMes.toFixed(2)}</span></div>
         </div>
-        <div style="text-align:center; font-size:9px; color:#555;">¡Control de ventas y ruta Diprosa!</div>
       `;
       document.getElementById('modal-imprimir-reporte').style.display = 'flex';
     }
