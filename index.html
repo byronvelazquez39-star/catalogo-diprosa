@@ -1,99 +1,154 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo General - DIPROSA</title>
-  <style>
-    :root {
-      --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
-      --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
-    }
-    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
-    
-    .header-bar { 
-      position: sticky; top: 0; z-index: 900;
-      display: flex; justify-content: space-between; align-items: center; 
-      background: #1a1a1a; padding: 6px 10px; border-radius: 6px; border: 1px solid #333; margin-bottom: 8px;
-    }
-    h1 { margin: 0; font-size: 14px; color: #ff9800; }
-
-    .search-box { 
-      width: 100%; padding: 8px 10px; font-size: 13px; margin-bottom: 8px; 
-      border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; 
-    }
-    
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 8px; width: 100%; box-sizing: border-box; }
-    .card { background: var(--card-bg); padding: 8px; border-radius: 8px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; overflow: hidden; }
-    .nombre { font-size: 12px; font-weight: bold; margin-bottom: 4px; word-break: break-word; line-height: 1.2; }
-    .precio { font-size: 13px; color: var(--accent-color); font-weight: bold; margin-bottom: 6px; }
-    
-    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 8px; border-radius: 6px; width: 100%; margin-top: 10px; font-weight: bold; cursor: pointer; display: none; font-size: 12px; }
-
-    .info-banner { background: #1f1f1f; border: 1px solid #333; padding: 10px; border-radius: 6px; text-align: center; margin-bottom: 8px; font-size: 12px; color: #aaa; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo DIPROSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #f1c40f;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .card h3 {
+            font-size: 0.9em;
+            margin: 10px 0 5px 0;
+            height: 2.8em;
+            overflow: hidden;
+        }
+        .precio {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+        /* Botón flotante de WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover {
+            background-color: #1ebc57;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="header-bar">
-    <h1>📦 DIPROSA - CATÁLOGO GENERAL</h1>
-  </div>
-
-  <div class="info-banner">
-    💡 Seleccione el enlace específico de su vendedor enrutado para emitir pedidos.
-  </div>
-
-  <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto en inventario..." oninput="filtrarDebounce()">
-  
-  <div id="catalogo" class="grid">Cargando inventario general...</div>
-  <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
-
-  <script>
-    let productos = [], productosFiltrados = [], limiteActual = 40, debounceTimer;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('productos.json?v=' + new Date().getTime())
-        .then(res => { if (!res.ok) throw new Error("No encontrado"); return res.json(); })
-        .then(data => {
-          productos = data; productosFiltrados = data;
-          renderizarCatalogo();
-        })
-        .catch(() => {
-          productos = [ { nombre: "Frijol Ducal Bolsita 4 oz (24 unid)", precio: 66.00 }, { nombre: "Leche Formos Caja Litro (12 unid)", precio: 108.00 }, { nombre: "Incaparina Sobre Pequeño (12 unid)", precio: 26.00 }, { nombre: "Detergente Blanca Nieves 1 KL (10 unid)", precio: 195.00 }, { nombre: "Sardina Picante Ovalada Sirena (3 unid)", precio: 63.00 }, { nombre: "Chocolate Rico (1 Libra)", precio: 15.00 }, { nombre: "Deporade Grande Fresa Botella (12 unid)", precio: 57.00 }, { nombre: "Papel Nube Blanca (12 paquetes)", precio: 240.00 } ];
-          productosFiltrados = productos; renderizarCatalogo();
-        });
-    });
-
-    function renderizarCatalogo() {
-      let contenedor = document.getElementById('catalogo');
-      if (!productosFiltrados.length) {
-        contenedor.innerHTML = '<p style="text-align:center; color:#888; grid-column: 1/-1;">No hay productos.</p>';
-        document.getElementById('btn-mas').style.display = 'none'; return;
-      }
-      contenedor.innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
-        return `
-          <div class="card">
-            <div class="nombre">${p.nombre}</div>
-            <div>
-              <div class="precio">Q ${parseFloat(p.precio).toFixed(2)}</div>
-              <div style="font-size:10px; color:#888; text-align:center; margin-top:4px;">Disponible en ruta</div>
-            </div>
-          </div>`;
-      }).join('');
-      document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
-    }
-
-    function cargarMasProductos() { limiteActual += 40; renderizarCatalogo(); }
+    <h1>Catálogo DIPROSA</h1>
     
-    function filtrarDebounce() {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => {
-        let q = document.getElementById('buscar').value.toLowerCase().trim();
-        limiteActual = 40;
-        productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
-        renderizarCatalogo();
-      }, 150);
-    }
-  </script>
+    <div class="grid">
+        
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+    </div>
+
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+        💬 Pedir por WhatsApp
+    </a>
+
 </body>
 </html>
