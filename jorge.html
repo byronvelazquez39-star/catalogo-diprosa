@@ -118,7 +118,6 @@
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Diario 16+</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes Emitidos (Ver/Editar)</button>
-      <!-- NUEVO: Botón directo para enviar reporte de cierre vespertino a Don Byron -->
       <button class="btn-menu-opcion" style="background:#25d366; color:#000; font-weight:bold;" onclick="document.getElementById('modal-menu-extra').style.display='none'; enviarReporteCierreWsp();">📤 Enviar Cierre a Don Byron</button>
       <button class="btn-close" onclick="document.getElementById('modal-menu-extra').style.display='none'">Cerrar Menú</button>
     </div>
@@ -217,8 +216,8 @@
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_jorge_v13";
-    const ticketsKey = "diprosa_tickets_jorge_v13";
+    const storageKey = "carrito_diprosa_jorge_v14";
+    const ticketsKey = "diprosa_tickets_jorge_v14";
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
@@ -236,11 +235,42 @@
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
+    // Respaldo de emergencia integrado para que nunca se quede en blanco "Cargando inventario..."
+    const productosRespaldo = [
+      {nombre: "Frijol Ducal (24 unid)", precio: 66.00},
+      {nombre: "1 ciento bolsa para basura # 1 para dar Q.1.00", precio: 76.00},
+      {nombre: "1 caja mazola margarina de 5 unidades para dar Q.3.00", precio: 11.50},
+      {nombre: "1 ciento bolsa para basura # 2 para dar Q.1.00", precio: 50.00},
+      {nombre: "1 heinz de manzana para dar Q.6.00", precio: 5.50},
+      {nombre: "1 heinz de melocoton para dar Q.6.00", precio: 5.50},
+      {nombre: "1 heinz de pera para dar Q.6.00", precio: 5.50},
+      {nombre: "1 libra de chocolate rico para dar Q.16.00", precio: 16.00},
+      {nombre: "1 libra de gelatina 'CHICLE' castilla para dar Q.16.50", precio: 16.50},
+      {nombre: "1 libra de gelatina 'FRESA' castilla para dar Q.16.50", precio: 16.50},
+      {nombre: "(almohadita) 4 onzas por docena para dar Q.3.00", precio: 29.50},
+      {nombre: "(almohadita) fardo 4 onzas para dar Q.3.00", precio: 110.00},
+      {nombre: "(CARNAVAL) en lata SODA CON NARANJADA Caja de 24 unidades para. dar Q.3.50", precio: 67.00},
+      {nombre: "(Salvavidas) en lata LIMONADA Caja de 24 unidades para dar Q.3.50", precio: 67.00},
+      {nombre: "(Salvavidas) en lata ROJA Caja de 24 unidades para dar Q.3.50", precio: 67.00},
+      {nombre: "(Salvavidas) en lata UVA Caja de 24 unidades para dar Q.3.50", precio: 67.00}
+    ];
+
     document.addEventListener('DOMContentLoaded', () => {
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
-        .then(data => { productos = data; productosFiltrados = data; renderizarCatalogo(); actualizarUIResumen(); })
-        .catch(() => { productos = [{nombre:"Frijol Ducal (24 unid)",precio:66.00}]; productosFiltrados = productos; renderizarCatalogo(); });
+        .then(data => { 
+          productos = data; 
+          productosFiltrados = data; 
+          renderizarCatalogo(); 
+          actualizarUIResumen(); 
+        })
+        .catch(() => { 
+          // Si falla el archivo externo, usa el respaldo integrado de inmediato
+          productos = productosRespaldo; 
+          productosFiltrados = productos; 
+          renderizarCatalogo(); 
+          actualizarUIResumen(); 
+        });
     });
 
     function renderizarCatalogo() {
@@ -361,7 +391,6 @@
       renderizarCatalogo();
     }
 
-    // FUNCIÓN PARA GENERAR Y ENVIAR EL REPORTE DE CIERRE VESPERTINO COMPLETO
     function enviarReporteCierreWsp() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasMes = SALDO_INICIAL_JORGE;
@@ -399,7 +428,7 @@
                           `----------------------------------------\n` +
                           `📈 *ACUMULADO DEL MES:* \n` +
                           `• Ventas Totales: Q ${ventasMes.toLocaleString('en-US', {minimumFractionDigits: 2})} / Q81,000\n` +
-                          `• Faltante (Déficit): Q ${deficitVentas.toLocaleString('en-US', {minimumFractionDigits: 2})` +
+                          `• Faltante (Déficit): Q ${deficitVentas.toLocaleString('en-US', {minimumFractionDigits: 2})}\n` +
                           `• Tiquetes Mes: ${tqMes} / 324 Tq (Faltan: ${deficitTq})\n` +
                           `• Horas Ruta: ${HORAS_BASE_JORGE.toFixed(1)} / ${META_HORAS_JORGE} Hrs\n` +
                           `----------------------------------------\n` +
