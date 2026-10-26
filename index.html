@@ -171,7 +171,7 @@
           <span>Total:</span><span>Q <span id="ticket-total">0.00</span></span>
         </div>
       </div>
-      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido a su Hijo</button>
+      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido al Grupo</button>
       <button class="btn-close" onclick="cerrarModal('modal-ticket')">Seguir Comprando</button>
     </div>
   </div>
@@ -226,7 +226,7 @@
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">92 / 324 Tq</strong></div>
         <div class="compact-row" style="margin-bottom:0; border:none;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">127.0 / 189 Hrs</strong></div>
       </div>
-      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte a su Hijo</button>
+      <button class="btn-corte-diario" onclick="enviarCorteDiarioWA()">📲 Enviar Reporte al Grupo</button>
       <button class="btn-close" onclick="cerrarModal('modal-metas')">Cerrar</button>
     </div>
   </div>
@@ -269,7 +269,7 @@
       if (pantalla) pantalla.style.display = 'none';
     }
 
-    const NUMERO_WHATSAPP = "50245695192";
+    const ENLACE_GRUPO_WHATSAPP = "https://chat.whatsapp.com/E8axdRjt41TL8BkaO1IHhz";
     const storageKey = "carrito_diprosa_general";
     const ticketsKey = "diprosa_tickets_general";
     
@@ -497,7 +497,7 @@
       let faltante = metaMes - totalVentas;
       if (faltante < 0) faltante = 0;
 
-      let msg = `📊 *REPORTE ACUMULADO - RUTAS*\n` +
+      let msg = `📊 *REPORTE ACUMULADO - GRUPO DIPROSA*\n` +
                 `--------------------------------\n` +
                 `💰 *Ventas Totales:* Q${totalVentas.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} / Q81k\n` +
                 `📉 *Faltante Meta:* Q${faltante.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}\n` +
@@ -506,7 +506,7 @@
                 `--------------------------------\n` +
                 `📅 Reporte desde el inicio de mes a la fecha.`;
 
-      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
+      window.open(ENLACE_GRUPO_WHATSAPP + "?text=" + encodeURIComponent(msg), '_blank');
     }
 
     function abrirTicket() {
@@ -723,7 +723,7 @@
       });
       msg += `--------------------------------\nTOTAL: Q${subtotal.toFixed(2)}\n¡Hola! Confirmo este pedido.`;
 
-      window.open(`https://api.whatsapp.com/send?phone=${NUMERO_WHATSAPP}&text=` + encodeURIComponent(msg), '_blank');
+      window.open(ENLACE_GRUPO_WHATSAPP + "?text=" + encodeURIComponent(msg), '_blank');
       carrito = {};
       localStorage.removeItem(storageKey);
       cerrarModal('modal-ticket');
