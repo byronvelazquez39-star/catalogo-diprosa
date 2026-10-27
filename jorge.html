@@ -214,9 +214,11 @@
       <div class="ticket-header"><h3>📊 METAS - JORGE</h3></div>
       <div class="compact-box">
         <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
-        <div class="compact-row"><span>📉 Déficit / Faltante:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
+        <div class="compact-row"><span>📉 Déficit Ventas:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
-        <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
+        <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">0 Tq</strong></div>
+        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
+        <div class="compact-row" style="border:none; margin:0;"><span>📉 Déficit Horas:</span><strong style="color:#ef4444;" id="meta-deficit-horas">0.0 Hrs</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
     </div>
@@ -420,8 +422,10 @@
       });
 
       let deficitVentas = Math.max(0, META_VENTAS_JORGE - ventasMes);
+      let deficitTq = Math.max(0, META_TIQUETES_JORGE - tqMes);
+      let deficitHoras = Math.max(0, META_HORAS_JORGE - HORAS_BASE_JORGE);
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Jorge\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k\n• Faltante: Q ${deficitVentas.toFixed(2)}\n• Tiquetes: ${tqMes} / 324 Tq\n• Horas: ${HORAS_BASE_JORGE.toFixed(1)} / 189 Hrs\n----------------------------------------`;
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Jorge\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_JORGE.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
@@ -435,13 +439,18 @@
           totalTq += 1;
         }
       });
-      let deficit = Math.max(0, META_VENTAS_JORGE - totalVentas);
+      let deficitVentas = Math.max(0, META_VENTAS_JORGE - totalVentas);
+      let deficitTq = Math.max(0, META_TIQUETES_JORGE - totalTq);
+      let deficitHoras = Math.max(0, META_HORAS_JORGE - HORAS_BASE_JORGE);
+
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
-      document.getElementById('meta-deficit').innerText = f(deficit);
+      document.getElementById('meta-deficit').innerText = f(deficitVentas);
       document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
+      document.getElementById('meta-deficit-tq').innerText = deficitTq + " Tq";
       document.getElementById('meta-horas-real').innerText = HORAS_BASE_JORGE.toFixed(1) + " / 189 Hrs";
+      document.getElementById('meta-deficit-horas').innerText = deficitHoras.toFixed(1) + " Hrs";
       document.getElementById('modal-metas').style.display = 'flex';
     }
 
@@ -472,7 +481,7 @@
       });
 
       let deficit = Math.max(0, META_VENTAS_JORGE - ventasMes);
-      let superavit = Math.max(0, ventasMes - META_VENTAS_JORGE);
+      let superavit = Math.max(0, ventasMes - META_VENTAS_ESTUARDO);
       let descuento = 0;
       let comisionSuperavit = 0;
       let bonoMeta = 0;
