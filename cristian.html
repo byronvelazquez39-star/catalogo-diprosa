@@ -252,8 +252,8 @@
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_cristian_v14";
-    const ticketsKey = "diprosa_tickets_cristian_v14";
+    const storageKey = "carrito_diprosa_cristian_v15";
+    const ticketsKey = "diprosa_tickets_cristian_v15";
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
@@ -434,7 +434,7 @@
         }
       });
       let deficit = Math.max(0, META_VENTAS_CRISTIAN - totalVentas);
-      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2});
+      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
       document.getElementById('meta-deficit').innerText = f(deficit);
@@ -474,21 +474,17 @@
       let descuento = 0;
       let comisionSuperavit = 0;
       let bonoMeta = 0;
-      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2});
 
-      // Del 1 al 15 es libre. Del 16 en adelante se descuenta déficit.
+      // Usamos .toFixed(2) para forzar el redondeo exacto a dos decimales en todas las variables
       if (diaDelMes >= 16) {
         let diasDescuento = deficit / CUOTA_DIARIA_VENTAS;
-        descuento = diasDescuento * SUELDO_DIARIO;
+        descuento = parseFloat((diasDescuento * SUELDO_DIARIO).toFixed(2));
         if (descuento > QUINCENA_BASE) descuento = QUINCENA_BASE;
       }
 
-      // Al llegar al cierre de mes (día 27 en adelante)
       if (diaDelMes >= 27) {
-        // La comisión del 2.5% sobre el superávit se paga siempre que haya superávit, aunque falte en tiquetes/horas
-        comisionSuperavit = superavit * 0.025; 
+        comisionSuperavit = parseFloat((superavit * 0.025).toFixed(2)); 
 
-        // EL BONO REQUIERE CUMPLIR LOS TRES PARALELOS: Ventas (>=81k), Tiquetes (>=324), Horas (>=189)
         let cumpleVentas = ventasMes >= META_VENTAS_CRISTIAN;
         let cumpleTiquetes = tqMes >= META_TIQUETES_CRISTIAN;
         let cumpleHoras = horasMes >= META_HORAS_CRISTIAN;
@@ -502,7 +498,9 @@
         document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
       }
 
-      let netoRecibir = Math.max(0, QUINCENA_BASE - descuento) + comisionSuperavit + bonoMeta;
+      let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + comisionSuperavit + bonoMeta).toFixed(2));
+
+      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
       document.getElementById('q2-deficit-val').innerText = f(deficit);
