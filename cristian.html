@@ -133,7 +133,7 @@
       <div class="ticket-header"><h3>⚙️ MENÚ DE OPCIONES</h3></div>
       <button class="btn-menu-opcion" style="background:#0284c7;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalMetas();">📊 Ver Metas - Cristian</button>
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
-      <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Diario 16+</button>
+      <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Quincena / Cierre</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes y Reportes Mes</button>
       <button class="btn-menu-opcion" style="background:#25d366; color:#000; font-weight:bold;" onclick="document.getElementById('modal-menu-extra').style.display='none'; enviarReporteCierreWsp();">📤 Enviar Cierre a Don Byron</button>
       <button class="btn-close" onclick="document.getElementById('modal-menu-extra').style.display='none'">Cerrar Menú</button>
@@ -237,12 +237,16 @@
 
   <div id="modal-comisiones" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>📈 ESTADO DIARIO 16+</h3></div>
+      <div class="ticket-header"><h3>📈 ESTADO QUINCENA / CIERRE</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Base Quincena:</span><strong>Q 1,625.00</strong></div>
-        <div class="compact-row"><span>Ventas Nuevas:</span><strong style="color:#38bdf8;" id="q2-ventas-real">Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>A RECIBIR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,625.00</strong></div>
+        <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,625.00</strong></div>
+        <div class="compact-row"><span>Déficit Ventas Mes:</span><strong style="color:#ef4444;" id="q2-deficit-val">Q 0.00</strong></div>
+        <div class="compact-row"><span>Descuento Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 0.00</strong></div>
+        <div class="compact-row"><span>Comisión Superávit (2.5%):</span><strong style="color:#34d399;" id="q2-comision-val">Q 0.00</strong></div>
+        <div class="compact-row"><span>Bono Paralelo (Q500):</span><strong style="color:#34d399;" id="q2-bono-val">Q 0.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,625.00</strong></div>
       </div>
+      <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena y cierre de mes</p>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
     </div>
   </div>
@@ -260,8 +264,10 @@
     const META_TIQUETES_CRISTIAN = 324;
     const META_HORAS_CRISTIAN = 189;
     const SUELDO_BASE_CRISTIAN = 3250.00;
-    const PREMIO_META_CRISTIAN = 500.00;
-    const DEPRECIACION_MOTO_CRISTIAN = 0.00;
+    const QUINCENA_BASE = SUELDO_BASE_CRISTIAN / 2; // Q1,625.00
+    const DIAS_TRABAJO_MES = 27;
+    const SUELDO_DIARIO = SUELDO_BASE_CRISTIAN / DIAS_TRABAJO_MES; // ~Q120.37
+    const CUOTA_DIARIA_VENTAS = META_VENTAS_CRISTIAN / DIAS_TRABAJO_MES; // ~Q3,000.00
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
@@ -449,15 +455,61 @@
     }
 
     function abrirModalComisiones() {
+      let now = new Date();
+      let diaDelMes = now.getDate();
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let ventasNuevas = 0;
+      let ventasMes = SALDO_INICIAL_CRISTIAN;
+      let tqMes = TIQUETES_BASE_CRISTIAN;
+      let horasMes = HORAS_BASE_CRISTIAN;
+
       tks.forEach(t => { 
-        if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE && t.total) {
-          ventasNuevas += parseFloat(t.total);
+        if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE) {
+          if (t.total) ventasMes += parseFloat(t.total);
+          tqMes += 1;
         }
       });
-      document.getElementById('q2-ventas-real').innerText = "Q " + ventasNuevas.toFixed(2);
-      document.getElementById('q2-total-neto').innerText = "Q " + (SUELDO_BASE_CRISTIAN / 2).toFixed(2);
+
+      let deficit = Math.max(0, META_VENTAS_CRISTIAN - ventasMes);
+      let superavit = Math.max(0, ventasMes - META_VENTAS_CRISTIAN);
+      let descuento = 0;
+      let comisionSuperavit = 0;
+      let bonoMeta = 0;
+      let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2});
+
+      // Del 1 al 15 es libre. Del 16 en adelante se descuenta déficit.
+      if (diaDelMes >= 16) {
+        let diasDescuento = deficit / CUOTA_DIARIA_VENTAS;
+        descuento = diasDescuento * SUELDO_DIARIO;
+        if (descuento > QUINCENA_BASE) descuento = QUINCENA_BASE;
+      }
+
+      // Al llegar al cierre de mes (día 27 en adelante)
+      if (diaDelMes >= 27) {
+        // La comisión del 2.5% sobre el superávit se paga siempre que haya superávit, aunque falte en tiquetes/horas
+        comisionSuperavit = superavit * 0.025; 
+
+        // EL BONO REQUIERE CUMPLIR LOS TRES PARALELOS: Ventas (>=81k), Tiquetes (>=324), Horas (>=189)
+        let cumpleVentas = ventasMes >= META_VENTAS_CRISTIAN;
+        let cumpleTiquetes = tqMes >= META_TIQUETES_CRISTIAN;
+        let cumpleHoras = horasMes >= META_HORAS_CRISTIAN;
+
+        if (cumpleVentas && cumpleTiquetes && cumpleHoras) {
+          bonoMeta = 500.00; 
+        }
+
+        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes: Valida 3 paralelos para bono)`;
+      } else {
+        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
+      }
+
+      let netoRecibir = Math.max(0, QUINCENA_BASE - descuento) + comisionSuperavit + bonoMeta;
+
+      document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
+      document.getElementById('q2-deficit-val').innerText = f(deficit);
+      document.getElementById('q2-descuento-val').innerText = "- " + f(descuento);
+      document.getElementById('q2-comision-val').innerText = f(comisionSuperavit);
+      document.getElementById('q2-bono-val').innerText = f(bonoMeta);
+      document.getElementById('q2-total-neto').innerText = f(netoRecibir);
       document.getElementById('modal-comisiones').style.display = 'flex';
     }
 
@@ -554,7 +606,7 @@
       document.getElementById('reporte-imprimir-contenido').innerHTML = `
         <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - CONSOLIDADO</div>
         <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: Cristian</div>
-        <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-bottom:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
+        <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-top:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
         ${listaProductosHtml}
         <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px;">
           <div style="display:flex; justify-content:space-between;"><span>Total Tiquetes:</span><strong>${totalTqMes}</strong></div>
