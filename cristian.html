@@ -214,9 +214,11 @@
       <div class="ticket-header"><h3>📊 METAS - CRISTIAN</h3></div>
       <div class="compact-box">
         <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
-        <div class="compact-row"><span>📉 Déficit / Faltante:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
+        <div class="compact-row"><span>📉 Déficit Ventas:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
-        <div class="compact-row" style="border:none; margin:0;"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
+        <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">0 Tq</strong></div>
+        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
+        <div class="compact-row" style="border:none; margin:0;"><span>📉 Déficit Horas:</span><strong style="color:#ef4444;" id="meta-deficit-horas">0.0 Hrs</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
     </div>
@@ -226,9 +228,9 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>💵 SUELDO (CRISTIAN)</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,250.00</strong></div>
+        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
         <div class="compact-row"><span>Premio Meta (Bono):</span><strong style="color:#27ae60;">Q 500.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 0.00 (Sin moto)</strong></div>
+        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 500.00</strong></div>
         <div class="compact-row" style="color:#38bdf8; border:none; margin:0;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-sueldo').style.display='none'">Cerrar</button>
@@ -239,12 +241,13 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>📈 ESTADO QUINCENA / CIERRE</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,625.00</strong></div>
+        <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,800.00</strong></div>
+        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;" id="q2-moto-val">Q 500.00</strong></div>
         <div class="compact-row"><span>Déficit Ventas Mes:</span><strong style="color:#ef4444;" id="q2-deficit-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Descuento Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 0.00</strong></div>
         <div class="compact-row"><span>Comisión Superávit (2.5%):</span><strong style="color:#34d399;" id="q2-comision-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Bono Paralelo (Q500):</span><strong style="color:#34d399;" id="q2-bono-val">Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,625.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 2,300.00</strong></div>
       </div>
       <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena y cierre de mes</p>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
@@ -252,21 +255,24 @@
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_cristian_v15";
-    const ticketsKey = "diprosa_tickets_cristian_v15";
+    const storageKey = "carrito_diprosa_cristian_v1";
+    const ticketsKey = "diprosa_tickets_cristian_v1";
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    const SALDO_INICIAL_CRISTIAN = 45854.38;
-    const TIQUETES_BASE_CRISTIAN = 112;
-    const HORAS_BASE_CRISTIAN = 127.0;
+    const SALDO_INICIAL_CRISTIAN = 46098.38;
+    const TIQUETES_BASE_CRISTIAN = 105;
+    const HORAS_BASE_CRISTIAN = 112.0;
     const META_VENTAS_CRISTIAN = 81000.00;
     const META_TIQUETES_CRISTIAN = 324;
     const META_HORAS_CRISTIAN = 189;
-    const SUELDO_BASE_CRISTIAN = 3250.00;
-    const QUINCENA_BASE = SUELDO_BASE_CRISTIAN / 2; // Q1,625.00
+    
+    const SUELDO_BASE_CRISTIAN = 3600.00;
+    const QUINCENA_BASE = SUELDO_BASE_CRISTIAN / 2; // Q1,800.00
+    const DEPRECIACION_MOTO = 500.00;
+    
     const DIAS_TRABAJO_MES = 27;
-    const SUELDO_DIARIO = SUELDO_BASE_CRISTIAN / DIAS_TRABAJO_MES; // ~Q120.37
+    const SUELDO_DIARIO = SUELDO_BASE_CRISTIAN / DIAS_TRABAJO_MES; // ~Q133.33
     const CUOTA_DIARIA_VENTAS = META_VENTAS_CRISTIAN / DIAS_TRABAJO_MES; // ~Q3,000.00
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
@@ -418,8 +424,10 @@
       });
 
       let deficitVentas = Math.max(0, META_VENTAS_CRISTIAN - ventasMes);
+      let deficitTq = Math.max(0, META_TIQUETES_CRISTIAN - tqMes);
+      let deficitHoras = Math.max(0, META_HORAS_CRISTIAN - HORAS_BASE_CRISTIAN);
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Cristian\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k\n• Faltante: Q ${deficitVentas.toFixed(2)}\n• Tiquetes: ${tqMes} / 324 Tq\n• Horas: ${HORAS_BASE_CRISTIAN.toFixed(1)} / 189 Hrs\n----------------------------------------`;
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Cristian\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_CRISTIAN.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
@@ -433,13 +441,18 @@
           totalTq += 1;
         }
       });
-      let deficit = Math.max(0, META_VENTAS_CRISTIAN - totalVentas);
+      let deficitVentas = Math.max(0, META_VENTAS_CRISTIAN - totalVentas);
+      let deficitTq = Math.max(0, META_TIQUETES_CRISTIAN - totalTq);
+      let deficitHoras = Math.max(0, META_HORAS_CRISTIAN - HORAS_BASE_CRISTIAN);
+
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
-      document.getElementById('meta-deficit').innerText = f(deficit);
+      document.getElementById('meta-deficit').innerText = f(deficitVentas);
       document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
+      document.getElementById('meta-deficit-tq').innerText = deficitTq + " Tq";
       document.getElementById('meta-horas-real').innerText = HORAS_BASE_CRISTIAN.toFixed(1) + " / 189 Hrs";
+      document.getElementById('meta-deficit-horas').innerText = deficitHoras.toFixed(1) + " Hrs";
       document.getElementById('modal-metas').style.display = 'flex';
     }
 
@@ -475,13 +488,14 @@
       let comisionSuperavit = 0;
       let bonoMeta = 0;
 
-      // Usamos .toFixed(2) para forzar el redondeo exacto a dos decimales en todas las variables
+      // Del 1 al 15 es libre. Del 16 en adelante se descuenta déficit de la base.
       if (diaDelMes >= 16) {
         let diasDescuento = deficit / CUOTA_DIARIA_VENTAS;
         descuento = parseFloat((diasDescuento * SUELDO_DIARIO).toFixed(2));
         if (descuento > QUINCENA_BASE) descuento = QUINCENA_BASE;
       }
 
+      // Al llegar al cierre de mes (día 27 en adelante)
       if (diaDelMes >= 27) {
         comisionSuperavit = parseFloat((superavit * 0.025).toFixed(2)); 
 
@@ -498,11 +512,12 @@
         document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
       }
 
-      let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + comisionSuperavit + bonoMeta).toFixed(2));
+      let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + DEPRECIACION_MOTO + comisionSuperavit + bonoMeta).toFixed(2));
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
+      document.getElementById('q2-moto-val').innerText = f(DEPRECIACION_MOTO);
       document.getElementById('q2-deficit-val').innerText = f(deficit);
       document.getElementById('q2-descuento-val').innerText = "- " + f(descuento);
       document.getElementById('q2-comision-val').innerText = f(comisionSuperavit);
