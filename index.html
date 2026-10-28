@@ -25,18 +25,15 @@
     </div>
 
     <script>
-        // Su nuevo enlace oficial de Apps Script
         const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbwiTJGuuXbx4BWVIG0tUyCVVdjpzx0MBZkme9w6NGX0juZb0feQmqsf1hNpUKp9Uyaplg/exec";
         
-        // Detecta qué vendedor abrió la página (ej: index.html?vendedor=Cristian)
         const urlParams = new URLSearchParams(window.location.search);
-        const vendedorActual = urlParams.get('vendedor') ? urlParams.get('vendedor').toUpperCase() : "GENERAL";
+        let vendedorActual = urlParams.get('vendedor') ? urlParams.get('vendedor').toUpperCase() : "GENERAL";
         document.getElementById('titulo-vendedor').innerText = "CATÁLOGO " + vendedorActual;
 
         let listaGlobalProductos = [];
         let itemsSeleccionados = {};
 
-        // Carga los productos desde su Google Sheets al abrir la página
         fetch(URL_APPS_SCRIPT)
             .then(res => res.json())
             .then(data => {
@@ -81,7 +78,6 @@
             
             document.querySelector('.btn-enviar').innerText = "Enviando...";
 
-            // Envía el pedido directo a su Google Sheets
             fetch(URL_APPS_SCRIPT, {
                 method: "POST",
                 mode: "no-cors",
