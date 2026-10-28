@@ -1,121 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel de Supervisor - DIPROSA</title>
-  <style>
-    body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 15px; box-sizing: border-box; }
-    .header { text-align: center; margin-bottom: 20px; }
-    h1 { color: #ff9800; font-size: 20px; margin: 0; }
-    .card-total-general { background: #122118; border: 2px solid #27ae60; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 20px; }
-    .card-total-general h2 { margin: 0 0 5px 0; color: #34d399; font-size: 14px; }
-    .monto-general { font-size: 28px; font-weight: bold; color: #27ae60; }
-    
-    .grid-vendedores { display: grid; gap: 12px; }
-    .card-vendedor { background: #1e1e1e; border: 1px solid #333; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
-    .nombre-vendedor { font-weight: bold; font-size: 15px; color: #38bdf8; }
-    .monto-vendedor { font-size: 16px; font-weight: bold; color: #27ae60; }
-    .detalle-tiquetes { font-size: 11px; color: #888; margin-top: 2px; }
-    
-    .btn-agregar { background: #ff9800; color: #121212; border: none; padding: 6px 10px; border-radius: 5px; font-weight: bold; font-size: 12px; cursor: pointer; margin-top: 5px; }
-    .btn-volver { display: block; width: 100%; background: #333; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; text-decoration: none; margin-top: 25px; font-size: 14px; box-sizing: border-box; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Supervisor - Diprosa</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; padding: 20px; margin: 0; }
+        .container { max-width: 500px; margin: 0 auto; background: #1e1e1e; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        h2 { color: #ff9800; text-align: center; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        select { width: 100%; padding: 12px; margin-top: 5px; background: #2c2c2c; color: #fff; border: 1px solid #444; border-radius: 5px; font-size: 16px; }
+        .card { background: #2c2c2c; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #4caf50; margin-top: 5px; }
+        .btn { display: block; width: 100%; background: #ff9800; color: #fff; border: none; padding: 12px; margin-top: 20px; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        .btn:hover { background: #e68900; }
+    </style>
 </head>
 <body>
 
-  <div class="header">
-    <h1>📊 PANEL DE SUPERVISIÓN</h1>
-    <p style="font-size: 12px; color: #aaa; margin: 5px 0 0 0;">Distribuidora DIPROSA</p>
-  </div>
+<div class="container">
+    <h2>📊 Panel de Supervisor</h2>
+    
+    <label for="vendedorSelect">Seleccione Vendedor:</label>
+    <select id="vendedorSelect">
+        <option value="ESTUARDO">Estuardo</option>
+        <option value="CRISTIAN">Cristian</option>
+        <option value="JORGE">Jorge</option>
+    </select>
 
-  <div class="card-total-general">
-    <h2>VENTA TOTAL GENERAL ACUMULADA</h2>
-    <div class="monto-general">Q <span id="total-general">0.00</span></div>
-  </div>
+    <button class="btn" onclick="consultarVendedor()">Consultar Avance</button>
 
-  <div id="lista-vendedores" class="grid-vendedores">
-    <!-- Se llena automáticamente -->
-  </div>
+    <div class="card">
+        <div>Ventas Acumuladas</div>
+        <div id="lblVentas" class="stat-value">Q 0.00</div>
+    </div>
 
-  <a href="estuardo.html" class="btn-volver">⬅️ Volver al Catálogo</a>
+    <div class="card">
+        <div>Total de Tickets / Pedidos</div>
+        <div id="lblTickets" class="stat-value">0</div>
+    </div>
+</div>
 
-  <script>
-    const vendedores = [
-      { id: "estuardo", nombre: "Estuardo", keyTickets: "diprosa_tickets_estuardo" },
-      { id: "jorge", nombre: "Jorge", keyTickets: "diprosa_tickets_jorge" },
-      { id: "eleazar", nombre: "Eleazar", keyTickets: "diprosa_tickets_eleazar" },
-      { id: "cristian", nombre: "Cristian", keyTickets: "diprosa_tickets_cristian" }
-    ];
+<script>
+    const urlScript = "https://script.google.com/macros/s/AKfycbwng5-COdlWIG7qYkl-td66uYKfwVNHFKaXNqatrdAEXo4tWuofuW-oV4WKn34Hv9-_4Q/exec";
 
-    function cargarPanel() {
-      let sumaTotalGeneral = 0;
-      let htmlVendedores = "";
+    function consultarVendedor() {
+        const vendedor = document.getElementById('vendedorSelect').value;
+        document.getElementById('lblVentas').innerText = "Cargando...";
+        document.getElementById('lblTickets').innerText = "...";
 
-      vendedores.forEach(v => {
-        let tiquetes = [];
-        try {
-          tiquetes = JSON.parse(localStorage.getItem(v.keyTickets)) || [];
-        } catch(e) {
-          tiquetes = [];
-        }
-
-        let subtotalVendedor = 0;
-        let cantidadTiquetes = 0;
-
-        tiquetes.forEach(t => {
-          if (t.total) {
-            subtotalVendedor += parseFloat(t.total);
-            cantidadTiquetes += 1;
-          }
-        });
-
-        sumaTotalGeneral += subtotalVendedor;
-
-        htmlVendedores += `
-          <div class="card-vendedor">
-            <div>
-              <div class="nombre-vendedor">📦 ${v.nombre}</div>
-              <div class="detalle-tiquetes">${cantidadTiquetes} tiquetes registrados</div>
-              <button class="btn-agregar" onclick="agregarVentaManual('${v.keyTickets}', '${v.nombre}')">➕ Agregar Venta</button>
-            </div>
-            <div class="monto-vendedor">Q ${subtotalVendedor.toFixed(2)}</div>
-          </div>
-        `;
-      });
-
-      document.getElementById('total-general').innerText = sumaTotalGeneral.toFixed(2);
-      document.getElementById('lista-vendedores').innerHTML = htmlVendedores;
+        fetch(`${urlScript}?action=getStats&vendedor=${vendedor}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('lblVentas').innerText = "Q " + Number(data.ventas).toLocaleString('es-GT', {minimumFractionDigits: 2});
+                document.getElementById('lblTickets').innerText = data.tickets;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("No se pudo conectar con el servidor.");
+                document.getElementById('lblVentas').innerText = "Q 0.00";
+                document.getElementById('lblTickets').innerText = "0";
+            });
     }
 
-    function agregarVentaManual(key, nombre) {
-      let montoStr = prompt(`Ingrese el monto de la venta para ${nombre} (Q):`);
-      if (montoStr !== null && montoStr.trim() !== "") {
-        let monto = parseFloat(montoStr);
-        if (!isNaN(monto) && monto > 0) {
-          let tiquetes = [];
-          try {
-            tiquetes = JSON.parse(localStorage.getItem(key)) || [];
-          } catch(e) {
-            tiquetes = [];
-          }
-
-          // Agregamos un tiquete simulado con el monto ingresado
-          tiquetes.push({
-            total: monto,
-            fecha: new Date().toLocaleString()
-          });
-
-          localStorage.setItem(key, JSON.stringify(tiquetes));
-          cargarPanel(); // Recarga la pantalla al instante
-        } else {
-          alert("Por favor ingrese un monto válido.");
-        }
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', cargarPanel);
-  </script>
+    // Consultar al abrir por defecto a Estuardo
+    window.onload = consultarVendedor;
+</script>
 
 </body>
 </html>
