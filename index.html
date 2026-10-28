@@ -17,7 +17,7 @@
 <body>
 
     <h1 id="titulo-vendedor">CATÁLOGO DIPROSA</h1>
-    <div id="lista-productos" class="loader">Cargando inventario desde el sistema central...</div>
+    <div id="lista-productos" class="loader">Cargando inventario...</div>
 
     <div id="total-container">
         <div><b>Total Items en Carrito: <span id="span-cantidad">0</span></b></div>
@@ -34,33 +34,31 @@
         let listaGlobalProductos = [];
         let itemsSeleccionados = {};
 
-        function cargarInventario() {
-            let scriptTag = document.createElement('script');
-            scriptTag.src = URL_APPS_SCRIPT + "?callback=procesarDatos";
-            document.body.appendChild(scriptTag);
-        }
-
-        function procesarDatos(data) {
-            let contenedor = document.getElementById('lista-productos');
-            contenedor.innerHTML = "";
-            if(data.status === "success" && data.productos.length > 0) {
-                listaGlobalProductos = data.productos;
-                listaGlobalProductos.forEach((p, index) => {
-                    contenedor.innerHTML += `
-                        <div class="producto">
-                            <button class="btn" onclick="agregarItem(${index})">+ Agregar</button>
-                            <div style="margin-right: 90px;">
-                                <b>${p.nombre}</b>
+        // Petición directa clásica
+        fetch(URL_APPS_SCRIPT)
+            .then(response => response.json())
+            .then(data => {
+                let contenedor = document.getElementById('lista-productos');
+                contenedor.innerHTML = "";
+                if(data.status === "success" && data.productos.length > 0) {
+                    listaGlobalProductos = data.productos;
+                    listaGlobalProductos.forEach((p, index) => {
+                        contenedor.innerHTML += `
+                            <div class="producto">
+                                <button class="btn" onclick="agregarItem(${index})">+ Agregar</button>
+                                <div style="margin-right: 90px;">
+                                    <b>${p.nombre}</b>
+                                </div>
                             </div>
-                        </div>
-                    `;
-                });
-            } else {
-                contenedor.innerHTML = "No se encontraron productos o la hoja está vacía.";
-            }
-        }
-
-        cargarInventario();
+                        `;
+                    });
+                } else {
+                    contenedor.innerHTML = "No se encontraron productos o la hoja está vacía.";
+                }
+            })
+            .catch(err => {
+                document.getElementById('lista-productos').innerHTML = "Error al cargar el inventario.";
+            });
 
         function agregarItem(index) {
             let prod = listaGlobalProductos[index];
@@ -73,7 +71,7 @@
         function enviarPedido() {
             let totalItems = Object.keys(itemsSeleccionados).length;
             if(totalItems === 0) {
-                alert("El carrito está vacío. Agregue al menos un producto.");
+                alert("El carrito está vacío.");
                 return;
             }
 
@@ -90,12 +88,12 @@
                     detalle: detallePedido 
                 })
             }).then(() => {
-                alert("¡Pedido enviado con éxito! Ya quedó registrado en su hoja de cálculo.");
+                alert("¡Pedido enviado con éxito!");
                 itemsSeleccionados = {};
                 document.getElementById('span-cantidad').innerText = "0";
                 document.querySelector('.btn-enviar').innerText = "FINALIZAR Y ENVIAR PEDIDO";
             }).catch(err => {
-                alert("Hubo un error al enviar el pedido.");
+                alert("Error al enviar.");
                 document.querySelector('.btn-enviar').innerText = "FINALIZAR Y ENVIAR PEDIDO";
             });
         }
