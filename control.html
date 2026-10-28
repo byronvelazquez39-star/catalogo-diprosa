@@ -1,1 +1,183 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Administración - DIPROSA</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #000000;
+        color: #ffffff;
+        margin: 0;
+        padding: 12px;
+        padding-bottom: 80px;
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    h1 {
+        color: #ff9800;
+        font-size: 22px;
+        margin: 5px 0;
+    }
+    .card-total-general {
+        background: #122111;
+        border: 2px solid #4CAF50;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .card-total-general h2 {
+        margin: 0 0 5px 0;
+        font-size: 16px;
+        color: #81C784;
+    }
+    .monto-general {
+        font-size: 28px;
+        font-weight: bold;
+        color: #4CAF50;
+    }
+    .sub-general {
+        font-size: 13px;
+        color: #cccccc;
+        margin-top: 5px;
+    }
+    .grid-vendedores {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .card-vendedor {
+        background: #1e1e1e;
+        border: 1px solid #333333;
+        border-radius: 10px;
+        padding: 15px;
+    }
+    .card-vendedor h3 {
+        margin: 0 0 10px 0;
+        color: #ff9800;
+        font-size: 18px;
+        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
+    }
+    .dato-fila {
+        display: flex;
+        justify-content: space-between;
+        margin: 8px 0;
+        font-size: 14px;
+    }
+    .input-grupo {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+    }
+    .input-grupo input {
+        flex: 1;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #555;
+        background: #2b2b2b;
+        color: #fff;
+        font-size: 14px;
+    }
+    .input-grupo button {
+        padding: 8px 15px;
+        background: #ff9800;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>DIPROSA</h1>
+    <p style="margin: 0; color: #888; font-size: 14px;">Panel de Control de Supervisión</p>
+</div>
+
+<div class="card-total-general">
+    <h2>VENTA TOTAL ACUMULADA</h2>
+    <div class="monto-general" id="totalGeneral">Q0.00</div>
+    <div class="sub-general">Meta Global Equipos: Q324,000.00</div>
+</div>
+
+<div class="grid-vendedores" id="contenedorVendedores">
+    <!-- Se generan dinámicamente -->
+</div>
+
+<script>
+const vendedores = [
+    { id: 'estuardo', nombre: 'Estuardo', metaVenta: 81000, metaTickets: 81 },
+    { id: 'cristian', nombre: 'Cristian', metaVenta: 81000, metaTickets: 81 },
+    { id: 'eleazar', nombre: 'Eleazar', metaVenta: 81000, metaTickets: 81 },
+    { id: 'jorge', nombre: 'Jorge', metaVenta: 81000, metaTickets: 81 }
+];
+
+function cargarPanel() {
+    let contenedor = document.getElementById('contenedorVendedores');
+    contenedor.innerHTML = '';
+    let acumuladoGlobal = 0;
+
+    vendedores.forEach(v => {
+        let ventaStr = localStorage.getItem(`diprosa_venta_${v.id}`) || '0';
+        let ticketsStr = localStorage.getItem(`diprosa_tickets_${v.id}`) || '0';
+        
+        let venta = parseFloat(ventaStr) || 0;
+        let tickets = parseInt(ticketsStr) || 0;
+
+        acumuladoGlobal += venta;
+        let faltante = v.metaVenta - venta;
+        if(faltante < 0) faltante = 0;
+
+        let card = document.createElement('div');
+        card.className = 'card-vendedor';
+        card.innerHTML = `
+            <h3>👤 ${v.nombre}</h3>
+            <div class="dato-fila"><span>Venta Acumulada:</span> <strong>Q${venta.toFixed(2)}</strong></div>
+            <div class="dato-fila"><span>Meta Individual:</span> <span>Q${v.metaVenta.toFixed(2)}</span></div>
+            <div class="dato-fila"><span>Faltante:</span> <span style="color: #ff5252;">Q${faltante.toFixed(2)}</span></div>
+            <div class="dato-fila"><span>Tickets Emitidos:</span> <strong>${tickets} / ${v.metaTickets}</strong></div>
+            
+            <div class="input-grupo">
+                <input type="number" id="input_${v.id}" placeholder="Monto a sumar (+/-)" step="0.01">
+                <button onclick="sumarVenta('${v.id}')">Agregar</button>
+            </div>
+        `;
+        contenedor.appendChild(card);
+    });
+
+    document.getElementById('totalGeneral').innerText = `Q${acumuladoGlobal.toFixed(2)}`;
+}
+
+function sumarVenta(id) {
+    let inputVal = document.getElementById(`input_${id}`).value;
+    if(!inputVal) return;
+    let valorAgregado = parseFloat(inputVal);
+
+    let ventaActual = parseFloat(localStorage.getItem(`diprosa_venta_${id}`)) || 0;
+    let ticketsActuales = parseInt(localStorage.getItem(`diprosa_tickets_${id}`)) || 0;
+
+    let nuevaVenta = ventaActual + valorAgregado;
+    if(nuevaVenta < 0) nuevaVenta = 0;
+    
+    let nuevosTickets = ticketsActuales + (valorAgregado > 0 ? 1 : 0);
+
+    localStorage.setItem(`diprosa_venta_${id}`, nuevaVenta);
+    localStorage.setItem(`diprosa_tickets_${id}`, nuevosTickets);
+
+    document.getElementById(`input_${id}`).value = '';
+    cargarPanel();
+}
+
+window.onload = cargarPanel;
+</script>
+
+</body>
+</html>
