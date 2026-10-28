@@ -25,7 +25,7 @@
     </div>
 
     <script>
-        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbwK1yfvI0f-wIxNgdLZs1nbIpOeBw68PPwneHfbNmOB9y5NAWFjpItZFGFR3J_K3BDvTw/exec";
+        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbyCNP3CBmNdK8WkFMFltbTpH7pPgrmBDyAl9eIkDtMd8SGgdhIYEdUXKglYWxM1VXSpzQ/exec";
         
         const urlParams = new URLSearchParams(window.location.search);
         let vendedorActual = urlParams.get('vendedor') ? urlParams.get('vendedor').toUpperCase() : "GENERAL";
@@ -52,7 +52,7 @@
                         `;
                     });
                 } else {
-                    contenedor.innerHTML = "No se encontraron productos o hubo un error al cargar.";
+                    contenedor.innerHTML = "No se encontraron productos o la hoja está vacía.";
                 }
             })
             .catch(err => {
