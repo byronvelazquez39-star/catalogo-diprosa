@@ -1,1 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Supervisor - DIPROSA</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #121212; color: #ffffff; margin: 0; padding: 15px; box-sizing: border-box; }
+    .header { text-align: center; margin-bottom: 20px; }
+    h1 { color: #ff9800; font-size: 20px; margin: 0; }
+    
+    .card-total-general { background: #122118; border: 2px solid #27ae60; border-radius: 10px; padding: 15px; text-align: center; margin-bottom: 20px; }
+    .card-total-general h2 { margin: 0 0 5px 0; color: #34d399; font-size: 13px; }
+    .monto-general { font-size: 26px; font-weight: bold; color: #27ae60; }
+    .sub-general { font-size: 12px; color: #aaa; margin-top: 5px; }
+    
+    .grid-vendedores { display: grid; gap: 12px; }
+    .card-vendedor { background: #1e1e1e; border: 1px solid #333; border-radius: 10px; padding: 14px; }
+    .vendedor-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #444; padding-bottom: 8px; margin-bottom: 8px; }
+    .nombre-vendedor { font-weight: bold; font-size: 15px; color: #38bdf8; }
+    
+    .metric-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+    .metric-label { color: #9ca3af; }
+    .metric-val { font-weight: bold; }
+
+    .acciones-row { display: flex; gap: 8px; margin-top: 10px; }
+    .btn-agregar { background: #ff9800; color: #121212; border: none; padding: 6px 10px; border-radius: 5px; font-weight: bold; font-size: 11px; cursor: pointer; flex: 1; }
+    .btn-catalogo { background: #0284c7; color: white; border: none; padding: 6px 10px; border-radius: 5px; font-weight: bold; font-size: 11px; cursor: pointer; text-decoration: none; text-align: center; flex: 1; display: inline-block; }
+    
+    .btn-volver { display: block; width: 100%; background: #333; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; text-decoration: none; margin-top: 25px; font-size: 14px; box-sizing: border-box; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>📊 PANEL DE SUPERVISIÓN Y METAS</h1>
+    <p style="font-size: 12px; color: #aaa; margin: 5px 0 0 0;">Distribuidora DIPROSA - Control Central</p>
+  </div>
+
+  <div class="card-total-general">
+    <h2>VENTA TOTAL GENERAL ACUMULADA</h2>
+    <div class="monto-general">Q <span id="total-general">0.00</span></div>
+    <div class="sub-general">Meta Global Vendedores: Q 324,000.00</div>
+  </div>
+
+  <div id="lista-vendedores" class="grid-vendedores">
+    <!-- Se llena automáticamente -->
+  </div>
+
+  <a href="index.html" class="btn-volver">⬅️ Volver al Catálogo Principal</a>
+
+  <script>
+    const vendedores = [
+      { id: "estuardo", nombre: "Estuardo", keyTickets: "diprosa_tickets_estuardo", metaVentas: 81000, metaTq: 324, link: "estuardo.html" },
+      { id: "jorge", nombre: "Jorge", keyTickets: "diprosa_tickets_jorge", metaVentas: 81000, metaTq: 324, link: "jorge.html" },
+      { id: "eleazar", nombre: "Eleazar", keyTickets: "diprosa_tickets_eleazar", metaVentas: 81000, metaTq: 324, link: "eleazar.html" },
+      { id: "cristian", nombre: "Cristian", keyTickets: "diprosa_tickets_cristian", metaVentas: 81000, metaTq: 324, link: "cristian.html" }
+    ];
+
+    function cargarPanel() {
+      let sumaTotalGeneral = 0;
+      let htmlVendedores = "";
+
+      vendedores.forEach(v => {
+        let tiquetes = [];
+        try {
+          tiquetes = JSON.parse(localStorage.getItem(v.keyTickets)) || JSON.parse(localStorage.getItem(v.keyTickets + "_v1")) || [];
+        } catch(e) {
+          tiquetes = [];
+        }
+
+        let subtotalVendedor = 0;
+        let cantidadTiquetes = 0;
+
+        tiquetes.forEach(t => {
+          if (!t.anulado && t.total) {
+            subtotalVendedor += parseFloat(t.total);
+            cantidadTiquetes += 1;
+          }
+        });
+
+        sumaTotalGeneral += subtotalVendedor;
+        let deficitVentas = Math.max(0, v.metaVentas - subtotalVendedor);
+
+        htmlVendedores += `
+          <div class="card-vendedor">
+            <div class="vendedor-header">
+              <span class="vendedor-nombre">👤 ${v.nombre}</span>
+              <span style="color: #34d399; font-weight: bold; font-size: 14px;">Q ${subtotalVendedor.toLocaleString('en-US', {minimumFractionDigits: 2})}</span>
+            </div>
+            
+            <div class="metric-row"><span class="metric-label">Meta de Ventas:</span><span class="metric-val">Q ${v.metaVentas.toLocaleString()}</span></div>
+            <div class="metric-row"><span class="metric-label">Faltante (Déficit):</span><span class="metric-val" style="color:#ef4444;">Q ${deficitVentas.toLocaleString('en-US', {minimumFractionDigits: 2})}</span></div>
+            <div class="metric-row"><span class="metric-label">Tiquetes Emitidos:</span><span class="metric-val">${cantidadTiquetes} / ${v.metaTq} Tq</span></div>
+
+            <div class="acciones-row">
+              <button class="btn-agregar" onclick="agregarVentaManual('${v.keyTickets}', '${v.nombre}')">➕ Agregar Venta</button>
+              <a href="${v.link}" class="btn-catalogo" target="_blank">📂 Ver Catálogo</a>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById('total-general').innerText = sumaTotalGeneral.toLocaleString('en-US', {minimumFractionDigits: 2});
+      document.getElementById('lista-vendedores').innerHTML = htmlVendedores;
+    }
+
+    function agregarVentaManual(key, nombre) {
+      let montoStr = prompt(`Ingrese el monto de la venta para ${nombre} (Q):`);
+      if (montoStr !== null && montoStr.trim() !== "") {
+        let monto = parseFloat(montoStr);
+        if (!isNaN(monto) && monto > 0) {
+          let tiquetes = [];
+          try {
+            tiquetes = JSON.parse(localStorage.getItem(key)) || [];
+          } catch(e) {
+            tiquetes = [];
+          }
+
+          tiquetes.push({
+            total: monto,
+            fecha: new Date().toLocaleString()
+          });
+
+          localStorage.setItem(key, JSON.stringify(tiquetes));
+          cargarPanel(); 
+        } else {
+          alert("Por favor ingrese un monto válido.");
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', cargarPanel);
+  </script>
+
+</body>
+</html>
 
