@@ -25,8 +25,8 @@
     </div>
 
     <script>
-        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbwIjmYmFgBwjCH5VhUbjy-u_r6EPAsBSYkcuGDp8g1DB2ubF4VeulUpCAkD-OO-GgUpNQ/exec";
-        
+        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbwVRXirECdVpEZJF-AKebb4psGPQFEuaVPjiVK72PO2MSPvXMt1KvlkNYj14NHpInus_A/exec";
+
         const urlParams = new URLSearchParams(window.location.search);
         let vendedorActual = urlParams.get('vendedor') ? urlParams.get('vendedor').toUpperCase() : "GENERAL";
         document.getElementById('titulo-vendedor').innerText = "CATÁLOGO " + vendedorActual;
@@ -34,30 +34,33 @@
         let listaGlobalProductos = [];
         let itemsSeleccionados = {};
 
-        fetch(URL_APPS_SCRIPT)
-            .then(res => res.json())
-            .then(data => {
-                let contenedor = document.getElementById('lista-productos');
-                contenedor.innerHTML = "";
-                if(data.status === "success" && data.productos.length > 0) {
-                    listaGlobalProductos = data.productos;
-                    listaGlobalProductos.forEach((p, index) => {
-                        contenedor.innerHTML += `
-                            <div class="producto">
-                                <button class="btn" onclick="agregarItem(${index})">+ Agregar</button>
-                                <div style="margin-right: 90px;">
-                                    <b>${p.nombre}</b>
-                                </div>
+        function cargarInventario() {
+            let scriptTag = document.createElement('script');
+            scriptTag.src = URL_APPS_SCRIPT + "?callback=procesarDatos";
+            document.body.appendChild(scriptTag);
+        }
+
+        function procesarDatos(data) {
+            let contenedor = document.getElementById('lista-productos');
+            contenedor.innerHTML = "";
+            if(data.status === "success" && data.productos.length > 0) {
+                listaGlobalProductos = data.productos;
+                listaGlobalProductos.forEach((p, index) => {
+                    contenedor.innerHTML += `
+                        <div class="producto">
+                            <button class="btn" onclick="agregarItem(${index})">+ Agregar</button>
+                            <div style="margin-right: 90px;">
+                                <b>${p.nombre}</b>
                             </div>
-                        `;
-                    });
-                } else {
-                    contenedor.innerHTML = "No se encontraron productos o la hoja está vacía.";
-                }
-            })
-            .catch(err => {
-                document.getElementById('lista-productos').innerHTML = "Error de conexión con el servidor.";
-            });
+                        </div>
+                    `;
+                });
+            } else {
+                contenedor.innerHTML = "No se encontraron productos o la hoja está vacía.";
+            }
+        }
+
+        cargarInventario();
 
         function agregarItem(index) {
             let prod = listaGlobalProductos[index];
