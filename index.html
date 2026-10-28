@@ -3,152 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo DIPROSA</title>
+    <title>Catálogo Diprosa</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #f1c40f;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .card {
-            background-color: #1e1e1e;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        .card img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .card h3 {
-            font-size: 0.9em;
-            margin: 10px 0 5px 0;
-            height: 2.8em;
-            overflow: hidden;
-        }
-        .precio {
-            color: #2ecc71;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin: 5px 0;
-        }
-        /* Botón flotante de WhatsApp */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #25d366;
-            color: white;
-            padding: 14px 22px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .whatsapp-btn:hover {
-            background-color: #1ebc57;
-        }
+        body { font-family: Arial, sans-serif; background: #121212; color: #fff; margin: 0; padding: 15px; padding-bottom: 90px; }
+        h1 { color: #ff9800; font-size: 20px; text-align: center; margin-bottom: 15px; }
+        .producto { background: #1e1e1e; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #333; }
+        .btn { background: #4CAF50; color: white; border: none; padding: 8px 12px; border-radius: 5px; font-weight: bold; cursor: pointer; float: right; }
+        #total-container { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; padding: 15px; border-top: 2px solid #4CAF50; text-align: center; box-shadow: 0 -4px 10px rgba(0,0,0,0.5); }
+        .btn-enviar { background: #ff9800; color: #000; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 8px; }
+        .loader { text-align: center; padding: 30px; font-size: 18px; color: #aaa; }
     </style>
 </head>
 <body>
 
-    <h1>Catálogo DIPROSA</h1>
-    
-    <div class="grid">
-        
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
+    <h1 id="titulo-vendedor">CATÁLOGO DIPROSA</h1>
+    <div id="lista-productos" class="loader">Cargando inventario desde el sistema central...</div>
+
+    <div id="total-container">
+        <div><b>Total Items en Carrito: <span id="span-cantidad">0</span></b></div>
+        <button class="btn-enviar" onclick="enviarPedido()">FINALIZAR Y ENVIAR PEDIDO</button>
     </div>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-        💬 Pedir por WhatsApp
-    </a>
+    <script>
+        const URL_APPS_SCRIPT = "https://script.google.com/macros/s/AKfycbzKanl58sdS99b0tk4GVHRxxp_vp4iRxnwIShLIW3NsMyT41-lvtZCb2OHuXhKtXYxmXQ/exec";
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        let vendedorActual = urlParams.get('vendedor') ? urlParams.get('vendedor').toUpperCase() : "GENERAL";
+        document.getElementById('titulo-vendedor').innerText = "CATÁLOGO " + vendedorActual;
 
+        let listaGlobalProductos = [];
+        let itemsSeleccionados = {};
+
+        fetch(URL_APPS_SCRIPT)
+            .then(res => res.json())
+            .then(data => {
+                let contenedor = document.getElementById('lista-productos');
+                contenedor.innerHTML = "";
+                if(data.status === "success" && data.productos.length > 0) {
+                    listaGlobalProductos = data.productos;
+                    listaGlobalProductos.forEach((p, index) => {
+                        contenedor.innerHTML += `
+                            <div class="producto">
+                                <button class="btn" onclick="agregarItem(${index})">+ Agregar</button>
+                                <div style="margin-right: 90px;">
+                                    <b>${p.nombre}</b>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    contenedor.innerHTML = "No se encontraron productos o la hoja está vacía.";
+                }
+            })
+            .catch(err => {
+                document.getElementById('lista-productos').innerHTML = "Error de conexión con el servidor.";
+            });
+
+        function agregarItem(index) {
+            let prod = listaGlobalProductos[index];
+            itemsSeleccionados[index] = prod.nombre;
+            let totalItems = Object.keys(itemsSeleccionados).length;
+            document.getElementById('span-cantidad').innerText = totalItems;
+            alert("Agregado al pedido: " + prod.nombre);
+        }
+
+        function enviarPedido() {
+            let totalItems = Object.keys(itemsSeleccionados).length;
+            if(totalItems === 0) {
+                alert("El carrito está vacío. Agregue al menos un producto.");
+                return;
+            }
+
+            let detallePedido = Object.values(itemsSeleccionados).join(" | ");
+            
+            document.querySelector('.btn-enviar').innerText = "Enviando...";
+
+            fetch(URL_APPS_SCRIPT, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    vendedor: vendedorActual, 
+                    total: totalItems, 
+                    detalle: detallePedido 
+                })
+            }).then(() => {
+                alert("¡Pedido enviado con éxito! Ya quedó registrado en su hoja de cálculo.");
+                itemsSeleccionados = {};
+                document.getElementById('span-cantidad').innerText = "0";
+                document.querySelector('.btn-enviar').innerText = "FINALIZAR Y ENVIAR PEDIDO";
+            }).catch(err => {
+                alert("Hubo un error al enviar el pedido.");
+                document.querySelector('.btn-enviar').innerText = "FINALIZAR Y ENVIAR PEDIDO";
+            });
+        }
+    </script>
 </body>
 </html>
