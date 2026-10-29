@@ -259,7 +259,8 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    const urlWebApp = "https://script.google.com/macros/s/AKfycbzTLpQ31fQSUZHJ2KZ38WSc4X5_Y_lZw-oNKy0ynOAGYzI_nq2BslE81RzfrreWLXqWKA/exec";
+    // Enlace actualizado de Google Apps Script integrado
+    const urlWebApp = "https://script.google.com/macros/s/AKfycbwASc-KL3lE88LKdaNlJE8f49J-y7Zu1ep_9MvGX2-ouY_zoHgCh60qNLXez4GZy56ASg/exec";
     
     const SALDO_INICIAL_ESTUARDO = 41865.03;
     const TIQUETES_BASE_ESTUARDO = 133;
@@ -342,8 +343,8 @@
           </div>
           <div style="display:flex; align-items:center; gap:5px;">
             <span style="font-weight:bold;">x${i.cantidad}</span>
-            <button onclick="cambiarCantCarritoPrevia('${b64}', ${i.precio}, -1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
-            <button onclick="cambiarCantCarritoPrevia('${b64}', ${i.precio}, 1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
+            <button onclick="cambiarCantCarritoPrevia('${b64}',${i.precio}, -1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
+            <button onclick="cambiarCantCarritoPrevia('${b64}',${i.precio}, 1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
             <button onclick="eliminarItemCarritoPrevia('${k}')" style="background:#b91c1c; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;" title="Quitar producto">🗑️</button>
           </div>
         </div>`; 
@@ -431,9 +432,7 @@
       let deficitTq = Math.max(0, META_TIQUETES_ESTUARDO - tqMes);
       let deficitHoras = Math.max(0, META_HORAS_ESTUARDO - HORAS_BASE_ESTUARDO);
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Estuardo\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_ESTUARDO.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
-
-      window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Estuardo\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_ESTUARDO.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;  window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
 
     function abrirModalMetas() {
@@ -507,9 +506,7 @@
         if (cumpleVentas && cumpleTiquetes && cumpleHoras) {
           bonoMeta = 500.00; 
         }
-        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes: Valida 3 paralelos para bono)`;
-      } else {
-        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
+        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes: Valida 3 paralelos para bono)`; } else { document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
       }
 
       let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + DEPRECIACION_MOTO + comisionSuperavit + bonoMeta).toFixed(2));
@@ -570,7 +567,7 @@
         detalleHtml += `<div style="display:flex; justify-content:space-between; border-bottom:1px dotted #ccc; padding:2px 0;"><span>${i.cantidad}x ${i.nombre}</span><span>Q${(i.cantidad*i.precio).toFixed(2)}</span></div>`;
       });
 
-      document.getElementById('rep-mes-txt').innerText = `Cliente: ${t.cliente} - ${t.fecha}`;
+      document.getElementById('rep-mes-txt').innerText = `Cliente: ${t.cliente} -${t.fecha}`;
       document.getElementById('reporte-imprimir-contenido').innerHTML = `
         <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - ESTUARDO</div>
         <div style="text-align:center; font-size:10px; margin-bottom:6px;">Comprobante de Venta</div>
@@ -620,82 +617,4 @@
         <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: Estuardo</div>
         <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-top:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
         ${listaProductosHtml}
-        <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px;">
-          <div style="display:flex; justify-content:space-between;"><span>Total Tiquetes:</span><strong>${totalTqMes}</strong></div>
-          <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold; margin-top:2px;"><span>VENTA TOTAL:</span><span>Q ${totalVentasTiquetes.toFixed(2)}</span></div>
-        </div>
-      `;
-      document.getElementById('modal-imprimir-reporte').style.display = 'flex';
-    }
-
-    function abrirEditarTiquete(id) {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => x.id === id);
-      if (!t) return;
-      tiqueteEditandoId = id;
-      document.getElementById('editar-cliente-info').innerText = `Cliente: ${t.cliente} (${t.fecha})`;
-      renderizarItemsEdicion(t.items);
-      document.getElementById('modal-editar-tiquete').style.display = 'flex';
-    }
-
-    function renderizarItemsEdicion(items) {
-      let contenedor = document.getElementById('editar-items-lista');
-      let html = '', total = 0;
-      items.forEach((item, idx) => {
-        let sub = item.cantidad * item.precio;
-        total += sub;
-        html += `<div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; padding:5px; border-radius:4px; margin-bottom:4px; font-size:11px;">
-          <div><div style="font-weight:bold;">${item.nombre}</div><div style="color:#34d399; font-size:10px;">Q${item.precio.toFixed(2)} c/u</div></div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="font-weight:bold;">x${item.cantidad}</span>
-            <button onclick="cambiarCantItemEdicion(${idx}, -1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
-            <button onclick="cambiarCantItemEdicion(${idx}, 1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
-            <button onclick="eliminarItemEdicion(${idx})" style="background:#b91c1c; color:white; border:none; padding:2px 5px; border-radius:3px; font-size:10px; cursor:pointer;">🗑️</button>
-          </div>
-        </div>`;
-      });
-      contenedor.innerHTML = html;
-      document.getElementById('editar-total-val').innerText = total.toFixed(2);
-    }
-
-    function cambiarCantItemEdicion(index, delta) {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => x.id === tiqueteEditandoId);
-      if (!t) return;
-      t.items[index].cantidad += delta;
-      if (t.items[index].cantidad <= 0) t.items.splice(index, 1);
-      renderizarItemsEdicion(t.items);
-    }
-
-    function eliminarItemEdicion(index) {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => x.id === tiqueteEditandoId);
-      if (!t) return;
-      t.items.splice(index, 1);
-      renderizarItemsEdicion(t.items);
-    }
-
-    function guardarEdicionTiquete() {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let tIndex = tks.findIndex(x => x.id === tiqueteEditandoId);
-      if (tIndex === -1) return;
-      let t = tks[tIndex], nuevoTotal = 0;
-      t.items.forEach(i => { nuevoTotal += i.cantidad * i.precio; });
-      if (t.items.length === 0 || nuevoTotal <= 0) { t.anulado = true; t.total = 0; } else { t.total = nuevoTotal; }
-      localStorage.setItem(ticketsKey, JSON.stringify(tks));
-      document.getElementById('modal-editar-tiquete').style.display = 'none';
-      abrirModalHistorial();
-    }
-
-    function cerrarEdicionTiquete() { guardarEdicionTiquete(); }
-
-    function anularTiquete(id) {
-      if (!confirm("¿Está seguro de anular este tiquete?")) return;
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      tks = tks.map(t => { if (t.id === id) { t.anulado = true; t.total = 0; } return t; });
-      localStorage.setItem(ticketsKey, JSON.stringify(tks));
-      abrirModalHistorial();
-    }
-  </script>
-</body>
-</html>
+        <div style="border-
