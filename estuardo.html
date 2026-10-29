@@ -241,12 +241,11 @@
       <div class="ticket-header"><h3>📈 ESTADO QUINCENA / CIERRE</h3></div>
       <div class="compact-box">
         <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,800.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;" id="q2-moto-val">Q 500.00</strong></div>
         <div class="compact-row"><span>Déficit Ventas Mes:</span><strong style="color:#ef4444;" id="q2-deficit-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Descuento Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 0.00</strong></div>
         <div class="compact-row"><span>Comisión Superávit (2.5%):</span><strong style="color:#34d399;" id="q2-comision-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Bono Paralelo (Q500):</span><strong style="color:#34d399;" id="q2-bono-val">Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 2,300.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,800.00</strong></div>
       </div>
       <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena y cierre de mes</p>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
@@ -259,19 +258,18 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    // ENLACE OFICIAL UNIFICADO DE LA WEB APP
-    const urlWebApp = "https://script.google.com/macros/s/AKfycbyYOh8UhyEX2nzJVATHRpbc4sfzWSFLldswTUxFS5pGDKYd0kgMDsPRHil15e0gCgueUA/exec";
+    // MISMO ENLACE DEL WEB APP CONECTADO A LA HOJA PRINCIPAL
+    const urlWebApp = "https://script.google.com/macros/s/AKfycbzhLdFJkKFxa7KnEYTT32359wq1jTpuzPimFkhLUWV50_D3OpiZGK_lmeVa0FNrI582vg/exec";
     
-    const SALDO_INICIAL_ESTUARDO = 41865.03;
-    const TIQUETES_BASE_ESTUARDO = 133;
-    const HORAS_BASE_ESTUARDO = 127.0;
+    const SALDO_INICIAL_ESTUARDO = 0.00;
+    const TIQUETES_BASE_ESTUARDO = 0;
+    const HORAS_BASE_ESTUARDO = 0.0;
     const META_VENTAS_ESTUARDO = 81000.00;
     const META_TIQUETES_ESTUARDO = 324;
     const META_HORAS_ESTUARDO = 189;
     
     const SUELDO_BASE_ESTUARDO = 3600.00;
     const QUINCENA_BASE = SUELDO_BASE_ESTUARDO / 2;
-    const DEPRECIACION_MOTO = 500.00;
     
     const DIAS_TRABAJO_MES = 27;
     const SUELDO_DIARIO = SUELDO_BASE_ESTUARDO / DIAS_TRABAJO_MES;
@@ -397,9 +395,13 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // ENVÍO DIRECTO AL SERVIDOR (MÉTODO GET INFALIBLE)
-      fetch(urlWebApp + "?vendedor=Estuardo&cliente=" + encodeURIComponent(r) + "&total=" + sub)
-        .catch(err => console.error("Error sincronizando red:", err));
+      // ENVÍO AUTOMÁTICO DE ESTUARDO AL SERVIDOR DE GOOGLE SHEETS
+      fetch(urlWebApp, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ vendedor: 'Estuardo', cliente: r, total: sub })
+      }).catch(err => console.error("Error sincronizando red:", err));
 
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Estuardo\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
 
@@ -514,11 +516,10 @@
         document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
       }
 
-      let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + DEPRECIACION_MOTO + comisionSuperavit + bonoMeta).toFixed(2));
+      let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + comisionSuperavit + bonoMeta).toFixed(2));
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
-      document.getElementById('q2-moto-val').innerText = f(DEPRECIACION_MOTO);
       document.getElementById('q2-deficit-val').innerText = f(deficit);
       document.getElementById('q2-descuento-val').innerText = "- " + f(descuento);
       document.getElementById('q2-comision-val').innerText = f(comisionSuperavit);
