@@ -260,6 +260,9 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
+    // ENLACE OFICIAL DE LA WEB APP VALIDADO EN TIEMPO REAL
+    const urlWebApp = "https://script.google.com/macros/s/AKfycbzhLdFJkKFxa7KnEYTT32359wq1jTpuzPimFkhLUWV50_D3OpiZGK_lmeVa0FNrI582vg/exec";
+    
     const SALDO_INICIAL_CRISTIAN = 46098.38;
     const TIQUETES_BASE_CRISTIAN = 105;
     const HORAS_BASE_CRISTIAN = 112.0;
@@ -395,6 +398,14 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
+      // ENVÍO AUTOMÁTICO AL SERVIDOR DE GOOGLE SHEETS
+      fetch(urlWebApp, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ vendedor: 'Cristian', cliente: r, total: sub })
+      }).catch(err => console.error("Error sincronizando red:", err));
+
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Cristian\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeWsp), '_blank');
@@ -488,17 +499,14 @@
       let comisionSuperavit = 0;
       let bonoMeta = 0;
 
-      // Del 1 al 15 es libre. Del 16 en adelante se descuenta déficit de la base.
       if (diaDelMes >= 16) {
         let diasDescuento = deficit / CUOTA_DIARIA_VENTAS;
         descuento = parseFloat((diasDescuento * SUELDO_DIARIO).toFixed(2));
         if (descuento > QUINCENA_BASE) descuento = QUINCENA_BASE;
       }
 
-      // Al llegar al cierre de mes (día 27 en adelante)
       if (diaDelMes >= 27) {
         comisionSuperavit = parseFloat((superavit * 0.025).toFixed(2)); 
-
         let cumpleVentas = ventasMes >= META_VENTAS_CRISTIAN;
         let cumpleTiquetes = tqMes >= META_TIQUETES_CRISTIAN;
         let cumpleHoras = horasMes >= META_HORAS_CRISTIAN;
@@ -506,14 +514,12 @@
         if (cumpleVentas && cumpleTiquetes && cumpleHoras) {
           bonoMeta = 500.00; 
         }
-
         document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes: Valida 3 paralelos para bono)`;
       } else {
         document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
       }
 
       let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + DEPRECIACION_MOTO + comisionSuperavit + bonoMeta).toFixed(2));
-
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
