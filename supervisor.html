@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Supervisor - Diprosa</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #121212; color: #fff; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .container { background: #1e1e1e; padding: 20px; border-radius: 10px; width: 100%; max-width: 400px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        h2 { color: #ff9800; text-align: center; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        select, button { width: 100%; padding: 12px; margin-top: 5px; border-radius: 5px; border: none; font-size: 16px; }
+        select { background: #2d2d2d; color: #fff; }
+        button { background: #d35400; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        button:hover { background: #e67e22; }
+        .results { margin-top: 25px; text-align: center; }
+        .results p { font-size: 14px; color: #bbb; margin: 5px 0; }
+        .results h3 { font-size: 24px; color: #2ecc71; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📊 Panel de Supervisor</h2>
+        <label for="vendedor">Seleccione Vendedor:</label>
+        <select id="vendedor">
+            <option value="ESTUARDO">Estuardo</option>
+            <option value="CRISTIAN">Cristian</option>
+            <option value="JORGE">Jorge</option>
+        </select>
+        
+        <button onclick="consultarAvance()">Consultar Avance</button>
+        
+        <div class="results">
+            <p>Ventas Acumuladas</p>
+            <h3 id="totalVentas">Q 0.00</h3>
+            <p>Total de Tickets / Pedidos</p>
+            <h3 id="totalTickets" style="color: #3498db;">0</h3>
+        </div>
+    </div>
+
+    <script>
+        function consultarAvance() {
+            const vendedorSeleccionado = document.getElementById('vendedor').value;
+            // Aquí se conecta con tu Web App de Google Apps Script
+            const urlWebApp = "https://script.google.com/macros/s/AKfycbzTLpQ31fQSUZHJ2KZ38WSc4X5_Y_lZw-oNKy0ynOAGYzI_nq2BslE81RzfrreWLXqWKA/exec?vendedor=" + encodeURIComponent(vendedorSeleccionado);
+            
+            document.getElementById('totalVentas').innerText = "Cargando...";
+            document.getElementById('totalTickets').innerText = "...";
+
+            fetch(urlWebApp)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalVentas').innerText = "Q " + (data.ventas || 0).toFixed(2);
+                    document.getElementById('totalTickets').innerText = data.tickets || 0;
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("No se pudo conectar con el registro.");
+                    document.getElementById('totalVentas').innerText = "Q 0.00";
+                    document.getElementById('totalTickets').innerText = "0";
+                });
+        }
+    </script>
+</body>
+</html>
 
