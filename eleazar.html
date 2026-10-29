@@ -79,7 +79,6 @@
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
 
-    /* CONFIGURACIÓN ESPECIAL PARA IMPRESORA TÉRMICA (58mm / 80mm) */
     @media print {
       body * { visibility: hidden; }
       #modal-ticket, #modal-ticket *, #modal-imprimir-reporte, #modal-imprimir-reporte * { visibility: visible; }
@@ -260,6 +259,9 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
+    // ENLACE OFICIAL DE LA WEB APP VALIDADO EN TIEMPO REAL
+    const urlWebApp = "https://script.google.com/macros/s/AKfycbzhLdFJkKFxa7KnEYTT32359wq1jTpuzPimFkhLUWV50_D3OpiZGK_lmeVa0FNrI582vg/exec";
+    
     const SALDO_INICIAL_ELEAZAR = 54337.00;
     const TIQUETES_BASE_ELEAZAR = 99;
     const HORAS_BASE_ELEAZAR = 112.0;
@@ -268,12 +270,12 @@
     const META_HORAS_ELEAZAR = 189;
     
     const SUELDO_BASE_ELEAZAR = 3600.00;
-    const QUINCENA_BASE = SUELDO_BASE_ELEAZAR / 2; // Q1,800.00
+    const QUINCENA_BASE = SUELDO_BASE_ELEAZAR / 2;
     const DEPRECIACION_MOTO = 500.00;
     
     const DIAS_TRABAJO_MES = 27;
-    const SUELDO_DIARIO = SUELDO_BASE_ELEAZAR / DIAS_TRABAJO_MES; // ~Q133.33
-    const CUOTA_DIARIA_VENTAS = META_VENTAS_ELEAZAR / DIAS_TRABAJO_MES; // ~Q3,000.00
+    const SUELDO_DIARIO = SUELDO_BASE_ELEAZAR / DIAS_TRABAJO_MES;
+    const CUOTA_DIARIA_VENTAS = META_VENTAS_ELEAZAR / DIAS_TRABAJO_MES;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
@@ -395,6 +397,14 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
+      // ENVÍO AUTOMÁTICO AL SERVIDOR DE GOOGLE SHEETS
+      fetch(urlWebApp, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ vendedor: 'Eleazar', cliente: r, total: sub })
+      }).catch(err => console.error("Error sincronizando red:", err));
+
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Eleazar\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeWsp), '_blank');
@@ -488,17 +498,14 @@
       let comisionSuperavit = 0;
       let bonoMeta = 0;
 
-      // Del 1 al 15 es libre. Del 16 en adelante se descuenta déficit de la base.
       if (diaDelMes >= 16) {
         let diasDescuento = deficit / CUOTA_DIARIA_VENTAS;
         descuento = parseFloat((diasDescuento * SUELDO_DIARIO).toFixed(2));
         if (descuento > QUINCENA_BASE) descuento = QUINCENA_BASE;
       }
 
-      // Al llegar al cierre de mes (día 27 en adelante)
       if (diaDelMes >= 27) {
         comisionSuperavit = parseFloat((superavit * 0.025).toFixed(2)); 
-
         let cumpleVentas = ventasMes >= META_VENTAS_ELEAZAR;
         let cumpleTiquetes = tqMes >= META_TIQUETES_ELEAZAR;
         let cumpleHoras = horasMes >= META_HORAS_ELEAZAR;
@@ -506,14 +513,12 @@
         if (cumpleVentas && cumpleTiquetes && cumpleHoras) {
           bonoMeta = 500.00; 
         }
-
         document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes: Valida 3 paralelos para bono)`;
       } else {
         document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
       }
 
       let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + DEPRECIACION_MOTO + comisionSuperavit + bonoMeta).toFixed(2));
-
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
@@ -598,105 +603,11 @@
         if (t.items && Array.isArray(t.items)) {
           t.items.forEach(i => {
             let nombreProd = i.nombre;
-            if (!productosConsolidados[nombreProd]) {
-              productosConsolidados[nombreProd] = 0;
-            }
+            if (!productosConsolidados[nombreProd]) productosConsolidados[nombreProd] = 0;
             productosConsolidados[nombreProd] += parseInt(i.cantidad);
           });
         }
       });
 
       let listaProductosHtml = '';
-      for (let prod in productosConsolidados) {
-        listaProductosHtml += `<div style="display:flex; justify-content:space-between; border-bottom:1px dotted #ccc; padding:2px 0;"><span>${prod}</span><strong>x${productosConsolidados[prod]}</strong></div>`;
-      }
-
-      if (listaProductosHtml === '') {
-        listaProductosHtml = '<div style="text-align:center; color:#555;">No hay productos vendidos en este período.</div>';
-      }
-
-      document.getElementById('rep-mes-txt').innerText = `Consolidado Compras - Período: ${mesSel}`;
-      document.getElementById('reporte-imprimir-contenido').innerHTML = `
-        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - CONSOLIDADO</div>
-        <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: Eleazar</div>
-        <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-top:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
-        ${listaProductosHtml}
-        <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px;">
-          <div style="display:flex; justify-content:space-between;"><span>Total Tiquetes:</span><strong>${totalTqMes}</strong></div>
-          <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold; margin-top:2px;"><span>VENTA TOTAL:</span><span>Q ${totalVentasTiquetes.toFixed(2)}</span></div>
-        </div>
-      `;
-      document.getElementById('modal-imprimir-reporte').style.display = 'flex';
-    }
-
-    function abrirEditarTiquete(id) {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => x.id === id);
-      if (!t) return;
-      tiqueteEditandoId = id;
-      document.getElementById('editar-cliente-info').innerText = `Cliente: ${t.cliente} (${t.fecha})`;
-      renderizarItemsEdicion(t.items);
-      document.getElementById('modal-editar-tiquete').style.display = 'flex';
-    }
-
-    function renderizarItemsEdicion(items) {
-      let contenedor = document.getElementById('editar-items-lista');
-      let html = '', total = 0;
-      items.forEach((item, idx) => {
-        let sub = item.cantidad * item.precio;
-        total += sub;
-        html += `<div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; padding:5px; border-radius:4px; margin-bottom:4px; font-size:11px;">
-          <div><div style="font-weight:bold;">${item.nombre}</div><div style="color:#34d399; font-size:10px;">Q${item.precio.toFixed(2)} c/u</div></div>
-          <div style="display:flex; align-items:center; gap:6px;">
-            <span style="font-weight:bold;">x${item.cantidad}</span>
-            <button onclick="cambiarCantItemEdicion(${idx}, -1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
-            <button onclick="cambiarCantItemEdicion(${idx}, 1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
-            <button onclick="eliminarItemEdicion(${idx})" style="background:#b91c1c; color:white; border:none; padding:2px 5px; border-radius:3px; font-size:10px; cursor:pointer;">🗑️</button>
-          </div>
-        </div>`;
-      });
-      contenedor.innerHTML = html;
-      document.getElementById('editar-total-val').innerText = total.toFixed(2);
-    }
-
-    function cambiarCantItemEdicion(index, delta) {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => x.id === tiqueteEditandoId);
-      if (!t) return;
-      t.items[index].cantidad += delta;
-      if (t.items[index].cantidad <= 0) t.items.splice(index, 1);
-      renderizarItemsEdicion(t.items);
-    }
-
-    function eliminarItemEdicion(index) {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let t = tks.find(x => x.id === tiqueteEditandoId);
-      if (!t) return;
-      t.items.splice(index, 1);
-      renderizarItemsEdicion(t.items);
-    }
-
-    function guardarEdicionTiquete() {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let tIndex = tks.findIndex(x => x.id === tiqueteEditandoId);
-      if (tIndex === -1) return;
-      let t = tks[tIndex], nuevoTotal = 0;
-      t.items.forEach(i => { nuevoTotal += i.cantidad * i.precio; });
-      if (t.items.length === 0 || nuevoTotal <= 0) { t.anulado = true; t.total = 0; } else { t.total = nuevoTotal; }
-      localStorage.setItem(ticketsKey, JSON.stringify(tks));
-      document.getElementById('modal-editar-tiquete').style.display = 'none';
-      abrirModalHistorial();
-    }
-
-    function cerrarEdicionTiquete() { guardarEdicionTiquete(); }
-
-    function anularTiquete(id) {
-      if (!confirm("¿Está seguro de anular este tiquete?")) return;
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      tks = tks.map(t => { if (t.id === id) { t.anulado = true; t.total = 0; } return t; });
-      localStorage.setItem(ticketsKey, JSON.stringify(tks));
-      abrirModalHistorial();
-    }
-  </script>
-</body>
-</html>
+      for (let prod in productos
