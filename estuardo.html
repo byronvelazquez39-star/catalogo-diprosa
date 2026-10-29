@@ -20,3 +20,83 @@
   </style>
 </head>
 <body>
+
+  <div class="header-bar">
+    <h1>📦 CATÁLOGO ESTUARDO - DIPROSA</h1>
+  </div>
+
+  <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto..." oninput="renderizar()">
+  
+  <div id="catalogo" class="grid">Cargando inventario...</div>
+
+  <div class="cart-bar">
+    <div>
+      <div>🛒 <span id="cant-items">0</span> ítems</div>
+      <div class="cart-total">Q <span id="total-precio">0.00</span></div>
+    </div>
+    <button class="btn-wa" onclick="enviarPedido()">📲 Enviar Pedido</button>
+  </div>
+
+  <script>
+    const storageKey = "carrito_diprosa_estuardo_v1";
+    let productos = [
+      {nombre: "Frijol Ducal (24 unid)", precio: 66.00},
+      {nombre: "1 ciento bolsa para basura # 1", precio: 76.00},
+      {nombre: "1 caja mazola margarina (5 unid)", precio: 11.50},
+      {nombre: "1 ciento bolsa para basura # 2", precio: 50.00}
+    ];
+    let carrito = {};
+
+    try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
+
+    function renderizar() {
+      let q = document.getElementById('buscar').value.toLowerCase();
+      let filtrados = productos.filter(p => p.nombre.toLowerCase().includes(q));
+      
+      document.getElementById('catalogo').innerHTML = filtrados.map(p => {
+        let cant = carrito[p.nombre] ? carrito[p.nombre].cantidad : 0;
+        return `<div class="card">
+          <div class="nombre">${p.nombre}</div>
+          <div>
+            <div class="precio">Q ${p.precio.toFixed(2)}</div>
+            <button class="btn-add" onclick="agregar('${p.nombre}', ${p.precio})">Agregar (${cant})</button>
+          </div>
+        </div>`;
+      }).join('');
+      actualizarResumen();
+    }
+
+    function agregar(nombre, precio) {
+      if (!carrito[nombre]) carrito[nombre] = { nombre, precio, cantidad: 0 };
+      carrito[nombre].cantidad += 1;
+      localStorage.setItem(storageKey, JSON.stringify(carrito));
+      renderizar();
+    }
+
+    function actualizarResumen() {
+      let c = 0, t = 0;
+      for (let k in carrito) {
+        c += carrito[k].cantidad;
+        t += carrito[k].cantidad * carrito[k].precio;
+      }
+      document.getElementById('cant-items').innerText = c;
+      document.getElementById('total-precio').innerText = t.toFixed(2);
+    }
+
+    function enviarPedido() {
+      if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
+      let txt = "*PEDIDO DIPROSA - ESTUARDO*\n";
+      let total = 0;
+      for (let k in carrito) {
+        let sub = carrito[k].cantidad * carrito[k].precio;
+        total += sub;
+        txt += `• (${carrito[k].cantidad}) ${k} - Q${sub.toFixed(2)}\n`;
+      }
+      txt += `\n*Total: Q${total.toFixed(2)}*`;
+      window.open(`https://api.whatsapp.com/send?phone=50248502382&text=` + encodeURIComponent(txt), '_blank');
+    }
+
+    renderizar();
+  </script>
+</body>
+</html>
