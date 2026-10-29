@@ -259,7 +259,7 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    // ENLACE OFICIAL UNIFICADO DE LA WEB APP VALIDADO EN TIEMPO REAL
+    // ENLACE OFICIAL UNIFICADO DE LA WEB APP
     const urlWebApp = "https://script.google.com/macros/s/AKfycbzhLdFJkKFxa7KnEYTT32359wq1jTpuzPimFkhLUWV50_D3OpiZGK_lmeVa0FNrI582vg/exec";
     
     const SALDO_INICIAL_ESTUARDO = 41865.03;
@@ -397,13 +397,9 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // ENVÍO AUTOMÁTICO AL SERVIDOR DE GOOGLE SHEETS (POST ROBUSTO)
-      fetch(urlWebApp, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ vendedor: 'Estuardo', cliente: r, total: sub })
-      }).catch(err => console.error("Error sincronizando red:", err));
+      // ENVÍO DIRECTO AL SERVIDOR (MÉTODO GET INFALIBLE)
+      fetch(urlWebApp + "?vendedor=Estuardo&cliente=" + encodeURIComponent(r) + "&total=" + sub)
+        .catch(err => console.error("Error sincronizando red:", err));
 
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Estuardo\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
 
