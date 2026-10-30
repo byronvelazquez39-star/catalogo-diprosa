@@ -11,27 +11,144 @@
             color: #ffffff;
             margin: 0;
             padding: 20px;
-            text-align: center;
         }
         h1 {
-            color: #ffc107;
+            text-align: center;
+            color: #f1c40f;
         }
-        .btn-whatsapp {
-            display: inline-block;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .card h3 {
+            font-size: 0.9em;
+            margin: 10px 0 5px 0;
+            height: 2.8em;
+            overflow: hidden;
+        }
+        .precio {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+        /* Botón flotante de WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             background-color: #25d366;
             color: white;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 14px 22px;
+            border-radius: 30px;
             text-decoration: none;
-            border-radius: 25px;
-            margin-top: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover {
+            background-color: #1ebc57;
         }
     </style>
 </head>
 <body>
+
     <h1>Catálogo DIPROSA</h1>
-    <p>Cargando productos...</p>
-    <a href="https://wa.me/" class="btn-whatsapp">Pedir por WhatsApp</a>
+    
+    <div class="grid">
+        
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+    </div>
+
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+        💬 Pedir por WhatsApp
+    </a>
+
 </body>
 </html>
