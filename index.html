@@ -75,80 +75,47 @@
 
     <h1>Catálogo DIPROSA</h1>
     
-    <div class="grid">
-        
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
-            <div class="card">
-                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                <h3></h3>
-                <p class="precio">Q </p>
-            </div>
-            
+    <div class="grid" id="catalogoGrid">
+        <p style="text-align: center; width: 100%; color: #888;">Cargando productos...</p>
     </div>
 
     <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+    <a href="https://wa.me/50248502382?text=Hola,%20me%20gustaría%20realizar%20un%20pedido%20del%20catálogo%20DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
         💬 Pedir por WhatsApp
     </a>
 
+    <script>
+        const URL_API = "https://script.google.com/macros/s/AKfycby8Tsz4nbtawAEospmJfP29RLk40g-27PahblVhp0tr9wZsP7jnrbnRRIcwPEFHAT7DfA/exec";
+
+        async function cargarCatalogo() {
+            try {
+                let respuesta = await fetch(URL_API);
+                let productos = await respuesta.json();
+                let grid = document.getElementById('catalogoGrid');
+                grid.innerHTML = '';
+
+                if (!Array.isArray(productos) || productos.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; color: #888;">No hay productos disponibles en este momento.</p>';
+                    return;
+                }
+
+                productos.forEach(p => {
+                    let card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <img src="${p.imagen || 'https://via.placeholder.com/150?text=Sin+Imagen'}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                        <h3>${p.nombre}</h3>
+                        <p class="precio">Q ${parseFloat(p.precio || 0).toFixed(2)}</p>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (e) {
+                console.error("Error cargando catálogo:", e);
+                document.getElementById('catalogoGrid').innerHTML = '<p style="text-align: center; color: #ff5252;">Error al cargar el catálogo.</p>';
+            }
+        }
+
+        window.onload = cargarCatalogo;
+    </script>
 </body>
 </html>
