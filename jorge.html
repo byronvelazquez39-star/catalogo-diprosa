@@ -397,7 +397,8 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      let productosTexto = arr.map(i => `(x${i.cantidad}) ${i.nombre}`).join(' | ');
+      // >>> CAMBIO CLAVE APLICADO: .join('\n') para enviar los productos separados por saltos de línea reales <<<
+      let productosTexto = arr.map(i => `(x${i.cantidad}) ${i.nombre}`).join('\n');
 
       fetch(urlWebApp, {
         method: 'POST',
