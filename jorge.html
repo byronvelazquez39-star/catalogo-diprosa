@@ -260,8 +260,8 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    // ENLACE OFICIAL DE LA WEB APP VALIDADO EN TIEMPO REAL
-    const urlWebApp = "https://script.google.com/macros/s/AKfycbzhLdFJkKFxa7KnEYTT32359wq1jTpuzPimFkhLUWV50_D3OpiZGK_lmeVa0FNrI582vg/exec";
+    // ENLACE OFICIAL ACTUALIZADO DE LA WEB APP
+    const urlWebApp = "https://script.google.com/macros/s/AKfycbzHXAv5w9KhztBUutQGAIhXtTklV0XcuxJzBRB-YzAhx-dhZHfeox56zPF-HurlKyPt/exec";
     
     // VALORES EXACTOS DE LOS 3 PARALELOS
     const SALDO_INICIAL_JORGE = 83496.33; 
@@ -397,7 +397,6 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // CORRECCIÓN APLICADA: Se incluye productos y fecha para que la hoja central los registre bien
       let productosTexto = arr.map(i => `(x${i.cantidad}) ${i.nombre}`).join(' | ');
 
       fetch(urlWebApp, {
