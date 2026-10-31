@@ -397,7 +397,7 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // CORRECCIÓN APLICADA AQUÍ: Se usa \n para enviar saltos de línea reales al Google Sheet
+      // DESGLOSE INDEPENDIENTE POR LÍNEA: Se une con \n para que Google Sheets cree filas individuales por cada producto
       let productosTexto = arr.map(i => `(x${i.cantidad}) ${i.nombre}`).join('\n');
 
       fetch(urlWebApp, {
