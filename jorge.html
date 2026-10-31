@@ -275,7 +275,7 @@
     const SUELDO_BASE_JORGE = 3600.00;
     const QUINCENA_BASE = SUELDO_BASE_JORGE / 2; // Q1,800.00
     
-    let prestamoJorge = 0.00; // <--- Casilla para préstamos o adelantos de Jorge
+    let prestamoJorge = 0.00;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
@@ -397,11 +397,20 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
+      // CORRECCIÓN APLICADA: Se incluye productos y fecha para que la hoja central los registre bien
+      let productosTexto = arr.map(i => `(x${i.cantidad}) ${i.nombre}`).join(' | ');
+
       fetch(urlWebApp, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ vendedor: 'Jorge', cliente: r, total: sub })
+        body: new URLSearchParams({ 
+          vendedor: 'Jorge', 
+          cliente: r, 
+          productos: productosTexto,
+          total: sub,
+          fecha: fechaHoraActual
+        })
       }).catch(err => console.error("Error sincronizando red:", err));
 
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Jorge\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
