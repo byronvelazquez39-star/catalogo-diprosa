@@ -79,11 +79,11 @@
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
 
-    /* CONFIGURACIÓN ESPECIAL PARA IMPRESORAS TÉRMICAS PORTÁTILES (58mm / 80mm) */
+    /* ESTILO DE IMPRESIÓN TÉRMICA */
     @media print {
       body * { visibility: hidden; }
-      #modal-ticket, #modal-ticket * { visibility: visible; }
-      #modal-ticket {
+      #modal-ticket, #modal-ticket *, #modal-imprimir-reporte, #modal-imprimir-reporte * { visibility: visible; }
+      #modal-ticket, #modal-imprimir-reporte {
         position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important;
         display: flex !important; justify-content: flex-start; align-items: flex-start; padding: 0;
       }
@@ -91,7 +91,7 @@
         background: white !important; color: black !important; border: none !important; width: 100% !important;
         max-width: 100% !important; box-shadow: none !important; padding: 2px !important; font-size: 12px !important;
       }
-      .ticket-header h3, .ticket-header p, #ticket-items div, span, strong { color: black !important; }
+      .ticket-header h3, .ticket-header p, #ticket-items div, #reporte-imprimir-contenido div, span, strong { color: black !important; }
       .client-input, .btn-modal-wa, .btn-modal-print, .btn-close, .cart-bar, .header-bar, #buscar, .no-print { display: none !important; }
     }
   </style>
@@ -147,7 +147,6 @@
         <h3 style="color:#ff9800; font-size:13px;">DIPROSA</h3>
         <p style="font-size: 11px; color: #34d399; font-weight:bold;">👤 Vendedor: Jorge</p>
         <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
-        <!-- Cliente impreso que aparecerá en el papel térmico -->
         <p style="font-size: 12px; color: #000; font-weight: bold; margin: 4px 0;" id="ticket-cliente-imprimir"></p>
       </div>
       <div id="ticket-items" style="max-height: 150px; overflow-y: auto; margin-bottom: 8px;"></div>
