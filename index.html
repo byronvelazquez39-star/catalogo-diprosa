@@ -79,18 +79,19 @@
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
 
+    /* CONFIGURACIÓN ESPECIAL PARA IMPRESORAS TÉRMICAS PORTÁTILES (58mm / 80mm) */
     @media print {
       body * { visibility: hidden; }
-      #modal-ticket, #modal-ticket *, #modal-imprimir-reporte, #modal-imprimir-reporte * { visibility: visible; }
-      #modal-ticket, #modal-imprimir-reporte {
+      #modal-ticket, #modal-ticket * { visibility: visible; }
+      #modal-ticket {
         position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important;
         display: flex !important; justify-content: flex-start; align-items: flex-start; padding: 0;
       }
       .modal-content {
         background: white !important; color: black !important; border: none !important; width: 100% !important;
-        max-width: 100% !important; box-shadow: none !important; padding: 5px !important; font-size: 11px !important;
+        max-width: 100% !important; box-shadow: none !important; padding: 2px !important; font-size: 12px !important;
       }
-      .ticket-header h3, .ticket-header p, #ticket-items div, #reporte-imprimir-contenido div, span, strong { color: black !important; }
+      .ticket-header h3, .ticket-header p, #ticket-items div, span, strong { color: black !important; }
       .client-input, .btn-modal-wa, .btn-modal-print, .btn-close, .cart-bar, .header-bar, #buscar, .no-print { display: none !important; }
     }
   </style>
@@ -146,9 +147,11 @@
         <h3 style="color:#ff9800; font-size:13px;">DIPROSA</h3>
         <p style="font-size: 11px; color: #34d399; font-weight:bold;">👤 Vendedor: Jorge</p>
         <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
+        <!-- Cliente impreso que aparecerá en el papel térmico -->
+        <p style="font-size: 12px; color: #000; font-weight: bold; margin: 4px 0;" id="ticket-cliente-imprimir"></p>
       </div>
       <div id="ticket-items" style="max-height: 150px; overflow-y: auto; margin-bottom: 8px;"></div>
-      <input type="text" id="cliente-receptor" class="client-input" placeholder="Nombre Cliente / Tienda" style="margin-top:4px;">
+      <input type="text" id="cliente-receptor" class="client-input" placeholder="Nombre Cliente / Tienda" style="margin-top:4px;" oninput="actualizarNombreClienteImpresion()">
       <div style="border-top: 1px dashed #555; padding-top: 6px;">
         <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: var(--accent-color);">
           <span>Total:</span><span>Q <span id="ticket-total">0.00</span></span>
@@ -343,7 +346,13 @@
       if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
       renderizarVistaPreviaCarrito();
       document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
+      actualizarNombreClienteImpresion();
       document.getElementById('modal-ticket').style.display = 'flex';
+    }
+
+    function actualizarNombreClienteImpresion() {
+      let cli = document.getElementById('cliente-receptor').value.trim();
+      document.getElementById('ticket-cliente-imprimir').innerText = cli ? "👤 Cliente: " + cli : "👤 Cliente: (Sin nombre)";
     }
 
     function renderizarVistaPreviaCarrito() {
@@ -563,7 +572,6 @@
         contenedor.innerHTML = `<p style="text-align:center; color:#888; font-size:11px;">No hay tiquetes registrados para este período.</p>`;
       } else {
         let html = '';
-        // ORDEN CRONOLÓGICO DE INICIO A FIN (Del primer tiquete emitido al último)
         tksFiltrados.forEach((t) => {
           let realId = t.id;
           let estadoEstilo = t.anulado ? 'text-decoration: line-through; color: #ef4444;' : 'color: #34d399;';
