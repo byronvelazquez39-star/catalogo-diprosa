@@ -1,57 +1,20 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo Digital - DIPROSA</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome para iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+// Configuración de Metas y Estadísticas para el Catálogo de Jorge (Noviembre)
+const datosMetasJorge = {
+    ventasMes: 0.00,       // Aquí iniciará en 0 o se actualizará con tus registros limpios del mes
+    metaVentas: 75000.00,  // Meta fija establecida de Q75,000.00
+    tiquetesAcumulados: 0,
+    metaTiquetes: 300,
+    horasRuta: 0.0,
+    metaHoras: 175.0
+};
 
-    <header class="header-diprosa">
-        <div class="logo-container">
-            <h1>DIPROSA</h1>
-            <p>Distribuidora de Productos - Catálogo Mayorista</p>
-        </div>
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Buscar entre 1,327 productos..." onkeyup="filtrarProductos()">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-    </header>
+function actualizarModalMetas() {
+    // Esto asegura que la vista del modal en tu web muestre exactamente la nueva estructura
+    document.getElementById('ventasMesTexto').innerText = `Q ${datosMetasJorge.ventasMes.toFixed(2)} / Q75k`;
+    // El resto de los cálculos de déficit se actualizan solos en pantalla
+}
 
-    <main class="main-container">
-        <section class="catalog-section">
-            <h2>Nuestros Productos (1,327 Artículos Disponibles)</h2>
-            <div id="productGrid" class="product-grid">
-                <!-- Los productos se cargan dinámicamente o se listan aquí -->
-                <div class="product-card">
-                    <h3>Ejemplo de Producto Diprosa</h3>
-                    <p class="price">Q0.00</p>
-                    <button onclick="enviarPedidoWhatsApp('Ejemplo de Producto Diprosa')">Pedir por WhatsApp</button>
-                </div>
-            </div>
-        </section>
-
-        <aside class="cart-sidebar">
-            <h2><i class="fa-solid fa-cart-shopping"></i> Tu Pedido</h2>
-            <div id="cartItems" class="cart-items">
-                <p class="empty-cart">No hay productos seleccionados.</p>
-            </div>
-            <div class="cart-total">
-                <p>Total Estimado: <span id="cartTotal">Q0.00</span></p>
-            </div>
-            <button class="btn-whatsapp-order" onclick="enviarPedidoCompletoWhatsApp()">
-                <i class="fa-brands fa-whatsapp"></i> Enviar Pedido por WhatsApp
-            </button>
-        </aside>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 DIPROSA - Todos los derechos reservados.</p>
-    </footer>
-
-    <script src="app.js"></script>
-</body>
-</html>
+// Ejecutar al cargar la página
+window.onload = function() {
+    actualizarModalMetas();
+};
