@@ -134,6 +134,7 @@
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Quincena / Cierre</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes y Reportes Mes</button>
+      <button class="btn-menu-opcion" style="background:#b45309;" onclick="document.getElementById('modal-menu-extra').style.display='none'; cargarDatosPruebaOctubre();">📥 Cargar Datos Prueba Octubre</button>
       <button class="btn-menu-opcion" style="background:#25d366; color:#000; font-weight:bold;" onclick="document.getElementById('modal-menu-extra').style.display='none'; enviarReporteCierreWsp();">📤 Enviar Cierre a Don Byron</button>
       <button class="btn-close" onclick="document.getElementById('modal-menu-extra').style.display='none'">Cerrar Menú</button>
     </div>
@@ -260,7 +261,7 @@
     
     const urlWebApp = "https://script.google.com/macros/s/AKfycbzHXAv5w9KhztBUutQGAIhXtTklV0XcuxJzBRB-YzAhx-dhZHfeox56zPF-HurlKyPt/exec";
     
-    // NORMAS DE NOVIEMBRE 2026 (25 DÍAS HÁBILES) - HISTÓRICO DE OCTUBRE PRESERVADO
+    // NORMAS DE NOVIEMBRE 2026 (25 DÍAS HÁBILES)
     const SALDO_INICIAL_JORGE = 0.00; 
     const TIQUETES_BASE_JORGE = 0;
     const HORAS_BASE_JORGE = 0.0;
@@ -439,6 +440,21 @@
       renderizarCatalogo();
     }
 
+    function cargarDatosPruebaOctubre() {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      tks.push({
+        id: Date.now() - 100000,
+        fecha: "15/10/2026 10:00:00",
+        mesAnio: "10/2026",
+        cliente: "Tienda de Prueba Octubre",
+        items: [{nombre: "Frijol Ducal (24 unid)", precio: 66.00, cantidad: 2}],
+        total: 132.00,
+        anulado: false
+      });
+      localStorage.setItem(ticketsKey, JSON.stringify(tks));
+      alert("¡Datos de prueba de Octubre cargados con éxito! Ahora revisa el historial seleccionando Octubre 2026.");
+    }
+
     function enviarReporteCierreWsp() {
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasMes = SALDO_INICIAL_JORGE;
@@ -547,7 +563,8 @@
         contenedor.innerHTML = `<p style="text-align:center; color:#888; font-size:11px;">No hay tiquetes registrados para este período.</p>`;
       } else {
         let html = '';
-        tksFiltrados.slice().reverse().forEach((t) => {
+        // ORDEN CRONOLÓGICO DE INICIO A FIN (Del primer tiquete emitido al último)
+        tksFiltrados.forEach((t) => {
           let realId = t.id;
           let estadoEstilo = t.anulado ? 'text-decoration: line-through; color: #ef4444;' : 'color: #34d399;';
           
