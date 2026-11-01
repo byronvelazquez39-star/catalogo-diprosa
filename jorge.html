@@ -105,7 +105,7 @@
         <span>JORGE</span>
       </div>
       <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DISTRIBUIDORA</h3>
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Jorge</p>
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Jorge (Noviembre)</p>
       <button class="btn-pin" onclick="document.getElementById('lock-screen').style.display='none'">INGRESAR AL CATÁLOGO</button>
     </div>
   </div>
@@ -167,9 +167,9 @@
         <div style="margin-top: 6px; display: flex; gap: 4px; align-items: center; justify-content: center;">
           <span style="font-size: 10px; color: #9ca3af;">Mes:</span>
           <select id="filtro-mes" onchange="abrirModalHistorial()" style="background:#333; color:white; border:1px solid #555; padding:3px; border-radius:4px; font-size:11px;">
-            <option value="10/2026">Octubre 2026 (Actual)</option>
+            <option value="11/2026">Noviembre 2026 (Actual)</option>
+            <option value="10/2026">Octubre 2026</option>
             <option value="09/2026">Septiembre 2026</option>
-            <option value="11/2026">Noviembre 2026</option>
             <option value="12/2026">Diciembre 2026</option>
           </select>
         </div>
@@ -211,14 +211,14 @@
   
   <div id="modal-metas" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>📊 METAS - JORGE</h3></div>
+      <div class="ticket-header"><h3>📊 METAS - JORGE (NOV)</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
-        <div class="compact-row"><span>📉 Superávit Ventas:</span><strong style="color:#34d399;" id="meta-deficit">Q 0.00</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
-        <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">0 Tq</strong></div>
-        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
-        <div class="compact-row" style="border:none; margin:0;"><span>📉 Déficit Horas:</span><strong style="color:#ef4444;" id="meta-deficit-horas">0.0 Hrs</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q75k</strong></div>
+        <div class="compact-row"><span>📉 Superávit / Déficit:</span><strong style="color:#ef4444;" id="meta-deficit">-Q 75,000.00</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 300 Tq</strong></div>
+        <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">-300 Tq</strong></div>
+        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 175 Hrs</strong></div>
+        <div class="compact-row" style="border:none; margin:0;"><span>📉 Déficit Horas:</span><strong style="color:#ef4444;" id="meta-deficit-horas">-175.0 Hrs</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
     </div>
@@ -242,38 +242,37 @@
       <div class="ticket-header"><h3>📈 ESTADO QUINCENA / CIERRE</h3></div>
       <div class="compact-box">
         <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,800.00</strong></div>
-        <div class="compact-row"><span>Superávit Ventas:</span><strong style="color:#34d399;" id="q2-deficit-val">Q 0.00</strong></div>
+        <div class="compact-row"><span>Superávit / Déficit Ventas:</span><strong style="color:#ef4444;" id="q2-deficit-val">-Q 75,000.00</strong></div>
         <div class="compact-row"><span>Comisión Superávit (2.5%):</span><strong style="color:#34d399;" id="q2-comision-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Bono Meta (Q500):</span><strong style="color:#34d399;" id="q2-bono-val">Q 0.00</strong></div>
-        <div class="compact-row"><span>Préstamo / Adelanto:</span><strong style="color:#ef4444;" id="q2-prestamo-val">- Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,800.00</strong></div>
+        <div class="compact-row"><span>Descuento por Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 1,800.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 0.00</strong></div>
       </div>
-      <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena y cierre de mes</p>
+      <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena de Noviembre (25 días)</p>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
     </div>
   </div>
 
   <script>
-    // LLAVE UNIFICADA PARA LEER LOS TIQUETES DE LA BANDEJA DEL TELÉFONO 36064204
     const storageKey = "carrito_diprosa_jorge_36064204";
     const ticketsKey = "diprosa_tickets_jorge_36064204";
     const telefonoCorporativo = "50248502382";
-    const MES_ACTUAL_CLAVE = "10/2026";
+    const MES_ACTUAL_CLAVE = "11/2026"; // NOVIEMBRE 2026
     
-    // ENLACE OFICIAL ACTUALIZADO DE LA WEB APP
     const urlWebApp = "https://script.google.com/macros/s/AKfycbzHXAv5w9KhztBUutQGAIhXtTklV0XcuxJzBRB-YzAhx-dhZHfeox56zPF-HurlKyPt/exec";
     
-    // VALORES EXACTOS DE LOS 3 PARALELOS
-    const SALDO_INICIAL_JORGE = 83496.33; 
-    const TIQUETES_BASE_JORGE = 277;
-    const HORAS_BASE_JORGE = 135.2;
+    // NORMAS DE NOVIEMBRE 2026 (25 DÍAS HÁBILES)
+    const SALDO_INICIAL_JORGE = 0.00; 
+    const TIQUETES_BASE_JORGE = 0;
+    const HORAS_BASE_JORGE = 0.0;
     
-    const META_VENTAS_JORGE = 81000.00;
-    const META_TIQUETES_JORGE = 324;
-    const META_HORAS_JORGE = 189;
+    const META_VENTAS_JORGE = 75000.00; // 25 días * Q3000
+    const META_TIQUETES_JORGE = 300;     // 25 días * 12
+    const META_HORAS_JORGE = 175;        // 25 días * 7
     
     const SUELDO_BASE_JORGE = 3600.00;
     const QUINCENA_BASE = SUELDO_BASE_JORGE / 2; // Q1,800.00
+    const VALOR_DIA_JORGE = SUELDO_BASE_JORGE / 25; // Q144.00
     
     let prestamoJorge = 0.00;
 
@@ -397,7 +396,6 @@
       tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // DESGLOSE INDEPENDIENTE POR LÍNEA: Se une con \n para que Google Sheets cree filas individuales por cada producto
       let productosTexto = arr.map(i => `(x${i.cantidad}) ${i.nombre}`).join('\n');
 
       fetch(urlWebApp, {
@@ -441,11 +439,11 @@
         }
       });
 
-      let superavitVentas = Math.max(0, ventasMes - META_VENTAS_JORGE);
-      let deficitTq = Math.max(0, META_TIQUETES_JORGE - tqMes);
-      let deficitHoras = Math.max(0, META_HORAS_JORGE - HORAS_BASE_JORGE);
+      let difVentas = ventasMes - META_VENTAS_JORGE;
+      let difTq = tqMes - META_TIQUETES_JORGE;
+      let difHoras = HORAS_BASE_JORGE - META_HORAS_JORGE;
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Jorge\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k (Superávit: +Q ${superavitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_JORGE.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Jorge\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO NOV (25 Días):* \n• Total: Q ${ventasMes.toFixed(2)} / Q75k (Diferencia: Q ${difVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 300 Tq (Diferencia: ${difTq})\n• Horas: ${HORAS_BASE_JORGE.toFixed(1)} / 175 Hrs (Diferencia: ${difHoras.toFixed(1)} hrs)\n----------------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
@@ -459,18 +457,18 @@
           totalTq += 1;
         }
       });
-      let superavitVentas = Math.max(0, totalVentas - META_VENTAS_JORGE);
-      let deficitTq = Math.max(0, META_TIQUETES_JORGE - totalTq);
-      let deficitHoras = Math.max(0, META_HORAS_JORGE - HORAS_BASE_JORGE);
+      let difVentas = totalVentas - META_VENTAS_JORGE;
+      let difTq = totalTq - META_TIQUETES_JORGE;
+      let difHoras = HORAS_BASE_JORGE - META_HORAS_JORGE;
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
-      document.getElementById('meta-deficit').innerText = "+Q " + f(superavitVentas) + " (Meta cumplida)";
-      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
-      document.getElementById('meta-deficit-tq').innerText = deficitTq + " Tq";
-      document.getElementById('meta-horas-real').innerText = HORAS_BASE_JORGE.toFixed(1) + " / 189 Hrs";
-      document.getElementById('meta-deficit-horas').innerText = deficitHoras.toFixed(1) + " Hrs";
+      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q75k";
+      document.getElementById('meta-deficit').innerText = (difVentas >= 0 ? "+Q " : "-Q ") + f(Math.abs(difVentas));
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 300 Tq";
+      document.getElementById('meta-deficit-tq').innerText = difTq + " Tq";
+      document.getElementById('meta-horas-real').innerText = HORAS_BASE_JORGE.toFixed(1) + " / 175 Hrs";
+      document.getElementById('meta-deficit-horas').innerText = difHoras.toFixed(1) + " Hrs";
       document.getElementById('modal-metas').style.display = 'flex';
     }
 
@@ -497,25 +495,28 @@
         }
       });
 
-      let superavit = Math.max(0, ventasMes - META_VENTAS_JORGE);
+      let difVentas = ventasMes - META_VENTAS_JORGE;
       let comisionSuperavit = 0;
       let bonoMeta = 0;
+      let descuentoDeficit = 0;
 
       if (ventasMes >= META_VENTAS_JORGE) {
         bonoMeta = 500.00;
-        comisionSuperavit = parseFloat((superavit * 0.025).toFixed(2));
+        comisionSuperavit = parseFloat(((ventasMes - META_VENTAS_JORGE) * 0.025).toFixed(2));
+      } else {
+        let deficitAbs = Math.abs(difVentas);
+        let diasDeficit = deficitAbs / 3000;
+        descuentoDeficit = Math.min(QUINCENA_BASE, diasDeficit * VALOR_DIA_JORGE);
       }
 
-      document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Meta cumplida - Sin descuentos)`;
-
-      let netoRecibir = parseFloat((QUINCENA_BASE + comisionSuperavit + bonoMeta - prestamoJorge).toFixed(2));
+      let netoRecibir = Math.max(0, parseFloat((QUINCENA_BASE + comisionSuperavit + bonoMeta - descuentoDeficit - prestamoJorge).toFixed(2)));
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
-      document.getElementById('q2-deficit-val').innerText = "+ " + f(superavit);
+      document.getElementById('q2-deficit-val').innerText = (difVentas >= 0 ? "+ " : "- ") + f(Math.abs(difVentas));
       document.getElementById('q2-comision-val').innerText = f(comisionSuperavit);
       document.getElementById('q2-bono-val').innerText = f(bonoMeta);
-      document.getElementById('q2-prestamo-val').innerText = "- " + f(prestamoJorge);
+      document.getElementById('q2-descuento-val').innerText = "- " + f(descuentoDeficit);
       document.getElementById('q2-total-neto').innerText = f(netoRecibir);
       document.getElementById('modal-comisiones').style.display = 'flex';
     }
