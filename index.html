@@ -260,11 +260,10 @@
     
     const urlWebApp = "https://script.google.com/macros/s/AKfycbzHXAv5w9KhztBUutQGAIhXtTklV0XcuxJzBRB-YzAhx-dhZHfeox56zPF-HurlKyPt/exec";
     
-    // LIMPIEZA AUTOMÁTICA DE OCTUBRE: Si aún tiene datos viejos de octubre en el teléfono, los reinicia a 0
+    // LIMPIEZA AUTOMÁTICA DE OCTUBRE
     let tksCheck = JSON.parse(localStorage.getItem(ticketsKey)) || [];
     let hayViejos = tksCheck.some(t => (t.mesAnio || "").startsWith("10/"));
     if (hayViejos) {
-      // Filtrar solo los de noviembre o limpiar si es necesario
       localStorage.removeItem(ticketsKey);
     }
     
@@ -273,13 +272,13 @@
     const TIQUETES_BASE_JORGE = 0;
     const HORAS_BASE_JORGE = 0.0;
     
-    const META_VENTAS_JORGE = 75000.00; // 25 días * Q3000
-    const META_TIQUETES_JORGE = 300;     // 25 días * 12
-    const META_HORAS_JORGE = 175;        // 25 días * 7
+    const META_VENTAS_JORGE = 75000.00; 
+    const META_TIQUETES_JORGE = 300;     
+    const META_HORAS_JORGE = 175;        
     
     const SUELDO_BASE_JORGE = 3600.00;
-    const QUINCENA_BASE = SUELDO_BASE_JORGE / 2; // Q1,800.00
-    const VALOR_DIA_JORGE = SUELDO_BASE_JORGE / 25; // Q144.00
+    const QUINCENA_BASE = SUELDO_BASE_JORGE / 2; 
+    const VALOR_DIA_JORGE = SUELDO_BASE_JORGE / 25; 
     
     let prestamoJorge = 0.00;
 
@@ -288,18 +287,36 @@
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
+    // PRODUCTOS DE RESPALDO DIRECTOS (Para que NUNCA quede en pantalla negra si falla el archivo externo)
     const productosRespaldo = [
       {nombre: "Frijol Ducal (24 unid)", precio: 66.00},
       {nombre: "1 ciento bolsa para basura # 1 para dar Q.1.00", precio: 76.00},
       {nombre: "1 caja mazola margarina de 5 unidades para dar Q.3.00", precio: 11.50},
-      {nombre: "1 ciento bolsa para basura # 2 para dar Q.1.00", precio: 50.00}
+      {nombre: "1 ciento bolsa para basura # 2 para dar Q.1.00", precio: 50.00},
+      {nombre: "Aceite Mazola 800ml (12 unid)", precio: 145.00},
+      {nombre: "Arroz Faisán 80lbs", precio: 285.00},
+      {nombre: "Azúcar Doña Maria fardo 50lbs", precio: 210.00},
+      {nombre: "Café Oro 100g caja 24unid", precio: 195.00},
+      {nombre: "Consomé de Pollo Delicia caja 50 bolsitas", precio: 45.00},
+      {nombre: "Harina de Trigo La Perla 50lbs", precio: 230.00}
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
-        .then(data => { productos = data; productosFiltrados = data; renderizarCatalogo(); actualizarUIResumen(); })
-        .catch(() => { productos = productosRespaldo; productosFiltrados = productos; renderizarCatalogo(); actualizarUIResumen(); });
+        .then(data => { 
+          productos = data; 
+          productosFiltrados = data; 
+          renderizarCatalogo(); 
+          actualizarUIResumen(); 
+        })
+        .catch(() => { 
+          // Si productos.json no carga, usa el respaldo directo para que nunca falle la pantalla
+          productos = productosRespaldo; 
+          productosFiltrados = productos; 
+          renderizarCatalogo(); 
+          actualizarUIResumen(); 
+        });
     });
 
     function renderizarCatalogo() {
@@ -671,7 +688,7 @@
     }
 
     function eliminarItemEdicion(index) {
-      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || listed => [];
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let t = tks.find(x => x.id === tiqueteEditandoId);
       if (!t) return;
       t.items.splice(index, 1);
@@ -692,7 +709,7 @@
 
     function cerrarEdicionTiquete() { guardarEdicionTiquete(); }
 
-    function anularTiquee(id) {
+    function anularTiquete(id) {
       if (!confirm("¿Está seguro de anular este tiquete?")) return;
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       tks = tks.map(t => { if (t.id === id) { t.anulado = true; t.total = 0; } return t; });
