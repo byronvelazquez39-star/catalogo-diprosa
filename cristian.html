@@ -79,7 +79,6 @@
     .compact-box { background: #111827; border: 1px solid #374151; border-radius: 6px; padding: 8px; margin-bottom: 8px; }
     .compact-row { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #333; padding-bottom: 3px; font-size: 12px; }
 
-    /* CONFIGURACIÓN ESPECIAL PARA IMPRESORA TÉRMICA (58mm / 80mm) */
     @media print {
       body * { visibility: hidden; }
       #modal-ticket, #modal-ticket *, #modal-imprimir-reporte, #modal-imprimir-reporte * { visibility: visible; }
@@ -213,7 +212,7 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>📊 METAS - CRISTIAN</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q78k</strong></div>
         <div class="compact-row"><span>📉 Déficit Ventas:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
         <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
         <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">0 Tq</strong></div>
@@ -228,9 +227,9 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>💵 SUELDO (CRISTIAN)</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
+        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,000.00</strong></div>
         <div class="compact-row"><span>Premio Meta (Bono):</span><strong style="color:#27ae60;">Q 500.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 500.00</strong></div>
+        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 0.00</strong></div>
         <div class="compact-row" style="color:#38bdf8; border:none; margin:0;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-sueldo').style.display='none'">Cerrar</button>
@@ -241,13 +240,13 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>📈 ESTADO QUINCENA / CIERRE</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,800.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;" id="q2-moto-val">Q 500.00</strong></div>
+        <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,500.00</strong></div>
+        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;" id="q2-moto-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Déficit Ventas Mes:</span><strong style="color:#ef4444;" id="q2-deficit-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Descuento Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 0.00</strong></div>
         <div class="compact-row"><span>Comisión Superávit (2.5%):</span><strong style="color:#34d399;" id="q2-comision-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Bono Paralelo (Q500):</span><strong style="color:#34d399;" id="q2-bono-val">Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 2,300.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 1,500.00</strong></div>
       </div>
       <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena y cierre de mes</p>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
@@ -260,23 +259,23 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    // ENLACE OFICIAL DE LA WEB APP VALIDADO EN TIEMPO REAL
+    // REEMPLAZAR ESTA URL CON TU URL OFICIAL DE APIPEDIDOS-DIPROSA
     const urlWebApp = "https://script.google.com/macros/s/AKfycbzhLdFJkKFxa7KnEYTT32359wq1jTpuzPimFkhLUWV50_D3OpiZGK_lmeVa0FNrI582vg/exec";
     
     const SALDO_INICIAL_CRISTIAN = 46098.38;
     const TIQUETES_BASE_CRISTIAN = 105;
     const HORAS_BASE_CRISTIAN = 112.0;
-    const META_VENTAS_CRISTIAN = 81000.00;
+    const META_VENTAS_CRISTIAN = 78000.00;
     const META_TIQUETES_CRISTIAN = 324;
     const META_HORAS_CRISTIAN = 189;
     
-    const SUELDO_BASE_CRISTIAN = 3600.00;
-    const QUINCENA_BASE = SUELDO_BASE_CRISTIAN / 2; // Q1,800.00
-    const DEPRECIACION_MOTO = 500.00;
+    const SUELDO_BASE_CRISTIAN = 3000.00;
+    const QUINCENA_BASE = SUELDO_BASE_CRISTIAN / 2; // Q1,500.00
+    const DEPRECIACION_MOTO = 0.00;
     
     const DIAS_TRABAJO_MES = 27;
-    const SUELDO_DIARIO = SUELDO_BASE_CRISTIAN / DIAS_TRABAJO_MES; // ~Q133.33
-    const CUOTA_DIARIA_VENTAS = META_VENTAS_CRISTIAN / DIAS_TRABAJO_MES; // ~Q3,000.00
+    const SUELDO_DIARIO = SUELDO_BASE_CRISTIAN / DIAS_TRABAJO_MES;
+    const CUOTA_DIARIA_VENTAS = META_VENTAS_CRISTIAN / DIAS_TRABAJO_MES;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
@@ -382,6 +381,7 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let sub = 0, arr = [], detalleTexto = "";
       let now = new Date();
+      let idUnicoTiquete = Date.now();
       let fechaHoraActual = now.toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
       let mesNum = String(now.getMonth() + 1).padStart(2, '0');
       let anioNum = now.getFullYear();
@@ -395,15 +395,22 @@
         detalleTexto += `• (x${item.cantidad}) ${item.nombre} - Q${s.toFixed(2)}\n`;
       }
       
-      tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
+      tks.push({ id: idUnicoTiquete, fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // ENVÍO AUTOMÁTICO AL SERVIDOR DE GOOGLE SHEETS
+      // ENVÍO AUTOMÁTICO COMPLETO A GOOGLE SHEETS
       fetch(urlWebApp, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ vendedor: 'Cristian', cliente: r, total: sub })
+        body: new URLSearchParams({ 
+          accion: 'nuevo',
+          id: idUnicoTiquete,
+          vendedor: 'Cristian', 
+          cliente: r, 
+          productos: detalleTexto,
+          total: sub 
+        })
       }).catch(err => console.error("Error sincronizando red:", err));
 
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Cristian\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
@@ -438,7 +445,7 @@
       let deficitTq = Math.max(0, META_TIQUETES_CRISTIAN - tqMes);
       let deficitHoras = Math.max(0, META_HORAS_CRISTIAN - HORAS_BASE_CRISTIAN);
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Cristian\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_CRISTIAN.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Cristian\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q78k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_CRISTIAN.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
@@ -458,7 +465,7 @@
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
+      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q78k";
       document.getElementById('meta-deficit').innerText = f(deficitVentas);
       document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
       document.getElementById('meta-deficit-tq').innerText = deficitTq + " Tq";
@@ -686,9 +693,23 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let tIndex = tks.findIndex(x => x.id === tiqueteEditandoId);
       if (tIndex === -1) return;
-      let t = tks[tIndex], nuevoTotal = 0;
-      t.items.forEach(i => { nuevoTotal += i.cantidad * i.precio; });
-      if (t.items.length === 0 || nuevoTotal <= 0) { t.anulado = true; t.total = 0; } else { t.total = nuevoTotal; }
+      let t = tks[tIndex], nuevoTotal = 0, nuevosProductosStr = "";
+      
+      t.items.forEach(i => { 
+        let sub = i.cantidad * i.precio;
+        nuevoTotal += sub; 
+        nuevosProductosStr += `• (x${i.cantidad}) ${i.nombre} - Q${sub.toFixed(2)}\n`;
+      });
+
+      if (t.items.length === 0 || nuevoTotal <= 0) { 
+        t.anulado = true; 
+        t.total = 0; 
+        sincronizarAnulacionGoogleSheets(t.id);
+      } else { 
+        t.total = nuevoTotal; 
+        sincronizarEdicionGoogleSheets(t.id, nuevoTotal, nuevosProductosStr);
+      }
+      
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
       document.getElementById('modal-editar-tiquete').style.display = 'none';
       abrirModalHistorial();
@@ -699,9 +720,43 @@
     function anularTiquete(id) {
       if (!confirm("¿Está seguro de anular este tiquete?")) return;
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      tks = tks.map(t => { if (t.id === id) { t.anulado = true; t.total = 0; } return t; });
+      tks = tks.map(t => { 
+        if (t.id === id) { 
+          t.anulado = true; 
+          t.total = 0; 
+        } 
+        return t; 
+      });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
+      sincronizarAnulacionGoogleSheets(id);
       abrirModalHistorial();
+    }
+
+    // FUNCIONES DE SINCRONIZACIÓN AUTOMÁTICA DE EDICIÓN Y ANULACIÓN A GOOGLE SHEETS
+    function sincronizarEdicionGoogleSheets(idTiquete, nuevoTotal, nuevosProductosStr) {
+      fetch(urlWebApp, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          accion: 'editar',
+          id: idTiquete,
+          total: nuevoTotal,
+          productos: nuevosProductosStr
+        })
+      }).catch(err => console.error("Error al sincronizar edición:", err));
+    }
+
+    function sincronizarAnulacionGoogleSheets(idTiquete) {
+      fetch(urlWebApp, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          accion: 'anular',
+          id: idTiquete
+        })
+      }).catch(err => console.error("Error al sincronizar anulación:", err));
     }
   </script>
 </body>
