@@ -260,14 +260,7 @@
     
     const urlWebApp = "https://script.google.com/macros/s/AKfycbzHXAv5w9KhztBUutQGAIhXtTklV0XcuxJzBRB-YzAhx-dhZHfeox56zPF-HurlKyPt/exec";
     
-    // LIMPIEZA AUTOMÁTICA DE OCTUBRE
-    let tksCheck = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-    let hayViejos = tksCheck.some(t => (t.mesAnio || "").startsWith("10/"));
-    if (hayViejos) {
-      localStorage.removeItem(ticketsKey);
-    }
-    
-    // NORMAS DE NOVIEMBRE 2026 (25 DÍAS HÁBILES)
+    // NORMAS DE NOVIEMBRE 2026 (25 DÍAS HÁBILES) - HISTÓRICO DE OCTUBRE PRESERVADO
     const SALDO_INICIAL_JORGE = 0.00; 
     const TIQUETES_BASE_JORGE = 0;
     const HORAS_BASE_JORGE = 0.0;
@@ -287,7 +280,7 @@
 
     try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
-    // PRODUCTOS DE RESPALDO DIRECTOS (Para que NUNCA quede en pantalla negra si falla el archivo externo)
+    // PRODUCTOS DE RESPALDO DIRECTOS
     const productosRespaldo = [
       {nombre: "Frijol Ducal (24 unid)", precio: 66.00},
       {nombre: "1 ciento bolsa para basura # 1 para dar Q.1.00", precio: 76.00},
@@ -311,7 +304,6 @@
           actualizarUIResumen(); 
         })
         .catch(() => { 
-          // Si productos.json no carga, usa el respaldo directo para que nunca falle la pantalla
           productos = productosRespaldo; 
           productosFiltrados = productos; 
           renderizarCatalogo(); 
