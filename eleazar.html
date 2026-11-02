@@ -259,8 +259,8 @@
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    // ENLACE OFICIAL DE LA WEB APP VALIDADO EN TIEMPO REAL
-    const urlWebApp = "https://script.google.com/macros/s/AKfycbzhLdFJkKFxa7KnEYTT32359wq1jTpuzPimFkhLUWV50_D3OpiZGK_lmeVa0FNrI582vg/exec";
+    // REEMPLAZAR ESTA URL CON TU URL DE LA API EXCLUSIVA DE ELEAZAR (ApiPedidos-Eleazar)
+    const urlWebApp = "PEGA_AQUI_TU_URL_DE_APIPEDIDOS_ELEAZAR";
     
     const SALDO_INICIAL_ELEAZAR = 54337.00;
     const TIQUETES_BASE_ELEAZAR = 99;
@@ -381,6 +381,7 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let sub = 0, arr = [], detalleTexto = "";
       let now = new Date();
+      let idUnicoTiquete = Date.now();
       let fechaHoraActual = now.toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
       let mesNum = String(now.getMonth() + 1).padStart(2, '0');
       let anioNum = now.getFullYear();
@@ -394,15 +395,22 @@
         detalleTexto += `• (x${item.cantidad}) ${item.nombre} - Q${s.toFixed(2)}\n`;
       }
       
-      tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
+      tks.push({ id: idUnicoTiquete, fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // ENVÍO AUTOMÁTICO AL SERVIDOR DE GOOGLE SHEETS
+      // ENVÍO AUTOMÁTICO COMPLETO A GOOGLE SHEETS
       fetch(urlWebApp, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ vendedor: 'Eleazar', cliente: r, total: sub })
+        body: new URLSearchParams({ 
+          accion: 'nuevo',
+          id: idUnicoTiquete,
+          vendedor: 'Eleazar', 
+          cliente: r, 
+          productos: detalleTexto,
+          total: sub 
+        })
       }).catch(err => console.error("Error sincronizando red:", err));
 
       let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Eleazar\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
@@ -610,4 +618,144 @@
       });
 
       let listaProductosHtml = '';
-      for (let prod in productos
+      for (let prod in productosConsolidados) {
+        listaProductosHtml += `<div style="display:flex; justify-content:space-between; border-bottom:1px dotted #ccc; padding:2px 0;"><span>${prod}</span><strong>x${productosConsolidados[prod]}</strong></div>`;
+      }
+
+      if (listaProductosHtml === '') {
+        listaProductosHtml = '<div style="text-align:center; color:#555;">No hay productos vendidos en este período.</div>';
+      }
+
+      document.getElementById('rep-mes-txt').innerText = `Consolidado Compras - Período: ${mesSel}`;
+      document.getElementById('reporte-imprimir-contenido').innerHTML = `
+        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - CONSOLIDADO</div>
+        <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: Eleazar</div>
+        <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-top:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
+        ${listaProductosHtml}
+        <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px;">
+          <div style="display:flex; justify-content:space-between;"><span>Total Tiquetes:</span><strong>${totalTqMes}</strong></div>
+          <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:bold; margin-top:2px;"><span>VENTA TOTAL:</span><span>Q ${totalVentasTiquetes.toFixed(2)}</span></div>
+        </div>
+      `;
+      document.getElementById('modal-imprimir-reporte').style.display = 'flex';
+    }
+
+    function abrirEditarTiquete(id) {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let t = tks.find(x => x.id === id);
+      if (!t) return;
+      tiqueteEditandoId = id;
+      document.getElementById('editar-cliente-info').innerText = `Cliente: ${t.cliente} (${t.fecha})`;
+      renderizarItemsEdicion(t.items);
+      document.getElementById('modal-editar-tiquete').style.display = 'flex';
+    }
+
+    function renderizarItemsEdicion(items) {
+      let contenedor = document.getElementById('editar-items-lista');
+      let html = '', total = 0;
+      items.forEach((item, idx) => {
+        let sub = item.cantidad * item.precio;
+        total += sub;
+        html += `<div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; padding:5px; border-radius:4px; margin-bottom:4px; font-size:11px;">
+          <div><div style="font-weight:bold;">${item.nombre}</div><div style="color:#34d399; font-size:10px;">Q${item.precio.toFixed(2)} c/u</div></div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-weight:bold;">x${item.cantidad}</span>
+            <button onclick="cambiarCantItemEdicion(${idx}, -1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
+            <button onclick="cambiarCantItemEdicion(${idx}, 1)" style="background:#334155; color:white; border:none; width:20px; height:20px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
+            <button onclick="eliminarItemEdicion(${idx})" style="background:#b91c1c; color:white; border:none; padding:2px 5px; border-radius:3px; font-size:10px; cursor:pointer;">🗑️</button>
+          </div>
+        </div>`;
+      });
+      contenedor.innerHTML = html;
+      document.getElementById('editar-total-val').innerText = total.toFixed(2);
+    }
+
+    function cambiarCantItemEdicion(index, delta) {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let t = tks.find(x => x.id === tiqueteEditandoId);
+      if (!t) return;
+      t.items[index].cantidad += delta;
+      if (t.items[index].cantidad <= 0) t.items.splice(index, 1);
+      renderizarItemsEdicion(t.items);
+    }
+
+    function eliminarItemEdicion(index) {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let t = tks.find(x => x.id === tiqueteEditandoId);
+      if (!t) return;
+      t.items.splice(index, 1);
+      renderizarItemsEdicion(t.items);
+    }
+
+    function guardarEdicionTiquete() {
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      let tIndex = tks.findIndex(x => x.id === tiqueteEditandoId);
+      if (tIndex === -1) return;
+      let t = tks[tIndex], nuevoTotal = 0, nuevosProductosStr = "";
+      
+      t.items.forEach(i => { 
+        let sub = i.cantidad * i.precio;
+        nuevoTotal += sub; 
+        nuevosProductosStr += `• (x${i.cantidad}) ${i.nombre} - Q${sub.toFixed(2)}\n`;
+      });
+
+      if (t.items.length === 0 || nuevoTotal <= 0) { 
+        t.anulado = true; 
+        t.total = 0; 
+        sincronizarAnulacionGoogleSheets(t.id);
+      } else { 
+        t.total = nuevoTotal; 
+        sincronizarEdicionGoogleSheets(t.id, nuevoTotal, nuevosProductosStr);
+      }
+      
+      localStorage.setItem(ticketsKey, JSON.stringify(tks));
+      document.getElementById('modal-editar-tiquete').style.display = 'none';
+      abrirModalHistorial();
+    }
+
+    function cerrarEdicionTiquete() { guardarEdicionTiquete(); }
+
+    function anularTiquete(id) {
+      if (!confirm("¿Está seguro de anular este tiquete?")) return;
+      let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
+      tks = tks.map(t => { 
+        if (t.id === id) { 
+          t.anulado = true; 
+          t.total = 0; 
+        } 
+        return t; 
+      });
+      localStorage.setItem(ticketsKey, JSON.stringify(tks));
+      sincronizarAnulacionGoogleSheets(id);
+      abrirModalHistorial();
+    }
+
+    // FUNCIONES DE SINCRONIZACIÓN AUTOMÁTICA DE EDICIÓN Y ANULACIÓN A GOOGLE SHEETS
+    function sincronizarEdicionGoogleSheets(idTiquete, nuevoTotal, nuevosProductosStr) {
+      fetch(urlWebApp, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          accion: 'editar',
+          id: idTiquete,
+          total: nuevoTotal,
+          productos: nuevosProductosStr
+        })
+      }).catch(err => console.error("Error al sincronizar edición:", err));
+    }
+
+    function sincronizarAnulacionGoogleSheets(idTiquete) {
+      fetch(urlWebApp, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          accion: 'anular',
+          id: idTiquete
+        })
+      }).catch(err => console.error("Error al sincronizar anulación:", err));
+    }
+  </script>
+</body>
+</html>
