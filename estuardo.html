@@ -104,7 +104,7 @@
         <span>ESTUARDO</span>
       </div>
       <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DISTRIBUIDORA</h3>
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Estuardo</p>
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Estuardo (1 de Noviembre)</p>
       <button class="btn-pin" onclick="document.getElementById('lock-screen').style.display='none'">INGRESAR AL CATÁLOGO</button>
     </div>
   </div>
@@ -166,9 +166,9 @@
         <div style="margin-top: 6px; display: flex; gap: 4px; align-items: center; justify-content: center;">
           <span style="font-size: 10px; color: #9ca3af;">Mes:</span>
           <select id="filtro-mes" onchange="abrirModalHistorial()" style="background:#333; color:white; border:1px solid #555; padding:3px; border-radius:4px; font-size:11px;">
-            <option value="10/2026">Octubre 2026 (Actual)</option>
+            <option value="11/2026">Noviembre 2026 (Actual)</option>
+            <option value="10/2026">Octubre 2026</option>
             <option value="09/2026">Septiembre 2026</option>
-            <option value="11/2026">Noviembre 2026</option>
             <option value="12/2026">Diciembre 2026</option>
           </select>
         </div>
@@ -210,14 +210,14 @@
   
   <div id="modal-metas" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>📊 METAS - ESTUARDO</h3></div>
+      <div class="ticket-header"><h3>📊 METAS - ESTUARDO (NOV)</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q78k</strong></div>
-        <div class="compact-row"><span>📉 Déficit Ventas:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
-        <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">0 Tq</strong></div>
-        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
-        <div class="compact-row" style="border:none; margin:0;"><span>📉 Déficit Horas:</span><strong style="color:#ef4444;" id="meta-deficit-horas">0.0 Hrs</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q75k</strong></div>
+        <div class="compact-row"><span>📉 Superávit / Déficit:</span><strong style="color:#ef4444;" id="meta-deficit">-Q 75,000.00</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 300 Tq</strong></div>
+        <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">-300 Tq</strong></div>
+        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 175 Hrs</strong></div>
+        <div class="compact-row" style="border:none; margin:0;"><span>📉 Déficit Horas:</span><strong style="color:#ef4444;" id="meta-deficit-horas">-175.0 Hrs</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
     </div>
@@ -227,8 +227,9 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>💵 SUELDO (ESTUARDO)</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,500.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 500.00</strong></div>
+        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
+        <div class="compact-row"><span>Depreciación Moto (Fijo):</span><strong style="color:#38bdf8;">Q 500.00</strong></div>
+        <div class="compact-row"><span>Bono Meta (Si >Q75k):</span><strong style="color:#27ae60;" id="sueldo-bono-txt">Q 0.00 (Pendiente)</strong></div>
         <div class="compact-row" style="color:#38bdf8; border:none; margin:0;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-sueldo').style.display='none'">Cerrar</button>
@@ -239,41 +240,42 @@
     <div class="modal-content">
       <div class="ticket-header"><h3>📈 ESTADO QUINCENA / CIERRE</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,750.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;" id="q2-moto-val">Q 500.00</strong></div>
-        <div class="compact-row"><span>Déficit Ventas Mes:</span><strong style="color:#ef4444;" id="q2-deficit-val">Q 0.00</strong></div>
-        <div class="compact-row"><span>Descuento Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 0.00</strong></div>
+        <div class="compact-row"><span>Quincena Base:</span><strong id="q2-base-fija">Q 1,800.00</strong></div>
+        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 500.00</strong></div>
+        <div class="compact-row"><span>Superávit / Déficit Ventas:</span><strong style="color:#ef4444;" id="q2-deficit-val">-Q 75,000.00</strong></div>
         <div class="compact-row"><span>Comisión Superávit (2.5%):</span><strong style="color:#34d399;" id="q2-comision-val">Q 0.00</strong></div>
-        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 2,250.00</strong></div>
+        <div class="compact-row"><span>Bono Meta (>Q75k):</span><strong style="color:#34d399;" id="q2-bono-val">Q 0.00</strong></div>
+        <div class="compact-row"><span>Descuento por Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 1,800.00</strong></div>
+        <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 500.00</strong></div>
       </div>
-      <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena y cierre de mes</p>
+      <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de quincena de Noviembre (25 días)</p>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
     </div>
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_estuardo_v1";
-    const ticketsKey = "diprosa_tickets_estuardo_v1";
+    const storageKey = "carrito_diprosa_estuardo_nov";
+    const ticketsKey = "diprosa_tickets_estuardo_nov";
     const telefonoCorporativo = "50248502382";
-    const MES_ACTUAL_CLAVE = "10/2026";
+    const MES_ACTUAL_CLAVE = "11/2026"; // NOVIEMBRE 2026
     
-    // URL OFICIAL DE LA API DE ESTUARDO CONECTADA A LA HOJA CENTRAL
-    const urlWebApp = "https://script.google.com/macros/s/AKfycbx--aFNti8doUFuAD2nO-UYSsUV_CQJUwh7YbVw1AvEoHlUjtil8zV8C2H9GmyQRsGmPg/exec";
+    const urlWebApp = "https://script.google.com/macros/s/AKfycbzHXAv5w9KhztBUutQGAIhXtTklV0XcuxJzBRB-YzAhx-dhZHfeox56zPF-HurlKyPt/exec";
     
-    const SALDO_INICIAL_ESTUARDO = 0.00;
+    // NORMAS DE NOVIEMBRE 2026 (25 DÍAS HÁBILES) - ESTUARDO (Sueldo Q3,600 + Moto Q500)
+    const SALDO_INICIAL_ESTUARDO = 0.00; 
     const TIQUETES_BASE_ESTUARDO = 0;
     const HORAS_BASE_ESTUARDO = 0.0;
-    const META_VENTAS_ESTUARDO = 78000.00;
-    const META_TIQUETES_ESTUARDO = 324;
-    const META_HORAS_ESTUARDO = 189;
     
-    const SUELDO_BASE_ESTUARDO = 3500.00;
-    const QUINCENA_BASE = SUELDO_BASE_ESTUARDO / 2;
-    const DEPRECIACION_MOTO = 500.00;
+    const META_VENTAS_ESTUARDO = 75000.00; 
+    const META_TIQUETES_ESTUARDO = 300;     
+    const META_HORAS_ESTUARDO = 175;        
     
-    const DIAS_TRABAJO_MES = 27;
-    const SUELDO_DIARIO = SUELDO_BASE_ESTUARDO / DIAS_TRABAJO_MES;
-    const CUOTA_DIARIA_VENTAS = META_VENTAS_ESTUARDO / DIAS_TRABAJO_MES;
+    const SUELDO_BASE_ESTUARDO = 3600.00;
+    const QUINCENA_BASE = SUELDO_BASE_ESTUARDO / 2; // Q1,800.00
+    const MOTO_ESTUARDO = 500.00; // Depreciación fija de moto
+    const VALOR_DIA_ESTUARDO = SUELDO_BASE_ESTUARDO / 25; // Q144.00
+    
+    let prestamoEstuardo = 0.00;
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
@@ -379,7 +381,6 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let sub = 0, arr = [], detalleTexto = "";
       let now = new Date();
-      let idUnicoTiquete = Date.now();
       let fechaHoraActual = now.toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
       let mesNum = String(now.getMonth() + 1).padStart(2, '0');
       let anioNum = now.getFullYear();
@@ -393,21 +394,21 @@
         detalleTexto += `• (x${item.cantidad}) ${item.nombre} - Q${s.toFixed(2)}\n`;
       }
       
-      tks.push({ id: idUnicoTiquete, fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
+      tks.push({ id: Date.now(), fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // ENVÍO AUTOMÁTICO COMPLETO DE ESTUARDO A GOOGLE SHEETS
+      let productosTexto = arr.map(i => `(x${i.cantidad}) ${i.nombre}`).join('\n');
+
       fetch(urlWebApp, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ 
-          accion: 'nuevo',
-          id: idUnicoTiquete,
           vendedor: 'Estuardo', 
           cliente: r, 
-          productos: detalleTexto,
-          total: sub 
+          productos: productosTexto,
+          total: sub,
+          fecha: fechaHoraActual
         })
       }).catch(err => console.error("Error sincronizando red:", err));
 
@@ -439,11 +440,11 @@
         }
       });
 
-      let deficitVentas = Math.max(0, META_VENTAS_ESTUARDO - ventasMes);
-      let deficitTq = Math.max(0, META_TIQUETES_ESTUARDO - tqMes);
-      let deficitHoras = Math.max(0, META_HORAS_ESTUARDO - HORAS_BASE_ESTUARDO);
+      let difVentas = ventasMes - META_VENTAS_ESTUARDO;
+      let difTq = tqMes - META_TIQUETES_ESTUARDO;
+      let difHoras = HORAS_BASE_ESTUARDO - META_HORAS_ESTUARDO;
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Estuardo\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q78k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_ESTUARDO.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Estuardo\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO NOV (25 Días):* \n• Total: Q ${ventasMes.toFixed(2)} / Q75k (Diferencia: Q ${difVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 300 Tq (Diferencia: ${difTq})\n• Horas: ${HORAS_BASE_ESTUARDO.toFixed(1)} / 175 Hrs (Diferencia: ${difHoras.toFixed(1)} hrs)\n----------------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
@@ -457,28 +458,34 @@
           totalTq += 1;
         }
       });
-      let deficitVentas = Math.max(0, META_VENTAS_ESTUARDO - totalVentas);
-      let deficitTq = Math.max(0, META_TIQUETES_ESTUARDO - totalTq);
-      let deficitHoras = Math.max(0, META_HORAS_ESTUARDO - HORAS_BASE_ESTUARDO);
+      let difVentas = totalVentas - META_VENTAS_ESTUARDO;
+      let difTq = totalTq - META_TIQUETES_ESTUARDO;
+      let difHoras = HORAS_BASE_ESTUARDO - META_HORAS_ESTUARDO;
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q78k";
-      document.getElementById('meta-deficit').innerText = f(deficitVentas);
-      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
-      document.getElementById('meta-deficit-tq').innerText = deficitTq + " Tq";
-      document.getElementById('meta-horas-real').innerText = HORAS_BASE_ESTUARDO.toFixed(1) + " / 189 Hrs";
-      document.getElementById('meta-deficit-horas').innerText = deficitHoras.toFixed(1) + " Hrs";
+      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q75k";
+      document.getElementById('meta-deficit').innerText = (difVentas >= 0 ? "+Q " : "-Q ") + f(Math.abs(difVentas));
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 300 Tq";
+      document.getElementById('meta-deficit-tq').innerText = difTq + " Tq";
+      document.getElementById('meta-horas-real').innerText = HORAS_BASE_ESTUARDO.toFixed(1) + " / 175 Hrs";
+      document.getElementById('meta-deficit-horas').innerText = difHoras.toFixed(1) + " Hrs";
       document.getElementById('modal-metas').style.display = 'flex';
     }
 
     function abrirModalSueldo() {
       let ventasHoy = 0, tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], hoyStr = new Date().toLocaleDateString('es-GT');
+      let ventasMes = SALDO_INICIAL_ESTUARDO;
       tks.forEach(t => { 
-        if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE && t.total && t.fecha && t.fecha.includes(hoyStr)) {
-          ventasHoy += parseFloat(t.total); 
+        if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE) {
+          if (t.total) {
+            ventasMes += parseFloat(t.total);
+            if (t.fecha && t.fecha.includes(hoyStr)) ventasHoy += parseFloat(t.total); 
+          }
         }
       });
+      let bonoMetaActivo = ventasMes >= META_VENTAS_ESTUARDO ? 500.00 : 0.00;
+      document.getElementById('sueldo-bono-txt').innerText = bonoMetaActivo > 0 ? "Q 500.00 (¡Ganado!)" : "Q 0.00 (Pendiente)";
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2);
       document.getElementById('modal-sueldo').style.display = 'flex';
     }
@@ -488,50 +495,35 @@
       let diaDelMes = now.getDate();
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let ventasMes = SALDO_INICIAL_ESTUARDO;
-      let tqMes = TIQUETES_BASE_ESTUARDO;
-      let horasMes = HORAS_BASE_ESTUARDO;
 
       tks.forEach(t => { 
         if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE) {
           if (t.total) ventasMes += parseFloat(t.total);
-          tqMes += 1;
         }
       });
 
-      let deficit = Math.max(0, META_VENTAS_ESTUARDO - ventasMes);
-      let superavit = Math.max(0, ventasMes - META_VENTAS_ESTUARDO);
-      let descuento = 0;
+      let difVentas = ventasMes - META_VENTAS_ESTUARDO;
       let comisionSuperavit = 0;
       let bonoMeta = 0;
+      let descuentoDeficit = 0;
 
-      if (diaDelMes >= 16) {
-        let diasDescuento = deficit / CUOTA_DIARIA_VENTAS;
-        descuento = parseFloat((diasDescuento * SUELDO_DIARIO).toFixed(2));
-        if (descuento > QUINCENA_BASE) descuento = QUINCENA_BASE;
-      }
-
-      if (diaDelMes >= 27) {
-        comisionSuperavit = parseFloat((superavit * 0.025).toFixed(2)); 
-        let cumpleVentas = ventasMes >= META_VENTAS_ESTUARDO;
-        let cumpleTiquetes = tqMes >= META_TIQUETES_ESTUARDO;
-        let cumpleHoras = horasMes >= META_HORAS_ESTUARDO;
-
-        if (cumpleVentas && cumpleTiquetes && cumpleHoras) {
-          bonoMeta = 500.00; 
-        }
-        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes: Valida 3 paralelos para bono)`;
+      if (ventasMes >= META_VENTAS_ESTUARDO) {
+        bonoMeta = 500.00;
+        comisionSuperavit = parseFloat(((ventasMes - META_VENTAS_ESTUARDO) * 0.025).toFixed(2));
       } else {
-        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
+        let deficitAbs = Math.abs(difVentas);
+        let diasDeficit = deficitAbs / 3000;
+        descuentoDeficit = Math.min(QUINCENA_BASE, diasDeficit * VALOR_DIA_ESTUARDO);
       }
 
-      let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + DEPRECIACION_MOTO + comisionSuperavit + bonoMeta).toFixed(2));
+      let netoRecibir = Math.max(0, parseFloat((QUINCENA_BASE + MOTO_ESTUARDO + comisionSuperavit + bonoMeta - descuentoDeficit - prestamoEstuardo).toFixed(2)));
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
       document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
-      document.getElementById('q2-moto-val').innerText = f(DEPRECIACION_MOTO);
-      document.getElementById('q2-deficit-val').innerText = f(deficit);
-      document.getElementById('q2-descuento-val').innerText = "- " + f(descuento);
+      document.getElementById('q2-deficit-val').innerText = (difVentas >= 0 ? "+ " : "- ") + f(Math.abs(difVentas));
       document.getElementById('q2-comision-val').innerText = f(comisionSuperavit);
+      document.getElementById('q2-bono-val').innerText = f(bonoMeta);
+      document.getElementById('q2-descuento-val').innerText = "- " + f(descuentoDeficit);
       document.getElementById('q2-total-neto').innerText = f(netoRecibir);
       document.getElementById('modal-comisiones').style.display = 'flex';
     }
@@ -608,7 +600,9 @@
         if (t.items && Array.isArray(t.items)) {
           t.items.forEach(i => {
             let nombreProd = i.nombre;
-            if (!productosConsolidados[nombreProd]) productosConsolidados[nombreProd] = 0;
+            if (!productosConsolidados[nombreProd]) {
+              productosConsolidados[nombreProd] = 0;
+            }
             productosConsolidados[nombreProd] += parseInt(i.cantidad);
           });
         }
@@ -688,23 +682,9 @@
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let tIndex = tks.findIndex(x => x.id === tiqueteEditandoId);
       if (tIndex === -1) return;
-      let t = tks[tIndex], nuevoTotal = 0, nuevosProductosStr = "";
-      
-      t.items.forEach(i => { 
-        let sub = i.cantidad * i.precio;
-        nuevoTotal += sub; 
-        nuevosProductosStr += `• (x${i.cantidad}) ${i.nombre} - Q${sub.toFixed(2)}\n`;
-      });
-
-      if (t.items.length === 0 || nuevoTotal <= 0) { 
-        t.anulado = true; 
-        t.total = 0; 
-        sincronizarAnulacionGoogleSheets(t.id);
-      } else { 
-        t.total = nuevoTotal; 
-        sincronizarEdicionGoogleSheets(t.id, nuevoTotal, nuevosProductosStr);
-      }
-      
+      let t = tks[tIndex], nuevoTotal = 0;
+      t.items.forEach(i => { nuevoTotal += i.cantidad * i.precio; });
+      if (t.items.length === 0 || nuevoTotal <= 0) { t.anulado = true; t.total = 0; } else { t.total = nuevoTotal; }
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
       document.getElementById('modal-editar-tiquete').style.display = 'none';
       abrirModalHistorial();
@@ -715,43 +695,9 @@
     function anularTiquete(id) {
       if (!confirm("¿Está seguro de anular este tiquete?")) return;
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      tks = tks.map(t => { 
-        if (t.id === id) { 
-          t.anulado = true; 
-          t.total = 0; 
-        } 
-        return t; 
-      });
+      tks = tks.map(t => { if (t.id === id) { t.anulado = true; t.total = 0; } return t; });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
-      sincronizarAnulacionGoogleSheets(id);
       abrirModalHistorial();
-    }
-
-    // FUNCIONES DE SINCRONIZACIÓN AUTOMÁTICA DE EDICIÓN Y ANULACIÓN A GOOGLE SHEETS
-    function sincronizarEdicionGoogleSheets(idTiquete, nuevoTotal, nuevosProductosStr) {
-      fetch(urlWebApp, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          accion: 'editar',
-          id: idTiquete,
-          total: nuevoTotal,
-          productos: nuevosProductosStr
-        })
-      }).catch(err => console.error("Error al sincronizar edición:", err));
-    }
-
-    function sincronizarAnulacionGoogleSheets(idTiquete) {
-      fetch(urlWebApp, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          accion: 'anular',
-          id: idTiquete
-        })
-      }).catch(err => console.error("Error al sincronizar anulación:", err));
     }
   </script>
 </body>
