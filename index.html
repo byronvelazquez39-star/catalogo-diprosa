@@ -1,233 +1,154 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo General DIPROSA</title>
-  <style>
-    :root {
-      --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
-      --accent-color: #27ae60; --wa-color: #25d366; --danger-color: #e74c3c;
-    }
-    body { font-family: Arial, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 6px; padding-bottom: 90px; box-sizing: border-box; }
-    
-    .header-bar { 
-      position: sticky; top: 0; z-index: 900;
-      display: flex; justify-content: space-between; align-items: center; 
-      background: #1a1a1a; padding: 4px 8px; border-radius: 6px; border: 1px solid #333; margin-bottom: 6px;
-    }
-    h1 { margin: 0; font-size: 13px; color: #ff9800; }
-
-    .search-box { 
-      width: 100%; padding: 8px 10px; font-size: 13px; margin-bottom: 8px; 
-      border: 1px solid #ff9800; border-radius: 6px; background: #1a1a1a; color: #fff; box-sizing: border-box; 
-    }
-    
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 8px; width: 100%; box-sizing: border-box; }
-    .card { background: var(--card-bg); padding: 8px; border-radius: 8px; border: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; }
-    .nombre { font-size: 12px; font-weight: bold; margin-bottom: 4px; word-break: break-word; }
-    .precio { font-size: 13px; color: var(--accent-color); font-weight: bold; margin-bottom: 6px; }
-    
-    .qty-controls { display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .btn-qty { background-color: #333; color: #fff; border: 1px solid #555; width: 26px; height: 26px; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; }
-    .qty-num { font-size: 13px; font-weight: bold; min-width: 16px; text-align: center; }
-    .btn-add { background-color: var(--accent-color); color: white; border: none; padding: 6px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; font-size: 11px; }
-    .btn-cargar-mas { background-color: #333; color: #fff; border: 1px solid #555; padding: 8px; border-radius: 6px; width: 100%; margin-top: 10px; font-weight: bold; cursor: pointer; display: none; font-size: 12px; }
-
-    .cart-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1f1f1f; border-top: 2px solid #333; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; z-index: 1000; }
-    .cart-info { font-size: 13px; cursor: pointer; }
-    .cart-total { font-size: 15px; color: var(--accent-color); font-weight: bold; }
-    .btn-wa { background-color: var(--wa-color); color: white; border: none; padding: 7px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
-
-    .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; padding: 12px; box-sizing: border-box; }
-    .modal-content { background: #1e1e1e; border-radius: 10px; padding: 12px; width: 100%; max-width: 340px; max-height: 85vh; overflow-y: auto; border: 1px solid #444; color: #fff; font-size: 12px; }
-    .ticket-header { text-align: center; border-bottom: 1px dashed #555; padding-bottom: 6px; margin-bottom: 8px; }
-    .client-input { width: 100%; background: #333; color: white; border: 1px solid #555; padding: 7px; border-radius: 5px; font-size: 12px; box-sizing: border-box; margin-bottom: 8px; }
-    .btn-close { background: #444; color: white; border: none; padding: 7px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 6px; font-size: 12px; }
-    .btn-modal-wa { background: var(--wa-color); color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
-    .btn-modal-print { background: #0284c7; color: white; border: none; width: 100%; text-align: center; padding: 8px; border-radius: 5px; font-weight: bold; margin-top: 5px; font-size: 13px; cursor: pointer; }
-
-    @media print {
-      body * { visibility: hidden; }
-      #modal-ticket, #modal-ticket * { visibility: visible; }
-      #modal-ticket {
-        position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important;
-        display: flex !important; justify-content: flex-start; align-items: flex-start; padding: 0;
-      }
-      .modal-content {
-        background: white !important; color: black !important; border: none !important; width: 100% !important;
-        max-width: 100% !important; box-shadow: none !important; padding: 5px !important; font-size: 11px !important;
-      }
-      .ticket-header h3, .ticket-header p, #ticket-items div, span, strong { color: black !important; }
-      .client-input, .btn-modal-wa, .btn-modal-print, .btn-close, .cart-bar, .header-bar, #buscar { display: none !important; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo DIPROSA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #f1c40f;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #1e1e1e;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .card img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .card h3 {
+            font-size: 0.9em;
+            margin: 10px 0 5px 0;
+            height: 2.8em;
+            overflow: hidden;
+        }
+        .precio {
+            color: #2ecc71;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+        /* Botón flotante de WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25d366;
+            color: white;
+            padding: 14px 22px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .whatsapp-btn:hover {
+            background-color: #1ebc57;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="header-bar">
-    <h1>📦 CATÁLOGO DIPROSA</h1>
-  </div>
-
-  <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto..." oninput="filtrarDebounce()">
-  
-  <div id="catalogo" class="grid">Cargando inventario...</div>
-  <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()">Cargar más productos...</button>
-
-  <div class="cart-bar">
-    <div class="cart-info" onclick="abrirTicket()">
-      <div>🛒 <span id="cant-items">0</span> ítems</div>
-      <div class="cart-total">Total: Q <span id="total-precio">0.00</span></div>
+    <h1>Catálogo DIPROSA</h1>
+    
+    <div class="grid">
+        
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
+            <div class="card">
+                <img src="" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3></h3>
+                <p class="precio">Q </p>
+            </div>
+            
     </div>
-    <button class="btn-wa" onclick="abrirTicket()">📋 Ver Pedido</button>
-  </div>
 
-  <div id="modal-ticket" class="modal">
-    <div class="modal-content">
-      <div class="ticket-header">
-        <h3 style="color:#ff9800; font-size:13px;">DIPROSA</h3>
-        <p style="font-size: 11px; color: #34d399; font-weight:bold;">📦 Catálogo General</p>
-        <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
-      </div>
-      <div id="ticket-items" style="max-height: 150px; overflow-y: auto; margin-bottom: 8px;"></div>
-      <input type="text" id="cliente-receptor" class="client-input" placeholder="Nombre Cliente / Tienda" style="margin-top:4px;">
-      <div style="border-top: 1px dashed #555; padding-top: 6px;">
-        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: var(--accent-color);">
-          <span>Total:</span><span>Q <span id="ticket-total">0.00</span></span>
-        </div>
-      </div>
-      <button class="btn-modal-wa" onclick="enviarWhatsAppYLimpiar()">📲 Enviar Pedido por WhatsApp</button>
-      <button class="btn-modal-print" onclick="window.print()">🖨️ Imprimir Recibo</button>
-      <button class="btn-close" onclick="document.getElementById('modal-ticket').style.display='none'">Seguir Comprando</button>
-    </div>
-  </div>
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+        💬 Pedir por WhatsApp
+    </a>
 
-  <script>
-    const storageKey = "carrito_diprosa_general";
-    const telefonoCorporativo = "50248502382";
-
-    let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
-
-    try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
-
-    const productosRespaldo = [
-      {nombre: "Frijol Ducal (24 unid)", precio: 66.00},
-      {nombre: "1 ciento bolsa para basura # 1 para dar Q.1.00", precio: 76.00},
-      {nombre: "1 caja mazola margarina de 5 unidades para dar Q.3.00", precio: 11.50},
-      {nombre: "1 ciento bolsa para basura # 2 para dar Q.1.00", precio: 50.00}
-    ];
-
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('productos.json?v=' + new Date().getTime())
-        .then(res => res.json())
-        .then(data => { productos = data; productosFiltrados = data; renderizarCatalogo(); actualizarUIResumen(); })
-        .catch(() => { productos = productosRespaldo; productosFiltrados = productos; renderizarCatalogo(); actualizarUIResumen(); });
-    });
-
-    function renderizarCatalogo() {
-      document.getElementById('catalogo').innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
-        let key = p.nombre + '_' + p.precio, cant = carrito[key] ? carrito[key].cantidad : 0, b64 = btoa(unescape(encodeURIComponent(p.nombre)));
-        return `<div class="card"><div class="nombre">${p.nombre}</div><div><div class="precio">Q ${p.precio.toFixed(2)}</div>${cant === 0 ? `<button class="btn-add" onclick="cambiarCant('${b64}',${p.precio},1)">+ Agregar</button>` : `<div class="qty-controls"><button class="btn-qty" onclick="cambiarCant('${b64}',${p.precio},-1)">-</button><span class="qty-num">${cant}</span><button class="btn-qty" onclick="cambiarCant('${b64}',${p.precio},1)">+</button></div>`}</div></div>`;
-      }).join('');
-      document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
-    }
-
-    function cargarMasProductos() { limiteActual += 40; renderizarCatalogo(); }
-    function filtrarDebounce() {
-      let q = document.getElementById('buscar').value.toLowerCase().trim();
-      productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
-      renderizarCatalogo();
-    }
-
-    function cambiarCant(b64, precio, delta) {
-      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
-      if (!carrito[key]) carrito[key] = { nombre, precio: parseFloat(precio), cantidad: 0 };
-      carrito[key].cantidad += delta; if (carrito[key].cantidad <= 0) delete carrito[key];
-      localStorage.setItem(storageKey, JSON.stringify(carrito)); actualizarUIResumen(); renderizarCatalogo();
-    }
-
-    function actualizarUIResumen() {
-      let c = 0, t = 0; for(let k in carrito) { c += carrito[k].cantidad; t += carrito[k].cantidad * carrito[k].precio; }
-      document.getElementById('cant-items').innerText = c; document.getElementById('total-precio').innerText = t.toFixed(2);
-    }
-
-    function abrirTicket() {
-      if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
-      renderizarVistaPreviaCarrito();
-      document.getElementById('ticket-fecha').innerText = new Date().toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
-      document.getElementById('modal-ticket').style.display = 'flex';
-    }
-
-    function renderizarVistaPreviaCarrito() {
-      let h = '', sub = 0; 
-      for(let k in carrito) { 
-        let i = carrito[k], s = i.cantidad * i.precio; 
-        sub += s; 
-        let b64 = btoa(unescape(encodeURIComponent(i.nombre)));
-        h += `<div style="display:flex; justify-content:space-between; align-items:center; background:#1e293b; padding:5px; border-radius:4px; margin-bottom:4px; font-size:11px;">
-          <div>
-            <div style="font-weight:bold;">${i.nombre}</div>
-            <div style="color:#34d399; font-size:10px;">Q${i.precio.toFixed(2)} c/u (Sub: Q${s.toFixed(2)})</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:5px;">
-            <span style="font-weight:bold;">x${i.cantidad}</span>
-            <button onclick="cambiarCantCarritoPrevia('${b64}', ${i.precio}, -1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">-</button>
-            <button onclick="cambiarCantCarritoPrevia('${b64}', ${i.precio}, 1)" style="background:#334155; color:white; border:none; width:22px; height:22px; border-radius:3px; font-weight:bold; cursor:pointer;">+</button>
-            <button onclick="eliminarItemCarritoPrevia('${k}')" style="background:#b91c1c; color:white; border:none; padding:3px 6px; border-radius:3px; font-size:10px; cursor:pointer;">🗑️</button>
-          </div>
-        </div>`; 
-      }
-      document.getElementById('ticket-items').innerHTML = h; 
-      document.getElementById('ticket-total').innerText = sub.toFixed(2);
-      actualizarUIResumen();
-      renderizarCatalogo();
-    }
-
-    function cambiarCantCarritoPrevia(b64, precio, delta) {
-      let nombre = decodeURIComponent(escape(atob(b64))), key = nombre + '_' + precio;
-      if (carrito[key]) {
-        carrito[key].cantidad += delta;
-        if (carrito[key].cantidad <= 0) delete carrito[key];
-        localStorage.setItem(storageKey, JSON.stringify(carrito));
-        renderizarVistaPreviaCarrito();
-      }
-    }
-
-    function eliminarItemCarritoPrevia(key) {
-      if (carrito[key]) {
-        delete carrito[key];
-        localStorage.setItem(storageKey, JSON.stringify(carrito));
-        renderizarVistaPreviaCarrito();
-      }
-    }
-
-    function enviarWhatsAppYLimpiar() {
-      if (!Object.keys(carrito).length) { alert("El carrito está vacío."); return; }
-      let r = document.getElementById('cliente-receptor').value.trim(); 
-      if(!r) { alert("Por favor ingrese el nombre del cliente o tienda."); return; }
-      
-      let sub = 0, detalleTexto = "";
-      let now = new Date();
-      let fechaHoraActual = now.toLocaleString('es-GT', { dateStyle: 'medium', timeStyle: 'medium' });
-      
-      for(let k in carrito) { 
-        let item = carrito[k];
-        let s = item.cantidad * item.precio; 
-        sub += s; 
-        detalleTexto += `• (x${item.cantidad}) ${item.nombre} - Q${s.toFixed(2)}\n`;
-      }
-
-      let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Catálogo General*\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido general.`;
-
-      window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeWsp), '_blank');
-      
-      carrito = {}; 
-      localStorage.removeItem(storageKey);
-      document.getElementById('cliente-receptor').value = '';
-      document.getElementById('modal-ticket').style.display = 'none';
-      actualizarUIResumen(); 
-      renderizarCatalogo();
-    }
-  </script>
 </body>
 </html>
