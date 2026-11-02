@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Catálogo DIPROSA - Eleazar</title>
+  <title>Catálogo DIPROSA - Central</title>
   <style>
     :root {
       --bg-color: #121212; --card-bg: #1e1e1e; --text-color: #ffffff;
@@ -20,7 +20,7 @@
     .lock-card {
       background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px);
       border: 1px solid rgba(0, 188, 212, 0.4); border-radius: 16px;
-      padding: 24px 20px; width: 100%; max-width: 300px; text-align: center; 
+      padding: 24px 20px; width: 100%; max-width: 320px; text-align: center; 
       box-shadow: 0 10px 40px rgba(0,0,0,0.9);
     }
     .lock-logo-badge {
@@ -30,6 +30,11 @@
     }
     .lock-logo-badge span:first-child { font-size: 11px; font-weight: bold; color: #00bcd4; letter-spacing: 1px; }
     .lock-logo-badge span:last-child { font-size: 8px; color: #94a3b8; margin-top: 2px; }
+
+    .select-vendedor {
+      width: 100%; padding: 10px; border-radius: 8px; background: #1e293b; color: white;
+      border: 1px solid #00bcd4; font-size: 13px; font-weight: bold; margin-bottom: 12px; box-sizing: border-box;
+    }
 
     .btn-pin {
       background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; border: none; width: 100%;
@@ -97,21 +102,33 @@
 </head>
 <body>
 
+  <!-- PANTALLA DE SELECCIÓN DE VENDEDOR -->
   <div id="lock-screen">
     <div class="lock-card">
       <div class="lock-logo-badge">
         <span>DIPROSA</span>
-        <span>ELEAZAR</span>
+        <span id="lock-badge-sub">CENTRAL</span>
       </div>
       <h3 style="color: #00bcd4; margin: 0 0 2px 0; font-size: 13px;">DIPROSA / DISTRIBUIDORA</h3>
-      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 16px 0;">Catálogo - Eleazar</p>
-      <button class="btn-pin" onclick="document.getElementById('lock-screen').style.display='none'">INGRESAR AL CATÁLOGO</button>
+      <p style="color: #94a3b8; font-size: 11px; margin: 0 0 12px 0;">Seleccione Vendedor para Ingresar</p>
+      
+      <select id="vendedor-selector" class="select-vendedor">
+        <option value="Eleazar">Eleazar</option>
+        <option value="Estuardo">Estuardo</option>
+        <option value="Cristian">Cristian</option>
+        <option value="Jorge">Jorge</option>
+      </select>
+
+      <button class="btn-pin" onclick="iniciarSesionVendedor()">INGRESAR AL CATÁLOGO</button>
     </div>
   </div>
 
   <div class="header-bar">
-    <h1>📦 CATÁLOGO ELEAZAR</h1>
-    <button class="btn-menu-top" onclick="document.getElementById('modal-menu-extra').style.display='flex'">⚙️ Menú ▾</button>
+    <h1 id="titulo-header">📦 CATÁLOGO DIPROSA</h1>
+    <div style="display:flex; gap:5px;">
+      <button class="btn-menu-top" style="background:#0284c7;" onclick="document.getElementById('lock-screen').style.display='flex'">👤 Vendedor</button>
+      <button class="btn-menu-top" onclick="document.getElementById('modal-menu-extra').style.display='flex'">⚙️ Menú ▾</button>
+    </div>
   </div>
 
   <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto..." oninput="filtrarDebounce()">
@@ -129,8 +146,8 @@
 
   <div id="modal-menu-extra" class="modal-menu">
     <div class="menu-content">
-      <div class="ticket-header"><h3>⚙️ MENÚ DE OPCIONES</h3></div>
-      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalMetas();">📊 Ver Metas - Eleazar</button>
+      <div class="ticket-header"><h3 id="menu-vendedor-nombre">⚙️ MENÚ DE OPCIONES</h3></div>
+      <button class="btn-menu-opcion" style="background:#0284c7;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalMetas();">📊 Ver Metas del Vendedor</button>
       <button class="btn-menu-opcion" style="background:#059669;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalSueldo();">💰 Sueldo y Día</button>
       <button class="btn-menu-opcion" style="background:#d97706;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalComisiones();">📈 Estado Quincena / Cierre</button>
       <button class="btn-menu-opcion" style="background:#4b5563;" onclick="document.getElementById('modal-menu-extra').style.display='none'; abrirModalHistorial();">📂 Tiquetes y Reportes Mes</button>
@@ -143,7 +160,7 @@
     <div class="modal-content">
       <div class="ticket-header">
         <h3 style="color:#ff9800; font-size:13px;">DIPROSA</h3>
-        <p style="font-size: 11px; color: #34d399; font-weight:bold;">👤 Vendedor: Eleazar</p>
+        <p style="font-size: 11px; color: #34d399; font-weight:bold;" id="ticket-vendedor-lbl">👤 Vendedor: Eleazar</p>
         <p style="font-size: 10px; color: #888;" id="ticket-fecha"></p>
       </div>
       <div id="ticket-items" style="max-height: 150px; overflow-y: auto; margin-bottom: 8px;"></div>
@@ -210,13 +227,13 @@
   
   <div id="modal-metas" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>📊 METAS - ELEAZAR</h3></div>
+      <div class="ticket-header"><h3 id="meta-modal-title">📊 METAS - VENDEDOR</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00 / Q81k</strong></div>
+        <div class="compact-row"><span>💰 Ventas Mes:</span><strong style="color:#34d399;" id="meta-ventas-real">Q 0.00</strong></div>
         <div class="compact-row"><span>📉 Déficit Ventas:</span><strong style="color:#ef4444;" id="meta-deficit">Q 0.00</strong></div>
-        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 / 324 Tq</strong></div>
+        <div class="compact-row"><span>🧾 Tiquetes:</span><strong id="meta-tiquetes-real">0 Tq</strong></div>
         <div class="compact-row"><span>📉 Déficit Tiquetes:</span><strong style="color:#ef4444;" id="meta-deficit-tq">0 Tq</strong></div>
-        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 / 189 Hrs</strong></div>
+        <div class="compact-row"><span>⏱️ Horas Ruta:</span><strong id="meta-horas-real" style="color:#38bdf8;">0.0 Hrs</strong></div>
         <div class="compact-row" style="border:none; margin:0;"><span>📉 Déficit Horas:</span><strong style="color:#ef4444;" id="meta-deficit-horas">0.0 Hrs</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-metas').style.display='none'">Cerrar</button>
@@ -225,11 +242,10 @@
 
   <div id="modal-sueldo" class="modal">
     <div class="modal-content">
-      <div class="ticket-header"><h3>💵 SUELDO (ELEAZAR)</h3></div>
+      <div class="ticket-header"><h3 id="sueldo-modal-title">💵 SUELDO</h3></div>
       <div class="compact-box">
-        <div class="compact-row"><span>Base Mensual:</span><strong>Q 3,600.00</strong></div>
-        <div class="compact-row"><span>Premio Meta (Bono):</span><strong style="color:#27ae60;">Q 500.00</strong></div>
-        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;">Q 500.00</strong></div>
+        <div class="compact-row"><span>Base Mensual:</span><strong id="sueldo-base-val">Q 3,600.00</strong></div>
+        <div class="compact-row"><span>Depreciación Moto:</span><strong style="color:#38bdf8;" id="sueldo-moto-val">Q 500.00</strong></div>
         <div class="compact-row" style="color:#38bdf8; border:none; margin:0;"><span>☀️ Ventas de hoy:</span><strong id="sueldo-dia-hoy">Q 0.00</strong></div>
       </div>
       <button class="btn-close" onclick="document.getElementById('modal-sueldo').style.display='none'">Cerrar</button>
@@ -245,42 +261,73 @@
         <div class="compact-row"><span>Déficit Ventas Mes:</span><strong style="color:#ef4444;" id="q2-deficit-val">Q 0.00</strong></div>
         <div class="compact-row"><span>Descuento Déficit:</span><strong style="color:#ef4444;" id="q2-descuento-val">- Q 0.00</strong></div>
         <div class="compact-row"><span>Comisión Superávit (2.5%):</span><strong style="color:#34d399;" id="q2-comision-val">Q 0.00</strong></div>
-        <div class="compact-row"><span>Bono Paralelo (Q500):</span><strong style="color:#34d399;" id="q2-bono-val">Q 0.00</strong></div>
         <div class="compact-row" style="border:none; margin:0; font-size:13px;"><span>NETO A PAGAR:</span><strong id="q2-total-neto" style="color:#27ae60;">Q 2,300.00</strong></div>
       </div>
-      <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de 2da quincena y cierre de mes</p>
+      <p style="font-size:9px; color:#9ca3af; text-align:center; margin:6px 0 0 0;" id="q2-info-periodo">Cálculo de quincena</p>
       <button class="btn-close" onclick="document.getElementById('modal-comisiones').style.display='none'">Cerrar</button>
     </div>
   </div>
 
   <script>
-    const storageKey = "carrito_diprosa_eleazar_v1";
-    const ticketsKey = "diprosa_tickets_eleazar_v1";
     const telefonoCorporativo = "50248502382";
     const MES_ACTUAL_CLAVE = "10/2026";
     
-    // URL OFICIAL DE LA API DE ELEAZAR YA INTEGRADA
-    const urlWebApp = "https://script.google.com/macros/s/AKfycbxom6AquxNcqliotMxNb-DfxweoBc66Alvl3g2Se9JSud_N_OglsHURgeOolg-hie8t/exec";
+    // URL CENTRALIZADA DE APPS SCRIPT PARA TODOS LOS VENDEDORES
+    const URL_WEB_APP_CENTRAL = "https://script.google.com/macros/s/AKfycbw7Jf74hXXRT2tBzIk3X8ykRmdG4SsaEuPr9lQX5OPwjQVasZ_wCLDG4_VcsF9jO84IJA/exec";
     
-    const SALDO_INICIAL_ELEAZAR = 54337.00;
-    const TIQUETES_BASE_ELEAZAR = 99;
-    const HORAS_BASE_ELEAZAR = 112.0;
-    const META_VENTAS_ELEAZAR = 81000.00;
-    const META_TIQUETES_ELEAZAR = 324;
-    const META_HORAS_ELEAZAR = 189;
-    
-    const SUELDO_BASE_ELEAZAR = 3600.00;
-    const QUINCENA_BASE = SUELDO_BASE_ELEAZAR / 2;
-    const DEPRECIACION_MOTO = 500.00;
-    
-    const DIAS_TRABAJO_MES = 27;
-    const SUELDO_DIARIO = SUELDO_BASE_ELEAZAR / DIAS_TRABAJO_MES;
-    const CUOTA_DIARIA_VENTAS = META_VENTAS_ELEAZAR / DIAS_TRABAJO_MES;
+    const CONFIG_VENDEDORES = {
+      "Eleazar": {
+        urlWebApp: URL_WEB_APP_CENTRAL,
+        metaVentas: 81000.00,
+        metaTiquetes: 324,
+        metaHoras: 189,
+        sueldoBase: 3600.00,
+        moto: 500.00,
+        saldoInicial: 54337.00,
+        tiquetesBase: 99,
+        horasBase: 112.0
+      },
+      "Estuardo": {
+        urlWebApp: URL_WEB_APP_CENTRAL,
+        metaVentas: 78000.00,
+        metaTiquetes: 324,
+        metaHoras: 189,
+        sueldoBase: 3500.00,
+        moto: 500.00,
+        saldoInicial: 0.00,
+        tiquetesBase: 0,
+        horasBase: 0.0
+      },
+      "Cristian": {
+        urlWebApp: URL_WEB_APP_CENTRAL,
+        metaVentas: 78000.00,
+        metaTiquetes: 324,
+        metaHoras: 189,
+        sueldoBase: 3000.00,
+        moto: 0.00,
+        saldoInicial: 0.00,
+        tiquetesBase: 0,
+        horasBase: 0.0
+      },
+      "Jorge": {
+        urlWebApp: URL_WEB_APP_CENTRAL,
+        metaVentas: 78000.00,
+        metaTiquetes: 324,
+        metaHoras: 189,
+        sueldoBase: 3500.00,
+        moto: 0.00,
+        saldoInicial: 0.00,
+        tiquetesBase: 0,
+        horasBase: 0.0
+      }
+    };
+
+    let vendedorActivo = "Eleazar";
+    let storageKey = "carrito_diprosa_" + vendedorActivo.toLowerCase();
+    let ticketsKey = "diprosa_tickets_" + vendedorActivo.toLowerCase();
 
     let productos = [], productosFiltrados = [], limiteActual = 40, carrito = {};
     let tiqueteEditandoId = null;
-
-    try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
 
     const productosRespaldo = [
       {nombre: "Frijol Ducal (24 unid)", precio: 66.00},
@@ -290,11 +337,42 @@
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
+      let vGuardado = localStorage.getItem("diprosa_vendedor_seleccionado");
+      if (vGuardado && CONFIG_VENDEDORES[vGuardado]) {
+        vendedorActivo = vGuardado;
+        document.getElementById('vendedor-selector').value = vendedorActivo;
+      }
+      actualizarContextoVendedor();
+
       fetch('productos.json?v=' + new Date().getTime())
         .then(res => res.json())
         .then(data => { productos = data; productosFiltrados = data; renderizarCatalogo(); actualizarUIResumen(); })
         .catch(() => { productos = productosRespaldo; productosFiltrados = productos; renderizarCatalogo(); actualizarUIResumen(); });
     });
+
+    function iniciarSesionVendedor() {
+      vendedorActivo = document.getElementById('vendedor-selector').value;
+      localStorage.setItem("diprosa_vendedor_seleccionado", vendedorActivo);
+      actualizarContextoVendedor();
+      document.getElementById('lock-screen').style.display = 'none';
+    }
+
+    function actualizarContextoVendedor() {
+      storageKey = "carrito_diprosa_" + vendedorActivo.toLowerCase();
+      ticketsKey = "diprosa_tickets_" + vendedorActivo.toLowerCase();
+      
+      try { carrito = JSON.parse(localStorage.getItem(storageKey)) || {}; } catch(e) { carrito = {}; }
+
+      document.getElementById('titulo-header').innerText = `📦 DIPROSA - ${vendedorActivo.toUpperCase()}`;
+      document.getElementById('lock-badge-sub').innerText = vendedorActivo.toUpperCase();
+      document.getElementById('ticket-vendedor-lbl').innerText = `👤 Vendedor: ${vendedorActivo}`;
+      document.getElementById('menu-vendedor-nombre').innerText = `⚙️ MENÚ - ${vendedorActivo.toUpperCase()}`;
+      document.getElementById('meta-modal-title').innerText = `📊 METAS - ${vendedorActivo.toUpperCase()}`;
+      document.getElementById('sueldo-modal-title').innerText = `💵 SUELDO (${vendedorActivo.toUpperCase()})`;
+      
+      actualizarUIResumen();
+      renderizarCatalogo();
+    }
 
     function renderizarCatalogo() {
       document.getElementById('catalogo').innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
@@ -378,6 +456,7 @@
       let r = document.getElementById('cliente-receptor').value.trim(); 
       if(!r) { alert("Por favor ingrese el nombre del cliente o tienda."); return; }
       
+      let cfg = CONFIG_VENDEDORES[vendedorActivo] || CONFIG_VENDEDORES["Eleazar"];
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
       let sub = 0, arr = [], detalleTexto = "";
       let now = new Date();
@@ -398,22 +477,22 @@
       tks.push({ id: idUnicoTiquete, fecha: fechaHoraActual, mesAnio: mesAnioKey, cliente: r, items: arr, total: sub, anulado: false });
       localStorage.setItem(ticketsKey, JSON.stringify(tks));
 
-      // ENVÍO AUTOMÁTICO COMPLETO A GOOGLE SHEETS
-      fetch(urlWebApp, {
+      // ENVÍO AUTOMÁTICO A GOOGLE SHEETS INDICANDO EL VENDEDOR ACTIVO
+      fetch(cfg.urlWebApp, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ 
           accion: 'nuevo',
           id: idUnicoTiquete,
-          vendedor: 'Eleazar', 
+          vendedor: vendedorActivo, 
           cliente: r, 
           productos: detalleTexto,
           total: sub 
         })
       }).catch(err => console.error("Error sincronizando red:", err));
 
-      let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* Eleazar\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
+      let mensajeWsp = `*DISTRIBUIDORA DIPROSA*\n📦 *Vendedor:* ${vendedorActivo}\n👤 *Cliente:* ${r}\n📅 *Fecha/Hora:* ${fechaHoraActual}\n--------------------------------\n${detalleTexto}--------------------------------\n*Total a Pagar: Q${sub.toFixed(2)}*\n¡Hola! Confirmo este pedido para despacho.`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeWsp), '_blank');
       
@@ -426,9 +505,10 @@
     }
 
     function enviarReporteCierreWsp() {
+      let cfg = CONFIG_VENDEDORES[vendedorActivo] || CONFIG_VENDEDORES["Eleazar"];
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let ventasMes = SALDO_INICIAL_ELEAZAR;
-      let tqMes = TIQUETES_BASE_ELEAZAR;
+      let ventasMes = cfg.saldoInicial;
+      let tqMes = cfg.tiquetesBase;
       let ventasHoy = 0, tqHoy = 0, hoyStr = new Date().toLocaleDateString('es-GT');
       let fechaActualStr = new Date().toLocaleDateString('es-GT', { dateStyle: 'medium' });
 
@@ -441,100 +521,97 @@
         }
       });
 
-      let deficitVentas = Math.max(0, META_VENTAS_ELEAZAR - ventasMes);
-      let deficitTq = Math.max(0, META_TIQUETES_ELEAZAR - tqMes);
-      let deficitHoras = Math.max(0, META_HORAS_ELEAZAR - HORAS_BASE_ELEAZAR);
+      let deficitVentas = Math.max(0, cfg.metaVentas - ventasMes);
+      let deficitTq = Math.max(0, cfg.metaTiquetes - tqMes);
+      let deficitHoras = Math.max(0, cfg.metaHoras - cfg.horasBase);
 
-      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* Eleazar\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q81k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / 324 Tq (Faltante: ${deficitTq})\n• Horas: ${HORAS_BASE_ELEAZAR.toFixed(1)} / 189 Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
+      let mensajeCierre = `📊 *REPORTE DE CIERRE - DIPROSA* 📊\n👤 *Vendedor:* ${vendedorActivo}\n📅 *Fecha:* ${fechaActualStr}\n----------------------------------------\n☀️ *RESUMEN DE HOY:* \n• Ventas: *Q ${ventasHoy.toFixed(2)}*\n• Tiquetes: *${tqHoy}*\n----------------------------------------\n📈 *ACUMULADO DEL MES:* \n• Total: Q ${ventasMes.toFixed(2)} / Q${cfg.metaVentas/1000}k (Faltante: Q ${deficitVentas.toFixed(2)})\n• Tiquetes: ${tqMes} / ${cfg.metaTiquetes} Tq (Faltante: ${deficitTq})\n• Horas: ${cfg.horasBase.toFixed(1)} / ${cfg.metaHoras} Hrs (Faltante: ${deficitHoras.toFixed(1)} hrs)\n----------------------------------------`;
 
       window.open(`https://api.whatsapp.com/send?phone=${telefonoCorporativo}&text=` + encodeURIComponent(mensajeCierre), '_blank');
     }
 
     function abrirModalMetas() {
+      let cfg = CONFIG_VENDEDORES[vendedorActivo] || CONFIG_VENDEDORES["Eleazar"];
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let totalVentas = SALDO_INICIAL_ELEAZAR, totalTq = TIQUETES_BASE_ELEAZAR;
+      let totalVentas = cfg.saldoInicial, totalTq = cfg.tiquetesBase;
       tks.forEach(t => { 
         if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE) {
           if (t.total) totalVentas += parseFloat(t.total);
           totalTq += 1;
         }
       });
-      let deficitVentas = Math.max(0, META_VENTAS_ELEAZAR - totalVentas);
-      let deficitTq = Math.max(0, META_TIQUETES_ELEAZAR - totalTq);
-      let deficitHoras = Math.max(0, META_HORAS_ELEAZAR - HORAS_BASE_ELEAZAR);
+      let deficitVentas = Math.max(0, cfg.metaVentas - totalVentas);
+      let deficitTq = Math.max(0, cfg.metaTiquetes - totalTq);
+      let deficitHoras = Math.max(0, cfg.metaHoras - cfg.horasBase);
 
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + " / Q81k";
+      document.getElementById('meta-ventas-real').innerText = f(totalVentas) + ` / Q${cfg.metaVentas/1000}k`;
       document.getElementById('meta-deficit').innerText = f(deficitVentas);
-      document.getElementById('meta-tiquetes-real').innerText = totalTq + " / 324 Tq";
+      document.getElementById('meta-tiquetes-real').innerText = totalTq + ` / ${cfg.metaTiquetes} Tq`;
       document.getElementById('meta-deficit-tq').innerText = deficitTq + " Tq";
-      document.getElementById('meta-horas-real').innerText = HORAS_BASE_ELEAZAR.toFixed(1) + " / 189 Hrs";
+      document.getElementById('meta-horas-real').innerText = cfg.horasBase.toFixed(1) + ` / ${cfg.metaHoras} Hrs`;
       document.getElementById('meta-deficit-horas').innerText = deficitHoras.toFixed(1) + " Hrs";
       document.getElementById('modal-metas').style.display = 'flex';
     }
 
     function abrirModalSueldo() {
+      let cfg = CONFIG_VENDEDORES[vendedorActivo] || CONFIG_VENDEDORES["Eleazar"];
       let ventasHoy = 0, tks = JSON.parse(localStorage.getItem(ticketsKey)) || [], hoyStr = new Date().toLocaleDateString('es-GT');
       tks.forEach(t => { 
         if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE && t.total && t.fecha && t.fecha.includes(hoyStr)) {
           ventasHoy += parseFloat(t.total); 
         }
       });
+      document.getElementById('sueldo-base-val').innerText = "Q " + cfg.sueldoBase.toFixed(2);
+      document.getElementById('sueldo-moto-val').innerText = "Q " + cfg.moto.toFixed(2);
       document.getElementById('sueldo-dia-hoy').innerText = "Q " + ventasHoy.toFixed(2);
       document.getElementById('modal-sueldo').style.display = 'flex';
     }
 
     function abrirModalComisiones() {
+      let cfg = CONFIG_VENDEDORES[vendedorActivo] || CONFIG_VENDEDORES["Eleazar"];
+      let quincenaBase = cfg.sueldoBase / 2;
+      let sueldoDiario = cfg.sueldoBase / 27;
+      let cuotaDiaria = cfg.metaVentas / 27;
+
       let now = new Date();
       let diaDelMes = now.getDate();
       let tks = JSON.parse(localStorage.getItem(ticketsKey)) || [];
-      let ventasMes = SALDO_INICIAL_ELEAZAR;
-      let tqMes = TIQUETES_BASE_ELEAZAR;
-      let horasMes = HORAS_BASE_ELEAZAR;
+      let ventasMes = cfg.saldoInicial;
 
       tks.forEach(t => { 
         if (!t.anulado && (t.mesAnio || MES_ACTUAL_CLAVE) === MES_ACTUAL_CLAVE) {
           if (t.total) ventasMes += parseFloat(t.total);
-          tqMes += 1;
         }
       });
 
-      let deficit = Math.max(0, META_VENTAS_ELEAZAR - ventasMes);
-      let superavit = Math.max(0, ventasMes - META_VENTAS_ELEAZAR);
+      let deficit = Math.max(0, cfg.metaVentas - ventasMes);
+      let superavit = Math.max(0, ventasMes - cfg.metaVentas);
       let descuento = 0;
       let comisionSuperavit = 0;
-      let bonoMeta = 0;
 
       if (diaDelMes >= 16) {
-        let diasDescuento = deficit / CUOTA_DIARIA_VENTAS;
-        descuento = parseFloat((diasDescuento * SUELDO_DIARIO).toFixed(2));
-        if (descuento > QUINCENA_BASE) descuento = QUINCENA_BASE;
+        let diasDescuento = deficit / cuotaDiaria;
+        descuento = parseFloat((diasDescuento * sueldoDiario).toFixed(2));
+        if (descuento > quincenaBase) descuento = quincenaBase;
       }
 
       if (diaDelMes >= 27) {
         comisionSuperavit = parseFloat((superavit * 0.025).toFixed(2)); 
-        let cumpleVentas = ventasMes >= META_VENTAS_ELEAZAR;
-        let cumpleTiquetes = tqMes >= META_TIQUETES_ELEAZAR;
-        let cumpleHoras = horasMes >= META_HORAS_ELEAZAR;
-
-        if (cumpleVentas && cumpleTiquetes && cumpleHoras) {
-          bonoMeta = 500.00; 
-        }
-        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes: Valida 3 paralelos para bono)`;
+        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Cierre de Mes)`;
       } else {
-        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Segunda quincena en curso)`;
+        document.getElementById('q2-info-periodo').innerText = `Día ${diaDelMes} (Quincena en curso)`;
       }
 
-      let netoRecibir = parseFloat((Math.max(0, QUINCENA_BASE - descuento) + DEPRECIACION_MOTO + comisionSuperavit + bonoMeta).toFixed(2));
+      let netoRecibir = parseFloat((Math.max(0, quincenaBase - descuento) + cfg.moto + comisionSuperavit).toFixed(2));
       let f = (num) => "Q " + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
-      document.getElementById('q2-base-fija').innerText = f(QUINCENA_BASE);
-      document.getElementById('q2-moto-val').innerText = f(DEPRECIACION_MOTO);
+      document.getElementById('q2-base-fija').innerText = f(quincenaBase);
+      document.getElementById('q2-moto-val').innerText = f(cfg.moto);
       document.getElementById('q2-deficit-val').innerText = f(deficit);
       document.getElementById('q2-descuento-val').innerText = "- " + f(descuento);
       document.getElementById('q2-comision-val').innerText = f(comisionSuperavit);
-      document.getElementById('q2-bono-val').innerText = f(bonoMeta);
       document.getElementById('q2-total-neto').innerText = f(netoRecibir);
       document.getElementById('modal-comisiones').style.display = 'flex';
     }
@@ -586,7 +663,7 @@
 
       document.getElementById('rep-mes-txt').innerText = `Cliente: ${t.cliente} - ${t.fecha}`;
       document.getElementById('reporte-imprimir-contenido').innerHTML = `
-        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - ELEAZAR</div>
+        <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - ${vendedorActivo.toUpperCase()}</div>
         <div style="text-align:center; font-size:10px; margin-bottom:6px;">Comprobante de Venta</div>
         ${detalleHtml}
         <div style="display:flex; justify-content:space-between; font-weight:bold; margin-top:6px; border-top:1px dashed #000; padding-top:4px;">
@@ -629,7 +706,7 @@
       document.getElementById('rep-mes-txt').innerText = `Consolidado Compras - Período: ${mesSel}`;
       document.getElementById('reporte-imprimir-contenido').innerHTML = `
         <div style="text-align:center; font-weight:bold; font-size:13px;">DIPROSA - CONSOLIDADO</div>
-        <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: Eleazar</div>
+        <div style="text-align:center; font-size:10px; margin-bottom:6px;">Vendedor: ${vendedorActivo}</div>
         <div style="font-weight:bold; font-size:11px; border-bottom:1px dashed #000; padding-top:3px; margin-bottom:4px;">PRODUCTOS VENDIDOS:</div>
         ${listaProductosHtml}
         <div style="border-top:1px dashed #000; margin-top:6px; padding-top:4px;">
@@ -730,14 +807,15 @@
       abrirModalHistorial();
     }
 
-    // FUNCIONES DE SINCRONIZACIÓN AUTOMÁTICA DE EDICIÓN Y ANULACIÓN A GOOGLE SHEETS
     function sincronizarEdicionGoogleSheets(idTiquete, nuevoTotal, nuevosProductosStr) {
-      fetch(urlWebApp, {
+      let cfg = CONFIG_VENDEDORES[vendedorActivo] || CONFIG_VENDEDORES["Eleazar"];
+      fetch(cfg.urlWebApp, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           accion: 'editar',
+          vendedor: vendedorActivo,
           id: idTiquete,
           total: nuevoTotal,
           productos: nuevosProductosStr
@@ -746,12 +824,14 @@
     }
 
     function sincronizarAnulacionGoogleSheets(idTiquete) {
-      fetch(urlWebApp, {
+      let cfg = CONFIG_VENDEDORES[vendedorActivo] || CONFIG_VENDEDORES["Eleazar"];
+      fetch(cfg.urlWebApp, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           accion: 'anular',
+          vendedor: vendedorActivo,
           id: idTiquete
         })
       }).catch(err => console.error("Error al sincronizar anulación:", err));
