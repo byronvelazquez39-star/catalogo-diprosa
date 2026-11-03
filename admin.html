@@ -1,146 +1,216 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de Administración - DIPROSA</title>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #000000;
-        color: #ffffff;
-        margin: 0;
-        padding: 12px;
-        padding-bottom: 80px;
-    }
-    .header {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    h1 {
-        color: #ff9800;
-        font-size: 22px;
-        margin: 5px 0;
-    }
-    .card-total-general {
-        background: #122111;
-        border: 2px solid #4CAF50;
-        border-radius: 10px;
-        padding: 15px;
-        text-align: center;
-        margin-bottom: 20px;
-    }
-    .card-total-general h2 {
-        margin: 0 0 5px 0;
-        font-size: 16px;
-        color: #81C784;
-    }
-    .monto-general {
-        font-size: 28px;
-        font-weight: bold;
-        color: #4CAF50;
-    }
-    .sub-general {
-        font-size: 13px;
-        color: #cccccc;
-        margin-top: 5px;
-    }
-    .grid-vendedores {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    .card-vendedor {
-        background: #1e1e1e;
-        border: 1px solid #333333;
-        border-radius: 10px;
-        padding: 15px;
-    }
-    .card-vendedor h3 {
-        margin: 0 0 10px 0;
-        color: #ff9800;
-        font-size: 18px;
-        border-bottom: 1px solid #333;
-        padding-bottom: 5px;
-    }
-    .dato-fila {
-        display: flex;
-        justify-content: space-between;
-        margin: 8px 0;
-        font-size: 14px;
-    }
-    .loading {
-        color: #888;
-        font-style: italic;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Catálogo DIPROSA</title>
+    <style>
+        :root {
+            --bg-color: #121212; 
+            --card-bg: #1e1e1e; 
+            --text-color: #ffffff;
+            --accent-color: #2ecc71; 
+            --wa-color: #25d366;
+        }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            margin: 0; 
+            padding: 10px; 
+            padding-bottom: 90px; 
+            box-sizing: border-box; 
+        }
+        .header-bar { 
+            position: sticky; 
+            top: 0; 
+            z-index: 900;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            background: #1a1a1a; 
+            padding: 10px; 
+            border-radius: 6px; 
+            border: 1px solid #333; 
+            margin-bottom: 12px;
+        }
+        h1 { margin: 0; font-size: 18px; color: #f1c40f; text-align: center; }
+        
+        .search-box { 
+            width: 100%; 
+            padding: 10px 12px; 
+            font-size: 14px; 
+            margin-bottom: 12px; 
+            border: 1px solid #f1c40f; 
+            border-radius: 6px; 
+            background: #1a1a1a; 
+            color: #fff; 
+            box-sizing: border-box; 
+        }
+        
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+            gap: 12px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card { 
+            background: var(--card-bg); 
+            padding: 10px; 
+            border-radius: 8px; 
+            border: 1px solid #333; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            box-sizing: border-box; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .card img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            background-color: #2a2a2a;
+        }
+        .nombre { 
+            font-size: 13px; 
+            font-weight: bold; 
+            margin-bottom: 6px; 
+            word-break: break-word; 
+            height: 2.8em;
+            overflow: hidden;
+        }
+        .precio { 
+            font-size: 14px; 
+            color: var(--accent-color); 
+            font-weight: bold; 
+            margin-top: 4px; 
+        }
+        
+        .btn-cargar-mas { 
+            background-color: #333; 
+            color: #fff; 
+            border: 1px solid #555; 
+            padding: 10px; 
+            border-radius: 6px; 
+            width: 100%; 
+            max-width: 300px;
+            margin: 20px auto 0 auto; 
+            font-weight: bold; 
+            cursor: pointer; 
+            display: none; 
+            font-size: 13px; 
+            display: block;
+            text-align: center;
+        }
+
+        .whatsapp-btn { 
+            position: fixed; 
+            bottom: 20px; 
+            right: 20px; 
+            background-color: var(--wa-color); 
+            color: white; 
+            padding: 12px 20px; 
+            border-radius: 30px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 15px; 
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); 
+            z-index: 1000; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .whatsapp-btn:hover { background-color: #1ebc57; }
+        
+        .mensaje {
+            text-align: center;
+            color: #888;
+            grid-column: 1 / -1;
+            padding: 40px;
+            font-size: 1.1em;
+        }
+    </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>DIPROSA</h1>
-    <p style="margin: 0; color: #888; font-size: 14px;">Panel de Control de Supervisión</p>
-</div>
+    <div class="header-bar">
+        <h1>Catálogo DIPROSA</h1>
+    </div>
 
-<div class="card-total-general">
-    <h2>VENTA TOTAL ACUMULADA</h2>
-    <div class="monto-general" id="totalGeneral">Cargando...</div>
-    <div class="sub-general">Meta Global Equipos: Q324,000.00</div>
-</div>
+    <input type="text" id="buscar" class="search-box" placeholder="🔍 Buscar producto en el catálogo..." oninput="filtrarDebounce()">
+  
+    <div id="catalogo" class="grid">
+        <div class="mensaje">Cargando catálogo...</div>
+    </div>
+    
+    <button id="btn-mas" class="btn-cargar-mas" onclick="cargarMasProductos()" style="display:none;">Cargar más productos...</button>
 
-<div class="grid-vendedores" id="contenedorVendedores">
-    <!-- Se cargan dinámicamente -->
-</div>
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido o consulta del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+        💬 Pedir por WhatsApp
+    </a>
 
-<script>
-const URL_API = "https://script.google.com/macros/s/AKfycby8Tsz4nbtawAEospmJfP29RLk40g-27PahblVhp0tr9wZsP7jnrbnRRIcwPEFHAT7DfA/exec";
+    <script>
+        let productos = [], productosFiltrados = [], limiteActual = 40;
 
-const vendedores = [
-    { id: 'estuardo', nombre: 'Estuardo', metaVenta: 81000, metaTickets: 81 },
-    { id: 'cristian', nombre: 'Cristian', metaVenta: 81000, metaTickets: 81 },
-    { id: 'eleazar', nombre: 'Eleazar', metaVenta: 81000, metaTickets: 81 },
-    { id: 'jorge', nombre: 'Jorge', metaVenta: 81000, metaTickets: 81 }
-];
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('productos.json?v=' + new Date().getTime())
+                .then(res => res.json())
+                .then(data => { 
+                    productos = data; 
+                    productosFiltrados = data; 
+                    renderizarCatalogo(); 
+                })
+                .catch(() => {
+                    // Datos de respaldo por si falla la lectura del archivo remoto
+                    productos = [
+                        {nombre: "Frijol Ducal (24 unid)", precio: 66.00, imagen: "img/producto1.jpg"},
+                        {nombre: "Bolsa para basura # 1", precio: 76.00, imagen: "img/producto2.jpg"},
+                        {nombre: "Margarina Mazola 5 unid", precio: 11.50, imagen: "img/producto3.jpg"}
+                    ];
+                    productosFiltrados = productos;
+                    renderizarCatalogo();
+                });
+        });
 
-async function cargarPanel() {
-    let contenedor = document.getElementById('contenedorVendedores');
-    contenedor.innerHTML = '';
-    let acumuladoGlobal = 0;
+        function renderizarCatalogo() {
+            const grid = document.getElementById('catalogo');
+            if (productosFiltrados.length === 0) {
+                grid.innerHTML = `<div class="mensaje">No se encontraron productos.</div>`;
+                document.getElementById('btn-mas').style.display = 'none';
+                return;
+            }
 
-    for (let v of vendedores) {
-        let venta = 0;
-        let tickets = 0;
-
-        try {
-            let respuesta = await fetch(`${URL_API}?vendedor=${encodeURIComponent(v.nombre)}`);
-            let resultado = await respuesta.json();
-            venta = parseFloat(resultado.ventas) || 0;
-            tickets = parseInt(resultado.tiquetes) || 0;
-        } catch (e) {
-            console.error(`Error cargando a ${v.nombre}:`, e);
+            grid.innerHTML = productosFiltrados.slice(0, limiteActual).map(p => {
+                let imgUrl = p.imagen ? p.imagen : 'https://via.placeholder.com/150?text=Sin+Imagen';
+                return `
+                    <div class="card">
+                        <img src="${imgUrl}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                        <div class="nombre">${p.nombre}</div>
+                        <div class="precio">Q ${typeof p.precio === 'number' ? p.precio.toFixed(2) : parseFloat(p.precio || 0).toFixed(2)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('btn-mas').style.display = productosFiltrados.length > limiteActual ? 'block' : 'none';
         }
 
-        acumuladoGlobal += venta;
-        let faltante = v.metaVenta - venta;
-        if(faltante < 0) faltante = 0;
+        function cargarMasProductos() { 
+            limiteActual += 40; 
+            renderizarCatalogo(); 
+        }
 
-        let card = document.createElement('div');
-        card.className = 'card-vendedor';
-        card.innerHTML = `
-            <h3>👤 ${v.nombre}</h3>
-            <div class="dato-fila"><span>Venta Acumulada:</span> <strong style="color: #4CAF50;">Q${venta.toFixed(2)}</strong></div>
-            <div class="dato-fila"><span>Meta Individual:</span> <span>Q${v.metaVenta.toFixed(2)}</span></div>
-            <div class="dato-fila"><span>Faltante:</span> <span style="color: #ff5252;">Q${faltante.toFixed(2)}</span></div>
-            <div class="dato-fila"><span>Tickets Emitidos:</span> <strong>${tickets} / ${v.metaTickets}</strong></div>
-        `;
-        contenedor.appendChild(card);
-    }
-
-    document.getElementById('totalGeneral').innerText = `Q${acumuladoGlobal.toFixed(2)}`;
-}
-
-window.onload = cargarPanel;
-</script>
-
+        function filtrarDebounce() {
+            let q = document.getElementById('buscar').value.toLowerCase().trim();
+            productosFiltrados = q === "" ? productos : productos.filter(p => p.nombre.toLowerCase().includes(q));
+            limiteActual = 40; // Reiniciar paginación al buscar
+            renderizarCatalogo();
+        }
+    </script>
 </body>
 </html>
