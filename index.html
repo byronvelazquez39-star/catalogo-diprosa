@@ -1,27 +1,19 @@
-    <h1>Catálogo DIPROSA</h1>
-    
-    <!-- Contenedor donde JavaScript inyectará las tarjetas -->
-    <div class="grid" id="catalogo-grid"></div>
+<!-- 1. Cargamos primero los datos -->
+<script src="productos.js"></script>
 
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/50248502382?text=Hola, me gustaría realizar un pedido del catálogo DIPROSA." class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
-        💬 Pedir por WhatsApp
-    </a>
+<!-- 2. Luego ejecutamos el script que pinta el catálogo -->
+<script>
+    const grid = document.getElementById('catalogo-grid');
 
-    <!-- Script que pinta los productos automáticamente -->
-    <script>
-        // Suponiendo que 'productos' viene de su archivo productos.js
-        const grid = document.getElementById('catalogo-grid');
-        
-        if (typeof productos !== 'undefined') {
-            grid.innerHTML = productos.map(p => `
-                <div class="card">
-                    <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
-                    <h3>${p.nombre}</h3>
-                    <p class="precio">Q ${p.precio.toFixed(2)}</p>
-                </div>
-            `).join('');
-        }
-    </script>
-</body>
-</html>
+    if (typeof productos !== 'undefined' && productos.length > 0) {
+        grid.innerHTML = productos.map(p => `
+            <div class="card">
+                <img src="${p.imagen}" alt="${p.nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/150?text=Sin+Imagen'">
+                <h3>${p.nombre}</h3>
+                <p class="precio">Q ${p.precio.toFixed(2)}</p>
+            </div>
+        `).join('');
+    } else {
+        grid.innerHTML = '<p style="text-align:center; width:100%; color:#888;">Cargando productos o archivo no encontrado...</p>';
+    }
+</script>
