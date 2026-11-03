@@ -22,9 +22,7 @@
 
             <hr class="border-secondary">
 
-            <!-- ========================================== -->
-            // 1. CAMPOS VISIBLES: CLIENTE, TICKET Y UBICACIÓN
-            <!-- ========================================== -->
+            <!-- CAMPOS VISIBLES: CLIENTE, TICKET Y UBICACIÓN -->
             <div style="background-color: #121212; padding: 15px; border-radius: 8px; margin-top: 10px; margin-bottom: 10px;">
               
               <!-- Nombre Cliente / Tienda -->
@@ -47,15 +45,13 @@
 
             </div>
 
-            <!-- Botones de Acción -->
+            <!-- Botón de Acción -->
             <button class="btn btn-primary w-100 mb-2" onclick="imprimirReciboTermico()">🖨️ Imprimir Recibo Térmico</button>
         </div>
     </div>
 
 
-    <!-- ========================================== -->
-    // 2. DISEÑO OCULTO DEL TICKET TÉRMICO (FACTOA)
-    <!-- ========================================== -->
+    <!-- DISEÑO OCULTO DEL TICKET TÉRMICO (FACTOA) -->
     <style>
       @media print {
         body * { visibility: hidden; }
@@ -142,11 +138,8 @@
     </div>
 
 
-    <!-- ========================================== -->
-    // 3. SCRIPT JAVASCRIPT
-    <!-- ========================================== -->
+    <!-- SCRIPT JAVASCRIPT -->
     <script>
-      // Carrito de ejemplo para pruebas si no está declarado
       let carrito = window.carrito || [];
 
       function imprimirReciboTermico() {
