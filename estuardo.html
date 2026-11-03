@@ -1,161 +1,19 @@
-<!-- ========================================== -->
-<!-- 1. CAMPOS EN EL FORMULARIO DEL CARRIDO    -->
-<!-- ========================================== -->
-<div class="mb-3">
-  <label for="nombreCliente" class="form-label text-light fw-bold">Nombre Cliente / Tienda:</label>
-  <input type="text" id="nombreCliente" class="form-control bg-dark text-light border-secondary" placeholder="Ej. Tienda La Abuelita">
-</div>
-
-<div class="mb-3">
-  <label for="noTicket" class="form-label text-light fw-bold">No. de Ticket (Manual):</label>
-  <input type="text" id="noTicket" class="form-control bg-dark text-light border-secondary" placeholder="Ej. 00016967">
-</div>
-
-<div class="mb-3">
-  <label for="ubicacionTienda" class="form-label text-light fw-bold">Ubicación / Referencia:</label>
-  <input type="text" id="ubicacionTienda" class="form-control bg-dark text-light border-secondary" placeholder="Ej. Casa color rojo mano izquierda frente a buses">
-</div>
-
-
-<!-- ========================================== -->
-<!-- 2. ESTILOS Y ESTRUCTURA DEL TICKET TÉRMICO -->
-<!-- ========================================== -->
-<style>
-  @media print {
-    body * { visibility: hidden; }
-    #contenedorTicket, #contenedorTicket * { visibility: visible; }
-    #contenedorTicket { position: absolute; left: 0; top: 0; width: 100%; }
-  }
-  .ticket-termico {
-    width: 280px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 12px;
-    color: #000;
-    background: #fff;
-    padding: 10px;
-    margin: auto;
-    display: none; /* Se muestra solo al imprimir */
-  }
-  .ticket-header { text-align: center; }
-  .ticket-logo { width: 100%; max-width: 160px; margin: 5px 0; }
-  .linea-divisora { border-bottom: 1px dashed #000; margin: 5px 0; }
-  .tabla-productos { width: 100%; border-collapse: collapse; font-size: 11px; }
-  .tabla-productos th, .tabla-productos td { text-align: left; padding: 2px 0; }
-  .text-right { text-align: right; }
-  .totales-sec { font-weight: bold; margin-top: 5px; }
-</style>
-
-<div id="contenedorTicket" class="ticket-termico">
-  <div class="ticket-header">
-    <strong>DISTRIBUIDORA DIPROSITRIX</strong><br>
-    <strong>DIPROSA Distribuidora de Productos</strong><br>
-    NIT: 112201814 | Tel: 4569 5192<br>
-    SECTOR 1 0-68 COMUNIDAD DE ZET PROYECTO LOS ENCINOS, SAN JUAN SACATEPEQUEZ, GUATEMALA<br><br>
-    <strong>Documento Tributario Electrónico</strong><br>
-    <img src="https://byronvelazquez39-star.github.io/catalogo-diprosa/logo.png" class="ticket-logo" alt="DIPROSA"><br>
-    <strong id="lblNoTicket">Tiquete Venta # 00000000</strong>
+<div class="mb-3 p-2 bg-dark rounded border border-secondary">
+  <!-- Nombre Cliente / Tienda -->
+  <div class="mb-2">
+    <label for="nombreCliente" class="form-label text-light fw-bold" style="font-size: 13px;">Nombre Cliente / Tienda:</label>
+    <input type="text" id="nombreCliente" class="form-control form-control-sm bg-black text-light border-secondary" placeholder="Ej. Tienda La Abuelita">
   </div>
 
-  <div class="linea-divisora"></div>
-
-  <div>
-    <strong>Forma Pago:</strong> Contado<br>
-    <strong>Receptor:</strong> <span id="lblReceptor">CF</span><br>
-    <strong>Fecha:</strong> <span id="lblFecha">--/--/----</span><br>
-    <strong>Hora:</strong> <span id="lblHora">--:-- --</span>
+  <!-- No. de Ticket Manual -->
+  <div class="mb-2">
+    <label for="noTicket" class="form-label text-light fw-bold" style="font-size: 13px;">No. de Ticket (Manual):</label>
+    <input type="text" id="noTicket" class="form-control form-control-sm bg-black text-light border-secondary" placeholder="Ej. 00016967">
   </div>
 
-  <div class="linea-divisora"></div>
-
-  <table class="tabla-productos">
-    <thead>
-      <tr>
-        <th>Cnt</th>
-        <th>Item</th>
-        <th class="text-right">Precio</th>
-        <th class="text-right">Total</th>
-      </tr>
-    </thead>
-    <tbody id="cuerpoDetalle">
-      <!-- Dinámico -->
-    </tbody>
-  </table>
-
-  <div class="linea-divisora"></div>
-
-  <div class="totales-sec">
-    <div style="display:flex; justify-content:space-between;"><span>Total Bruto:</span> <span id="lblTotalBruto">Q. 0.00</span></div>
-    <div style="display:flex; justify-content:space-between;"><span>Descuentos:</span> <span>Q. 0.00</span></div>
-    <div style="display:flex; justify-content:space-between;"><span>Sub Total:</span> <span id="lblSubTotal">Q. 0.00</span></div>
-    <div style="display:flex; justify-content:space-between;"><span>Total IVA:</span> <span>Q. 0.00</span></div>
-    <div style="display:flex; justify-content:space-between; font-size:14px; margin-top:3px;">
-      <span>Total Pagar:</span> <span id="lblTotalPagar">Q. 0.00</span>
-    </div>
-  </div>
-
-  <div class="linea-divisora"></div>
-
-  <div style="font-size: 10px; font-style: italic;">
-    <strong>Detalle:</strong> <span id="lblUbicacionDetalle">--</span>
-  </div>
-  
-  <br>
-  <div style="text-align: center; font-size: 9px;">
-    Representación Impresa de la Factura Electrónica por Factoa
+  <!-- Ubicación / Referencia -->
+  <div class="mb-1">
+    <label for="ubicacionTienda" class="form-label text-light fw-bold" style="font-size: 13px;">Ubicación / Referencia:</label>
+    <input type="text" id="ubicacionTienda" class="form-control form-control-sm bg-black text-light border-secondary" placeholder="Ej. Casa color rojo mano izquierda">
   </div>
 </div>
-
-
-<!-- ========================================== -->
-<!-- 3. SCRIPT JAVASCRIPT DE IMPRESIÓN          -->
-<!-- ========================================== -->
-<script>
-function imprimirReciboTermico() {
-  const noTicket = document.getElementById('noTicket').value || '00000000';
-  const cliente = document.getElementById('nombreCliente').value || 'CF';
-  const ubicacion = document.getElementById('ubicacionTienda').value || 'Sin referencia';
-  
-  // Asignar datos a la plantilla oculta para imprimir
-  document.getElementById('lblNoTicket').innerText = "Tiquete Venta # " + noTicket;
-  document.getElementById('lblReceptor').innerText = `${cliente}`;
-  
-  const ahora = new Date();
-  document.getElementById('lblFecha').innerText = ahora.toLocaleDateString('es-GT');
-  document.getElementById('lblHora').innerText = ahora.toLocaleTimeString('es-GT', { hour: '2-digit', minute: '2-digit' });
-  document.getElementById('lblUbicacionDetalle').innerText = ubicacion;
-
-  let htmlFilas = '';
-  let totalGeneral = 0;
-
-  if (typeof carrito !== 'undefined') {
-    carrito.forEach(prod => {
-      let subtotal = prod.precio * prod.cantidad;
-      totalGeneral += subtotal;
-      htmlFilas += `
-        <tr>
-          <td>${prod.cantidad.toFixed(2)}</td>
-          <td>${prod.nombre}</td>
-          <td class="text-right">Q. ${prod.precio.toFixed(2)}</td>
-          <td class="text-right">Q. ${subtotal.toFixed(2)}</td>
-        </tr>
-      `;
-    });
-  }
-
-  document.getElementById('cuerpoDetalle').innerHTML = htmlFilas;
-  document.getElementById('lblTotalBruto').innerText = 'Q. ' + totalGeneral.toFixed(2);
-  document.getElementById('lblSubTotal').innerText = 'Q. ' + totalGeneral.toFixed(2);
-  document.getElementById('lblTotalPagar').innerText = 'Q. ' + totalGeneral.toFixed(2);
-
-  // Mostrar el ticket temporalmente para imprimir
-  const elemTicket = document.getElementById('contenedorTicket');
-  elemTicket.style.display = 'block';
-  
-  window.print();
-
-  // Ocultar de nuevo después de imprimir
-  setTimeout(() => {
-    elemTicket.style.display = 'none';
-  }, 500);
-}
-</script>
